@@ -1,0 +1,1591 @@
+//
+// time: Thu Feb 26 21:50:21 2009
+//
+// version: 3.2.0 (format), 4.4.0 (DX)
+//
+//
+// MODULE main
+// page assignment: camera	order=2, windowed=0, showing=0
+// page assignment: collabcont	order=3, windowed=0, showing=0
+// page assignment: model_input	order=4, windowed=0, showing=1
+// page assignment: wave2d	order=5, windowed=0, showing=0
+// workspace: width = 554, height = 792
+// layout: snap = 0, width = 50, height = 50, align = NN
+//
+macro main(
+) -> (
+) {
+    // 
+    // node String[1]: x = 279, y = 280, inputs = 0, label = String
+    // output[1]: visible = 1, type = 32, value = "dx"
+    // page group: model_input
+    //
+    // 
+    // node Integer[11]: x = 263, y = 136, inputs = 11, label = Integer
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_11"
+    // input[3]: defaulting = 0, visible = 0, type = 1, value = 1 
+    // input[5]: defaulting = 1, visible = 0, type = 1, value = -1000000
+    // input[6]: defaulting = 1, visible = 0, type = 1, value = 1000000
+    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
+    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
+    // output[1]: visible = 1, type = 1, value = 1 
+    // page group: model_input
+    //
+    // 
+    // node StringList[1]: x = 384, y = 10, inputs = 0, label = StringList
+    // output[1]: visible = 1, type = 16777248, value = { "testsim1", "jobtestsim3" }
+    // page group: model_input
+    //
+    // 
+    // node Selector[4]: x = 389, y = 100, inputs = 7, label = Selector
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Selector_4"
+    // input[2]: defaulting = 0, visible = 0, type = 32, value = "jobtestsim3" 
+    // input[3]: defaulting = 0, visible = 0, type = 29, value = 1 
+    // input[4]: defaulting = 1, visible = 1, type = 16777248, value = { "testsim1" "jobtestsim3" }
+    // input[5]: defaulting = 1, visible = 0, type = 16777245, value = { 0 1 }
+    // output[1]: visible = 1, type = 29, value = 1 
+    // output[2]: visible = 1, type = 32, value = "jobtestsim3" 
+    // page group: model_input
+    //
+main_Selector_4_out_1[cache: 2],
+main_Selector_4_out_2[cache: 2] = 
+    Selector(
+    main_Selector_4_in_1,
+    main_Selector_4_in_2,
+    main_Selector_4_in_3,
+    main_StringList_1_out_1,
+    main_Selector_4_in_5,
+    main_Selector_4_in_6,
+    main_Selector_4_in_7
+    ) [instance: 4, cache: 1];
+    // 
+    // node DXLInput[1]: x = 377, y = 190, inputs = 1, label = namei
+    // page group: model_input
+    //
+    main_DXLInput_1_in_1 = main_Selector_4_out_2;
+    namei = main_DXLInput_1_in_1;
+    main_DXLInput_1_out_1 = namei;
+    // 
+    // node Switch[1]: x = 344, y = 280, inputs = 3, label = Switch
+    // page group: model_input
+    //
+main_Switch_1_out_1 = 
+    Switch(
+    main_Integer_11_out_1,
+    main_Selector_4_out_2,
+    main_DXLInput_1_out_1
+    ) [instance: 1, cache: 1];
+    // 
+    // node Format[19]: x = 232, y = 370, inputs = 3, label = Format
+    // input[1]: defaulting = 0, visible = 1, type = 32, value = "%s/%s.general"
+    // page group: model_input
+    //
+main_Format_19_out_1 = 
+    Format(
+    main_Format_19_in_1,
+    main_String_1_out_1,
+    main_Switch_1_out_1
+    ) [instance: 19, cache: 1];
+    // 
+    // node Transmitter[27]: x = 232, y = 460, inputs = 1, label = generalfile
+    // page group: model_input
+    //
+generalfile = main_Format_19_out_1;
+    // 
+    // node Receiver[33]: x = 149, y = 10, inputs = 1, label = generalfile
+    // page group: wave2d
+    //
+main_Receiver_33_out_1[cache: 0] = generalfile;
+    // 
+    // node Import[1]: x = 173, y = 100, inputs = 6, label = Import
+    // input[1]: defaulting = 1, visible = 1, type = 32, value = "wave2d_dx_1.general"
+    // input[3]: defaulting = 0, visible = 1, type = 32, value = "general"
+    // page group: wave2d
+    //
+main_Import_1_out_1 = 
+    Import(
+    main_Receiver_33_out_1,
+    main_Import_1_in_2,
+    main_Import_1_in_3,
+    main_Import_1_in_4,
+    main_Import_1_in_5,
+    main_Import_1_in_6
+    ) [instance: 1, cache: 1];
+    // 
+    // node Select[6]: x = 185, y = 280, inputs = 3, label = Select
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = "field1"
+    // page group: wave2d
+    //
+main_Select_6_out_1 = 
+    Select(
+    main_Import_1_out_1,
+    main_Select_6_in_2,
+    main_Select_6_in_3
+    ) [instance: 6, cache: 1];
+    // 
+    // node Integer[9]: x = 278, y = 418, inputs = 11, label = Integer
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_9"
+    // input[3]: defaulting = 0, visible = 0, type = 1, value = 1 
+    // input[5]: defaulting = 0, visible = 0, type = 1, value = 0
+    // input[6]: defaulting = 0, visible = 0, type = 1, value = 1
+    // input[7]: defaulting = 0, visible = 0, type = 5, value = 1.0
+    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
+    // output[1]: visible = 1, type = 1, value = 1 
+    // page group: collabcont
+    //
+main_Integer_9_out_1[cache: 2] = 
+    Integer(
+    main_Integer_9_in_1,
+    main_Integer_9_in_2,
+    main_Integer_9_in_3,
+    main_Integer_9_in_4,
+    main_Integer_9_in_5,
+    main_Integer_9_in_6,
+    main_Integer_9_in_7,
+    main_Integer_9_in_8,
+    main_Integer_9_in_9,
+    main_Integer_9_in_10,
+    main_Integer_9_in_11
+    ) [instance: 9, cache: 1];
+    // 
+    // node Transmitter[35]: x = 325, y = 574, inputs = 1, label = uselocal
+    // page group: collabcont
+    //
+uselocal = main_Integer_9_out_1;
+    // 
+    // node Receiver[41]: x = 91, y = 103, inputs = 1, label = uselocal
+    // page group: model_input
+    //
+main_Receiver_41_out_1[cache: 0] = uselocal;
+    // 
+    // node Transmitter[33]: x = 131, y = 280, inputs = 1, label = uselocaldata
+    // page group: model_input
+    //
+uselocaldata = main_Receiver_41_out_1;
+    // 
+    // node Receiver[42]: x = 654, y = 118, inputs = 1, label = uselocaldata
+    // page group: wave2d
+    //
+main_Receiver_42_out_1[cache: 0] = uselocaldata;
+    // 
+    // node Format[23]: x = 319, y = 370, inputs = 3, label = Format
+    // input[1]: defaulting = 0, visible = 1, type = 32, value = "%s/%s_form.general"
+    // page group: model_input
+    //
+main_Format_23_out_1 = 
+    Format(
+    main_Format_23_in_1,
+    main_String_1_out_1,
+    main_Switch_1_out_1
+    ) [instance: 23, cache: 1];
+    // 
+    // node Import[2]: x = 343, y = 460, inputs = 6, label = Import
+    // input[2]: defaulting = 1, visible = 1, type = 32, value = NULL
+    // input[3]: defaulting = 0, visible = 1, type = 32, value = "general"
+    // page group: model_input
+    //
+main_Import_2_out_1 = 
+    Import(
+    main_Format_23_out_1,
+    main_Import_2_in_2,
+    main_Import_2_in_3,
+    main_Import_2_in_4,
+    main_Import_2_in_5,
+    main_Import_2_in_6
+    ) [instance: 2, cache: 1];
+    // 
+    // node Select[4]: x = 367, y = 550, inputs = 3, label = Select
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = "nsteps"
+    // page group: model_input
+    //
+main_Select_4_out_1 = 
+    Select(
+    main_Import_2_out_1,
+    main_Select_4_in_2,
+    main_Select_4_in_3
+    ) [instance: 4, cache: 1];
+    // 
+    // node Integer[5]: x = 364, y = 640, inputs = 11, label = Integer
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_5"
+    // input[3]: defaulting = 0, visible = 0, type = 1, value = 130
+    // input[5]: defaulting = 1, visible = 0, type = 1, value = 130
+    // input[6]: defaulting = 1, visible = 0, type = 1, value = 130
+    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
+    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
+    // output[1]: visible = 1, type = 1, value = 130
+    // page group: model_input
+    //
+main_Integer_5_out_1[cache: 2] = 
+    Integer(
+    main_Integer_5_in_1,
+    main_Select_4_out_1,
+    main_Integer_5_in_3,
+    main_Integer_5_in_4,
+    main_Integer_5_in_5,
+    main_Integer_5_in_6,
+    main_Integer_5_in_7,
+    main_Integer_5_in_8,
+    main_Integer_5_in_9,
+    main_Integer_5_in_10,
+    main_Integer_5_in_11
+    ) [instance: 5, cache: 1];
+    // 
+    // node Transmitter[28]: x = 356, y = 730, inputs = 1, label = numtsteps
+    // page group: model_input
+    //
+numtsteps = main_Integer_5_out_1;
+    // 
+    // node Receiver[34]: x = 563, y = 63, inputs = 1, label = numtsteps
+    // page group: wave2d
+    //
+main_Receiver_34_out_1[cache: 0] = numtsteps;
+    // 
+    // node Integer[6]: x = 396, y = 135, inputs = 11, label = Integer
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_6"
+    // input[3]: defaulting = 0, visible = 0, type = 1, value = 20 
+    // input[4]: visible = 1
+    // input[5]: defaulting = 1, visible = 1, type = 1, value = 1
+    // input[6]: defaulting = 1, visible = 1, type = 1, value = 130
+    // input[7]: defaulting = 0, visible = 1, type = 5, value = 1.0
+    // input[8]: visible = 1
+    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
+    // input[11]: defaulting = 0, visible = 1, type = 32, value = "step"
+    // output[1]: visible = 1, type = 1, value = 20 
+    // page group: wave2d
+    //
+main_Integer_6_out_1[cache: 2] = 
+    Integer(
+    main_Integer_6_in_1,
+    main_Integer_6_in_2,
+    main_Integer_6_in_3,
+    main_Integer_6_in_4,
+    main_Integer_6_in_5,
+    main_Receiver_34_out_1,
+    main_Integer_6_in_7,
+    main_Integer_6_in_8,
+    main_Integer_6_in_9,
+    main_Integer_6_in_10,
+    main_Integer_6_in_11
+    ) [instance: 6, cache: 1];
+    // 
+    // node DXLInput[7]: x = 664, y = 269, inputs = 1, label = stepi
+    // page group: wave2d
+    //
+    main_DXLInput_7_out_1 = stepi;
+    // 
+    // node Switch[18]: x = 552, y = 299, inputs = 3, label = Switch
+    // page group: wave2d
+    //
+main_Switch_18_out_1 = 
+    Switch(
+    main_Receiver_42_out_1,
+    main_Integer_6_out_1,
+    main_DXLInput_7_out_1
+    ) [instance: 18, cache: 1];
+    // 
+    // node Select[1]: x = 197, y = 370, inputs = 3, label = Select
+    // page group: wave2d
+    //
+main_Select_1_out_1 = 
+    Select(
+    main_Select_6_out_1,
+    main_Switch_18_out_1,
+    main_Select_1_in_3
+    ) [instance: 1, cache: 1];
+    // 
+    // node AutoColor[1]: x = 202, y = 460, inputs = 10, label = AutoColor
+    // page group: wave2d
+    //
+main_AutoColor_1_out_1,
+main_AutoColor_1_out_2 = 
+    AutoColor(
+    main_Select_1_out_1,
+    main_AutoColor_1_in_2,
+    main_AutoColor_1_in_3,
+    main_AutoColor_1_in_4,
+    main_AutoColor_1_in_5,
+    main_AutoColor_1_in_6,
+    main_AutoColor_1_in_7,
+    main_AutoColor_1_in_8,
+    main_AutoColor_1_in_9,
+    main_AutoColor_1_in_10
+    ) [instance: 1, cache: 1];
+    // 
+    // node Select[7]: x = 197, y = 190, inputs = 3, label = Select
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = "field0"
+    // page group: wave2d
+    //
+main_Select_7_out_1 = 
+    Select(
+    main_Import_1_out_1,
+    main_Select_7_in_2,
+    main_Select_7_in_3
+    ) [instance: 7, cache: 1];
+    // 
+    // node Select[8]: x = 309, y = 280, inputs = 3, label = Select
+    // page group: wave2d
+    //
+main_Select_8_out_1 = 
+    Select(
+    main_Select_7_out_1,
+    main_Switch_18_out_1,
+    main_Select_8_in_3
+    ) [instance: 8, cache: 1];
+    // 
+    // node AutoColor[2]: x = 314, y = 370, inputs = 10, label = AutoColor
+    // page group: wave2d
+    //
+main_AutoColor_2_out_1,
+main_AutoColor_2_out_2 = 
+    AutoColor(
+    main_Select_8_out_1,
+    main_AutoColor_2_in_2,
+    main_AutoColor_2_in_3,
+    main_AutoColor_2_in_4,
+    main_AutoColor_2_in_5,
+    main_AutoColor_2_in_6,
+    main_AutoColor_2_in_7,
+    main_AutoColor_2_in_8,
+    main_AutoColor_2_in_9,
+    main_AutoColor_2_in_10
+    ) [instance: 2, cache: 1];
+    // 
+    // node AutoGlyph[1]: x = 321, y = 460, inputs = 7, label = AutoGlyph
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = "arrow2D"
+    // page group: wave2d
+    //
+main_AutoGlyph_1_out_1 = 
+    AutoGlyph(
+    main_AutoColor_2_out_1,
+    main_AutoGlyph_1_in_2,
+    main_AutoGlyph_1_in_3,
+    main_AutoGlyph_1_in_4,
+    main_AutoGlyph_1_in_5,
+    main_AutoGlyph_1_in_6,
+    main_AutoGlyph_1_in_7
+    ) [instance: 1, cache: 1];
+    // 
+    // node Receiver[36]: x = 328, y = 100, inputs = 1, label = uselocaldata
+    // page group: camera
+    //
+main_Receiver_36_out_1[cache: 0] = uselocaldata;
+    // 
+    // node Vector[1]: x = 466, y = 10, inputs = 11, label = Vector
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Vector_1"
+    // input[3]: defaulting = 0, visible = 0, type = 8, value = [ 24 26 0 ]
+    // input[5]: defaulting = 1, visible = 0, type = 8, value = [ -1000000.0 -1000000.0 -1000000.0 ]
+    // input[6]: defaulting = 1, visible = 0, type = 8, value = [ 1000000.0 1000000.0 1000000.0 ]
+    // input[7]: defaulting = 1, visible = 0, type = 8, value = [       1        1        1]
+    // input[9]: defaulting = 1, visible = 0, type = 8, value = [ 5.0 5.0 5.0 ]
+    // output[1]: visible = 1, type = 8, value = [ 24 26 0 ]
+    // page group: camera
+    //
+    // 
+    // node DXLInput[4]: x = 429, y = 100, inputs = 1, label = camtoi
+    // page group: camera
+    //
+    main_DXLInput_4_in_1 = main_Vector_1_out_1;
+    camtoi = main_DXLInput_4_in_1;
+    main_DXLInput_4_out_1 = camtoi;
+    // 
+    // node Switch[14]: x = 397, y = 190, inputs = 3, label = Switch
+    // page group: camera
+    //
+main_Switch_14_out_1 = 
+    Switch(
+    main_Receiver_36_out_1,
+    main_Vector_1_out_1,
+    main_DXLInput_4_out_1
+    ) [instance: 14, cache: 1];
+    // 
+    // node Transmitter[30]: x = 411, y = 280, inputs = 1, label = camto
+    // page group: camera
+    //
+camto = main_Switch_14_out_1;
+    // 
+    // node Receiver[39]: x = 401, y = 640, inputs = 1, label = camto
+    // page group: wave2d
+    //
+main_Receiver_39_out_1[cache: 0] = camto;
+    // 
+    // node Vector[2]: x = 261, y = 10, inputs = 11, label = Vector
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Vector_2"
+    // input[3]: defaulting = 0, visible = 0, type = 8, value = [ 12 25 21 ]
+    // input[5]: defaulting = 1, visible = 0, type = 8, value = [ -1000000.0 -1000000.0 -1000000.0 ]
+    // input[6]: defaulting = 1, visible = 0, type = 8, value = [ 1000000.0 1000000.0 1000000.0 ]
+    // input[7]: defaulting = 1, visible = 0, type = 8, value = [       1        1        1]
+    // input[9]: defaulting = 1, visible = 0, type = 8, value = [ 5.0 5.0 5.0 ]
+    // output[1]: visible = 1, type = 8, value = [ 12 25 21 ]
+    // page group: camera
+    //
+    // 
+    // node DXLInput[3]: x = 208, y = 100, inputs = 1, label = camfromi
+    // page group: camera
+    //
+    main_DXLInput_3_in_1 = main_Vector_2_out_1;
+    camfromi = main_DXLInput_3_in_1;
+    main_DXLInput_3_out_1 = camfromi;
+    // 
+    // node Switch[15]: x = 184, y = 190, inputs = 3, label = Switch
+    // page group: camera
+    //
+main_Switch_15_out_1 = 
+    Switch(
+    main_Receiver_36_out_1,
+    main_Vector_2_out_1,
+    main_DXLInput_3_out_1
+    ) [instance: 15, cache: 1];
+    // 
+    // node Transmitter[31]: x = 190, y = 280, inputs = 1, label = camfrom
+    // page group: camera
+    //
+camfrom = main_Switch_15_out_1;
+    // 
+    // node Receiver[38]: x = 417, y = 550, inputs = 1, label = camfrom
+    // page group: wave2d
+    //
+main_Receiver_38_out_1[cache: 0] = camfrom;
+    // 
+    // node Scalar[3]: x = 178, y = 10, inputs = 11, label = Scalar
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Scalar_3"
+    // input[3]: defaulting = 0, visible = 0, type = 5, value = 74.0 
+    // input[5]: defaulting = 1, visible = 0, type = 5, value = -1000000.0
+    // input[6]: defaulting = 1, visible = 0, type = 5, value = 1000000.0
+    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
+    // input[9]: defaulting = 1, visible = 0, type = 1, value = 5
+    // output[1]: visible = 1, type = 5, value = 74.0 
+    // page group: camera
+    //
+    // 
+    // node DXLInput[2]: x = 118, y = 100, inputs = 1, label = camwidthi
+    // page group: camera
+    //
+    main_DXLInput_2_in_1 = main_Scalar_3_out_1;
+    camwidthi = main_DXLInput_2_in_1;
+    main_DXLInput_2_out_1 = camwidthi;
+    // 
+    // node Switch[16]: x = 97, y = 190, inputs = 3, label = Switch
+    // page group: camera
+    //
+main_Switch_16_out_1 = 
+    Switch(
+    main_Receiver_36_out_1,
+    main_Scalar_3_out_1,
+    main_DXLInput_2_out_1
+    ) [instance: 16, cache: 1];
+    // 
+    // node Transmitter[32]: x = 100, y = 280, inputs = 1, label = camwidth
+    // page group: camera
+    //
+camwidth = main_Switch_16_out_1;
+    // 
+    // node Receiver[37]: x = 460, y = 640, inputs = 1, label = camwidth
+    // page group: wave2d
+    //
+main_Receiver_37_out_1[cache: 0] = camwidth;
+    // 
+    // node Vector[3]: x = 81, y = 10, inputs = 11, label = Vector
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Vector_3"
+    // input[3]: defaulting = 0, visible = 0, type = 8, value = [ 1.17 -1.25 0 ]
+    // input[5]: defaulting = 1, visible = 0, type = 8, value = [ -1000000.0 -1000000.0 -1000000.0 ]
+    // input[6]: defaulting = 1, visible = 0, type = 8, value = [ 1000000.0 1000000.0 1000000.0 ]
+    // input[7]: defaulting = 1, visible = 0, type = 8, value = [       1        1        1]
+    // input[9]: defaulting = 1, visible = 0, type = 8, value = [ 5.0 5.0 5.0 ]
+    // output[1]: visible = 1, type = 8, value = [ 1.17 -1.25 0 ]
+    // page group: camera
+    //
+    // 
+    // node DXLInput[6]: x = 40, y = 100, inputs = 1, label = camupi
+    // page group: camera
+    //
+    main_DXLInput_6_in_1 = main_Vector_3_out_1;
+    camupi = main_DXLInput_6_in_1;
+    main_DXLInput_6_out_1 = camupi;
+    // 
+    // node Switch[17]: x = 10, y = 190, inputs = 3, label = Switch
+    // page group: camera
+    //
+main_Switch_17_out_1 = 
+    Switch(
+    main_Receiver_36_out_1,
+    main_Vector_3_out_1,
+    main_DXLInput_6_out_1
+    ) [instance: 17, cache: 1];
+    // 
+    // node Transmitter[34]: x = 21, y = 280, inputs = 1, label = camup
+    // page group: camera
+    //
+camup = main_Switch_17_out_1;
+    // 
+    // node Receiver[40]: x = 562, y = 596, inputs = 1, label = camup
+    // page group: wave2d
+    //
+main_Receiver_40_out_1[cache: 0] = camup;
+    // 
+    // node Camera[2]: x = 411, y = 730, inputs = 9, label = Camera
+    // input[1]: defaulting = 1, visible = 1, type = 8, value = [25 25 0]
+    // input[2]: defaulting = 1, visible = 1, type = 8, value = [25 25 20]
+    // input[3]: defaulting = 1, visible = 1, type = 5, value = 100.0
+    // input[4]: defaulting = 0, visible = 1, type = 1, value = 320
+    // input[8]: defaulting = 0, visible = 1, type = 5, value = 30.0
+    // page group: wave2d
+    //
+main_Camera_2_out_1 = 
+    Camera(
+    main_Receiver_39_out_1,
+    main_Receiver_38_out_1,
+    main_Receiver_37_out_1,
+    main_Camera_2_in_4,
+    main_Camera_2_in_5,
+    main_Receiver_40_out_1,
+    main_Camera_2_in_7,
+    main_Camera_2_in_8,
+    main_Camera_2_in_9
+    ) [instance: 2, cache: 1];
+    // 
+    // node Selector[7]: x = 118, y = 550, inputs = 7, label = Selector
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Selector_7"
+    // input[2]: defaulting = 0, visible = 0, type = 32, value = "on" 
+    // input[3]: defaulting = 0, visible = 0, type = 29, value = 1 
+    // input[4]: defaulting = 1, visible = 1, type = 16777248, value = { "on" "off" }
+    // input[5]: defaulting = 1, visible = 0, type = 16777245, value = { 1 0 }
+    // output[1]: visible = 1, type = 29, value = 1 
+    // output[2]: visible = 1, type = 32, value = "on" 
+    // page group: wave2d
+    //
+    // 
+    // node RubberSheet[1]: x = 197, y = 550, inputs = 4, label = RubberSheet
+    // input[2]: defaulting = 0, visible = 1, type = 5, value = 0.01
+    // input[4]: defaulting = 0, visible = 0, type = 5, value = 0.1
+    // page group: wave2d
+    //
+main_RubberSheet_1_out_1 = 
+    RubberSheet(
+    main_AutoColor_1_out_1,
+    main_RubberSheet_1_in_2,
+    main_RubberSheet_1_in_3,
+    main_RubberSheet_1_in_4
+    ) [instance: 1, cache: 1];
+    // 
+    // node Switch[3]: x = 210, y = 640, inputs = 3, label = Switch
+    // page group: wave2d
+    //
+main_Switch_3_out_1 = 
+    Switch(
+    main_Selector_7_out_1,
+    main_RubberSheet_1_out_1,
+    main_Switch_3_in_3
+    ) [instance: 3, cache: 1];
+    // 
+    // node Selector[8]: x = 310, y = 550, inputs = 7, label = Selector
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Selector_8"
+    // input[2]: defaulting = 0, visible = 0, type = 32, value = "on" 
+    // input[3]: defaulting = 0, visible = 0, type = 29, value = 1 
+    // input[4]: defaulting = 1, visible = 1, type = 16777248, value = { "on" "off" }
+    // input[5]: defaulting = 1, visible = 0, type = 16777245, value = { 1 0 }
+    // output[1]: visible = 1, type = 29, value = 1 
+    // output[2]: visible = 1, type = 32, value = "on" 
+    // page group: wave2d
+    //
+    // 
+    // node Switch[4]: x = 314, y = 640, inputs = 3, label = Switch
+    // page group: wave2d
+    //
+main_Switch_4_out_1 = 
+    Switch(
+    main_Selector_8_out_1,
+    main_AutoGlyph_1_out_1,
+    main_RubberSheet_1_out_1
+    ) [instance: 4, cache: 1];
+    // 
+    // node Collect[2]: x = 309, y = 730, inputs = 2, label = Collect
+    // page group: wave2d
+    //
+main_Collect_2_out_1 = 
+    Collect(
+    main_Switch_3_out_1,
+    main_Switch_4_out_1
+    ) [instance: 2, cache: 1];
+    // 
+    // node StringList[5]: x = 150, y = 54, inputs = 0, label = StringList
+    // output[1]: visible = 1, type = 16777248, value = { "nameo" }
+    // page group: collabcont
+    //
+    // 
+    // node DXLOutput[3]: x = 173, y = 144, inputs = 2, label = string_output_list
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "string_output_list"
+    // page group: collabcont
+    //
+    DXLOutput(
+    main_DXLOutput_3_in_1,
+    main_StringList_5_out_1
+    ) [instance: 3, cache: 1];
+    // 
+    // node StringList[2]: x = 46, y = 54, inputs = 0, label = StringList
+    // output[1]: visible = 1, type = 16777248, value = { "namei" }
+    // page group: collabcont
+    //
+    // 
+    // node DXLOutput[4]: x = 51, y = 144, inputs = 2, label = string_input_list
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "string_input_list"
+    // page group: collabcont
+    //
+    DXLOutput(
+    main_DXLOutput_4_in_1,
+    main_StringList_2_out_1
+    ) [instance: 4, cache: 1];
+    // 
+    // node StringList[3]: x = 152, y = 222, inputs = 0, label = StringList
+    // output[1]: visible = 1, type = 16777248, value = { "stepo" }
+    // page group: collabcont
+    //
+    // 
+    // node DXLOutput[5]: x = 268, y = 313, inputs = 2, label = int_output_list
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "int_output_list"
+    // page group: collabcont
+    //
+    DXLOutput(
+    main_DXLOutput_5_in_1,
+    main_StringList_3_out_1
+    ) [instance: 5, cache: 1];
+    // 
+    // node StringList[4]: x = 48, y = 222, inputs = 0, label = StringList
+    // output[1]: visible = 1, type = 16777248, value = { "stepi" }
+    // page group: collabcont
+    //
+    // 
+    // node DXLOutput[6]: x = 159, y = 313, inputs = 2, label = int_input_list
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "int_input_list"
+    // page group: collabcont
+    //
+    DXLOutput(
+    main_DXLOutput_6_in_1,
+    main_StringList_4_out_1
+    ) [instance: 6, cache: 1];
+    // 
+    // node Integer[10]: x = 431, y = 436, inputs = 11, label = Integer
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_10"
+    // input[3]: defaulting = 0, visible = 0, type = 1, value = 0
+    // input[5]: defaulting = 0, visible = 0, type = 1, value = -1000000
+    // input[6]: defaulting = 0, visible = 0, type = 1, value = 1000000
+    // input[7]: defaulting = 0, visible = 0, type = 5, value = 1.0
+    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
+    // output[1]: visible = 1, type = 1, value = 0
+    // page group: collabcont
+    //
+main_Integer_10_out_1[cache: 2] = 
+    Integer(
+    main_Integer_10_in_1,
+    main_Integer_10_in_2,
+    main_Integer_10_in_3,
+    main_Integer_10_in_4,
+    main_Integer_10_in_5,
+    main_Integer_10_in_6,
+    main_Integer_10_in_7,
+    main_Integer_10_in_8,
+    main_Integer_10_in_9,
+    main_Integer_10_in_10,
+    main_Integer_10_in_11
+    ) [instance: 10, cache: 1];
+    // 
+    // node DXLOutput[7]: x = 387, y = 574, inputs = 2, label = updateserver
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "updateserver"
+    // page group: collabcont
+    //
+    DXLOutput(
+    main_DXLOutput_7_in_1,
+    main_Integer_10_out_1
+    ) [instance: 7, cache: 1];
+    // 
+    // node StringList[6]: x = 479, y = 65, inputs = 0, label = StringList
+    // output[1]: visible = 1, type = 16777248, value = { "camupo", "camfromo", "camtoo" }
+    // page group: collabcont
+    //
+    // 
+    // node DXLOutput[8]: x = 502, y = 154, inputs = 2, label = vector_output_list
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "vector_output_list"
+    // page group: collabcont
+    //
+    DXLOutput(
+    main_DXLOutput_8_in_1,
+    main_StringList_6_out_1
+    ) [instance: 8, cache: 1];
+    // 
+    // node StringList[7]: x = 375, y = 65, inputs = 0, label = StringList
+    // output[1]: visible = 1, type = 16777248, value = { "camfromi", "camtoi", "camupi" }
+    // page group: collabcont
+    //
+    // 
+    // node DXLOutput[9]: x = 380, y = 155, inputs = 2, label = vector_input_list
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "vector_input_list"
+    // page group: collabcont
+    //
+    DXLOutput(
+    main_DXLOutput_9_in_1,
+    main_StringList_7_out_1
+    ) [instance: 9, cache: 1];
+    // 
+    // node DXLOutput[10]: x = 493, y = 540, inputs = 2, label = camwidtho
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "camwidtho"
+    // page group: camera
+    //
+    DXLOutput(
+    main_DXLOutput_10_in_1,
+    main_Scalar_3_out_1
+    ) [instance: 10, cache: 1];
+    // 
+    // node DXLOutput[11]: x = 268, y = 533, inputs = 2, label = camfromo
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "camfromo"
+    // page group: camera
+    //
+    DXLOutput(
+    main_DXLOutput_11_in_1,
+    main_Vector_2_out_1
+    ) [instance: 11, cache: 1];
+    // 
+    // node DXLOutput[12]: x = 377, y = 530, inputs = 2, label = camtoo
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "camtoo"
+    // page group: camera
+    //
+    DXLOutput(
+    main_DXLOutput_12_in_1,
+    main_Vector_1_out_1
+    ) [instance: 12, cache: 1];
+    // 
+    // node DXLOutput[15]: x = 613, y = 538, inputs = 2, label = camupo
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "camupo"
+    // page group: camera
+    //
+    DXLOutput(
+    main_DXLOutput_15_in_1,
+    main_Vector_3_out_1
+    ) [instance: 15, cache: 1];
+    // 
+    // node StringList[8]: x = 479, y = 258, inputs = 0, label = StringList
+    // output[1]: visible = 1, type = 16777248, value = { "camwidtho" }
+    // page group: collabcont
+    //
+    // 
+    // node DXLOutput[16]: x = 505, y = 348, inputs = 2, label = float_output_list
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "float_output_list"
+    // page group: collabcont
+    //
+    DXLOutput(
+    main_DXLOutput_16_in_1,
+    main_StringList_8_out_1
+    ) [instance: 16, cache: 1];
+    // 
+    // node StringList[9]: x = 385, y = 258, inputs = 0, label = StringList
+    // output[1]: visible = 1, type = 16777248, value = { "camwidthi" }
+    // page group: collabcont
+    //
+    // 
+    // node DXLOutput[17]: x = 385, y = 348, inputs = 2, label = float_input_list
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "float_input_list"
+    // page group: collabcont
+    //
+    DXLOutput(
+    main_DXLOutput_17_in_1,
+    main_StringList_9_out_1
+    ) [instance: 17, cache: 1];
+    // 
+    // node Integer[8]: x = 84, y = 365, inputs = 11, label = Integer
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_8"
+    // input[3]: defaulting = 0, visible = 0, type = 1, value = 0
+    // input[5]: defaulting = 0, visible = 0, type = 1, value = 0
+    // input[6]: defaulting = 0, visible = 0, type = 1, value = 1
+    // input[7]: defaulting = 0, visible = 0, type = 5, value = 1.0
+    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
+    // output[1]: visible = 1, type = 1, value = 0
+    // page group: collabcont
+    //
+main_Integer_8_out_1[cache: 2] = 
+    Integer(
+    main_Integer_8_in_1,
+    main_Integer_8_in_2,
+    main_Integer_8_in_3,
+    main_Integer_8_in_4,
+    main_Integer_8_in_5,
+    main_Integer_8_in_6,
+    main_Integer_8_in_7,
+    main_Integer_8_in_8,
+    main_Integer_8_in_9,
+    main_Integer_8_in_10,
+    main_Integer_8_in_11
+    ) [instance: 8, cache: 1];
+    // 
+    // node DXLOutput[18]: x = 9, y = 508, inputs = 2, label = closedx
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "closedx"
+    // page group: collabcont
+    //
+    DXLOutput(
+    main_DXLOutput_18_in_1,
+    main_Integer_8_out_1
+    ) [instance: 18, cache: 1];
+    // 
+    // node DXLOutput[19]: x = 251, y = 576, inputs = 2, label = uselocal
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "uselocal"
+    // page group: collabcont
+    //
+    DXLOutput(
+    main_DXLOutput_19_in_1,
+    main_Integer_9_out_1
+    ) [instance: 19, cache: 1];
+    // 
+    // node DXLOutput[21]: x = 505, y = 211, inputs = 2, label = nameo
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "nameo"
+    // page group: model_input
+    //
+    DXLOutput(
+    main_DXLOutput_21_in_1,
+    main_Selector_4_out_2
+    ) [instance: 21, cache: 1];
+    // 
+    // node DXLOutput[22]: x = 402, y = 247, inputs = 2, label = stepo
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "stepo"
+    // page group: wave2d
+    //
+    DXLOutput(
+    main_DXLOutput_22_in_1,
+    main_Integer_6_out_1
+    ) [instance: 22, cache: 1];
+    // 
+    // node Display[2]: x = 476, y = 820, inputs = 8, label = Display
+    // page group: wave2d
+    // depth: value = 24
+    // window: position = (0.4424,0.3997), size = 0.3262x0.3984
+    //
+main_Display_2_out_1[cache: 2] = 
+    Display(
+    main_Collect_2_out_1,
+    main_Camera_2_out_1,
+    main_Display_2_in_3,
+    main_Display_2_in_4,
+    main_Display_2_in_5,
+    main_Display_2_in_6,
+    main_Display_2_in_7,
+    main_Display_2_in_8
+    ) [instance: 2, cache: 1];
+    // 
+    // node Image[2]: x = 300, y = 820, inputs = 49, label = Image
+    // input[1]: defaulting = 0, visible = 0, type = 67108863, value = "Image_2"
+    // input[4]: defaulting = 0, visible = 0, type = 1, value = 1
+    // input[5]: defaulting = 0, visible = 0, type = 8, value = [25 25 25]
+    // input[6]: defaulting = 0, visible = 0, type = 8, value = [25 25 188.334]
+    // input[7]: defaulting = 1, visible = 0, type = 5, value = 87.5304
+    // input[8]: defaulting = 0, visible = 0, type = 1, value = 307
+    // input[9]: defaulting = 0, visible = 0, type = 5, value = 1.145
+    // input[10]: defaulting = 0, visible = 0, type = 8, value = [0 1 0]
+    // input[11]: defaulting = 0, visible = 0, type = 5, value = 30.0
+    // input[12]: defaulting = 0, visible = 0, type = 1, value = 1
+    // input[14]: defaulting = 0, visible = 0, type = 1, value = 1
+    // input[15]: defaulting = 1, visible = 0, type = 32, value = "none"
+    // input[16]: defaulting = 1, visible = 0, type = 32, value = "none"
+    // input[17]: defaulting = 1, visible = 0, type = 1, value = 1
+    // input[18]: defaulting = 1, visible = 0, type = 1, value = 1
+    // input[19]: defaulting = 0, visible = 0, type = 3, value = 0
+    // input[23]: defaulting = 0, visible = 0, type = 5, value = 0.5
+    // input[29]: defaulting = 1, visible = 0, type = 3, value = 0
+    // input[41]: defaulting = 0, visible = 0, type = 32, value = "panzoom"
+    // page group: wave2d
+    // depth: value = 24
+    // window: position = (0.6680,0.0417), size = 0.3135x0.5430
+    // internal caching: 1
+    //
+main_Image_2_out_1,
+main_Image_2_out_2,
+main_Image_2_out_3 = 
+    Image(
+    main_Image_2_in_1,
+    main_Collect_2_out_1,
+    main_Image_2_in_3,
+    main_Image_2_in_4,
+    main_Image_2_in_5,
+    main_Image_2_in_6,
+    main_Image_2_in_7,
+    main_Image_2_in_8,
+    main_Image_2_in_9,
+    main_Image_2_in_10,
+    main_Image_2_in_11,
+    main_Image_2_in_12,
+    main_Image_2_in_13,
+    main_Image_2_in_14,
+    main_Image_2_in_15,
+    main_Image_2_in_16,
+    main_Image_2_in_17,
+    main_Image_2_in_18,
+    main_Image_2_in_19,
+    main_Image_2_in_20,
+    main_Image_2_in_21,
+    main_Image_2_in_22,
+    main_Image_2_in_23,
+    main_Image_2_in_24,
+    main_Image_2_in_25,
+    main_Image_2_in_26,
+    main_Image_2_in_27,
+    main_Image_2_in_28,
+    main_Image_2_in_29,
+    main_Image_2_in_30,
+    main_Image_2_in_31,
+    main_Image_2_in_32,
+    main_Image_2_in_33,
+    main_Image_2_in_34,
+    main_Image_2_in_35,
+    main_Image_2_in_36,
+    main_Image_2_in_37,
+    main_Image_2_in_38,
+    main_Image_2_in_39,
+    main_Image_2_in_40,
+    main_Image_2_in_41,
+    main_Image_2_in_42,
+    main_Image_2_in_43,
+    main_Image_2_in_44,
+    main_Image_2_in_45,
+    main_Image_2_in_46,
+    main_Image_2_in_47,
+    main_Image_2_in_48,
+    main_Image_2_in_49
+    ) [instance: 2, cache: 1];
+// network: end of macro body
+CacheScene(main_Image_2_in_1, main_Image_2_out_1, main_Image_2_out_2);
+}
+main_String_1_out_1 = "dx";
+main_Integer_11_in_1 = "Integer_11";
+main_Integer_11_in_2 = NULL;
+main_Integer_11_in_3 = 1 ;
+main_Integer_11_in_4 = NULL;
+main_Integer_11_in_5 = NULL;
+main_Integer_11_in_6 = NULL;
+main_Integer_11_in_7 = NULL;
+main_Integer_11_in_8 = NULL;
+main_Integer_11_in_9 = NULL;
+main_Integer_11_in_10 = NULL;
+main_Integer_11_in_11 = NULL;
+main_Integer_11_out_1 = 1 ;
+main_StringList_1_out_1 = { "testsim1", "jobtestsim3" };
+main_Selector_4_in_1 = "Selector_4";
+main_Selector_4_in_2 = "jobtestsim3" ;
+main_Selector_4_in_3 = 1 ;
+main_Selector_4_in_5 = NULL;
+main_Selector_4_in_6 = NULL;
+main_Selector_4_in_7 = NULL;
+main_Selector_4_out_2 = "jobtestsim3" ;
+namei = NULL;
+main_Switch_1_out_1 = NULL;
+main_Format_19_in_1 = "%s/%s.general";
+main_Format_19_out_1 = NULL;
+main_Transmitter_27_out_1 = NULL;
+main_Receiver_33_out_1 = NULL;
+main_Import_1_in_2 = NULL;
+main_Import_1_in_3 = "general";
+main_Import_1_in_4 = NULL;
+main_Import_1_in_5 = NULL;
+main_Import_1_in_6 = NULL;
+main_Import_1_out_1 = NULL;
+main_Select_6_in_2 = "field1";
+main_Select_6_in_3 = NULL;
+main_Select_6_out_1 = NULL;
+main_Integer_9_in_1 = "Integer_9";
+main_Integer_9_in_2 = NULL;
+main_Integer_9_in_3 = 1 ;
+main_Integer_9_in_4 = NULL;
+main_Integer_9_in_5 = 0;
+main_Integer_9_in_6 = 1;
+main_Integer_9_in_7 = 1.0;
+main_Integer_9_in_8 = NULL;
+main_Integer_9_in_9 = NULL;
+main_Integer_9_in_10 = NULL;
+main_Integer_9_in_11 = NULL;
+main_Integer_9_out_1 = 1 ;
+main_Transmitter_35_out_1 = NULL;
+main_Receiver_41_out_1 = NULL;
+main_Transmitter_33_out_1 = NULL;
+main_Receiver_42_out_1 = NULL;
+main_Format_23_in_1 = "%s/%s_form.general";
+main_Format_23_out_1 = NULL;
+main_Import_2_in_2 = NULL;
+main_Import_2_in_3 = "general";
+main_Import_2_in_4 = NULL;
+main_Import_2_in_5 = NULL;
+main_Import_2_in_6 = NULL;
+main_Import_2_out_1 = NULL;
+main_Select_4_in_2 = "nsteps";
+main_Select_4_in_3 = NULL;
+main_Select_4_out_1 = NULL;
+main_Integer_5_in_1 = "Integer_5";
+main_Integer_5_in_3 = 130;
+main_Integer_5_in_4 = NULL;
+main_Integer_5_in_5 = NULL;
+main_Integer_5_in_6 = NULL;
+main_Integer_5_in_7 = NULL;
+main_Integer_5_in_8 = NULL;
+main_Integer_5_in_9 = NULL;
+main_Integer_5_in_10 = NULL;
+main_Integer_5_in_11 = NULL;
+main_Integer_5_out_1 = 130;
+main_Transmitter_28_out_1 = NULL;
+main_Receiver_34_out_1 = NULL;
+main_Integer_6_in_1 = "Integer_6";
+main_Integer_6_in_2 = NULL;
+main_Integer_6_in_3 = 20 ;
+main_Integer_6_in_4 = NULL;
+main_Integer_6_in_5 = NULL;
+main_Integer_6_in_7 = 1.0;
+main_Integer_6_in_8 = NULL;
+main_Integer_6_in_9 = NULL;
+main_Integer_6_in_10 = NULL;
+main_Integer_6_in_11 = "step";
+main_Integer_6_out_1 = 20 ;
+stepi = NULL;
+main_Switch_18_out_1 = NULL;
+main_Select_1_in_3 = NULL;
+main_Select_1_out_1 = NULL;
+main_AutoColor_1_in_2 = NULL;
+main_AutoColor_1_in_3 = NULL;
+main_AutoColor_1_in_4 = NULL;
+main_AutoColor_1_in_5 = NULL;
+main_AutoColor_1_in_6 = NULL;
+main_AutoColor_1_in_7 = NULL;
+main_AutoColor_1_in_8 = NULL;
+main_AutoColor_1_in_9 = NULL;
+main_AutoColor_1_in_10 = NULL;
+main_AutoColor_1_out_1 = NULL;
+main_Select_7_in_2 = "field0";
+main_Select_7_in_3 = NULL;
+main_Select_7_out_1 = NULL;
+main_Select_8_in_3 = NULL;
+main_Select_8_out_1 = NULL;
+main_AutoColor_2_in_2 = NULL;
+main_AutoColor_2_in_3 = NULL;
+main_AutoColor_2_in_4 = NULL;
+main_AutoColor_2_in_5 = NULL;
+main_AutoColor_2_in_6 = NULL;
+main_AutoColor_2_in_7 = NULL;
+main_AutoColor_2_in_8 = NULL;
+main_AutoColor_2_in_9 = NULL;
+main_AutoColor_2_in_10 = NULL;
+main_AutoColor_2_out_1 = NULL;
+main_AutoGlyph_1_in_2 = "arrow2D";
+main_AutoGlyph_1_in_3 = NULL;
+main_AutoGlyph_1_in_4 = NULL;
+main_AutoGlyph_1_in_5 = NULL;
+main_AutoGlyph_1_in_6 = NULL;
+main_AutoGlyph_1_in_7 = NULL;
+main_AutoGlyph_1_out_1 = NULL;
+main_Receiver_36_out_1 = NULL;
+main_Vector_1_in_1 = "Vector_1";
+main_Vector_1_in_2 = NULL;
+main_Vector_1_in_3 = [ 24 26 0 ];
+main_Vector_1_in_4 = NULL;
+main_Vector_1_in_5 = NULL;
+main_Vector_1_in_6 = NULL;
+main_Vector_1_in_7 = NULL;
+main_Vector_1_in_8 = NULL;
+main_Vector_1_in_9 = NULL;
+main_Vector_1_in_10 = NULL;
+main_Vector_1_in_11 = NULL;
+main_Vector_1_out_1 = [ 24 26 0 ];
+camtoi = NULL;
+main_Switch_14_out_1 = NULL;
+main_Transmitter_30_out_1 = NULL;
+main_Receiver_39_out_1 = NULL;
+main_Vector_2_in_1 = "Vector_2";
+main_Vector_2_in_2 = NULL;
+main_Vector_2_in_3 = [ 12 25 21 ];
+main_Vector_2_in_4 = NULL;
+main_Vector_2_in_5 = NULL;
+main_Vector_2_in_6 = NULL;
+main_Vector_2_in_7 = NULL;
+main_Vector_2_in_8 = NULL;
+main_Vector_2_in_9 = NULL;
+main_Vector_2_in_10 = NULL;
+main_Vector_2_in_11 = NULL;
+main_Vector_2_out_1 = [ 12 25 21 ];
+camfromi = NULL;
+main_Switch_15_out_1 = NULL;
+main_Transmitter_31_out_1 = NULL;
+main_Receiver_38_out_1 = NULL;
+main_Scalar_3_in_1 = "Scalar_3";
+main_Scalar_3_in_2 = NULL;
+main_Scalar_3_in_3 = 74.0 ;
+main_Scalar_3_in_4 = NULL;
+main_Scalar_3_in_5 = NULL;
+main_Scalar_3_in_6 = NULL;
+main_Scalar_3_in_7 = NULL;
+main_Scalar_3_in_8 = NULL;
+main_Scalar_3_in_9 = NULL;
+main_Scalar_3_in_10 = NULL;
+main_Scalar_3_in_11 = NULL;
+main_Scalar_3_out_1 = 74.0 ;
+camwidthi = NULL;
+main_Switch_16_out_1 = NULL;
+main_Transmitter_32_out_1 = NULL;
+main_Receiver_37_out_1 = NULL;
+main_Vector_3_in_1 = "Vector_3";
+main_Vector_3_in_2 = NULL;
+main_Vector_3_in_3 = [ 1.17 -1.25 0 ];
+main_Vector_3_in_4 = NULL;
+main_Vector_3_in_5 = NULL;
+main_Vector_3_in_6 = NULL;
+main_Vector_3_in_7 = NULL;
+main_Vector_3_in_8 = NULL;
+main_Vector_3_in_9 = NULL;
+main_Vector_3_in_10 = NULL;
+main_Vector_3_in_11 = NULL;
+main_Vector_3_out_1 = [ 1.17 -1.25 0 ];
+camupi = NULL;
+main_Switch_17_out_1 = NULL;
+main_Transmitter_34_out_1 = NULL;
+main_Receiver_40_out_1 = NULL;
+main_Camera_2_in_4 = 320;
+main_Camera_2_in_5 = NULL;
+main_Camera_2_in_7 = NULL;
+main_Camera_2_in_8 = 30.0;
+main_Camera_2_in_9 = NULL;
+main_Camera_2_out_1 = NULL;
+main_Selector_7_in_1 = "Selector_7";
+main_Selector_7_in_2 = "on" ;
+main_Selector_7_in_3 = 1 ;
+main_Selector_7_in_4 = NULL;
+main_Selector_7_in_5 = NULL;
+main_Selector_7_in_6 = NULL;
+main_Selector_7_in_7 = NULL;
+main_Selector_7_out_1 = 1 ;
+main_RubberSheet_1_in_2 = 0.01;
+main_RubberSheet_1_in_3 = NULL;
+main_RubberSheet_1_in_4 = 0.1;
+main_RubberSheet_1_out_1 = NULL;
+main_Switch_3_in_3 = NULL;
+main_Switch_3_out_1 = NULL;
+main_Selector_8_in_1 = "Selector_8";
+main_Selector_8_in_2 = "on" ;
+main_Selector_8_in_3 = 1 ;
+main_Selector_8_in_4 = NULL;
+main_Selector_8_in_5 = NULL;
+main_Selector_8_in_6 = NULL;
+main_Selector_8_in_7 = NULL;
+main_Selector_8_out_1 = 1 ;
+main_Switch_4_out_1 = NULL;
+main_Collect_2_out_1 = NULL;
+main_StringList_5_out_1 = { "nameo" };
+main_DXLOutput_3_in_1 = "string_output_list";
+main_StringList_2_out_1 = { "namei" };
+main_DXLOutput_4_in_1 = "string_input_list";
+main_StringList_3_out_1 = { "stepo" };
+main_DXLOutput_5_in_1 = "int_output_list";
+main_StringList_4_out_1 = { "stepi" };
+main_DXLOutput_6_in_1 = "int_input_list";
+main_Integer_10_in_1 = "Integer_10";
+main_Integer_10_in_2 = NULL;
+main_Integer_10_in_3 = 0;
+main_Integer_10_in_4 = NULL;
+main_Integer_10_in_5 = -1000000;
+main_Integer_10_in_6 = 1000000;
+main_Integer_10_in_7 = 1.0;
+main_Integer_10_in_8 = NULL;
+main_Integer_10_in_9 = NULL;
+main_Integer_10_in_10 = NULL;
+main_Integer_10_in_11 = NULL;
+main_Integer_10_out_1 = 0;
+main_DXLOutput_7_in_1 = "updateserver";
+main_StringList_6_out_1 = { "camupo", "camfromo", "camtoo" };
+main_DXLOutput_8_in_1 = "vector_output_list";
+main_StringList_7_out_1 = { "camfromi", "camtoi", "camupi" };
+main_DXLOutput_9_in_1 = "vector_input_list";
+main_DXLOutput_10_in_1 = "camwidtho";
+main_DXLOutput_11_in_1 = "camfromo";
+main_DXLOutput_12_in_1 = "camtoo";
+main_DXLOutput_15_in_1 = "camupo";
+main_StringList_8_out_1 = { "camwidtho" };
+main_DXLOutput_16_in_1 = "float_output_list";
+main_StringList_9_out_1 = { "camwidthi" };
+main_DXLOutput_17_in_1 = "float_input_list";
+main_Integer_8_in_1 = "Integer_8";
+main_Integer_8_in_2 = NULL;
+main_Integer_8_in_3 = 0;
+main_Integer_8_in_4 = NULL;
+main_Integer_8_in_5 = 0;
+main_Integer_8_in_6 = 1;
+main_Integer_8_in_7 = 1.0;
+main_Integer_8_in_8 = NULL;
+main_Integer_8_in_9 = NULL;
+main_Integer_8_in_10 = NULL;
+main_Integer_8_in_11 = NULL;
+main_Integer_8_out_1 = 0;
+main_DXLOutput_18_in_1 = "closedx";
+main_DXLOutput_19_in_1 = "uselocal";
+main_DXLOutput_21_in_1 = "nameo";
+main_DXLOutput_22_in_1 = "stepo";
+main_Display_2_in_3 = "X24,,";
+main_Display_2_in_4 = NULL;
+main_Display_2_in_5 = NULL;
+main_Display_2_in_6 = NULL;
+main_Display_2_in_7 = NULL;
+main_Display_2_in_8 = NULL;
+macro Image(
+        id,
+        object,
+        where,
+        useVector,
+        to,
+        from,
+        width,
+        resolution,
+        aspect,
+        up,
+        viewAngle,
+        perspective,
+        options,
+        buttonState = 1,
+        buttonUpApprox = "none",
+        buttonDownApprox = "none",
+        buttonUpDensity = 1,
+        buttonDownDensity = 1,
+        renderMode = 0,
+        defaultCamera,
+        reset,
+        backgroundColor,
+        throttle,
+        RECenable = 0,
+        RECfile,
+        RECformat,
+        RECresolution,
+        RECaspect,
+        AAenable = 0,
+        AAlabels,
+        AAticks,
+        AAcorners,
+        AAframe,
+        AAadjust,
+        AAcursor,
+        AAgrid,
+        AAcolors,
+        AAannotation,
+        AAlabelscale,
+        AAfont,
+        interactionMode,
+        title,
+        AAxTickLocs,
+        AAyTickLocs,
+        AAzTickLocs,
+        AAxTickLabels,
+        AAyTickLabels,
+        AAzTickLabels,
+        webOptions) -> (
+        object,
+        camera,
+        where)
+{
+    ImageMessage(
+        id,
+        backgroundColor,
+        throttle,
+        RECenable,
+        RECfile,
+        RECformat,
+        RECresolution,
+        RECaspect,
+        AAenable,
+        AAlabels,
+        AAticks,
+        AAcorners,
+        AAframe,
+        AAadjust,
+        AAcursor,
+        AAgrid,
+        AAcolors,
+        AAannotation,
+        AAlabelscale,
+        AAfont,
+        AAxTickLocs,
+        AAyTickLocs,
+        AAzTickLocs,
+        AAxTickLabels,
+        AAyTickLabels,
+        AAzTickLabels,
+        interactionMode,
+        title,
+        renderMode,
+        buttonUpApprox,
+        buttonDownApprox,
+        buttonUpDensity,
+        buttonDownDensity) [instance: 1, cache: 1];
+    autoCamera =
+        AutoCamera(
+            object,
+            "front",
+            object,
+            resolution,
+            aspect,
+            [0,1,0],
+            perspective,
+            viewAngle,
+            backgroundColor) [instance: 1, cache: 1];
+    realCamera =
+        Camera(
+            to,
+            from,
+            width,
+            resolution,
+            aspect,
+            up,
+            perspective,
+            viewAngle,
+            backgroundColor) [instance: 1, cache: 1];
+    coloredDefaultCamera = 
+	 UpdateCamera(defaultCamera,
+            background=backgroundColor) [instance: 1, cache: 1];
+    nullDefaultCamera =
+        Inquire(defaultCamera,
+            "is null + 1") [instance: 1, cache: 1];
+    resetCamera =
+        Switch(
+            nullDefaultCamera,
+            coloredDefaultCamera,
+            autoCamera) [instance: 1, cache: 1];
+    resetNull = 
+        Inquire(
+            reset,
+            "is null + 1") [instance: 2, cache: 1];
+    reset =
+        Switch(
+            resetNull,
+            reset,
+            0) [instance: 2, cache: 1];
+    whichCamera =
+        Compute(
+            "($0 != 0 || $1 == 0) ? 1 : 2",
+            reset,
+            useVector) [instance: 1, cache: 1];
+    camera = Switch(
+            whichCamera,
+            resetCamera,
+            realCamera) [instance: 3, cache: 1];
+    AAobject =
+        AutoAxes(
+            object,
+            camera,
+            AAlabels,
+            AAticks,
+            AAcorners,
+            AAframe,
+            AAadjust,
+            AAcursor,
+            AAgrid,
+            AAcolors,
+            AAannotation,
+            AAlabelscale,
+            AAfont,
+            AAxTickLocs,
+            AAyTickLocs,
+            AAzTickLocs,
+            AAxTickLabels,
+            AAyTickLabels,
+            AAzTickLabels) [instance: 1, cache: 1];
+    switchAAenable = Compute("$0+1",
+	     AAenable) [instance: 2, cache: 1];
+    object = Switch(
+	     switchAAenable,
+	     object,
+	     AAobject) [instance:4, cache: 1];
+    SWapproximation_options =
+        Switch(
+            buttonState,
+            buttonUpApprox,
+            buttonDownApprox) [instance: 5, cache: 1];
+    SWdensity_options =
+        Switch(
+            buttonState,
+            buttonUpDensity,
+            buttonDownDensity) [instance: 6, cache: 1];
+    HWapproximation_options =
+        Format(
+            "%s,%s",
+            buttonDownApprox,
+            buttonUpApprox) [instance: 1, cache: 1];
+    HWdensity_options =
+        Format(
+            "%d,%d",
+            buttonDownDensity,
+            buttonUpDensity) [instance: 2, cache: 1];
+    switchRenderMode = Compute(
+	     "$0+1",
+	     renderMode) [instance: 3, cache: 1];
+    approximation_options = Switch(
+	     switchRenderMode,
+            SWapproximation_options,
+	     HWapproximation_options) [instance: 7, cache: 1];
+    density_options = Switch(
+	     switchRenderMode,
+            SWdensity_options,
+            HWdensity_options) [instance: 8, cache: 1];
+    renderModeString = Switch(
+            switchRenderMode,
+            "software",
+            "hardware")[instance: 9, cache: 1];
+    object_tag = Inquire(
+            object,
+            "object tag")[instance: 3, cache: 1];
+    annoted_object =
+        Options(
+            object,
+            "send boxes",
+            0,
+            "cache",
+            1,
+            "object tag",
+            object_tag,
+            "ddcamera",
+            whichCamera,
+            "rendering approximation",
+            approximation_options,
+            "render every",
+            density_options,
+            "button state",
+            buttonState,
+            "rendering mode",
+            renderModeString) [instance: 1, cache: 1];
+    RECresNull =
+        Inquire(
+            RECresolution,
+            "is null + 1") [instance: 4, cache: 1];
+    ImageResolution =
+        Inquire(
+            camera,
+            "camera resolution") [instance: 5, cache: 1];
+    RECresolution =
+        Switch(
+            RECresNull,
+            RECresolution,
+            ImageResolution) [instance: 10, cache: 1];
+    RECaspectNull =
+        Inquire(
+            RECaspect,
+            "is null + 1") [instance: 6, cache: 1];
+    ImageAspect =
+        Inquire(
+            camera,
+            "camera aspect") [instance: 7, cache: 1];
+    RECaspect =
+        Switch(
+            RECaspectNull,
+            RECaspect,
+            ImageAspect) [instance: 11, cache: 1];
+    switchRECenable = Compute(
+          "$0 == 0 ? 1 : (($2 == $3) && ($4 == $5)) ? ($1 == 1 ? 2 : 3) : 4",
+            RECenable,
+            switchRenderMode,
+            RECresolution,
+            ImageResolution,
+            RECaspect,
+	     ImageAspect) [instance: 4, cache: 1];
+    NoRECobject, RECNoRerenderObject, RECNoRerHW, RECRerenderObject = Route(switchRECenable, annoted_object);
+    Display(
+        NoRECobject,
+        camera,
+        where,
+        throttle) [instance: 1, cache: 1];
+    image =
+        Render(
+            RECNoRerenderObject,
+            camera) [instance: 1, cache: 1];
+    Display(
+        image,
+        NULL,
+        where,
+        throttle) [instance: 2, cache: 1];
+    WriteImage(
+        image,
+        RECfile,
+        RECformat) [instance: 1, cache: 1];
+    rec_where = Display(
+        RECNoRerHW,
+        camera,
+        where,
+        throttle) [instance: 1, cache: 0];
+    rec_image = ReadImageWindow(
+        rec_where) [instance: 1, cache: 1];
+    WriteImage(
+        rec_image,
+        RECfile,
+        RECformat) [instance: 1, cache: 1];
+    RECupdateCamera =
+	UpdateCamera(
+	    camera,
+	    resolution=RECresolution,
+	    aspect=RECaspect) [instance: 2, cache: 1];
+    Display(
+        RECRerenderObject,
+        camera,
+        where,
+        throttle) [instance: 1, cache: 1];
+    RECRerenderObject =
+	ScaleScreen(
+	    RECRerenderObject,
+	    NULL,
+	    RECresolution,
+	    camera) [instance: 1, cache: 1];
+    image =
+        Render(
+            RECRerenderObject,
+            RECupdateCamera) [instance: 2, cache: 1];
+    WriteImage(
+        image,
+        RECfile,
+        RECformat) [instance: 2, cache: 1];
+}
+main_Image_2_in_1 = "Image_2";
+main_Image_2_in_3 = "X24,,";
+main_Image_2_in_4 = 1;
+main_Image_2_in_5 = [25 25 25];
+main_Image_2_in_6 = [25 25 188.334];
+main_Image_2_in_7 = NULL;
+main_Image_2_in_8 = 307;
+main_Image_2_in_9 = 1.145;
+main_Image_2_in_10 = [0 1 0];
+main_Image_2_in_11 = 30.0;
+main_Image_2_in_12 = 1;
+main_Image_2_in_13 = NULL;
+main_Image_2_in_14 = 1;
+main_Image_2_in_15 = NULL;
+main_Image_2_in_16 = NULL;
+main_Image_2_in_17 = NULL;
+main_Image_2_in_18 = NULL;
+main_Image_2_in_19 = 0;
+main_Image_2_in_20 = NULL;
+main_Image_2_in_21 = NULL;
+main_Image_2_in_22 = NULL;
+main_Image_2_in_23 = 0.5;
+main_Image_2_in_25 = NULL;
+main_Image_2_in_26 = NULL;
+main_Image_2_in_27 = NULL;
+main_Image_2_in_28 = NULL;
+main_Image_2_in_29 = NULL;
+main_Image_2_in_30 = NULL;
+main_Image_2_in_31 = NULL;
+main_Image_2_in_32 = NULL;
+main_Image_2_in_33 = NULL;
+main_Image_2_in_34 = NULL;
+main_Image_2_in_35 = NULL;
+main_Image_2_in_36 = NULL;
+main_Image_2_in_37 = NULL;
+main_Image_2_in_38 = NULL;
+main_Image_2_in_39 = NULL;
+main_Image_2_in_40 = NULL;
+main_Image_2_in_41 = "panzoom";
+main_Image_2_in_42 = NULL;
+main_Image_2_in_43 = NULL;
+main_Image_2_in_44 = NULL;
+main_Image_2_in_45 = NULL;
+main_Image_2_in_46 = NULL;
+main_Image_2_in_47 = NULL;
+main_Image_2_in_48 = NULL;
+main_Image_2_in_49 = NULL;
+Executive("product version 4 4 0");
+$sync
+// This network contains DXLink tools.  Therefore, the following line(s)
+// that would cause an execution when run in script mode have been 
+// commented out.  This will facilitate the use of the DXLink routines
+// exDXLLoadScript() and DXLLoadVisualProgram() when the DXLink
+// application is connected to an executive.
+// main();
