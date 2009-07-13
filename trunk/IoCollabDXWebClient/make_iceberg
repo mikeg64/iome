@@ -1,0 +1,34 @@
+#make include file for building IoSimulation on felix
+
+
+COPTFLAGS = -O 
+BASE = /usr/local/dx
+#CC = g++
+CC = g++ 
+CLINKER = ${CC}
+LD  	=	g++
+incDirs = -I$(XERCESCROOT)/include -I$(XALANCROOT)/src -I$(XALANCROOT) -I../IoUtils -I../IoSimulation -I/usr/X11R6/include  -I$(BASE)/include
+oDir	=	.
+Bin	=	../bin
+
+#VPATH = src:../include
+
+OPTFLAGS= $(COPTFLAGS)
+
+LIBDXL=$(BASE)/lib_linux/libDXL.a
+C_FLAGS   = -g -Wall -Wno-deprecated -O2 -Dlinux -DBASE=\"$(BASE)\"  
+ 
+
+#LIBS = -L$(BASE)/lib_linux -L/usr/X11R6/lib -lm -ldl $(LIBDXL)
+#XLIBS   = -L/usr/X11R6/lib64 -lGL -lGLU -lGLw  -lXm -lXext -lXt-lXmu -lX11
+XLIBS   = -L/usr/X11R6/lib64  -lGL -lGLU  -lXm -lXext -lXt -lXmu -lX11 
+
+LD_FLAGS =	-g
+LIBS	= ../lib/libIoUtils.a ../lib/libIoSimulation.a -L$(BASE)/lib_linux  -lm -ldl $(LIBDXL)	-L/usr/lib64 -L../lib -lm -L$(XERCESCROOT)/lib -L$(XALANCROOT)/lib -lxerces-c -lxalan-c
+
+MYLIBS = ../lib/libIoUtils.a ../lib/libIoSimulation.a
+
+
+
+
+
