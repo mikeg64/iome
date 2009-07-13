@@ -1,0 +1,1215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="IoSteerWS"
+ targetNamespace="http://mikeg.staff.shef.ac.uk/xml/IOSteerWS.wsdl"
+ xmlns:tns="http://mikeg.staff.shef.ac.uk/xml/IOSteerWS.wsdl"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns="urn:IoSteerWS"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:IoSteerWS"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns="urn:IoSteerWS"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <complexType name="ArrayOfdouble">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="xsd:double" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:double[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+ </schema>
+
+</types>
+
+<message name="addRequest">
+ <part name="a" type="xsd:double"/>
+ <part name="b" type="xsd:double"/>
+</message>
+
+<message name="addResponse">
+ <part name="result" type="xsd:double"/>
+</message>
+
+<message name="getstepRequest">
+ <part name="id" type="xsd:int"/>
+</message>
+
+<message name="getstepResponse">
+ <part name="step" type="xsd:int"/>
+</message>
+
+<message name="setstepRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="newstep" type="xsd:int"/>
+</message>
+
+<message name="setstepResponse">
+ <part name="step" type="xsd:int"/>
+</message>
+
+<message name="getnstepsRequest">
+ <part name="id" type="xsd:int"/>
+</message>
+
+<message name="getnstepsResponse">
+ <part name="nsstep" type="xsd:int"/>
+</message>
+
+<message name="setnstepsRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="newnsteps" type="xsd:int"/>
+</message>
+
+<message name="setnstepsResponse">
+ <part name="nsteps" type="xsd:int"/>
+</message>
+
+<message name="runsimulationstepRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="istepnum" type="xsd:int"/>
+</message>
+
+<message name="runsimulationstepResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="runsimulationRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="simfilecontent" type="xsd:string"/>
+</message>
+
+<message name="runsimulationResponse">
+ <part name="result" type="xsd:string"/>
+</message>
+
+<message name="requestsimulationRequest">
+ <part name="simfilecontent" type="xsd:string"/>
+</message>
+
+<message name="requestsimulationResponse">
+ <part name="isimid" type="xsd:int"/>
+</message>
+
+<message name="runrequestedsimulationRequest">
+ <part name="isimid" type="xsd:int"/>
+</message>
+
+<message name="runrequestedsimulationResponse">
+ <part name="istatus" type="xsd:int"/>
+</message>
+
+<message name="submitsimulationRequest">
+ <part name="simfilecontent" type="xsd:string"/>
+</message>
+
+<message name="submitsimulationResponse">
+ <part name="isimid" type="xsd:int"/>
+</message>
+
+<message name="simulationstatusRequest">
+ <part name="isimid" type="xsd:int"/>
+</message>
+
+<message name="simulationstatusResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="getsimulationresultsRequest">
+ <part name="isimid" type="xsd:int"/>
+</message>
+
+<message name="getsimulationresultsResponse">
+ <part name="result" type="xsd:string"/>
+</message>
+
+<message name="deletesimulationRequest">
+ <part name="isimid" type="xsd:int"/>
+</message>
+
+<message name="deletesimulationResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="newsimulationRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="simname" type="xsd:string"/>
+ <part name="xslname" type="xsd:string"/>
+</message>
+
+<message name="newsimulationResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="createsimulationRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="filename" type="xsd:string"/>
+</message>
+
+<message name="createsimulationResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="writelocalsimulationRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="filename" type="xsd:string"/>
+</message>
+
+<message name="writelocalsimulationResponse">
+ <part name="filecontent" type="xsd:string"/>
+</message>
+
+<message name="readlocalsimulationRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="filename" type="xsd:string"/>
+</message>
+
+<message name="readlocalsimulationResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="writesimulationRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="filename" type="xsd:string"/>
+</message>
+
+<message name="writesimulationResponse">
+ <part name="filecontent" type="xsd:string"/>
+</message>
+
+<message name="readsimulationRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="filename" type="xsd:string"/>
+</message>
+
+<message name="readsimulationResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="exitiomeRequest">
+ <part name="id" type="xsd:int"/>
+</message>
+
+<message name="exitiomeResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="addparamdoubleRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="value" type="xsd:double"/>
+ <part name="iflag" type="xsd:int"/>
+</message>
+
+<message name="addparamdoubleResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="addparamintRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="value" type="xsd:int"/>
+ <part name="iflag" type="xsd:int"/>
+</message>
+
+<message name="addparamintResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="addparamvecRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="value" type="ns:ArrayOfdouble"/>
+ <part name="n" type="xsd:int"/>
+ <part name="iflag" type="xsd:int"/>
+</message>
+
+<message name="addparamvecResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="addparammatRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="value" type="ns:ArrayOfdouble"/>
+ <part name="nr" type="xsd:int"/>
+ <part name="nc" type="xsd:int"/>
+ <part name="iflag" type="xsd:int"/>
+</message>
+
+<message name="addparammatResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="addparamstringRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="value" type="xsd:string"/>
+ <part name="iflag" type="xsd:int"/>
+</message>
+
+<message name="addparamstringResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="addparammmat3dRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="value" type="ns:ArrayOfdouble"/>
+ <part name="n" type="xsd:int"/>
+ <part name="p" type="xsd:int"/>
+ <part name="q" type="xsd:int"/>
+ <part name="nr" type="xsd:int"/>
+ <part name="nc" type="xsd:int"/>
+ <part name="iflag" type="xsd:int"/>
+</message>
+
+<message name="addparammmat3dResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="addmetadataRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="property" type="xsd:string"/>
+</message>
+
+<message name="addmetadataResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="getparamdoubleRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+</message>
+
+<message name="getparamdoubleResponse">
+ <part name="value" type="xsd:double"/>
+</message>
+
+<message name="getparamintRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+</message>
+
+<message name="getparamintResponse">
+ <part name="value" type="xsd:int"/>
+</message>
+
+<message name="getparamvecRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="n" type="xsd:int"/>
+</message>
+
+<message name="getparamvecResponse">
+ <part name="dval" type="ns:ArrayOfdouble"/>
+</message>
+
+<message name="getparammatRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="nr" type="xsd:int"/>
+ <part name="nc" type="xsd:int"/>
+</message>
+
+<message name="getparammatResponse">
+ <part name="dval" type="ns:ArrayOfdouble"/>
+</message>
+
+<message name="getparamstringRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+</message>
+
+<message name="getparamstringResponse">
+ <part name="value" type="xsd:string"/>
+</message>
+
+<message name="getparammmat3dRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="n" type="xsd:int"/>
+ <part name="p" type="xsd:int"/>
+ <part name="q" type="xsd:int"/>
+ <part name="nr" type="xsd:int"/>
+ <part name="nc" type="xsd:int"/>
+</message>
+
+<message name="getparammmat3dResponse">
+ <part name="mmat3d" type="ns:ArrayOfdouble"/>
+</message>
+
+<message name="getmetadataRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+</message>
+
+<message name="getmetadataResponse">
+ <part name="property" type="xsd:string"/>
+</message>
+
+<message name="setparamdoubleRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="value" type="xsd:double"/>
+</message>
+
+<message name="setparamdoubleResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="setparamintRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="value" type="xsd:int"/>
+</message>
+
+<message name="setparamintResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="setparamvecRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="value" type="ns:ArrayOfdouble"/>
+ <part name="n" type="xsd:int"/>
+</message>
+
+<message name="setparamvecResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="setparammatRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="value" type="ns:ArrayOfdouble"/>
+ <part name="nr" type="xsd:int"/>
+ <part name="nc" type="xsd:int"/>
+</message>
+
+<message name="setparammatResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="setparamstringRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="value" type="xsd:string"/>
+</message>
+
+<message name="setparamstringResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="setparammmat3dRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="value" type="ns:ArrayOfdouble"/>
+ <part name="n" type="xsd:int"/>
+ <part name="p" type="xsd:int"/>
+ <part name="q" type="xsd:int"/>
+ <part name="nr" type="xsd:int"/>
+ <part name="nc" type="xsd:int"/>
+</message>
+
+<message name="setparammmat3dResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="setmetadataRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+ <part name="property" type="xsd:string"/>
+</message>
+
+<message name="setmetadataResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="listmetadataRequest">
+ <part name="id" type="xsd:int"/>
+</message>
+
+<message name="listmetadataResponse">
+ <part name="list" type="xsd:string"/>
+</message>
+
+<message name="deletemetadataRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="name" type="xsd:string"/>
+</message>
+
+<message name="deletemetadataResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="deleteparamRequest">
+ <part name="name" type="xsd:string"/>
+ <part name="id" type="xsd:int"/>
+</message>
+
+<message name="deleteparamResponse">
+ <part name="status" type="xsd:int"/>
+</message>
+
+<message name="listparamRequest">
+ <part name="type" type="xsd:string"/>
+ <part name="id" type="xsd:int"/>
+</message>
+
+<message name="listparamResponse">
+ <part name="list" type="xsd:string"/>
+</message>
+
+<message name="getnumobjRequest">
+ <part name="id" type="xsd:int"/>
+</message>
+
+<message name="getnumobjResponse">
+ <part name="numobj" type="xsd:int"/>
+</message>
+
+<message name="getobjnumRequest">
+ <part name="id" type="xsd:int"/>
+</message>
+
+<message name="getobjnumResponse">
+ <part name="objnum" type="xsd:int"/>
+</message>
+
+<message name="testgroupbarrierRequest">
+ <part name="id" type="xsd:int"/>
+</message>
+
+<message name="testgroupbarrierResponse">
+ <part name="state" type="xsd:int"/>
+</message>
+
+<message name="setgroupbarrierRequest">
+ <part name="id" type="xsd:int"/>
+ <part name="state" type="xsd:int"/>
+</message>
+
+<message name="setgroupbarrierResponse">
+ <part name="newstate" type="xsd:int"/>
+</message>
+
+<portType name="IoSteerWSPortType">
+ <operation name="add">
+  <documentation>Service definition of function ns__add</documentation>
+  <input message="tns:addRequest"/>
+  <output message="tns:addResponse"/>
+ </operation>
+ <operation name="getstep">
+  <documentation>Service definition of function ns__getstep</documentation>
+  <input message="tns:getstepRequest"/>
+  <output message="tns:getstepResponse"/>
+ </operation>
+ <operation name="setstep">
+  <documentation>Service definition of function ns__setstep</documentation>
+  <input message="tns:setstepRequest"/>
+  <output message="tns:setstepResponse"/>
+ </operation>
+ <operation name="getnsteps">
+  <documentation>Service definition of function ns__getnsteps</documentation>
+  <input message="tns:getnstepsRequest"/>
+  <output message="tns:getnstepsResponse"/>
+ </operation>
+ <operation name="setnsteps">
+  <documentation>Service definition of function ns__setnsteps</documentation>
+  <input message="tns:setnstepsRequest"/>
+  <output message="tns:setnstepsResponse"/>
+ </operation>
+ <operation name="runsimulationstep">
+  <documentation>Service definition of function ns__runsimulationstep</documentation>
+  <input message="tns:runsimulationstepRequest"/>
+  <output message="tns:runsimulationstepResponse"/>
+ </operation>
+ <operation name="runsimulation">
+  <documentation>Service definition of function ns__runsimulation</documentation>
+  <input message="tns:runsimulationRequest"/>
+  <output message="tns:runsimulationResponse"/>
+ </operation>
+ <operation name="requestsimulation">
+  <documentation>Service definition of function ns__requestsimulation</documentation>
+  <input message="tns:requestsimulationRequest"/>
+  <output message="tns:requestsimulationResponse"/>
+ </operation>
+ <operation name="runrequestedsimulation">
+  <documentation>Service definition of function ns__runrequestedsimulation</documentation>
+  <input message="tns:runrequestedsimulationRequest"/>
+  <output message="tns:runrequestedsimulationResponse"/>
+ </operation>
+ <operation name="submitsimulation">
+  <documentation>Service definition of function ns__submitsimulation</documentation>
+  <input message="tns:submitsimulationRequest"/>
+  <output message="tns:submitsimulationResponse"/>
+ </operation>
+ <operation name="simulationstatus">
+  <documentation>Service definition of function ns__simulationstatus</documentation>
+  <input message="tns:simulationstatusRequest"/>
+  <output message="tns:simulationstatusResponse"/>
+ </operation>
+ <operation name="getsimulationresults">
+  <documentation>Service definition of function ns__getsimulationresults</documentation>
+  <input message="tns:getsimulationresultsRequest"/>
+  <output message="tns:getsimulationresultsResponse"/>
+ </operation>
+ <operation name="deletesimulation">
+  <documentation>Service definition of function ns__deletesimulation</documentation>
+  <input message="tns:deletesimulationRequest"/>
+  <output message="tns:deletesimulationResponse"/>
+ </operation>
+ <operation name="newsimulation">
+  <documentation>Service definition of function ns__newsimulation</documentation>
+  <input message="tns:newsimulationRequest"/>
+  <output message="tns:newsimulationResponse"/>
+ </operation>
+ <operation name="createsimulation">
+  <documentation>Service definition of function ns__createsimulation</documentation>
+  <input message="tns:createsimulationRequest"/>
+  <output message="tns:createsimulationResponse"/>
+ </operation>
+ <operation name="writelocalsimulation">
+  <documentation>Service definition of function ns__writelocalsimulation</documentation>
+  <input message="tns:writelocalsimulationRequest"/>
+  <output message="tns:writelocalsimulationResponse"/>
+ </operation>
+ <operation name="readlocalsimulation">
+  <documentation>Service definition of function ns__readlocalsimulation</documentation>
+  <input message="tns:readlocalsimulationRequest"/>
+  <output message="tns:readlocalsimulationResponse"/>
+ </operation>
+ <operation name="writesimulation">
+  <documentation>Service definition of function ns__writesimulation</documentation>
+  <input message="tns:writesimulationRequest"/>
+  <output message="tns:writesimulationResponse"/>
+ </operation>
+ <operation name="readsimulation">
+  <documentation>Service definition of function ns__readsimulation</documentation>
+  <input message="tns:readsimulationRequest"/>
+  <output message="tns:readsimulationResponse"/>
+ </operation>
+ <operation name="exitiome">
+  <documentation>Service definition of function ns__exitiome</documentation>
+  <input message="tns:exitiomeRequest"/>
+  <output message="tns:exitiomeResponse"/>
+ </operation>
+ <operation name="addparamdouble">
+  <documentation>Service definition of function ns__addparamdouble</documentation>
+  <input message="tns:addparamdoubleRequest"/>
+  <output message="tns:addparamdoubleResponse"/>
+ </operation>
+ <operation name="addparamint">
+  <documentation>Service definition of function ns__addparamint</documentation>
+  <input message="tns:addparamintRequest"/>
+  <output message="tns:addparamintResponse"/>
+ </operation>
+ <operation name="addparamvec">
+  <documentation>Service definition of function ns__addparamvec</documentation>
+  <input message="tns:addparamvecRequest"/>
+  <output message="tns:addparamvecResponse"/>
+ </operation>
+ <operation name="addparammat">
+  <documentation>Service definition of function ns__addparammat</documentation>
+  <input message="tns:addparammatRequest"/>
+  <output message="tns:addparammatResponse"/>
+ </operation>
+ <operation name="addparamstring">
+  <documentation>Service definition of function ns__addparamstring</documentation>
+  <input message="tns:addparamstringRequest"/>
+  <output message="tns:addparamstringResponse"/>
+ </operation>
+ <operation name="addparammmat3d">
+  <documentation>Service definition of function ns__addparammmat3d</documentation>
+  <input message="tns:addparammmat3dRequest"/>
+  <output message="tns:addparammmat3dResponse"/>
+ </operation>
+ <operation name="addmetadata">
+  <documentation>Service definition of function ns__addmetadata</documentation>
+  <input message="tns:addmetadataRequest"/>
+  <output message="tns:addmetadataResponse"/>
+ </operation>
+ <operation name="getparamdouble">
+  <documentation>Service definition of function ns__getparamdouble</documentation>
+  <input message="tns:getparamdoubleRequest"/>
+  <output message="tns:getparamdoubleResponse"/>
+ </operation>
+ <operation name="getparamint">
+  <documentation>Service definition of function ns__getparamint</documentation>
+  <input message="tns:getparamintRequest"/>
+  <output message="tns:getparamintResponse"/>
+ </operation>
+ <operation name="getparamvec">
+  <documentation>Service definition of function ns__getparamvec</documentation>
+  <input message="tns:getparamvecRequest"/>
+  <output message="tns:getparamvecResponse"/>
+ </operation>
+ <operation name="getparammat">
+  <documentation>Service definition of function ns__getparammat</documentation>
+  <input message="tns:getparammatRequest"/>
+  <output message="tns:getparammatResponse"/>
+ </operation>
+ <operation name="getparamstring">
+  <documentation>Service definition of function ns__getparamstring</documentation>
+  <input message="tns:getparamstringRequest"/>
+  <output message="tns:getparamstringResponse"/>
+ </operation>
+ <operation name="getparammmat3d">
+  <documentation>Service definition of function ns__getparammmat3d</documentation>
+  <input message="tns:getparammmat3dRequest"/>
+  <output message="tns:getparammmat3dResponse"/>
+ </operation>
+ <operation name="getmetadata">
+  <documentation>Service definition of function ns__getmetadata</documentation>
+  <input message="tns:getmetadataRequest"/>
+  <output message="tns:getmetadataResponse"/>
+ </operation>
+ <operation name="setparamdouble">
+  <documentation>Service definition of function ns__setparamdouble</documentation>
+  <input message="tns:setparamdoubleRequest"/>
+  <output message="tns:setparamdoubleResponse"/>
+ </operation>
+ <operation name="setparamint">
+  <documentation>Service definition of function ns__setparamint</documentation>
+  <input message="tns:setparamintRequest"/>
+  <output message="tns:setparamintResponse"/>
+ </operation>
+ <operation name="setparamvec">
+  <documentation>Service definition of function ns__setparamvec</documentation>
+  <input message="tns:setparamvecRequest"/>
+  <output message="tns:setparamvecResponse"/>
+ </operation>
+ <operation name="setparammat">
+  <documentation>Service definition of function ns__setparammat</documentation>
+  <input message="tns:setparammatRequest"/>
+  <output message="tns:setparammatResponse"/>
+ </operation>
+ <operation name="setparamstring">
+  <documentation>Service definition of function ns__setparamstring</documentation>
+  <input message="tns:setparamstringRequest"/>
+  <output message="tns:setparamstringResponse"/>
+ </operation>
+ <operation name="setparammmat3d">
+  <documentation>Service definition of function ns__setparammmat3d</documentation>
+  <input message="tns:setparammmat3dRequest"/>
+  <output message="tns:setparammmat3dResponse"/>
+ </operation>
+ <operation name="setmetadata">
+  <documentation>Service definition of function ns__setmetadata</documentation>
+  <input message="tns:setmetadataRequest"/>
+  <output message="tns:setmetadataResponse"/>
+ </operation>
+ <operation name="listmetadata">
+  <documentation>Service definition of function ns__listmetadata</documentation>
+  <input message="tns:listmetadataRequest"/>
+  <output message="tns:listmetadataResponse"/>
+ </operation>
+ <operation name="deletemetadata">
+  <documentation>Service definition of function ns__deletemetadata</documentation>
+  <input message="tns:deletemetadataRequest"/>
+  <output message="tns:deletemetadataResponse"/>
+ </operation>
+ <operation name="deleteparam">
+  <documentation>Service definition of function ns__deleteparam</documentation>
+  <input message="tns:deleteparamRequest"/>
+  <output message="tns:deleteparamResponse"/>
+ </operation>
+ <operation name="listparam">
+  <documentation>Service definition of function ns__listparam</documentation>
+  <input message="tns:listparamRequest"/>
+  <output message="tns:listparamResponse"/>
+ </operation>
+ <operation name="getnumobj">
+  <documentation>Service definition of function ns__getnumobj</documentation>
+  <input message="tns:getnumobjRequest"/>
+  <output message="tns:getnumobjResponse"/>
+ </operation>
+ <operation name="getobjnum">
+  <documentation>Service definition of function ns__getobjnum</documentation>
+  <input message="tns:getobjnumRequest"/>
+  <output message="tns:getobjnumResponse"/>
+ </operation>
+ <operation name="testgroupbarrier">
+  <documentation>Service definition of function ns__testgroupbarrier</documentation>
+  <input message="tns:testgroupbarrierRequest"/>
+  <output message="tns:testgroupbarrierResponse"/>
+ </operation>
+ <operation name="setgroupbarrier">
+  <documentation>Service definition of function ns__setgroupbarrier</documentation>
+  <input message="tns:setgroupbarrierRequest"/>
+  <output message="tns:setgroupbarrierResponse"/>
+ </operation>
+</portType>
+
+<binding name="IoSteerWS" type="tns:IoSteerWSPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="add">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="getstep">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="setstep">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="getnsteps">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="setnsteps">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="runsimulationstep">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="runsimulation">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="requestsimulation">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="runrequestedsimulation">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="submitsimulation">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="simulationstatus">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="getsimulationresults">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="deletesimulation">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="newsimulation">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="createsimulation">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="writelocalsimulation">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="readlocalsimulation">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="writesimulation">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="readsimulation">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="exitiome">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="addparamdouble">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="addparamint">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="addparamvec">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="addparammat">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="addparamstring">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="addparammmat3d">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="addmetadata">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="getparamdouble">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="getparamint">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="getparamvec">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="getparammat">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="getparamstring">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="getparammmat3d">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="getmetadata">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="setparamdouble">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="setparamint">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="setparamvec">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="setparammat">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="setparamstring">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="setparammmat3d">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="setmetadata">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="listmetadata">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="deletemetadata">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="deleteparam">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="listparam">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="getnumobj">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="getobjnum">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="testgroupbarrier">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="setgroupbarrier">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:IoSteerWS" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="IoSteerWS">
+ <documentation>gSOAP 2.7.9l generated service definition</documentation>
+ <port name="IoSteerWS" binding="tns:IoSteerWS">
+  <SOAP:address location="http://mikeg.staff.shef.ac.uk/IOSteerWS.cgi"/>
+ </port>
+</service>
+
+</definitions>
