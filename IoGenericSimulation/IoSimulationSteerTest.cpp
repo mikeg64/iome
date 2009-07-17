@@ -3941,7 +3941,7 @@ int ns__setparamdouble(struct soap *soap, int id,char *name, double value, int *
 	}
 
 	//free(sstr);
-    finish=1;
+    //finish=1;
 	}
 	
 	return SOAP_OK;
