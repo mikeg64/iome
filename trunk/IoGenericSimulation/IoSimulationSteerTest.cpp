@@ -2138,18 +2138,34 @@ int ns__writesimulation(struct soap *soap,int id,char *filename, char **filecont
 						status=LocalSimulation->WriteSimulation(filename);
 					//write simulation to the string filecontent
 						string sresult="";
-						ifstream infile;
-						ostringstream oss (ostringstream::out);
-						infile.open (filename, ifstream::in);
-						while (infile.good())
-							oss << (char) infile.get();
-						sresult=oss.str();
-						infile.close();
+						string sline="";
+						FILE *inf;
+						if((inf=fopen(filename,"r")) != NULL )
+						{
+						char c;
+						do
+						{
+							c=fgetc(inf);
+							sline=c;
+							if(c != EOF)
+							 sresult.append(sline);
+						}
+						while(c != EOF);
+						}
+						fclose(inf);
+						
 
 						//read the output simulation results to the result string			
-						*filecontent=(char *)soap_malloc(soap,(1+strlen(sresult.c_str()))*sizeof(char));
+						*filecontent=(char *)soap_malloc(soap,(strlen(sresult.c_str()))*sizeof(char));
 						strcpy(*filecontent,sresult.c_str());
 						//printf("%s\n",*filecontent);
+
+						//ofstream outfile;
+						//ostringstream oss (ostringstream::out);
+						//outfile.open ("testns.xml", ofstream::out);
+						//outfile << *filecontent;
+							
+						//outfile.close();
 					
 				}
 				else
@@ -2228,13 +2244,21 @@ int ns__writelocalsimulation(struct soap *soap,int id,char *filename, char **fil
 						status=LocalSimulation->WriteSimulation(filename);
 					//write simulation to the string filecontent
 						string sresult="";
-						ifstream infile;
-						ostringstream oss (ostringstream::out);
-						infile.open (filename, ifstream::in);
-						while (infile.good())
-							oss << (char) infile.get();
-						sresult=oss.str();
-						infile.close();
+						string sline="";
+						FILE *inf;
+						if((inf=fopen(filename,"r")) != NULL )
+						{
+						char c;
+						do
+						{
+							c=fgetc(inf);
+							sline=c;
+							if(c != EOF)
+							 sresult.append(sline);
+						}
+						while(c != EOF);
+						}
+						fclose(inf);
 
 						//read the output simulation results to the result string			
 						*filecontent=(char *)soap_malloc(soap,(1+strlen(sresult.c_str()))*sizeof(char));
@@ -6437,14 +6461,23 @@ int ReadLocalSimulation( int argc, char **argv)
 		sservername="localhost";
     sprintf(m_serverclient,"%s:%d",sservername,port);
     
-    string sresult="";
-	ifstream infile;
-	ostringstream oss (ostringstream::out);
-	infile.open (filename, ifstream::in);
-	while (infile.good())
-		oss << (char) infile.get();
-	sresult=oss.str();
-	infile.close();
+    
+	string sresult="";
+	string sline="";
+	FILE *inf;
+	if((inf=fopen(filename,"r")) != NULL )
+	{
+		char c;
+		do
+		{
+			c=fgetc(inf);
+			sline=c;
+			if(c != EOF)
+				sresult.append(sline);
+		}
+		while(c != EOF);
+	}
+	fclose(inf);
       
 	soap_call_ns__readlocalsimulation(&m_soapclient, m_serverclient, "", id, (char *)sresult.c_str(), &status);
 
@@ -6480,17 +6513,22 @@ int WriteLocalSimulation( int argc, char **argv)
 	soap_call_ns__writelocalsimulation(&m_soapclient, m_serverclient, "",  id, filename, &scontent);
 
 	printf("%s\n",scontent);
+	int slen = strlen(scontent)-1;
+	char *sout=(char *)calloc(slen,sizeof(char));
+    strncpy(sout,scontent,slen);
+	
+
 	//if strlen(scontent)>0 
 	//write content to file
 	//string sresult="";
 	ofstream outfile;
 	//ostringstream oss (ostringstream::out);
 	outfile.open (filename, ofstream::out);
-	outfile << scontent;
+	outfile << sout;
 	
 	outfile.close();
 	//call create simulation
-
+	free(sout);
 	return status;
 }
 
