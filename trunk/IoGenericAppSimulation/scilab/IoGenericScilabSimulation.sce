@@ -402,7 +402,7 @@ function [status]=ReadSimulation(simfile, elist)
   //State file name
   //port
   try
-    scommand=sprintf("iogs readsimulation %d %s %d %s", simfile, id,port,server);
+    scommand=sprintf("iogs readsimulation %s %d %d %s", simfile, id,port,server);
     result=unix_g(scommand);
     status=0;
   catch
@@ -442,7 +442,7 @@ function [status]=ReadLocalSimulation(simfile, elist)
   //State file name
   //port
   try
-    scommand=sprintf("iogs readlocalsimulation %d %s %d %s", simfile, id,port,server);
+    scommand=sprintf("iogs readlocalsimulation %s %d %d %s", simfile, id,port,server);
     result=unix_g(scommand);
     status=0;
   catch
@@ -568,10 +568,10 @@ function [status]=WriteLocalSimulation(simfile, elist)
   try
     scommand=sprintf("iogs writelocalsimulation %s %d %d %s", simfile, id,port,server);
     disp(scommand)
-    result=unix_g(scommand);
-    simwid=mopen(simfile,'w');
-    mfprintf(simwid,'%s',result);
-    mclose(simwid);
+    //result=unix_g(scommand);
+    //simwid=mopen(simfile,'w');
+    //mfprintf(simwid,'%s',result);
+    //mclose(simwid);
     
     status=0;
   catch
