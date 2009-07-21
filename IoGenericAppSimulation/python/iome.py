@@ -689,23 +689,23 @@ def AddVecParam(name, var, vsize,flag,varargin):
     scontact="http://"+server+":"+str(port);
     #vvar=urn_IoSteerWS.ArrayOfdouble_(var,vsize)
     try:
-      #service=IoSteerWSSOAP(url=scontact);
+      service=IoSteerWSSOAP(url=scontact);
 
       
-      #request = addparamvecRequest();
-      #request._id=id;
-      #request._name=name;
-      #request._value=vvar;
-      #request._iflag=flag;
-      #request._n=vsize;
+      request = addparamvecRequest();
+      request._id=id;
+      request._name=name;
+      request._value=var;
+      request._iflag=flag;
+      request._n=vsize;
 
-      #response=service.addparamvec(request);
+      response=service.addparamvec(request);
     
-      #result=response.status;
-      vecstring=vectostring(var,",");
-      scommand="iogs addparam vec "+name+ " "+ vecstring+" "+str(vsize)+" "+str(flag)+" "+str(id)+" "+str(port)+" "+server;
-      res=os.popen(scommand).readlines()
-      result=res
+      result=response._status;
+      ##vecstring=vectostring(var,",");
+      ##scommand="iogs addparam vec "+name+ " "+ vecstring+" "+str(vsize)+" "+str(flag)+" "+str(id)+" "+str(port)+" "+server;
+      ##res=os.popen(scommand).readlines()
+      ##result=res
       
     except ValueError:
       print "AddVecParam error!"
@@ -749,7 +749,7 @@ def GetVecParam(name, vecsize,varargin):
 
       response=service.getparamvec(request);
     
-      val=response.dval;
+      val=response._dval;
     except ValueError:
       print "GetVecParam error!"
       val =-1;    
