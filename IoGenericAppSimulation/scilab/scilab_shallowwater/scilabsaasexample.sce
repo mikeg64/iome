@@ -1,4 +1,5 @@
-exec('../../IoSetUpGenericScilabSimulation.sce');  //this should be executed by the iome start up application
+//exec('../../IoSetUpGenericScilabSimulation.sce');  //this should be executed by the iome start up application
+exec('../../IoGenericScilabSimulation.sce');  //this should be executed by the iome start up application
 exec('../ioshallowwater.sce');
 
 //this application is started using the io  start scilab application

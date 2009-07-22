@@ -44,8 +44,9 @@ metadata.platform='felix';
 metadata.desc='A simple test of SAAS';
 metadata.name='intsaas1';
 
-elist=list(2);
+elist=list(3);
 elist(1)='localhost';
 elist(2)=8080;
+elist(3)=0;
 
 
