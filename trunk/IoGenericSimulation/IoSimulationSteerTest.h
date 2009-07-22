@@ -54,12 +54,18 @@ mikeg@photon0.freeserve.co.uk
 	#include "../IoSimulation/soapH.h"
 	#include "../IoSimulation/IoGenericSteerSimulation.h"
 	#include "../IoSimulation/IoSteerWS.nsmap"
+    #include <unistd.h>
+	#include <sys/stat.h>
+	#include <sys/types.h>
+
 #else
 	#include "..\IoSimulation\IoInitialiser.h"
 	#include "..\IoSimulation\soapH.h"
 	#include "..\IoSimulation\IoGenericSteerSimulation.h"
 	#include "..\IoSimulation\IoSteerWS.nsmap"
 
+	#include <direct.h>
+	
 	#include <sys/stat.h>
 	#include <sys/types.h>
 #endif
@@ -67,7 +73,7 @@ mikeg@photon0.freeserve.co.uk
 //#include "stdafx.h"
 //#include "IoTestDEVSimulation.h"
 //#include "IoTestAgentSimulation.h"
-
+#include <time.h>
 #include <pthread.h>	// use Pthreads
 //#include "soapH.h"
 //#include "IoSteerWS.nsmap"
