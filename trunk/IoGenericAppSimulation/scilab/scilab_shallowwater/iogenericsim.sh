@@ -6,7 +6,7 @@ echo "starting scilab"
 
 
 
-scilab -nb -nw -f scilabsaasexample.sce
+scilab -nb -nw -f ../scilabsaasexample.sce
 
 #submits job to sge and waits for it to finish
 #qsub -sync y iogenericsim_sge.sh
