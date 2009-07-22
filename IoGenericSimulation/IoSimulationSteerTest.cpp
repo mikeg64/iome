@@ -1629,7 +1629,9 @@ int ns__createsimulation(struct soap *soap,int id,char *filename, int *status)
 int ns__runsimulation(struct soap *soap,int id,char *simfilecontent, char **result)
 {
 	string filename="simfile.xml";
-	string jobdir=time(NULL);
+	char sjd[200];
+	sprintf(sjd,"%d",time(NULL));
+	string jobdir=sjd;
 	int status=0;
     if(m_wsflags[IDns__runsimulation]==1)
 	{
@@ -1767,7 +1769,7 @@ int ns__runsimulation(struct soap *soap,int id,char *simfilecontent, char **resu
 			#else
 			   	  remove("*");
 			   	  _chdir("..");
-			   	  _rmdir(jobdir_c_str());
+			   	  _rmdir(jobdir.c_str());
 			#endif
 			
 	
