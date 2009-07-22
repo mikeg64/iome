@@ -1629,113 +1629,157 @@ int ns__createsimulation(struct soap *soap,int id,char *filename, int *status)
 int ns__runsimulation(struct soap *soap,int id,char *simfilecontent, char **result)
 {
 	string filename="simfile.xml";
+	string jobdir=time(NULL);
 	int status=0;
     if(m_wsflags[IDns__runsimulation]==1)
 	{
-try
-{
-	if((numsims < m_numsubprocs+MAXNUMSIMS) )
+	try
 	{
-
-		if((standalone==1) && (numsims>MAXNUMTHREADS))
-			return SOAP_OK;
-
-	CIoGenericSteerSimulation *LocalTestSimulation;
-    
-	
-		if((simfilecontent != NULL) || strlen(simfilecontent)>0 )
+		if((numsims < m_numsubprocs+MAXNUMSIMS) )
 		{
 	
-		   		
-	       LocalTestSimulation = new CIoGenericSteerSimulation;
+			if((standalone==1) && (numsims>MAXNUMTHREADS))
+				return SOAP_OK;
+	
+		CIoGenericSteerSimulation *LocalTestSimulation;
+	    
+		
+			if((simfilecontent != NULL) || strlen(simfilecontent)>0 )
+			{
+		
+			   	#ifndef IO_MSVC
+			   	  mkdir(jobdir.c_str());
+			   	  chdir(jobdir.c_str());
+			   	#else
+			   	  _mkdir(jobdir.c_str());
+			   	  _chdir(jobdir.c_str());
+			   	#endif	
+		       LocalTestSimulation = new CIoGenericSteerSimulation;
+				
+				
+				
+				//((CIoWFSimulation *)TestSimulation)->getsteerlog(soap,id,isteerlog);
+			//filecontent
+			//*status=TestSimulation->CreateSimulation(filename);
+				//write the content to the simfile
+				
+	            fstream filestr;
+				filestr.open (filename.c_str(), fstream::out );
+	            filestr<<simfilecontent; 
+				filestr.close();
+	
+				status=LocalTestSimulation->CreateSimulation((char *)filename.c_str());
+	
+				//write data to output string
+	
 			
-			//((CIoWFSimulation *)TestSimulation)->getsteerlog(soap,id,isteerlog);
-		//filecontent
-		//*status=TestSimulation->CreateSimulation(filename);
-			//write the content to the simfile
-            fstream filestr;
-			filestr.open (filename.c_str(), fstream::out );
-            filestr<<simfilecontent; 
-			filestr.close();
-
-			status=LocalTestSimulation->CreateSimulation((char *)filename.c_str());
-
-			//write data to output string
-
-		
-        /*if(standalone==1)
-		{
-			if(TestSimulation != NULL)
-				delete TestSimulation;
-
-			TestSimulation=LocalTestSimulation;
-
-		}*/
-		int simid=m_numsubprocs+numsims++;
-
-		LocalTestSimulation->copyjobs(TestSimulation->m_pjobs);
-		LocalTestSimulation->copynodes(TestSimulation->m_pnodes);
-		
-		LocalTestSimulation->m_ijobid=simid;
-		LocalTestSimulation->m_inumprocs=TestSimulation->m_inumprocs;
-		LocalTestSimulation->m_isubproc=TestSimulation->m_isubproc;
-		LocalTestSimulation->m_iprocid=0;
-		LocalTestSimulation->SetStateFileName("statefile.xml");
-		LocalTestSimulation->SetConfigFileName("configfile.xml");		
-
-
-
-		simdataarray[simid].isimid=simid;
-		simdataarray[simid].simptr=LocalTestSimulation;
-		simdataarray[simid].status=1;
-		simdataarray[simid].userid=0;
-		//pthread_create(&simdataarray[simid].tid, NULL, (void*(*)(void*))runsimulation, (void*)isimid);
-
-
-
-
-		LocalTestSimulation->RunSimulation();
-		simdataarray[simid].status=2;
-		//on exception introduce here
-		//else
-		//	simdataarray[simid].status=-2;
-
-		if((LocalTestSimulation->WriteSimulation((char *)filename.c_str())==0))
-			simdataarray[simid].status=3;
-		else
-			simdataarray[simid].status=-3;
-
-		string sresult="";
-		ifstream infile;
-		ostringstream oss (ostringstream::out);
-		infile.open (filename.c_str(), ifstream::in);
-		while (infile.good())
-			oss << (char) infile.get();
-		sresult=oss.str();
-		infile.close();
-
-		//read the output simulation results to the result string			
-		*result=(char *)soap_malloc(soap,(1+strlen(sresult.c_str()))*sizeof(char));
-		strcpy(*result,sresult.c_str());
-
-		simdataarray[simid].isimid=-1;
-		simdataarray[simid].simptr=NULL;
-		simdataarray[simid].status=-1;
-		simdataarray[simid].userid=NULL;
-
-		if(/*(standalone!=1 ) && */(LocalTestSimulation != NULL))
-			delete LocalTestSimulation;
+	        /*if(standalone==1)
+			{
+				if(TestSimulation != NULL)
+					delete TestSimulation;
 	
-
+				TestSimulation=LocalTestSimulation;
+	
+			}*/
+			int simid=m_numsubprocs+numsims++;
+	
+			LocalTestSimulation->copyjobs(TestSimulation->m_pjobs);
+			LocalTestSimulation->copynodes(TestSimulation->m_pnodes);
+			
+			LocalTestSimulation->m_ijobid=simid;
+			LocalTestSimulation->m_inumprocs=TestSimulation->m_inumprocs;
+			LocalTestSimulation->m_isubproc=TestSimulation->m_isubproc;
+			LocalTestSimulation->m_iprocid=0;
+			LocalTestSimulation->SetStateFileName("statefile.xml");
+			LocalTestSimulation->SetConfigFileName("configfile.xml");		
+	
+	
+	
+			simdataarray[simid].isimid=simid;
+			simdataarray[simid].simptr=LocalTestSimulation;
+			simdataarray[simid].status=1;
+			simdataarray[simid].userid=0;
+			//pthread_create(&simdataarray[simid].tid, NULL, (void*(*)(void*))runsimulation, (void*)isimid);
+			simdataarray[simid].dir=(char *)calloc(strlen(jobdir.c_str()),sizeof(char));
+			strcpy(simdataarray[simid].dir,jobdir.c_str());
+	
+	
+	
+	
+			LocalTestSimulation->RunSimulation();
+			simdataarray[simid].status=2;
+			//on exception introduce here
+			//else
+			//	simdataarray[simid].status=-2;
+	
+			if((LocalTestSimulation->WriteSimulation((char *)filename.c_str())==0))
+				simdataarray[simid].status=3;
+			else
+				simdataarray[simid].status=-3;
+	
+	
+			string sresult="";
+			string sline="";
+			FILE *inf;
+			if((inf=fopen(filename.c_str(),"r")) != NULL )
+			{
+			char c;
+			do
+			{
+				c=fgetc(inf);
+				sline=c;
+				if(c != EOF)
+				 sresult.append(sline);
+			}
+			while(c != EOF);
+			}
+			fclose(inf);
+	
+	
+	
+			//string sresult="";
+			//ifstream infile;
+			//ostringstream oss (ostringstream::out);
+			//infile.open (filename.c_str(), ifstream::in);
+			//while (infile.good())
+			//	oss << (char) infile.get();
+			//sresult=oss.str();
+			//infile.close();
+	
+			//read the output simulation results to the result string			
+			*result=(char *)soap_malloc(soap,(1+strlen(sresult.c_str()))*sizeof(char));
+			strcpy(*result,sresult.c_str());
+	
+			simdataarray[simid].isimid=-1;
+			simdataarray[simid].simptr=NULL;
+			simdataarray[simid].status=-1;
+			simdataarray[simid].userid=NULL;
+			free(simdataarray[simid].dir);
+	
+			if(/*(standalone!=1 ) && */(LocalTestSimulation != NULL))
+				delete LocalTestSimulation;
+				
+			#ifndef IO_MSVC
+			   	  chdir("..");
+			   	  string sdelcommand="/bin/rm -rf "
+			   	  sdelcommand.append(jobdir)
+			   	  system(sdelcommand);
+			#else
+			   	  remove("*");
+			   	  _chdir("..");
+			   	  _rmdir(jobdir_c_str());
+			#endif
+			
+	
+			}
+	
 		}
-
 	}
-}
-catch(int j)
-{
-	printf("Server failed to run simulation\n");
-	
-}
+	catch(int j)
+	{
+		printf("Server failed to run simulation\n");
+		
+	}
 }
 	return SOAP_OK;
 
@@ -2012,14 +2056,33 @@ int ns__getsimulationresults(struct soap *soap,int isimid, char **result)
 			else
 				simdataarray[isimid].status=-3;
 
+			//string sresult="";
+			//ifstream infile;
+			//ostringstream oss (ostringstream::out);
+			//infile.open (filename.c_str(), ifstream::in);
+			//while (infile.good())
+			//	oss << (char) infile.get();
+			//sresult=oss.str();
+			//infile.close();
+
 			string sresult="";
-			ifstream infile;
-			ostringstream oss (ostringstream::out);
-			infile.open (filename.c_str(), ifstream::in);
-			while (infile.good())
-				oss << (char) infile.get();
-			sresult=oss.str();
-			infile.close();
+			string sline="";
+			FILE *inf;
+			if((inf=fopen(filename.c_str(),"r")) != NULL )
+			{
+			char c;
+			do
+			{
+				c=fgetc(inf);
+				sline=c;
+				if(c != EOF)
+				 sresult.append(sline);
+			}
+			while(c != EOF);
+			}
+			fclose(inf);
+
+
 
 			//read the output simulation results to the result string			
 			*result=(char *)soap_malloc(soap,(1+strlen(sresult.c_str()))*sizeof(char));
@@ -6617,941 +6680,6 @@ int ReadState( int argc, char **argv)
 
 	return status;
 }*/
-
-int initiome_(char *scriptname, char *simname, char *simxslfile, int port , int numtasks,int numsubprocs, int numprocs, int procid)
-{
-	return InitIOME(scriptname, simname,simxslfile, port, numtasks,numsubprocs,numprocs,procid);
-}
-
-int exitiome_(int port, char *sserver)
-{
-	int status=0;
-	int id=0;
-
-	if(sserver != NULL)
-				sprintf(m_serverclient,"%s:%d",sserver,port);
-			else
-				sprintf(m_serverclient,"%s:%d","localhost",port);
-
-	soap_call_ns__exitiome(&m_soapclient, m_serverclient, "",id, &status);
-
-	return status;
-}
-
-
-int runsimulationstep_(int id, int istepnum, int port, char *sserver)
-{
-	int status=0;
-	//int id=0;
-
-	if(sserver != NULL)
-				sprintf(m_serverclient,"%s:%d",sserver,port);
-			else
-				sprintf(m_serverclient,"%s:%d","localhost",port);
-
-	soap_call_ns__runsimulationstep(&m_soapclient, m_serverclient, "",id, istepnum, &status);
-
-	return status;
-
-}
-
-
-
-
-int newsimulation_(int id, char *simname, char *xslname, int port, char *sserver )
-{
-	int status=0;	
-	if((sserver==NULL))
-	{
-
-		sserver="localhost";
-	}
-    sprintf(m_serverclient,"%s:%d",sserver,port);
-	soap_call_ns__newsimulation(&m_soapclient, m_serverclient, "", id, simname,xslname, &status);
-	return status;
-
-}
-
-int createsimulation_(int id, char *simfile, char *simname, int port, char *sserver )
-{
-	int status=0;	
-	if((sserver==NULL))
-	{
-
-		sserver="localhost";
-	}
-    sprintf(m_serverclient,"%s:%d",sserver,port);
-	soap_call_ns__createsimulation(&m_soapclient, m_serverclient, "", id, simfile, &status);
-	return status;
-
-}
-
-int runsimulation_(int id, char *simfilecontent, int port, char *sserver )
-{
-	int status=0;	
-	
-	//int ns__createandrunsimulation(struct soap *soap,char *simfilecontent, char **result)
-    char *sresult;
-	
-	if((sserver==NULL))
-	{
-
-		sserver="localhost";
-	}
-
-    sprintf(m_serverclient,"%s:%d",sserver,port);
-	soap_call_ns__runsimulation(&m_soapclient, m_serverclient, "", id, simfilecontent, &sresult);
-	printf("%s",sresult);
-	return status;
-
-}
-
-int requestsimulation_(char *simfilecontent, int *isimid, int port, char *sserver)
-{
-	int status=0;
-		if(sserver==NULL)
-	{
-		sserver="localhost";
-	}
-    sprintf(m_serverclient,"%s:%d",sserver,port);
-	soap_call_ns__requestsimulation(&m_soapclient, m_serverclient, "", simfilecontent, isimid);
-	return status;
-}
-
-int runrequestedsimulation_(int isimid, int *status, int port, char *sserver)
-{
-	int istatus=0;
-		if(sserver==NULL)
-	{
-		sserver="localhost";
-	}
-    sprintf(m_serverclient,"%s:%d",sserver,port);
-	soap_call_ns__runrequestedsimulation(&m_soapclient, m_serverclient, "", isimid, status);
-	return istatus;
-}
-
-
-int submitsimulation_(char *simfilecontent, int *isimid, int port, char *sserver)
-{
-	int status=0;
-		if(sserver==NULL)
-	{
-		sserver="localhost";
-	}
-    sprintf(m_serverclient,"%s:%d",sserver,port);
-	soap_call_ns__submitsimulation(&m_soapclient, m_serverclient, "", simfilecontent, isimid);
-	return status;
-}
-
-int simulationstatus_(int isimid, int *status, int port, char *sserver)
-{
-	int istatus=0;
-		if(sserver==NULL)
-	{
-		sserver="localhost";
-	}
-    sprintf(m_serverclient,"%s:%d",sserver,port);
-	soap_call_ns__simulationstatus(&m_soapclient, m_serverclient, "", isimid, status);
-	return istatus;
-}
-
-int getsimulationresults_(int isimid, char **result, int port, char *sserver)
-{
-	int status=0;
-	char *scontent;
-
-	scontent=(char *)calloc(5000,sizeof(char));
-
-
-		if(sserver==NULL)
-	{
-		sserver="localhost";
-	}
-    sprintf(m_serverclient,"%s:%d",sserver,port);
-	soap_call_ns__getsimulationresults(&m_soapclient, m_serverclient, "", isimid, &scontent);
-	strcpy(scontent, *result);
-
-	return status;
-}
-
-
-int deletesimulation_(int isimid, int *status, int port, char *sserver)
-{
-	int istatus=0;
-		if(sserver==NULL)
-	{
-		sserver="localhost";
-	}
-    sprintf(m_serverclient,"%s:%d",sserver,port);
-	soap_call_ns__deletesimulation(&m_soapclient, m_serverclient, "", isimid, status);
-	return istatus;
-}
-
-int readsimulation_(int id, char *simfile, int port, char *sserver )
-{
-	int status=0;
-		if(sserver==NULL)
-	{
-		sserver="localhost";
-	}
-    sprintf(m_serverclient,"%s:%d",sserver,port);
-	soap_call_ns__readsimulation(&m_soapclient, m_serverclient, "", id, simfile, &status);
-	return status;
-}
-
-int readlocalsimulation_(int id, char *simfile, int port, char *sserver )
-{
-	int status=0;
-		if(sserver==NULL)
-	{
-		sserver="localhost";
-	}
-    sprintf(m_serverclient,"%s:%d",sserver,port);
-	soap_call_ns__readlocalsimulation(&m_soapclient, m_serverclient, "", id, simfile, &status);
-	return status;
-}
-
-
-int writesimulation_(int id, char *simfile,  int port, char *sserver)
-{
-	int status=0;
-	char *scontent;
-
-	scontent=(char *)calloc(5000,sizeof(char));
-
-	if(sserver==NULL)
-	{
-
-		sserver="localhost";
-	}
-    sprintf(m_serverclient,"%s:%d",sserver,port);
-	soap_call_ns__writesimulation(&m_soapclient, m_serverclient, "",  id, simfile, &scontent);
-
-	//if strlen(scontent)>0 
-	//write content to file
-
-	//call create simulation
-
-	return status;
-}
-
-int writelocalsimulation_(int id, char *simfile,  int port, char *sserver)
-{
-	int status=0;
-	char *scontent;
-
-	scontent=(char *)calloc(5000,sizeof(char));
-
-	if(sserver==NULL)
-	{
-
-		sserver="localhost";
-	}
-    sprintf(m_serverclient,"%s:%d",sserver,port);
-	soap_call_ns__writesimulation(&m_soapclient, m_serverclient, "",  id, simfile, &scontent);
-
-	//if strlen(scontent)>0 
-	//write content to file
-
-	//call create simulation
-
-	return status;
-}
-
-int addintparam_(int id, char *sname,int iv,int iflag,  int port, char *sserver )
-{
-	int status=0;
-	int isize;
-	double *darray;
-	char *name;
-	name=sname;	
-	int dvalue=iv;
-				
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-			
-
-	soap_call_ns__addparamint(&m_soapclient, m_serverclient, "", id, name, dvalue, iflag, &status );
-
-	return status;
-}
-
-
-int adddoubleparam_(int id, char *sname,double fv,int iflag,  int port, char *sserver)
-{
-	int status=0;
-	int isize;
-	double *darray;
-	char *name;
-	name=sname;	
-	double dvalue=fv;
-				
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-
-	soap_call_ns__addparamdouble(&m_soapclient, m_serverclient, "", id, name, dvalue, iflag, &status );
-
-
-	return status;
-}
-
-
-int addstringparam_(int id, char *sname,char *sv,int iflag,  int port, char *sserver)
-{
-
-	int status=0;
-	int isize;
-	double *darray;
-	char *name;
-	name=sname;	
-	
-	char*dvalue=(char *)(sv);
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-			
-	soap_call_ns__addparamstring(&m_soapclient, m_serverclient, "", id, name, dvalue, iflag, &status );	
-	return status;
-}
-
-
-int addmatparam_(int id, char *sname,double *vv,int nr, int nc,int iflag,   int port, char *sserver){
-
-	int status=0;
-	int isize;
-	double *darray;
-	char *name;
-	name=sname;		
-	int size=nr*nc;
-	float fv;
-	int ind=0;
-
-	//the array of floats is string consisting of a comma separated list
-	//with no white space
-
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-			
-	struct fdata thedata;
-	thedata.__ptr=vv;
-	thedata.__size=nr*nc;
-
-	//soap_call_ns__addparamint(&m_soapclient, m_serverclient, "", name, dvalue, iflag, &status );
-	soap_call_ns__addparammat(&m_soapclient, m_serverclient, "", id, name, thedata,nr,nc,iflag,&status );
-	return status;
-}
-
-int addvecparam_(int id, char *sname,double *vv,int n,int iflag,   int port, char *sserver){
-
-	int status=0;
-	int isize;
-	double *darray;
-	char *name;
-	name=sname;		
-	int size=n;
-	float fv;
-	int ind=0;
-
-	//the array of floats is string consisting of a comma separated list
-	//with no white space
-
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-			
-	struct fdata thedata;
-	thedata.__ptr=vv;
-	thedata.__size=n;
-
-	//soap_call_ns__addparamint(&m_soapclient, m_serverclient, "", name, dvalue, iflag, &status );
-	soap_call_ns__addparamvec(&m_soapclient, m_serverclient, "", id, name, thedata,n,iflag,&status );
-	return status;
-}
-
-
-int addmmat3dparam_(int id, char *sname,double *vv ,int ni, int nj, int nk, int nr, int nc,int iflag,   int port, char *sserver){
-
-	int status=0;
-	int isize;
-	double *darray;
-	char *name;
-	name=sname;		
-	float fv;
-	int ind=0;
-
-	//the array of floats is string consisting of a comma separated list
-	//with no white space
-
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-			
-	struct fdata thedata;
-	thedata.__ptr=vv;
-	thedata.__size=nr*nc;
-
-	//soap_call_ns__addparamint(&m_soapclient, m_serverclient, "", name, dvalue, iflag, &status );
-	soap_call_ns__addparammmat3d(&m_soapclient, m_serverclient, "", id, name, thedata,ni,nj,nk,nr,nc,iflag,&status );
-	return status;
-}
-
-
-
-int addmetadata_(int id, char *sname, char *sproperty,  int port, char *sserver)
-{	
-	int status=0;
-	char *content=sproperty;
-	char *name=sname;
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-
-	soap_call_ns__addmetadata(&m_soapclient, m_serverclient, "", id, name, content, &status);
-	
-	return status;
-}
-
-
-int setmetadata_(int id, char *sname, char *sproperty,  int port, char *sserver)
-{
-	int status=0;
-	char *content=sproperty;
-	char *name=sname;
-	//int id=0;
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-
-	soap_call_ns__setmetadata(&m_soapclient, m_serverclient, "", id, name, content, &status);
-	printf("%s",content);
-	
-
-	return status;
-}
-
-
-int getmetadata_(int id, char *sname, char *sproperty,  int port, char *sserver)
-{	
-	int status=0;
-	char *content=sproperty;
-	char *name=sname;
-	//int id=0;
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-
-	soap_call_ns__getmetadata(&m_soapclient, m_serverclient, "", id, name, &content);
-	printf("%s",content);
-	
-
-	return status;
-}
-
-int deletemetadata_(int id, char *sname,  int port, char *sserver)
-{	
-	int status=0;
-	
-	char *name=sname;
-	//int id=0;
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-
-	soap_call_ns__deletemetadata(&m_soapclient, m_serverclient, "", id, name, &status);
-	
-	
-
-	return status;
-}
-
-int listmetadata_(int id, char  **list ,  int port, char *sserver)
-{
-	int status=0;
-	//int id=0;
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-
-	string sval="";
-	char *msval=(char *)sval.c_str();
-
-	soap_call_ns__listmetadata(&m_soapclient, m_serverclient, "", id,&msval);
-	
-	strcpy(*list,msval);
-
-	return status;
-}
-
-
-
-int setintparam_(int id, char *sname,int iv,  int port, char *sserver )
-{	
-	
-	int status=0;
-	int isize;
-	double *darray;
-	char *name=sname;
-
-	int dvalue=iv;
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-	
-
-	soap_call_ns__setparamint(&m_soapclient, m_serverclient, "", id, name, dvalue, &status );
-
-	return status;
-
-}
-
-
-int setdoubleparam_(int id, char *sname,double fv,  int port, char *sserver)
-{
-	int status=0;
-	int isize;
-	char *name=sname;
-
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-	
-
-	soap_call_ns__setparamdouble(&m_soapclient, m_serverclient, "", id, name, fv, &status );
-
-	return status;
-
-}
-
-
-int setstringparam_(int id, char *sname,char *sv,  int port, char *sserver)
-{	
-	int status=0;
-	int isize;
-	char *name=sname;
-
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-	
-
-	soap_call_ns__setparamstring(&m_soapclient, m_serverclient, "", id, name, sv, &status );
-	return status;
-
-}
-
-
-int setmatparam_(int id, char *sname,double *vv,int nr, int nc,   int port, char *sserver)
-{
-	int status=0;
-	int isize;
-	double *darray;
-	char *name=sname;
-
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-	struct fdata sdata;
-	sdata.__ptr=vv;
-	sdata.__size=nr*nc;
-
-	//soap_call_ns__addparamint(&m_soapclient, m_serverclient, "", name, dvalue, iflag, &status );
-	soap_call_ns__setparammat(&m_soapclient, m_serverclient, "", id, name, sdata,nr,nc,&status );
-
-	return status;
-
-}
-
-
-int setvecparam_(int id, char *sname,double *vv,int n,   int port, char *sserver)
-{
-	int status=0;
-	int isize;
-	double *darray;
-	char *name=sname;
-
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-	
-	struct fdata sdata;
-	sdata.__ptr=vv;
-	sdata.__size=n;
-	//soap_call_ns__addparamint(&m_soapclient, m_serverclient, "", name, dvalue, iflag, &status );
-	soap_call_ns__setparamvec(&m_soapclient, m_serverclient, "", id, name, sdata,n,&status );
-
-	return status;
-
-}
-
-
-int setmmat3dparam_(int id, char *sname,double *vv ,int ni, int nj, int nk, int nr, int nc,   int port, char *sserver)
-{
-	int status=0;
-	int isize;
-	double *darray;
-	char *name=sname;
-
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-	
-	struct fdata sdata;
-	sdata.__ptr=vv;
-	sdata.__size=ni*nj*nk*nr*nc;
-
-	//soap_call_ns__addparamint(&m_soapclient, m_serverclient, "", name, dvalue, iflag, &status );
-	soap_call_ns__setparammmat3d(&m_soapclient, m_serverclient, "", id, name, sdata,ni,nj,nk,nr,nc,&status );
-
-	return status;
-
-
-}
-
-
-
-int getintparam_(int id, char *sname,int *iv,  int port, char *sserver )
-{	
-	
-	int status=0;
-	//int isize;
-	//double *darray;
-	//int port;
-	//char *name;
-	//name=argv[3];
-	//char *dvalue=(char *)calloc(500,sizeof(char));
-
-
-				int dvalue=0;
-
-			if(sserver != NULL)
-				sprintf(m_serverclient,"%s:%d",sserver,port);
-			else
-				sprintf(m_serverclient,"%s:%d","localhost",port);
-			
-			soap_call_ns__getparamint(&m_soapclient, m_serverclient, "", id, sname, &dvalue );
-			//print the value
-			printf("%d",dvalue);
-			*iv=dvalue;
-
-	return status;
-}
-int getdoubleparam_(int id, char *sname,double *fv,  int port, char *sserver){	
-	int status=0;
-	int isize;
-	double *darray;
-	//int port;
-	//char *name;
-	//name=argv[3];
-	//char *dvalue=(char *)calloc(500,sizeof(char));
-
-
-				double dvalue=0;
-
-			if(sserver != NULL)
-				sprintf(m_serverclient,"%s:%d",sserver,port);
-			else
-				sprintf(m_serverclient,"%s:%d","localhost",port);
-			
-			soap_call_ns__getparamdouble(&m_soapclient, m_serverclient, "", id, sname, &dvalue );
-			//print the value
-			printf("%d",dvalue);
-			*fv=dvalue;
-
-	return status;
-}
-int getstringparam_(int id, char *sname,char **sv,  int port, char *sserver){
-	
-	int status=0;
-	int isize;
-	double *darray;
-	//int port;
-	//char *name;
-	//name=argv[3];
-	char *dvalue=(char *)calloc(500,sizeof(char));
-
-
-
-			if(sserver != NULL)
-				sprintf(m_serverclient,"%s:%d",sserver,port);
-			else
-				sprintf(m_serverclient,"%s:%d","localhost",port);
-
-			soap_call_ns__getparamstring(&m_soapclient, m_serverclient, "", id, sname, &dvalue );
-			//print the value
-			printf("%s",dvalue);
-			strcpy(*sv,dvalue);
-			//*fv=dvalue;
-
-	return status;
-}
-int getmatparam_(int id, char *sname,double **vv,int nr, int nc,   int port, char *sserver)
-{	int status=0;
-	int isize=nr*nc;
-	double *darray;
-	//int port;
-	//char *name;
-	//name=argv[3];
-	//char *dvalue=(char *)calloc(500,sizeof(char));
-
-
-				double dvalue=0;
-
-			if(sserver != NULL)
-				sprintf(m_serverclient,"%s:%d",sserver,port);
-			else
-				sprintf(m_serverclient,"%s:%d","localhost",port);
-			
-
-					struct fdata *fval;
-					fval=(struct fdata *)malloc(sizeof(struct fdata));
-					(*fval).__ptr=(double *)malloc(isize*sizeof(double));
-
-					//soap_call_ns__getparamvec(&m_soapclient, m_serverclient, "", name,isize, &darray );
-					soap_call_ns__getparammat(&m_soapclient, m_serverclient, "", id, sname, nr,nc,&fval );
-					//print the value
-					int i,j;
-					int itot=0;
-					for(i=0; i<nr;i++)
-					{
-						for(j=0; j<nc;j++)
-						{
-							printf("%f ",fval->__ptr[itot]);
-							if(itot>isize)
-								break;
-							else
-							{
-								(*vv)[itot]=fval->__ptr[itot];
-								itot++;
-							}
-						}
-						
-					}
-					printf("\n");
-				free(darray);
-	return status;
-}
-
-int getvecparam_(int id, char *sname,double **vv,int n,   int port, char *sserver)
-{
-int status=0;
-	int isize=n;
-	double *darray;
-	//int port;
-	//char *name;
-	//name=argv[3];
-	//char *dvalue=(char *)calloc(500,sizeof(char));
-
-
-				double dvalue=0;
-
-			if(sserver != NULL)
-				sprintf(m_serverclient,"%s:%d",sserver,port);
-			else
-				sprintf(m_serverclient,"%s:%d","localhost",port);
-			
-
-					struct fdata *fval;
-					fval=(struct fdata *)malloc(sizeof(struct fdata));
-					(*fval).__ptr=(double *)malloc(isize*sizeof(double));
-
-					//soap_call_ns__getparamvec(&m_soapclient, m_serverclient, "", name,isize, &darray );
-					soap_call_ns__getparamvec(&m_soapclient, m_serverclient, "", id, sname,isize, &fval );
-					//print the value
-					int i,j;
-					int itot=0;
-					for(i=0; i<n;i++)
-					{
-							printf("%f ",fval->__ptr[itot]);
-							if(itot>n)
-								break;
-							else
-							{
-								(*vv)[itot]=fval->__ptr[itot];
-								itot++;
-							}
-						
-						
-					}
-					printf("\n");
-				free(darray);
-	return status;
-}
-int getmmat3dparam_(int id, char *sname,double **vv ,int ni, int nj, int nk, int nr, int nc,   int port, char *sserver){
-	
-	int status=0;
-
-	
-	//int port;
-	//char *name;
-	//name=argv[3];
-	//char *dvalue=(char *)calloc(500,sizeof(char));
-				int isize;
-				double *darray;
-				double dvalue=0;
-				isize=ni*nj*nk*nr*nc;
-				darray=(double *)calloc(isize,sizeof(double));
-
-
-			if(sserver != NULL)
-				sprintf(m_serverclient,"%s:%d",sserver,port);
-			else
-				sprintf(m_serverclient,"%s:%d","localhost",port);
-			
-
-			
-					struct fdata *fval;
-					fval=(struct fdata *)malloc(sizeof(struct fdata));
-					(*fval).__ptr=(double *)malloc(ni*nj*nk*nr*nc*sizeof(double));
-
-					//soap_call_ns__getparamvec(&m_soapclient, m_serverclient, "", name,isize, &darray );
-					soap_call_ns__getparammmat3d(&m_soapclient, m_serverclient, "", id, sname, ni,nj,nk,nr,nc,&fval );
-					//print the value
-					int i1,i2,i3;
-					int i,j;
-					int itot=0;
-					for(i1=0; i1<ni;i1++)
-					{
-						for(i2=0; i2<nj;i2++)
-						{
-							for(i3=0; i3<nk;i3++)
-							{
-								for(i=0; i<nr;i++)
-								{
-									for(j=0; j<nc;j++)
-									{
-										//printf("%d ",darray[itot]);
-										printf("%d ",fval->__ptr[itot]);
-										if(itot>isize)
-											break;
-										else
-										{
-											(*vv)[itot]=fval->__ptr[itot];
-											itot++;
-										}
-									}
-									
-								}
-					printf("\n");
-							}
-					}
-					}
-	free(darray);
-					return status;
-}
-
-
-int deleteparam_(char *name, int id, int *status,  int port, char *sserver )
-{
-	int istatus=0;
-	
-	int isize;
-
-
-	if(sserver != NULL)
-		sprintf(m_serverclient,"%s:%d",sserver,port);
-	else
-		sprintf(m_serverclient,"%s:%d","localhost",port);
-	
-
-	soap_call_ns__deleteparam(&m_soapclient, m_serverclient, "", name, id, status );
-	
-
-
-	return istatus;
-}
-
-
-
-
-int listparam_(char *type, int id, char  **list ,  int port, char *sserver)
-{
-	int status=0;
-
-
-	return status;
-}
-
-
-
-int getnumobj_(int *numobj, int id)
-{
-	int status=0;
-
-
-	return status;
-}
-
-
-int getobjnum_(int *objnum, int id)
-{
-	int status=0;
-
-
-	return status;
-}
-
-
-
-
-int testgroupbarrier_(int id, int *state)
-{
-	int status=0;
-
-
-	return status;
-}
-
-int setgroupbarrier_(int id, int *state)
-{
-	int status=0;
-
-
-	return status;
-}
-
-
-
-
-
-
-
-
 
 
 
