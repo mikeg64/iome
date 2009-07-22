@@ -1,4 +1,6 @@
 
-ioscilab scilabsaasexample.sce intsaas1 test1.xsl
+rem ioscilab scilabsaasexample.sce intsaas1 test1.xsl
 
-%%%%Scilex -nb -f scilabsaasexample.sce
+rem %%%%Scilex -nb -f scilabsaasexample.sce
+
+Scilex.exe -f ../scilabsaasexample.sce
