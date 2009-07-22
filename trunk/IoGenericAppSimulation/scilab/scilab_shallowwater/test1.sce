@@ -15,7 +15,7 @@ createsim(consts,domain,source,metadata,simfile,elist);
 //[consts,domain,source]=loadsim('test1_16_02_09.xml',elist);
 //chdir(metadata.directory);
 
-runsim(consts,domain,source,metadata,simfile,elist);
+//runsim(consts,domain,source,metadata,simfile,elist);
 //WriteSimulation(simfile,elist);
 //chdir('..');
 //exit();
