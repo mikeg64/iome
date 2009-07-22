@@ -1630,7 +1630,7 @@ int ns__runsimulation(struct soap *soap,int id,char *simfilecontent, char **resu
 {
 	string filename="simfile.xml";
 	char sjd[200];
-	sprintf(sjd,"%d",time(NULL));
+	sprintf(sjd,"%d",(int)time(NULL));
 	string jobdir=sjd;
 	int status=0;
     if(m_wsflags[IDns__runsimulation]==1)
@@ -1650,7 +1650,7 @@ int ns__runsimulation(struct soap *soap,int id,char *simfilecontent, char **resu
 			{
 		
 			   	#ifndef IO_MSVC
-			   	  mkdir(jobdir.c_str());
+			   	  mkdir(jobdir.c_str(),0755);
 			   	  chdir(jobdir.c_str());
 			   	#else
 			   	  _mkdir(jobdir.c_str());
@@ -1763,9 +1763,9 @@ int ns__runsimulation(struct soap *soap,int id,char *simfilecontent, char **resu
 				
 			#ifndef IO_MSVC
 			   	  chdir("..");
-			   	  string sdelcommand="/bin/rm -rf "
-			   	  sdelcommand.append(jobdir)
-			   	  system(sdelcommand);
+			   	  string sdelcommand="/bin/rm -rf ";
+			   	  sdelcommand.append(jobdir);
+			   	  system(sdelcommand.c_str());
 			#else
 			   	  remove("*");
 			   	  _chdir("..");
