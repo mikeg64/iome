@@ -2,7 +2,7 @@ function [consts,domain,source,metadata]=loadsim(simfile,elist)
 //add initial wave height as new param
 //loads a simulation file and sets the consts and domains
 //elist=list();  parameter used by iome to contain port and server address
-ReadSimulation(simfile,elist)
+//ReadSimulation(simfile,elist)
 source.sf=GetDoubleParam('frequency',elist);//source frequency
 source.sa=GetDoubleParam('amplitude',elist);//source amplitude
 source.sx=GetDoubleParam('sx',elist);//source x location
