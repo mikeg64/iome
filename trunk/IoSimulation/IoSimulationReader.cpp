@@ -116,32 +116,32 @@ int CIoSimulationReader::ParseSimulationFile(char *sSimFileName, CIoXMLSimulatio
        //reset error count first
         handler.resetErrors();
 
-       // try
-       // {
+       try
+        {
             const unsigned long startMillis = XMLPlatformUtils::getCurrentMillis();
 
             parser->parse(xmlFile);
             const unsigned long endMillis = XMLPlatformUtils::getCurrentMillis();
             duration = endMillis - startMillis;
-       // }
+        }
 
-      //  catch (const XMLException& e)
-       // {
+        catch (const XMLException& e)
+        {
             /*cerr << "\nError during parsing: '" << xmlFile << "'\n"
                 << "Exception message is:  \n"
                 << StrX(e.getMessage()) << "\n" << endl;
             errorOccurred = true;*/
-		//	status = 0;
+			status = 0;
 
-       // }
+        }
 
-       // catch (...)
-        //{
+        catch (...)
+        {
             //cerr << "\nUnexpected exception during parsing: '" << xmlFile << "'\n";
             //errorOccurred = true;
-		//	status = 0;
+			status = 0;
 
-       // }
+        }
 
 
         // Print out the stats that we collected and time taken

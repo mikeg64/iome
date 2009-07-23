@@ -156,10 +156,10 @@ CIoSimulationSAXHandler::CIoSimulationSAXHandler(CIoXMLSimulation *pSimulation):
 
 CIoSimulationSAXHandler::~CIoSimulationSAXHandler(void)
 {
-	if(m_pCvec) delete m_pCvec;
-	if(m_pCmat) delete m_pCmat;
-	if(m_pCstring) delete [] m_pCstring;
-	if(m_pStringArray) delete m_pStringArray;
+	//if(m_pCvec) delete m_pCvec;
+	//if(m_pCmat) delete m_pCmat;
+	//if(m_pCstring) delete [] m_pCstring;
+	//if(m_pStringArray) delete m_pStringArray;
 	
 }
 
@@ -194,7 +194,6 @@ void CIoSimulationSAXHandler::startElement(const XMLCh* const uri
 							StartStringElement(uri, localname, qname, attrs);
 	else if((XMLString::compareIString(XLO(localname), "stringarray")) == 0)
 							StartStringArrayElement(uri, localname, qname, attrs);
-
 	else if((XMLString::compareIString(XLO(localname), "vector")) == 0)
 							StartVectorElement(uri, localname, qname, attrs);
 	else if((XMLString::compareIString(XLO(localname), "vec")) == 0)
