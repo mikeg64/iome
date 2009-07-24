@@ -110,20 +110,22 @@ int main(int argc, char* argv[])
     	if(strcmp("initiome",method)==0)
     	{
       	//jobscript jobname appxsl port numtasks numsubprocs numprocs procid
+     		if(argc>10)
+				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),atoi(argv[8]),atoi(argv[9]),atoi(argv[10]));                
      		if(argc>9)
-				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),atoi(argv[6]),atoi(argv[7]),atoi(argv[8]),atoi(argv[9]));                
+				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),atoi(argv[8]),atoi(argv[9]),0);                
      		if(argc>8)
-				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),atoi(argv[6]),atoi(argv[7]),atoi(argv[8]),0);                
+				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),atoi(argv[8]),1,0);                
      		if(argc>7)
-				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),atoi(argv[6]),atoi(argv[7]),1,0);                
-     		if(argc>6)
-				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),atoi(argv[6]),1,1,0);
+				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),1,1,0);
+			else if(argc>6)
+				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],1,1,1,0);
 			else if(argc>5)
-				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),1,1,1,0);
+				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),"localhost",1,1,1,0);
 			else if(argc>4)
-				InitIOME(argv[2],argv[3],argv[4],8080,1,1,1,0);
+				InitIOME(argv[2],argv[3],argv[4],8080,"localhost",1,1,1,0);
 			else if(argc>3)
-				InitIOME(argv[2],argv[3],"null",8080,1,1,1,0);    	
+				InitIOME(argv[2],argv[3],"null",8080,"localhost",1,1,1,0);    	
 
     	}
 		else if(strcmp("runsimulation",method)==0)
@@ -482,7 +484,7 @@ else if(strcmp("setstep",method)==0)
 	return 0;
 }
 
-int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , int numtasks=1,int numsubprocs=1, int numprocs=1, int procid=0)
+int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char *hostname="localhost", int numtasks=1,int numsubprocs=1, int numprocs=1, int procid=0)
 //int InitIOME(char *simname, char *simxslfile, char *simfilename, char *statefilename, char *configfilename, int port, int istandalone)
 {
 	int status=0;
@@ -6020,14 +6022,21 @@ int RunSimulation( int argc, char **argv)
 	if(strcmp(infile,"")!=0)
 	{
 			string sinput="";
-			ifstream sinfile;
-			ostringstream oss (ostringstream::out);
-			sinfile.open (infile, ifstream::in);
-			while (sinfile.good())
-				oss << (char) sinfile.get();
-			sinput=oss.str();
-
-			sinfile.close();
+			string sline="";
+			FILE *inf;
+			if((inf=fopen(infile,"r")) != NULL )
+			{
+			char c;
+			do
+			{
+				c=fgetc(inf);
+				sline=c;
+				if(c != EOF)
+				 sinput.append(sline);
+			}
+			while(c != EOF);
+			}
+			fclose(inf);
 			sin=(char *)sinput.c_str();
 	}
 	else
@@ -6087,17 +6096,24 @@ int SubmitSimulation( int argc, char **argv)
 		sservername="localhost";
     sprintf(m_serverclient,"%s:%d",sservername,port);
 
-	if(strcmp(infile,"")!=0)
+	if((strcmp(infile,"")!=0) &&  (strcmp(infile,"null")!=0))
 	{
 			string sinput="";
-			ifstream sinfile;
-			ostringstream oss (ostringstream::out);
-			sinfile.open (infile, ifstream::in);
-			while (sinfile.good())
-				oss << (char) sinfile.get();
-			sinput=oss.str();
-
-			sinfile.close();
+			string sline="";
+			FILE *inf;
+			if((inf=fopen(infile,"r")) != NULL )
+			{
+			char c;
+			do
+			{
+				c=fgetc(inf);
+				sline=c;
+				if(c != EOF)
+				 sinput.append(sline);
+			}
+			while(c != EOF);
+			}
+			fclose(inf);
 			sin=(char *)sinput.c_str();
 	}
 	else
@@ -6153,17 +6169,38 @@ int RequestSimulation( int argc, char **argv)
 		sservername="localhost";
     sprintf(m_serverclient,"%s:%d",sservername,port);
 
-	if(strcmp(infile,"")!=0)
+	if((strcmp(infile,"")!=0) && (strcmp(infile,"null")!=0))
 	{
-			string sinput="";
-			ifstream sinfile;
-			ostringstream oss (ostringstream::out);
-			sinfile.open (infile, ifstream::in);
-			while (sinfile.good())
-				oss << (char) sinfile.get();
-			sinput=oss.str();
+			//string sinput="";
+			//ifstream sinfile;
+			//ostringstream oss (ostringstream::out);
+			//sinfile.open (infile, ifstream::in);
+			//while (sinfile.good())
+			//	oss << (char) sinfile.get();
+			//sinput=oss.str();
 
-			sinfile.close();
+			//sinfile.close();
+			
+			string sinput="";
+			string sline="";
+			FILE *inf;
+			if((inf=fopen(infile,"r")) != NULL )
+			{
+			char c;
+			do
+			{
+				c=fgetc(inf);
+				sline=c;
+				if(c != EOF)
+				 sinput.append(sline);
+			}
+			while(c != EOF);
+			}
+			fclose(inf);
+			
+			
+			
+			
 			sin=(char *)sinput.c_str();
 	}
 	else
