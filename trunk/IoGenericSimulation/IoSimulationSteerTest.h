@@ -152,6 +152,7 @@ static void *executesimulation(void *simulation);
 static void *process_request(void *soap);
 int m_isimfinished=0;
 char m_serverclient[300] = "localhost:8080";
+char m_hostname[300] = "localhost";
 struct soap m_soapclient;
 
 struct simdata 
@@ -223,7 +224,7 @@ int AddMetadata( int argc, char **argv);
 int GetMetadata( int argc, char **argv);
 
 
-int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , int numtasks,int numsubprocs, int numprocs, int procid);
+int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char *hostname, int numtasks,int numsubprocs, int numprocs, int procid);
 int ExitIOME(int argc, char **argv);
 
 
