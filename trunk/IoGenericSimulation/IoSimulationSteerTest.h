@@ -153,6 +153,7 @@ static void *process_request(void *soap);
 int m_isimfinished=0;
 char m_serverclient[300] = "localhost:8080";
 char m_hostname[300] = "localhost";
+int m_port=8080;
 struct soap m_soapclient;
 
 struct simdata 
@@ -173,7 +174,10 @@ public :
 //array of simulations created by SAAS requests
 int numsims=0;
 struct simdata *simdataarray=NULL;
-int m_numsubprocs=1;
+
+
+
+int m_numsubprocs=0;
 int m_allocsubprocs=0; //this is set by bthe get objnum routine
                        //which allocates a subprocessor id to each simulation
                        //it is incremented each time an allocation is made
