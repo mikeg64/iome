@@ -110,22 +110,24 @@ int main(int argc, char* argv[])
     	if(strcmp("initiome",method)==0)
     	{
       	//jobscript jobname appxsl port numtasks numsubprocs numprocs procid
+    		if(argc>11)
+				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),atoi(argv[8]),atoi(argv[9]),atoi(argv[10]),atoi(argv[11]));                
      		if(argc>10)
-				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),atoi(argv[8]),atoi(argv[9]),atoi(argv[10]));                
+				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),atoi(argv[8]),atoi(argv[9]),atoi(argv[10]),0);                
      		if(argc>9)
-				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),atoi(argv[8]),atoi(argv[9]),0);                
+				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),atoi(argv[8]),atoi(argv[9]),1,0);                
      		if(argc>8)
-				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),atoi(argv[8]),1,0);                
+				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),atoi(argv[8]),1,1,0);                
      		if(argc>7)
-				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),1,1,0);
+				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),1,1,1,0);
 			else if(argc>6)
-				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],1,1,1,0);
+				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),argv[6],10,1,1,1,0);
 			else if(argc>5)
-				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),"localhost",1,1,1,0);
+				InitIOME(argv[2],argv[3],argv[4],atoi(argv[5]),"localhost",10,1,1,1,0);
 			else if(argc>4)
-				InitIOME(argv[2],argv[3],argv[4],8080,"localhost",1,1,1,0);
+				InitIOME(argv[2],argv[3],argv[4],8080,"localhost",10,1,1,1,0);
 			else if(argc>3)
-				InitIOME(argv[2],argv[3],"null",8080,"localhost",1,1,1,0);    	
+				InitIOME(argv[2],argv[3],"null",8080,"localhost",10,1,1,1,0);    	
 
     	}
 		else if(strcmp("runsimulation",method)==0)
@@ -484,7 +486,7 @@ else if(strcmp("setstep",method)==0)
 	return 0;
 }
 
-int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char *hostname="localhost", int numtasks=1,int numsubprocs=1, int numprocs=1, int procid=0)
+int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char *hostname="localhost", int maxsims=10, int numtasks=1,int numsubprocs=1, int numprocs=1, int procid=0)
 //int InitIOME(char *simname, char *simxslfile, char *simfilename, char *statefilename, char *configfilename, int port, int istandalone)
 {
 	int status=0;
@@ -498,9 +500,10 @@ int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char 
     //int port=8080;
 	struct soap soap;
 	
+	
 	int finished=0;
  	CIoGenericSteerSimulation *LocalSimulation=NULL;
-
+    m_maxsims=maxsims;
 	int i;
 
  	standalone=1;
@@ -684,8 +687,8 @@ int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char 
 
 
 
-		simdataarray=(struct simdata *)calloc(numsubprocs+MAXNUMSIMS, sizeof(struct simdata ));
-		for(int j=0; j<(numsubprocs+MAXNUMSIMS); j++)
+		simdataarray=(struct simdata *)calloc(numsubprocs+m_maxsims, sizeof(struct simdata ));
+		for(int j=0; j<(numsubprocs+m_maxsims); j++)
 		{
 			simdataarray[j].simptr=NULL;
 			simdataarray[j].isimid=-1;
@@ -1664,6 +1667,13 @@ int ns__runsimulation(struct soap *soap,int id,char *simfilecontent, char **resu
 			if((standalone==1) && (numsims>MAXNUMTHREADS))
 				return SOAP_OK;
 	
+				int simid;
+			if((simid=getsimdata())<0)
+			{
+				
+				return SOAP_OK;
+			}
+	
 		CIoGenericSteerSimulation *LocalTestSimulation;
 	    
 		
@@ -1705,7 +1715,8 @@ int ns__runsimulation(struct soap *soap,int id,char *simfilecontent, char **resu
 	
 			}*/
 			//int simid=m_numsubprocs+numsims++;
-			int simid=m_numsubprocs+numsims;
+			//int simid=m_numsubprocs+numsims;
+			
 			numsims++;
 
 			char svar[50];
@@ -1789,6 +1800,7 @@ int ns__runsimulation(struct soap *soap,int id,char *simfilecontent, char **resu
 			simdataarray[simid].status=-1;
 			simdataarray[simid].userid=NULL;
 			free(simdataarray[simid].dir);
+			numsims--;
 	
 			if(/*(standalone!=1 ) && */(LocalTestSimulation != NULL))
 				delete LocalTestSimulation;
@@ -1842,6 +1854,12 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 		if((standalone==1) && (numsims>MAXNUMTHREADS))
 			return SOAP_OK;
 
+		int simid;
+		if((simid=getsimdata())<0)
+		{
+			*isimid=-1;
+			return SOAP_OK;
+		}
 	CIoGenericSteerSimulation *LocalTestSimulation;
     
 	
@@ -1881,7 +1899,7 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 		}*/
 
 		//int simid=m_numsubprocs+numsims++;
-		int simid=m_numsubprocs+numsims;
+		//int simid=m_numsubprocs+numsims;
 		numsims++;
 
 
@@ -1948,7 +1966,7 @@ int ns__requestsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 	{
 	try
 	{
-	if((numsims < m_numsubprocs+MAXNUMSIMS) )
+	if((numsims < m_numsubprocs+m_maxsims) )
 	{
 
 		if((standalone==1) && (numsims>MAXNUMTHREADS))
@@ -1959,6 +1977,12 @@ int ns__requestsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 	    
 		if((simfilecontent != NULL) || strlen(simfilecontent)>0 )
 		{
+			int simid;
+			if((simid=getsimdata())<0)
+			{
+				*isimid=-1;
+				return SOAP_OK;
+			}
 	
 		   	#ifndef IO_MSVC
 			   	  mkdir(jobdir.c_str(),0755);
@@ -1998,7 +2022,8 @@ int ns__requestsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 
 		}*/
 
-		int simid=m_numsubprocs+numsims;
+
+					
 		numsims++;
 
 	    char svar[50];
@@ -2061,7 +2086,7 @@ int ns__runrequestedsimulation(struct soap *soap,int isimid, int *istatus)
 	{
     try
     {
-	if((numsims <= MAXNUMSIMS) && (isimid <= numsims))
+	if((numsims <= m_maxsims) && (isimid <= numsims))
 	{
 		if((standalone==1) && (numsims>MAXNUMTHREADS))
 			return SOAP_OK;
@@ -2080,10 +2105,26 @@ int ns__runrequestedsimulation(struct soap *soap,int isimid, int *istatus)
 		simdataarray[isimid].status=1;
 		simdataarray[isimid].userid=0;
         *istatus=1;
+        
+        #ifndef IO_MSVC
+			   	  mkdir(jobdir.c_str(),0755);
+			   	  chdir(jobdir.c_str());
+	    #else
+			   	  _mkdir(jobdir.c_str());
+			   	  _chdir(jobdir.c_str());
+		#endif
+        
+        
 		//isimid=&(simdataarray[isimid].isimid);
 		pthread_create(&simdataarray[isimid].tid, NULL, (void*(*)(void*))runsimulation, (void*)isimid);
 
-			
+        #ifndef IO_MSVC
+			   	  //mkdir(jobdir.c_str(),0755);
+			   	  chdir("..");
+	    #else
+			   	  //_mkdir(jobdir.c_str());
+			   	  _chdir("..");
+		#endif			
 
 	}
 
@@ -2138,7 +2179,7 @@ int ns__getsimulationresults(struct soap *soap,int isimid, char **result)
 	{
     try
     {
-	if((numsims <= MAXNUMSIMS) && (isimid <= numsims))
+	if((numsims <= m_maxsims) && (isimid <= numsims))
 	{
 
 		if((standalone==1) && (numsims>MAXNUMTHREADS))
@@ -2243,7 +2284,7 @@ string filename="simfile.xml";
 	{
 try
 {
-	if((numsims <= MAXNUMSIMS) && (isimid <= numsims))
+	if((numsims <= m_maxsims) && (isimid <= numsims))
 	{
 
 		if((standalone==1) && (numsims>MAXNUMTHREADS))
@@ -5028,6 +5069,30 @@ int GroupBarrier( int argc, char **argv)
 	}
 	
 	return status;
+}
+
+
+
+int getsimdata()
+{
+   int index=1;
+   int i=0;
+   struct simdata *sdata;
+   
+   if(simdataarray != NULL)
+   {
+   	for(i=1; i<m_maxsims; i++)
+   	{
+   		sdata= &simdataarray[i];
+   		if(sdata !=NULL)
+   		   if((sdata->isimid)==-1)
+   		        return i;
+   	}
+   	
+   	
+   }
+   return  index;	
+	
 }
 
 
