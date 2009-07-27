@@ -150,6 +150,9 @@ static void *runsimulation(void *simulationid);
 static void *runscript(void *simulation);
 static void *executesimulation(void *simulation);	
 static void *process_request(void *soap);
+
+
+
 int m_isimfinished=0;
 char m_serverclient[300] = "localhost:8080";
 char m_hostname[300] = "localhost";
@@ -174,7 +177,7 @@ public :
 //array of simulations created by SAAS requests
 int numsims=0;
 struct simdata *simdataarray=NULL;
-
+int m_maxsims=10;
 
 
 int m_numsubprocs=0;
@@ -187,7 +190,7 @@ int m_allocsubprocs=0; //this is set by bthe get objnum routine
 int newsimind;
 struct simdata *simsubprocs=NULL;
 
-
+int getsimdata();
 
 int finish=0;
 
@@ -228,7 +231,7 @@ int AddMetadata( int argc, char **argv);
 int GetMetadata( int argc, char **argv);
 
 
-int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char *hostname, int numtasks,int numsubprocs, int numprocs, int procid);
+int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char *hostname, int maxsims,int numtasks,int numsubprocs, int numprocs, int procid);
 int ExitIOME(int argc, char **argv);
 
 
