@@ -7,13 +7,14 @@ exec('../paramssaastest1.sce');
 portid=8081;
 jobid=2;
 //open the file generated
-portfile='mysim_port.txt';                            //add comment if  we are not running standalone
+portfile='ioserverinfo.txt';                            //add comment if  we are not running standalone
 //portfile='intsaas1_port.txt';                      //remove comment if  we are not running standalone
 //portfile=metadata.name+'_port.txt';
 fd=mopen(portfile,'r');
-res=mfscanf(fd,'%d %d')
+res=mfscanf(fd,'%d %d %s')
 mclose(fd);
 
+elist(1)=res(3);
 elist(2)=res(1);
 elist(3)=res(2);
 

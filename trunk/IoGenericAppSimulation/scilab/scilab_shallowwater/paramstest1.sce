@@ -45,6 +45,7 @@ metadata.desc='A simple test of SAAS';
 metadata.name='intsaas1';
 
 elist=list(2);
+//elist(1)='192.168.1.104';
 elist(1)='localhost';
 elist(2)=8080;
 elist(3)=0;
