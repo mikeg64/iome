@@ -497,7 +497,7 @@ int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char 
 	int m, s; /* master and slave sockets */
     //int port=8080;
 	struct soap soap;
-	sprintf(m_serverclient,"%s:%d","localhost",port);
+	
 	int finished=0;
  	CIoGenericSteerSimulation *LocalSimulation=NULL;
 
@@ -586,7 +586,10 @@ int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char 
 		char svar[50];
 		char simportfile[500];
 		//sprintf(svar,"IOME_WSPORT=%d",port);
+		m_port=port;
         sprintf(svar,"%d",port);
+		sprintf(m_serverclient,"%s:%d",hostname,port);
+		strcpy(m_hostname,hostname);
 		sprintf(simportfile,"%s%d_port.txt",simname,procid);
            fstream filestr;
 			filestr.open (simportfile, fstream::out );
@@ -949,11 +952,11 @@ void *runsimulation(void *simulationid)
 	if((currentsim.simptr !=NULL) && (currentsim.isimid==simid))
 	{
 				   	
-		   	#ifndef IO_MSVC
-			   	  chdir(jobdir.c_str());
-			#else
-			   	  _chdir(jobdir.c_str());
-			#endif	
+		   	//#ifndef IO_MSVC
+			//   	  chdir(jobdir.c_str());
+			//#else
+			//   	  _chdir(jobdir.c_str());
+			//#endif	
 		
 		simulation=currentsim.simptr;
 		currentsim.status=1;
@@ -961,13 +964,13 @@ void *runsimulation(void *simulationid)
 		currentsim.status=2;
 		//((CIoSimulation *)simulation)->RunSimulation();
 		
-		  #ifndef IO_MSVC
+		  //#ifndef IO_MSVC
 			   	  //mkdir(jobdir.c_str(),0755);
-			   	  chdir("..");
-			#else
+			//   	  chdir("..");
+			//#else
 			   	  //_mkdir(jobdir.c_str());
-			   	  _chdir("..");
-			#endif	
+			//   	  _chdir("..");
+			//#endif	
 	}
 	
   	return NULL;
@@ -1701,8 +1704,19 @@ int ns__runsimulation(struct soap *soap,int id,char *simfilecontent, char **resu
 				TestSimulation=LocalTestSimulation;
 	
 			}*/
-			int simid=m_numsubprocs+numsims++;
-	
+			//int simid=m_numsubprocs+numsims++;
+			int simid=m_numsubprocs+numsims;
+			numsims++;
+
+			char svar[50];
+			sprintf(svar,"%d %d %s",m_port, simid, m_hostname);
+			//fstream filestr;
+			filestr.open ("ioserverinfo.txt", fstream::out );
+			filestr<<svar; 
+			filestr.close();
+
+
+
 			LocalTestSimulation->copyjobs(TestSimulation->m_pjobs);
 			LocalTestSimulation->copynodes(TestSimulation->m_pnodes);
 			
@@ -1835,10 +1849,10 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 		{
 			   	#ifndef IO_MSVC
 			   	  mkdir(jobdir.c_str(),0755);
-			   	  //chdir(jobdir.c_str());
+			   	  chdir(jobdir.c_str());
 			   	#else
 			   	  _mkdir(jobdir.c_str());
-			   	  //_chdir(jobdir.c_str());
+			   	  _chdir(jobdir.c_str());
 			   	#endif
 			   			   		
 	       LocalTestSimulation = new CIoGenericSteerSimulation;
@@ -1866,7 +1880,17 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 
 		}*/
 
-		int simid=m_numsubprocs+numsims++;
+		//int simid=m_numsubprocs+numsims++;
+		int simid=m_numsubprocs+numsims;
+		numsims++;
+
+
+	    char svar[50];
+		sprintf(svar,"%d %d %s",m_port, simid, m_hostname);
+		//fstream filestr;
+		filestr.open ("ioserverinfo.txt", fstream::out );
+		filestr<<svar; 
+		filestr.close();
 
 		LocalTestSimulation->copyjobs(TestSimulation->m_pjobs);
 		LocalTestSimulation->copynodes(TestSimulation->m_pnodes);
@@ -1889,7 +1913,13 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 		isimid=&(simdataarray[simid].isimid);
 		pthread_create(&simdataarray[simid].tid, NULL, (void*(*)(void*))runsimulation, (void*)isimid);
 
-	
+			   	#ifndef IO_MSVC
+			   	  //mkdir(jobdir.c_str(),0755);
+			   	  chdir("..");
+			   	#else
+			   	  //_mkdir(jobdir.c_str());
+			   	  _chdir("..");
+			   	#endif	
 
 		}
 
@@ -1926,31 +1956,36 @@ int ns__requestsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 
 	CIoGenericSteerSimulation *LocalTestSimulation;
     
-	
+	    
 		if((simfilecontent != NULL) || strlen(simfilecontent)>0 )
 		{
 	
 		   	#ifndef IO_MSVC
 			   	  mkdir(jobdir.c_str(),0755);
-			   	  //chdir(jobdir.c_str());
+			   	  chdir(jobdir.c_str());
 			   	#else
 			   	  _mkdir(jobdir.c_str());
-			   	  //_chdir(jobdir.c_str());
-			#endif	
-			
+			   	  _chdir(jobdir.c_str());
+			#endif
+
+
+
 	       LocalTestSimulation = new CIoGenericSteerSimulation;
 			
 			//((CIoWFSimulation *)TestSimulation)->getsteerlog(soap,id,isteerlog);
 		//filecontent
 		//*status=TestSimulation->CreateSimulation(filename);
 			//write the content to the simfile
+		if(strcmp(simfilecontent,"null")!=0)
+		   if((simfilecontent != NULL) || strlen(simfilecontent)>0 )
+		{
             fstream filestr;
 			filestr.open (filename.c_str(), fstream::out );
             filestr<<simfilecontent; 
 			filestr.close();
 
 			status=LocalTestSimulation->CreateSimulation((char *)filename.c_str());
-
+		}
 			//write data to output string
 
 		
@@ -1963,7 +1998,16 @@ int ns__requestsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 
 		}*/
 
-		int simid=m_numsubprocs+numsims++;
+		int simid=m_numsubprocs+numsims;
+		numsims++;
+
+	    char svar[50];
+		sprintf(svar,"%d %d %s",m_port, simid, m_hostname );
+		fstream filestr;
+		filestr.open ("ioserverinfo.txt", fstream::out );
+		filestr<<svar; 
+		filestr.close();
+
 
 		LocalTestSimulation->copyjobs(TestSimulation->m_pjobs);
 		LocalTestSimulation->copynodes(TestSimulation->m_pnodes);
@@ -1980,13 +2024,20 @@ int ns__requestsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 		simdataarray[simid].status=1;
 		simdataarray[simid].userid=0;
 
-		isimid=&(simdataarray[simid].isimid);
+		//isimid=&(simdataarray[simid].isimid);
+		*isimid=simid;
 		//pthread_create(&simdataarray[simid].tid, NULL, (void*(*)(void*))runsimulation, (void*)isimid);
 
 		simdataarray[simid].dir=(char *)calloc(strlen(jobdir.c_str()),sizeof(char));
 		strcpy(simdataarray[simid].dir,jobdir.c_str());
 	
-
+		   	#ifndef IO_MSVC
+			   	  //mkdir(jobdir.c_str(),0755);
+			   	  chdir("..");
+			   	#else
+			   	  //_mkdir(jobdir.c_str());
+			   	  _chdir("..");
+			#endif
 		}
 
 	}
@@ -2012,9 +2063,6 @@ int ns__runrequestedsimulation(struct soap *soap,int isimid, int *istatus)
     {
 	if((numsims <= MAXNUMSIMS) && (isimid <= numsims))
 	{
-            
-
-
 		if((standalone==1) && (numsims>MAXNUMTHREADS))
 			return SOAP_OK;
 
@@ -2211,6 +2259,9 @@ try
 		simdataarray[isimid].status=-1;
 		simdataarray[isimid].userid=NULL;
 		//simdataarray[isimid].tid=0;
+
+
+
 		numsims--;
 		if(/*(standalone!=1 ) && */(LocalTestSimulation != NULL))
 			delete LocalTestSimulation;
@@ -6203,8 +6254,8 @@ int RequestSimulation( int argc, char **argv)
 			
 			sin=(char *)sinput.c_str();
 	}
-	else
-      return status;
+	else 
+		sin="null";
 
 
 
