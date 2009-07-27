@@ -740,10 +740,10 @@ void CIoGenericSteerSimulation::RunSimulation()
 	
 	#ifndef IO_MSVC
 		//char *path="$IOME_HOME/bin/jjobrun";
-		char *path="iogenericsim.sh";
+		char *path="../iogenericsim.sh";
 	#else
 		//char *path="$IOME_HOME\bin\jjobrun";
-		char *path="iogenericsim.bat";
+		char *path="..\iogenericsim.bat";
 	#endif
 	//Run the model
 	int pid,status,procstatus=0;
@@ -752,7 +752,7 @@ void CIoGenericSteerSimulation::RunSimulation()
 	
 	//unix/linux/cygwin process call
 	#ifndef IO_MSVC
-		system("iogenericsim.sh");
+		system("../iogenericsim.sh");
 		/*if((pid=fork())<0)
 		         procstatus=-1;
 		         
@@ -771,7 +771,7 @@ void CIoGenericSteerSimulation::RunSimulation()
 		/*}*/
 	//windows process call
 	#else
-		system("iogenericsim.bat");	
+		system("..\iogenericsim.bat");	
 	//_flushall();
 		//pid=_spawnv(_P_NOWAIT, path, (const char * const *)args);
 		//if(pid != -1)
