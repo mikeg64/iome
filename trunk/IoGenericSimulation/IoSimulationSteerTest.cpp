@@ -2104,13 +2104,14 @@ int ns__runrequestedsimulation(struct soap *soap,int isimid, int *istatus)
 		simdataarray[isimid].simptr=LocalTestSimulation;
 		simdataarray[isimid].status=1;
 		simdataarray[isimid].userid=0;
+		jobdir=simdataarray[isimid].dir;
         *istatus=1;
         
         #ifndef IO_MSVC
-			   	  mkdir(jobdir.c_str(),0755);
+			   	  //mkdir(jobdir.c_str(),0755);
 			   	  chdir(jobdir.c_str());
 	    #else
-			   	  _mkdir(jobdir.c_str());
+			   	  //_mkdir(jobdir.c_str());
 			   	  _chdir(jobdir.c_str());
 		#endif
         
