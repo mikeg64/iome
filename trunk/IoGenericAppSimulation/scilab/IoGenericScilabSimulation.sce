@@ -329,7 +329,7 @@ function [simid]=RunRequestedSimulation(elist)
   //Simulation Config name
   //returns
   try
-    scommand=sprintf("iogs runrequestedsimulation %s %d %s", id, port,server);
+    scommand=sprintf("iogs runrequestedsimulation %d %d %s", id, port,server);
     result=unix_g(scommand);
     simid=msscanf(result,'%d');
   catch
