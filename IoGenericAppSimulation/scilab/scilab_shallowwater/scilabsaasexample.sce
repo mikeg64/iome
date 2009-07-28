@@ -15,8 +15,8 @@ res=mfscanf(fd,'%d %d %s')
 mclose(fd);
 
 elist(2)=res(1);  //port
-elist(3)=res(2);  //id
-//elist(3)=0;
+//elist(3)=res(2);  //id
+elist(3)=0;
 elist(1)=res(3);  //hostname
 
 //Add data to logfile
@@ -44,6 +44,6 @@ end
 
 //ExitIOME(elist);                                       //remove comment if we are not running standalone
 
-exit();
+//exit();
 
 
