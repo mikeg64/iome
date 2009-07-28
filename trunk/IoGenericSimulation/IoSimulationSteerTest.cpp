@@ -948,7 +948,7 @@ void *runscript(void *simulation)
 void *runsimulation(void *simulationid)
 { 
 	pthread_detach(pthread_self());
-	int simid=*(int *)simulationid;
+	int simid=(int )simulationid;
 	struct simdata currentsim=simdataarray[simid];
 	CIoGenericSteerSimulation  *simulation;
 	string jobdir=simdataarray[simid].dir;
@@ -2152,7 +2152,7 @@ int ns__runrequestedsimulation(struct soap *soap,int isimid, int *istatus)
         
         
 		//isimid=&(simdataarray[isimid].isimid);
-		pthread_create(&simdataarray[isimid].tid, NULL, (void*(*)(void*))runsimulation, (void*)&id);
+		pthread_create(&simdataarray[isimid].tid, NULL, (void*(*)(void*))runsimulation, (void*)isimid);
 
         #ifndef IO_MSVC
 			   	  //mkdir(jobdir.c_str(),0755);
@@ -3102,8 +3102,8 @@ int ns__addparammat(struct soap *soap, int id,char *name, struct fdata value, in
 				{
 							string sname=name;
 							int n=nr*nc;
-							for(int i=0; i<n; i++)
-								printf("val %d %f\n",i, value.__ptr[i]);
+							//for(int i=0; i<n; i++)
+							//	printf("val %d %f\n",i, value.__ptr[i]);
 							*status=LocalSimulation->AddParamMat(value.__ptr,nr,nc,sname,iflag);					
 				}
 				else
