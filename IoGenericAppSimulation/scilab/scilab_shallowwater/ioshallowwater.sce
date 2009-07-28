@@ -193,12 +193,14 @@ end
 //For a steerable simulation generate and save a dxformfile that saves a single data step
 //used for the steering dx module
 
-//sdir=GetMetadata('directory',elist);
-sdir=metadata.directory
+sdir=GetMetadata('directory',elist);
+//sdir=metadata.directory
 
-name=metadata.name;
+//name=metadata.name;
+
+name=GetMetadata('name',elist);
 disp(sdir,name)
-//name=GetMetadata('name',elist);
+
 outfile=sprintf('%s/%s.out',sdir,name);
 fd=mopen(outfile,'w');
 if steeringenabled==1
