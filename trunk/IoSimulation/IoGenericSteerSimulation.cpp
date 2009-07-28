@@ -697,6 +697,8 @@ void CIoGenericSteerSimulation::RunSimulationStep(int iStepNum)
 	//int pid,status,procstatus=0;
 	
 	//unix/linux/cygwin process call
+	try
+	{
 	#ifndef IO_MSVC
 		/*if((pid=fork())<0)
 		         procstatus=-1;*/
@@ -713,15 +715,21 @@ void CIoGenericSteerSimulation::RunSimulationStep(int iStepNum)
 		//	while(wait(&status) != pid)
 		//	           ;/*do nothing*/
 		//}
-		system("iogenericsimstep.sh");
+		system("../iogenericsimstep.sh");
 	//windows process call
 	#else
 		//_flushall();
 		//pid=_spawnv(_P_NOWAIT, path, (const char * const *)args);
 		//if(pid != -1)
 		//	_cwait(&status, pid, _WAIT_CHILD);
-		system("iogenericsimstep.bat");
-	#endif	
+		system("../\iogenericsimstep.bat");
+	#endif
+	}
+	catch(int j)
+	{
+      printf("Run Generic Simulation Step failed!");
+
+	}
 	
 }
 
@@ -751,8 +759,10 @@ void CIoGenericSteerSimulation::RunSimulation()
 	//int pid,status,procstatus=0;
 	
 	//unix/linux/cygwin process call
+	try
+	{
 	#ifndef IO_MSVC
-		system("../iogenericsim.sh");
+		system("./iogenericsim.sh");
 		/*if((pid=fork())<0)
 		         procstatus=-1;
 		         
@@ -771,15 +781,20 @@ void CIoGenericSteerSimulation::RunSimulation()
 		/*}*/
 	//windows process call
 	#else
-		system("..\iogenericsim.bat");	
+		system("iogenericsim.bat");	
 	//_flushall();
 		//pid=_spawnv(_P_NOWAIT, path, (const char * const *)args);
 		//if(pid != -1)
 		//	_cwait(&status, pid, _WAIT_CHILD);
 	//;
 		
-	#endif	
-	
+	#endif
+	}
+	catch(int j)
+	{
+      printf("Run Generic Simulation  failed!");
+
+	}	
 
 }
 
