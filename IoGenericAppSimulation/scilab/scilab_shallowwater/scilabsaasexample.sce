@@ -14,22 +14,36 @@ fd=mopen(portfile,'r');
 res=mfscanf(fd,'%d %d %s')
 mclose(fd);
 
-elist(2)=res(1);
-elist(3)=res(2);
+elist(2)=res(1);  //port
+elist(3)=res(2);  //id
+//elist(3)=0;
 elist(1)=res(3);  //hostname
 
 //Add data to logfile
-
+//simfile='mine.xml'
 //createsim(consts,domain,source,metadata,simfile,elist);
 //WriteSimulation(simfile,elist);
-[consts,domain,source]=loadsim('simfile.xml',elist);  //remove comment if we are not running standalone
+
+try
+  [consts,domain,source]=loadsim('simfile.xml',elist);  //remove comment if we are not running standalone
+catch
+   disp('failed to load sim');
+   exit();
+end
 
 mkdir(metadata.directory);
 mkdir('dx');
-runsim(consts,domain,source,elist);
+
+try
+  runsim(consts,domain,source,elist);
+catch
+   disp('failed to run sim');
+
+  exit();
+end
 
 //ExitIOME(elist);                                       //remove comment if we are not running standalone
 
 exit();
 
-t
+
