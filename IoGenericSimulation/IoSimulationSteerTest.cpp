@@ -150,6 +150,10 @@ int main(int argc, char* argv[])
     	{
 			status=SimulationStatus(argc,argv);
 		}
+		else if(strcmp("setsimulationstatus",method)==0)
+    	{
+			status=SetSimulationStatus(argc,argv);
+		}
 		else if(strcmp("getsimulationresults",method)==0)
     	{
 			status=GetSimulationResults(argc,argv);
@@ -508,7 +512,7 @@ int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char 
 
  	standalone=1;
 	//enable all of the services (default setting)
-    for(i=0;i<48;i++)
+    for(i=0;i<49;i++)
 		m_wsflags[i]=1;
 
 	char *siogscfgfile="iogs.config";
@@ -519,7 +523,7 @@ int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char 
 		ifstream infile;	
 		infile.open (siogsfil.c_str(), ifstream::in);
 	
-			for(i=0;i<48;i++)
+			for(i=0;i<49;i++)
 			{
 				infile >> m_wsflags[i];
 				while((!infile.eof()) && (infile.get()!='\n'));
@@ -594,10 +598,10 @@ int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char 
 		sprintf(m_serverclient,"%s:%d",hostname,port);
 		strcpy(m_hostname,hostname);
 		sprintf(simportfile,"%s%d_port.txt",simname,procid);
-           fstream filestr;
-			filestr.open (simportfile, fstream::out );
-            filestr<<svar; 
-			filestr.close();
+        fstream filestr;
+		filestr.open (simportfile, fstream::out );
+        filestr<<svar<<" "<<hostname; 
+		filestr.close();
 		printf("INIT IOME has started listening on port %d\n",port);
 		//TestSimulation->AddNode(port,"localhost");
 
@@ -966,6 +970,7 @@ void *runsimulation(void *simulationid)
 		simulation=currentsim.simptr;
 		currentsim.status=1;
 		simulation->RunSimulation();
+		simdataarray[simid].ipid=simulation->m_ipid;
 		currentsim.status=2;
 		//((CIoSimulation *)simulation)->RunSimulation();
 		
@@ -2181,6 +2186,35 @@ int ns__runrequestedsimulation(struct soap *soap,int isimid, int *istatus)
 
 }
 
+int ns__setsimulationstatus(struct soap *soap,int newstatus, int isimid, int *status)
+{
+	string filename="simfile.xml";
+	int iisimid;
+
+    if(m_wsflags[IDns__setsimulationstatus]==1)
+	{
+	try
+	{
+	if((isimid <= numsims) )
+	{
+		//if((standalone==1) && (numsims>0))
+		if(isimid>numsims)
+			return SOAP_OK;
+		simdataarray[isimid].status=newstatus;
+		*status=simdataarray[isimid].status;
+	}
+	}
+	catch(int j)
+	{
+		printf("Server failed to set simulation status\n");
+		
+	}	
+	}
+	return SOAP_OK;
+}
+
+
+
 int ns__simulationstatus(struct soap *soap,int isimid, int *status)
 {
 	string filename="simfile.xml";
@@ -2192,7 +2226,8 @@ int ns__simulationstatus(struct soap *soap,int isimid, int *status)
 	{
 	if((isimid <= numsims) )
 	{
-		if((standalone==1) && (numsims>0))
+		//if((standalone==1) && (numsims>0))
+		if(isimid>numsims)
 			return SOAP_OK;  		
 		*status=simdataarray[isimid].status;
 	}
@@ -6424,6 +6459,62 @@ int RunRequestedSimulation( int argc, char **argv)
 	return status;
 }
 
+int SetSimulationStatus( int argc, char **argv)
+{
+	int status=0;
+	int port=8080;
+	char *servername="";
+	char *input="";
+	char *content="";
+    char *infile="";
+	char *outfile="";
+	char *sservername="";
+	char *sresults="";
+	char *sin=NULL;
+	string simfilecontent;
+	int isimid;
+	int istatus=-1;
+	int newstatus=-1;
+
+	if(argc>2 && (argv[2]!=NULL)&& (argv[3]!=NULL))
+	{
+					isimid=atoi(argv[3]);
+					newstatus=atoi(argv[2]);
+	}
+	else
+	{
+		printf("%d\n",istatus);
+		return status = 1;
+	}
+	
+
+	/*if(argc>2 && (argv[3]!=NULL))
+					outfile=argv[3];
+	else 
+		content="outfile.xml";*/
+
+	if(argc>3 )
+	{
+        //id=atoi(argv[3]);
+
+		port=atoi(argv[4]);
+
+		if(argc>4 && (argv[5]!=NULL))
+					sservername=argv[5];
+
+ 	}
+	else
+		sservername="localhost";
+    sprintf(m_serverclient,"%s:%d",sservername,port);
+
+
+	soap_call_ns__setsimulationstatus(&m_soapclient, m_serverclient, "",newstatus,isimid , &istatus);
+	
+	printf("%d\n",istatus);
+	//strcpy(input,simfilecontent.c_str());
+
+	return status;
+}
 
 
 
