@@ -472,6 +472,21 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 	return SOAP_OK;
 }
 
+int ns__setsimulationstatus(struct soap *soap, int newstatus, int isimid, int *status)
+{
+	string filename="simfile.xml";
+	int istatus=0;
+	try
+	{
+	soap_call_ns__setsimulationstatus(&m_soap, m_server, "", newstatus, isimid,status);
+	}
+	catch(int j)
+	{
+		*status=-1;
+	}
+	return SOAP_OK;
+}
+
 int ns__simulationstatus(struct soap *soap,int isimid, int *status)
 {
 	string filename="simfile.xml";
