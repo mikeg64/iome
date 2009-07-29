@@ -952,7 +952,7 @@ void *runscript(void *simulation)
 void *runsimulation(void *simulationid)
 { 
 	pthread_detach(pthread_self());
-	int simid=(int )simulationid;
+	int simid=*(int *)( simulationid);
 	struct simdata currentsim=simdataarray[simid];
 	CIoGenericSteerSimulation  *simulation;
 	string jobdir=simdataarray[simid].dir;
@@ -2157,7 +2157,7 @@ int ns__runrequestedsimulation(struct soap *soap,int isimid, int *istatus)
         
         
 		//isimid=&(simdataarray[isimid].isimid);
-		pthread_create(&simdataarray[isimid].tid, NULL, (void*(*)(void*))runsimulation, (void*)isimid);
+		pthread_create(&simdataarray[isimid].tid, NULL, (void*(*)(void*))runsimulation, (void*)&isimid);
 
         #ifndef IO_MSVC
 			   	  //mkdir(jobdir.c_str(),0755);
