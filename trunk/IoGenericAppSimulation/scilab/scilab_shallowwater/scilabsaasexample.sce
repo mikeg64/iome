@@ -25,7 +25,11 @@ elist(1)=res(3);  //hostname
 //WriteSimulation(simfile,elist);
 
 try
+  ReadSimulation('simfile.xml',elist);
   [consts,domain,source]=loadsim('simfile.xml',elist);  //remove comment if we are not running standalone
+ 
+  
+  
 catch
    disp('failed to load sim');
    exit();
@@ -35,15 +39,18 @@ mkdir(metadata.directory);
 mkdir('dx');
 
 try
-  runsim(consts,domain,source,elist);
+//  runsim(consts,domain,source,elist);
 catch
    disp('failed to run sim');
 
   exit();
 end
 
-//ExitIOME(elist);                                       //remove comment if we are not running standalone
+ExitIOME(elist);
+//SimulationStatus(elist);
 
-//exit();
+//remove comment if we are not running standalone
+
+exit();
 
 
