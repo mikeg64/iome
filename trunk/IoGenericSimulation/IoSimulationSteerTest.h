@@ -141,8 +141,9 @@ using std::endl;
 #define IDns__readlocalsimulation 45
 #define IDns__listmetadata 46
 #define IDns__deletemetadata 47
+#define IDns__setsimulationstatus 48
 
-int m_wsflags[48];
+int m_wsflags[49];
 
 static CIoInitialiser m_Init;
 CIoGenericSteerSimulation *TestSimulation;
@@ -157,6 +158,7 @@ int m_isimfinished=0;
 char m_serverclient[300] = "localhost:8080";
 char m_hostname[300] = "localhost";
 int m_port=8080;
+int port=m_port;
 struct soap m_soapclient;
 
 struct simdata 
@@ -169,6 +171,7 @@ public :
 	char *sscript;
 	char *dir;
 	pthread_t tid;
+	int ipid;
 };
 
 
@@ -242,6 +245,7 @@ int RequestSimulation( int argc, char **argv);
 int RunRequestedSimulation( int argc, char **argv);
 int SubmitSimulation( int argc, char **argv);
 int SimulationStatus( int argc, char **argv);
+int SetSimulationStatus( int argc, char **argv);
 int DeleteSimulation( int argc, char **argv);
 int GetSimulationResults( int argc, char **argv);
 int RunSimulationStep( int argc, char **argv);
