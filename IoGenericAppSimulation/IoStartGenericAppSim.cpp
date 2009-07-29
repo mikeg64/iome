@@ -593,6 +593,8 @@ int InitIOME(char *sappscript, char *sscript, char *simname, char *simxslfile, i
 		soap_done(&soap);
 				 pthread_cancel(tid);
 				printf("INIT IOME has finished\n");
+						for(j=0;j<numsubprocs;j++)
+							pthread_cancel(simdataarray[j].tid);
 		
 		      //soap_destroy(&soap);
 		 //  }
@@ -642,6 +644,9 @@ void *startapp(void *simulation)
 		else
 				sprintf(startapp,"genericapp.sh %s",script);
 		system(startapp);
+		//fork();
+		//execl(startapp,startapp,script,NULL);
+		
 		/*if((pid=fork())<0)
 		         procstatus=-1;*/
 		         
