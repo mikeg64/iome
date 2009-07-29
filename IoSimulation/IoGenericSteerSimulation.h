@@ -173,6 +173,7 @@ public:
 	deque<int>  m_pPropFlag;
 	vector<NODEINFOPTR>  m_pnodes;
 	vector<JOBINFOPTR>  m_pjobs;
+	int m_ipid;
     int m_isubproc;
 	int m_ijobid;
 	int m_iprocid;

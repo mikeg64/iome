@@ -35,6 +35,7 @@ int ns__runrequestedsimulation(int isimid, int *istatus);
 
 int ns__submitsimulation(char *simfilecontent, int *isimid);
 int ns__simulationstatus(int isimid, int *status);
+int ns__setsimulationstatus(int newstatus, int isimid, int *status);
 int ns__getsimulationresults(int isimid, char **result);
 int ns__deletesimulation(int isimid, int *status);
 
