@@ -746,13 +746,7 @@ void CIoGenericSteerSimulation::RunSimulation()
 	//pass the name of the simulation into the jobscript 
 	//the name will be the jobid and the time stamp
 	
-	#ifndef IO_MSVC
-		//char *path="$IOME_HOME/bin/jjobrun";
-		char *path="../iogenericsim.sh";
-	#else
-		//char *path="$IOME_HOME\bin\jjobrun";
-		char *path="..\iogenericsim.bat";
-	#endif
+
 	//Run the model
 	int pid,status,procstatus=0;
 	
@@ -762,7 +756,11 @@ void CIoGenericSteerSimulation::RunSimulation()
 	try
 	{
 	#ifndef IO_MSVC
-		system("./iogenericsim.sh");
+		//system("./iogenericsim.sh");
+		pid=fork();
+		if(pid !=0)
+			m_ipid=pid;
+		execl( "./iogenericsim.sh", "iogenericsim.sh", NULL );
 		/*if((pid=fork())<0)
 		         procstatus=-1;
 		         
@@ -781,9 +779,11 @@ void CIoGenericSteerSimulation::RunSimulation()
 		/*}*/
 	//windows process call
 	#else
-		system("iogenericsim.bat");	
+		//system("iogenericsim.bat");	
+		//_execl( "iogenericsim.bat", "iogenericsim.bat", NULL );
 	//_flushall();
-		//pid=_spawnv(_P_NOWAIT, path, (const char * const *)args);
+		m_ipid=_spawnl(_P_NOWAIT, "iogenericsim.bat", "iogenericsim.bat",NULL);
+
 		//if(pid != -1)
 		//	_cwait(&status, pid, _WAIT_CHILD);
 	//;
