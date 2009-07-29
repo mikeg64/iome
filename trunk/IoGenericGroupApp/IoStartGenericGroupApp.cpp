@@ -594,6 +594,11 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 	return SOAP_OK;
 }
 
+int ns__setsimulationstatus(struct soap *soap,int newstatus,int isimid, int *status)
+{
+	return SOAP_OK;
+}
+
 int ns__simulationstatus(struct soap *soap,int isimid, int *status)
 {
 	return SOAP_OK;
