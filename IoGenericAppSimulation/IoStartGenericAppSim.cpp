@@ -178,7 +178,7 @@ int newsimind;
 struct simdata *simsubprocs=NULL;
 
 static CIoInitialiser m_Init;
-CIoGenericSteerSimulation *TestSimulation;
+CIoGenericSteerSimulation *TestSimulation=NULL;
 int getsimdata();
 static void *startapp(void *simulation);
 static void *runsimulation(void *simulationid);
@@ -1691,6 +1691,7 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 
 		isimid=&(simdataarray[simid].isimid);
 		pthread_create(&simdataarray[simid].tid, NULL, (void*(*)(void*))runsimulation, (void*)&simid);
+		printf("Job submitted id=%d status=1  dir=%s  threadid=%d numjobs=%d \n",simid,simdataarray[simid].dir,simdataarray[simid].tid,numsims);
 
 			   	#ifndef IO_MSVC
 			   	  //mkdir(jobdir.c_str(),0755);
@@ -1826,7 +1827,7 @@ int ns__requestsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 
 		simdataarray[simid].dir=(char *)calloc(strlen(jobdir.c_str()),sizeof(char));
 		strcpy(simdataarray[simid].dir,jobdir.c_str());
-	
+		printf("Job requested id=%d status=1  dir=%s  numjobs=%d \n",simid,simdataarray[simid].dir,numsims);
 		   	#ifndef IO_MSVC
 			   	  //mkdir(jobdir.c_str(),0755);
 			   	  chdir("..");
@@ -1890,7 +1891,8 @@ int ns__runrequestedsimulation(struct soap *soap,int isimid, int *istatus)
         
         
 		//isimid=&(simdataarray[isimid].isimid);
-		pthread_create(&simdataarray[isimid].tid, NULL, (void*(*)(void*))runsimulation, (void*)isimid);
+		pthread_create(&simdataarray[isimid].tid, NULL, (void*(*)(void*))runsimulation, (void*)&isimid);
+		printf("Job runrequested id=%d status=1  dir=%s  threadid=%d numjobs=%d \n",isimid,simdataarray[isimid].dir,simdataarray[isimid].tid,numsims);
 
         #ifndef IO_MSVC
 			   	  //mkdir(jobdir.c_str(),0755);
@@ -1909,7 +1911,7 @@ int ns__runrequestedsimulation(struct soap *soap,int isimid, int *istatus)
     }
 	catch(int j)
 	{
-		printf("Server failed to get simulation results\n");
+		printf("Server failed to runrequested simulation results\n");
 		
 	}
 	}
@@ -1931,7 +1933,7 @@ int ns__setsimulationstatus(struct soap *soap,int newstatus, int isimid, int *st
 	if((isimid <= numsims) )
 	{
 		//if((standalone==1) && (numsims>0))
-		if(isimid<numsims)
+		if(isimid>numsims)
 			return SOAP_OK;
 		simdataarray[isimid].status=newstatus;
 		*status=simdataarray[isimid].status;
@@ -1948,7 +1950,6 @@ int ns__setsimulationstatus(struct soap *soap,int newstatus, int isimid, int *st
 
 
 
-
 int ns__simulationstatus(struct soap *soap,int isimid, int *status)
 {
 	string filename="simfile.xml";
@@ -1961,7 +1962,7 @@ int ns__simulationstatus(struct soap *soap,int isimid, int *status)
 	if((isimid <= numsims) )
 	{
 		//if((standalone==1) && (numsims>0))
-		if(isimid<numsims)
+		if(isimid>numsims)
 			return SOAP_OK;  		
 		*status=simdataarray[isimid].status;
 	}
@@ -2084,7 +2085,7 @@ int ns__getsimulationresults(struct soap *soap,int isimid, char **result)
 int ns__deletesimulation(struct soap *soap,int isimid, int *status)
 {
 string filename="simfile.xml";
-
+string sjobdir;
     if(m_wsflags[IDns__deletesimulation]==1)
 	{
 try
@@ -2094,7 +2095,15 @@ try
 
 		if((standalone==1) && (numsims>MAXNUMTHREADS))
 			return SOAP_OK;
-
+		sjobdir=simdataarray[isimid].dir;
+	
+		   	#ifndef IO_MSVC
+			   	  //mkdir(jobdir.c_str(),0755);
+			   	  chdir(sjobdir.c_str());
+			   	#else
+			   	  //_mkdir(jobdir.c_str());
+			   	  _chdir(sjobdir.c_str());
+			#endif		
 		CIoGenericSteerSimulation *LocalTestSimulation;
 	    LocalTestSimulation=(CIoGenericSteerSimulation *)(simdataarray[isimid].simptr);	
 		*status=simdataarray[isimid].status;
@@ -2112,9 +2121,20 @@ try
 		if(/*(standalone!=1 ) && */(LocalTestSimulation != NULL))
 			delete LocalTestSimulation;
 			
-	
+		#ifndef IO_MSVC
+			   	  
+			   	  string sdelcommand="/bin/rm -rf ";
+			   	  sdelcommand.append(sjobdir);
+			   	  system(sdelcommand.c_str());
+				  chdir("..");
+				  rmdir(sjobdir.c_str());
+			#else
+			   	  remove("*");
+			   	  _chdir("..");
+			   	  _rmdir(sjobdir.c_str());
+			#endif
 
-		
+		   pthread_cancel(simdataarray[isimid].tid);
 
 	}
 }
@@ -4806,6 +4826,7 @@ int ns__setgroupbarrier(struct soap *soap,int id, int state, int *newstate)
 
 
 }
+
 
 int getsimdata()
 {
