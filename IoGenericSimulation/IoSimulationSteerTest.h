@@ -146,7 +146,7 @@ using std::endl;
 int m_wsflags[49];
 
 static CIoInitialiser m_Init;
-CIoGenericSteerSimulation *TestSimulation;
+CIoGenericSteerSimulation *TestSimulation=NULL;
 static void *runsimulation(void *simulationid);
 static void *runscript(void *simulation);
 static void *executesimulation(void *simulation);	
