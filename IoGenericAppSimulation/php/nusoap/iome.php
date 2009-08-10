@@ -1,22 +1,29 @@
 <?php
 
 // necessary classes
-require_once('class.soapclient.php');
-require_once('class.soap_val.php');
-require_once('class.soap_parser.php');
-require_once('class.soap_fault.php');
+//require_once('class.soapclient.php');
+//require_once('class.soap_val.php');
+//require_once('class.soap_parser.php');
+//require_once('class.soap_fault.php');
 
 // transport classes
-require_once('class.soap_transport_http.php');
+//require_once('class.soap_transport_http.php');
 
 // optional add-on classes
-require_once('class.xmlschema.php');
-require_once('class.wsdl.php');
+//require_once('class.xmlschema.php');
+//require_once('class.wsdl.php');
 require_once('nusoap.php');
 
-class ioservice{
+class ioservice {
 
     var $server, $port, $id;
+
+    //function ioservice( $iserver, $iport, $iid )
+	//{
+	//	$this->$server=$iserver;
+	//	$this->$port=$iport;
+	//	$this->$id=$iid;
+	//}
 
 }
 
@@ -34,7 +41,7 @@ function submitjob( $simfile , $ioservice)
 	'startFrom'=>0
 	);*/
 
-	$result = $client->call('submitsimulation', $params));
+	$result = $client->call('submitsimulation', $params);
       return $result;
 }
 
@@ -56,7 +63,7 @@ function setparamdouble( $name, $val , $ioservice)
 	'startFrom'=>0
 	);*/
 
-	$result = $client->call('setparamdouble', $params));
+	$result = $client->call('setparamdouble', $params);
       return $result;
 }
 
@@ -76,7 +83,7 @@ function getparamdouble( $name , $ioservice)
 	'startFrom'=>0
 	);*/
 
-	$result = $client->call('getparamdouble', $params));
+	$result = $client->call('getparamdouble', $params);
       return $result;
 }
 
