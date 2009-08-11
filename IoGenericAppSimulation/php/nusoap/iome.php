@@ -12,7 +12,7 @@
 // optional add-on classes
 //require_once('class.xmlschema.php');
 //require_once('class.wsdl.php');
-require_once('nusoap.php');
+include_once('nusoap.php');
 
 class ioservice {
 
@@ -30,8 +30,11 @@ class ioservice {
 function submitjob( $simfile , $ioservice)
 {
 	//result is jobid
-      $server='http://'.$ioservice.server.':'.$ioservice.port;
-      $client = new soapclient($server);
+     // $server='http://'.$ioservice->server.':'.$ioservice->port.'/IoSteerWS.wsdl';
+//$wsdl="http://www.xmethods.net/sd/2001/CurrencyExchangeService.wsdl";
+	//$client=new soapclient($server, 'wsdl');
+
+      //$client = new soapclient($server);
 	// Call the SOAP method
       $params = array( 'simfilecontent' => $simfile );
 
@@ -41,27 +44,36 @@ function submitjob( $simfile , $ioservice)
 	'startFrom'=>0
 	);*/
 
-	$result = $client->call('submitsimulation', $params);
+	//$result = $client->call('submitsimulation', $params);
       return $result;
 }
 
 
 function setparamdouble( $name, $val , $ioservice)
 {
-	//result is jobid
-      $server='http://'.$ioservice.server.':'.$ioservice.port;
-      $client = new soapclient($server);
+	
+//result is jobid
+      $server='http://'.$ioservice->server.':'.$ioservice->port;
+//$wsdl="http://www.xmethods.net/sd/2001/CurrencyExchangeService.wsdl";
+	//$client=new soapClient('http://localhost:8080/IoSteerWS.wsdl');
+      $wsdl= new wsdl('IoSteerWS.wsdl');
+      //echo "wsdl $wsdl";
+ 
+      $client = new nusoap_client($server);
+      //$client->wsdl = $wsdl;
+	echo "from setparam server is: {$ioservice->server} and port is {$ioservice->port}.";
+	echo "request is: {$name} val is {$val}";
+      //$client = new soapclient($server);
+      //$client->$endpointType='soap';
+	//$client->$forceEndpoint=$server;
+      $id=$ioservice->id;
 	// Call the SOAP method
-      $params = array(  'id' => $ioservice.id,
-				'name' => $name,
-                        'value' => $val
+      $params = array(  'id' => (int)$id,
+			'name' => $name,
+                        'value' => (float)$val
                       );
 
-	/*$params = array(
-	'simfilecontent' => $simfile,
-	'queryStr'=>'robotics',
-	'startFrom'=>0
-	);*/
+
 
 	$result = $client->call('setparamdouble', $params);
       return $result;
@@ -71,7 +83,7 @@ function getparamdouble( $name , $ioservice)
 {
 	//result is jobid
       $server='http://'.$ioservice.server.':'.$ioservice.port;
-      $client = new soapclient($server);
+      //$client = new soapclient($server);
 	// Call the SOAP method
       $params = array(  'id' => $ioservice.id,
 				'name' => $name,
@@ -83,7 +95,7 @@ function getparamdouble( $name , $ioservice)
 	'startFrom'=>0
 	);*/
 
-	$result = $client->call('getparamdouble', $params);
+	//$result = $client->call('getparamdouble', $params);
       return $result;
 }
 
