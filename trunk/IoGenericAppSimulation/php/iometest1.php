@@ -3,12 +3,13 @@
   <title>IOME PHP Test</title>
  </head>
  <body>
+
+
  <?php echo '<p>This is the IOME test.</p>'; ?> 
 <?php
+
+//phpinfo();
 require_once('iome.php');
-
-
-
 
 echo $_SERVER['HTTP_USER_AGENT'];
 ?>
@@ -25,21 +26,22 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
 ?>
 
 
-<?php if(!empty($_POST['floatval'])){
- echo "Float val, {$_POST['floatval']}.";
- setparamdouble('d1',$_POST['floatval'],$myioservice);
-}
-?>
+
 
 <?php 
    
    $myioservice = new ioservice;
    $myioservice->server = 'localhost';
    $myioservice->port = '8080';
-   $myioservice->id = '0';
+   $myioservice->id = 0;
 
 
-   
+ 	if(!empty($_POST['floatval'])){
+ 	echo "Float val, {$_POST['floatval']}.";
+        
+ 	$result=setparamdouble('d1',(float)$_POST['floatval'],$myioservice);
+        echo "result is $result";
+	}  
 
    if((!empty($_POST['server'])) and (!empty($_POST['port'])) ){
    $myioservice->server = $_POST['server'];
@@ -48,6 +50,7 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
    echo "server is, {$myioservice->server}, and port is {$myioservice->port}.";
    //echo "server is, {$_POST['server']}, and port is {$_POST['port']}.";
    // $myioservice=new ioservice('localhost','8080','0');
+  
 
 }
 ?>
