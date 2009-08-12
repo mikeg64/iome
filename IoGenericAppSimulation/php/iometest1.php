@@ -34,6 +34,7 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
    $myioservice->server = 'localhost';
    $myioservice->port = '8080';
    $myioservice->id = 0;
+   $myioservice->method = 0;
 
 
  	if(!empty($_POST['floatval'])){
