@@ -11,8 +11,12 @@
 //phpinfo();
 require_once('iome.php');
 
+
 echo $_SERVER['HTTP_USER_AGENT'];
 ?>
+
+
+
 
 <?php
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
@@ -22,6 +26,8 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
 
 <?php if(!empty($_POST['name'])){
  echo "Greetings, {$_POST['name']}, and welcome.";
+ $name = (string)$_POST['name'];
+ echo iophp($name);
 }
 ?>
 
@@ -30,6 +36,12 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
 
 <?php 
    
+   /*The following lines read the job template xml file*/
+   /*The %items%  in the jobfile content are replaced with
+   the variable parameters*/
+   /*we use the str_replace function to acheive this*/
+   /*str_replace — Replace all occurrences of the search string with the replacement string*/
+   /*$jobfile = file_get_contents  ( "jobfile.xml");*/
    $myioservice = new ioservice;
    $myioservice->server = 'localhost';
    $myioservice->port = '8080';
@@ -37,9 +49,9 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
    $myioservice->method = 0;
 
 
+
  	if(!empty($_POST['floatval'])){
- 	echo "Float val, {$_POST['floatval']}.";
-        
+ 	echo "Float val, {$_POST['floatval']}";
  	$result=setparamdouble('d1',(float)$_POST['floatval'],$myioservice);
         echo "result is $result";
 	}  
@@ -55,6 +67,7 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
 
 }
 ?>
+
 
 
 <form action="<?php echo $PHP_SELF; ?>" method="post">
