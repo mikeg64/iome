@@ -57,20 +57,20 @@ PHP_FUNCTION(iophp)
     fullresponse=(char *)pemalloc(1000,1);
     sprintf(fullrequest,"%s%s",command,request);
     //printf('%s',zname);
-
+    //php_printf("1: %s",fullrequest);
     if ((ptr = popen(fullrequest, "r")) != NULL)
               while (fgets(buf, 1000, ptr) != NULL)
                               (void) sprintf(fullresponse,"%s", buf);
     (void) pclose(ptr);
   
     
-    /*php_printf("2: %s",fullresponse);*/
+    //php_printf("2: %s",fullresponse);
     
     
     //fullrequest = strcat(command, request);
     response = (char *)pestrdup(fullresponse, 1);
     /*php_printf("3: %s",response);*/
-    RETURN_STRING(fullresponse, 1);
+    RETURN_STRING(response, 1);
     //RETVAL_STRINGL(fullresponse, strlen(fullresponse),0);
 
     //RETURN_STRING("iophp done", 1);
