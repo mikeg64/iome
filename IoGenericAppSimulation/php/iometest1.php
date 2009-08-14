@@ -5,8 +5,8 @@
  <body>
 
 
- <?php echo '<p>This is the IOME test.</p>'; ?> 
-<?php
+<?php echo '<p>This is the IOME test.</p>';  
+
 
 //phpinfo();
 require_once('iome/iome.php');
@@ -24,11 +24,7 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
 }
 ?>
 
-<?php if(!empty($_POST['name'])){
- echo "Greetings, {$_POST['name']}, and welcome.";
- 
-}
-?>
+
 
 
 
@@ -42,17 +38,50 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
    /*str_replace — Replace all occurrences of the search string with the replacement string*/
    /*$jobfile = file_get_contents  ( "jobfile.xml");*/
    $myioservice = new ioservice;
-   $myioservice->server = 'localhost';
-   $myioservice->port = '8080';
+   //$myioservice->server = 'localhost';
+   //$myioservice->port = '8080';
    $myioservice->id = 0;
    $myioservice->method = 1;
+   //$name = 'd1';
+   //$ioaction = 'setparam';
 
+   //$val = '27.0';
 
+	if(!empty($_POST['name'])){
+ 	//echo "Name is, {$_POST['name']}.";
+        $name = $_POST['name'];
+	}
+
+	if(!empty($_POST['iodoaction'])){
+ 	
+		$ioaction = $_POST['ioaction'];
+ 		if( strcmp($ioaction , 'setparam') == 0 ){
+
+		$result=(string)setparamdouble($name,(float)$_POST['floatval'],$myioservice);
+	        
+		}
+		elseif( strcmp($ioaction , 'getparam') == 0 ){
+		$result=(string)getparamdouble($name,$myioservice);
+	        echo "get result is $result ";
+
+		}
+		elseif( strcmp($ioaction , 'addparam') == 0 ){
+			$result=(string)addparamdouble($name,(float)$_POST['floatval'],$myioservice);
+		        
+
+		}        
+	}
+
+	if(!empty($_POST['ioaction'])){ 	
+        $ioaction = $_POST['ioaction'];
+	//echo "newioaction is, $ioaction .";
+	}
 
  	if(!empty($_POST['floatval'])){
- 	echo "Float val, {$_POST['floatval']}";
- 	$result=(string)setparamdouble('d1',(float)$_POST['floatval'],$myioservice);
-        echo "result is $result";
+ 	//echo "Float val, {$_POST['floatval']}";
+        $val = $_POST['floatval'];
+ 	//$result=(string)setparamdouble($name,(float)$_POST['floatval'],$myioservice);
+        //echo "val is $val";
 	}  
 
    if((!empty($_POST['server'])) and (!empty($_POST['port'])) ){
@@ -60,8 +89,6 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
    $myioservice->port = $_POST['port'];
 
    echo "server is, {$myioservice->server}, and port is {$myioservice->port}.";
-   //echo "server is, {$_POST['server']}, and port is {$_POST['port']}.";
-   // $myioservice=new ioservice('localhost','8080','0');
   
 
 }
@@ -71,19 +98,35 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
 
 <form action="<?php echo $PHP_SELF; ?>" method="post">
 Enter float value: <input type="text" name="floatval" />
+Enter name: <input type="text" name="name" /><br>
+Add Param: 
+<input type="radio"
+name="ioaction" value="addparam">
+<br>
+Set Param: 
+<input type="radio" name="ioaction" value="setparam">
+<br>
+Get Param:
+<input type="radio" name="ioaction" value="getparam">
+<br>
+Click checkbox to make the actual request:
+<input type="checkbox" 
+name="iodoaction" value="doaction">
+<br>
 <input type="submit">
 </form>
 
 
-<form action="<?php echo $PHP_SELF; ?>" method="post">
-Enter your name: <input type="text" name="name" />
-<input type="submit">
-</form>
+
 
 <form action="<?php echo $PHP_SELF; ?>" method="post">
 Enter server: <input type="text" name="server" />
 Enter port: <input type="text" name="port" />
 <input type="submit">
+<br>
+
+
+
 </form>
  </body>
 </html>
