@@ -9,7 +9,7 @@
 <?php
 
 //phpinfo();
-require_once('iome.php');
+require_once('iome/iome.php');
 
 
 echo $_SERVER['HTTP_USER_AGENT'];
@@ -26,8 +26,7 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
 
 <?php if(!empty($_POST['name'])){
  echo "Greetings, {$_POST['name']}, and welcome.";
- $name = (string)$_POST['name'];
- echo iophp($name);
+ 
 }
 ?>
 
@@ -46,13 +45,13 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
    $myioservice->server = 'localhost';
    $myioservice->port = '8080';
    $myioservice->id = 0;
-   $myioservice->method = 0;
+   $myioservice->method = 1;
 
 
 
  	if(!empty($_POST['floatval'])){
  	echo "Float val, {$_POST['floatval']}";
- 	$result=setparamdouble('d1',(float)$_POST['floatval'],$myioservice);
+ 	$result=(string)setparamdouble('d1',(float)$_POST['floatval'],$myioservice);
         echo "result is $result";
 	}  
 
