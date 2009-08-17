@@ -3,11 +3,11 @@ function [status]=setparammmat3d(name, var, ni,nj,nk,nr,nc,elist)
   
   nargin=length(elist);
   if nargin>0 then
-    server=elist(1);
+    server=elist{1};
     if nargin>1 then
-      port=elist(2);
+      port=elist{2};
       if nargin>2 then
-         id=elist(3);
+         id=elist{3};
       else
          id=0;
       end 
