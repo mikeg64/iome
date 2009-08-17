@@ -202,4 +202,116 @@ function getparamstring( $name , $ioservice)
 }
 
 
+function runsimulation( $simfile , $outfile, $ioservice)
+{	
+      $server='http://'.$ioservice->server.':'.$ioservice->port.'/';
+
+      if ($ioservice->method == 1){
+                $request = "runsimulation string ".$simfile." ".$outfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result = iophp($request);
+	}
+        elseif ($ioservice->method == 0)
+	{
+                $request = "iogs runsimulation string ".$simfile." ".$outfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result=system($request);
+	}
+      return $result;
+}
+
+function submitsimulation( $simfile , $ioservice)
+{	
+      $server='http://'.$ioservice->server.':'.$ioservice->port.'/';
+
+      if ($ioservice->method == 1){
+                $request = "submitsimulation string ".$simfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result = iophp($request);
+	}
+        elseif ($ioservice->method == 0)
+	{
+                $request = "iogs submitsimulation string ".$simfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result=system($request);
+	}
+      return $result;
+}
+
+function requestsimulation( $simfile , $ioservice)
+{	
+      $server='http://'.$ioservice->server.':'.$ioservice->port.'/';
+
+      if ($ioservice->method == 1){
+                $request = "requestsimulation string ".$simfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result = iophp($request);
+	}
+        elseif ($ioservice->method == 0)
+	{
+                $request = "iogs requestsimulation string ".$simfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result=system($request);
+	}
+      return $result;
+}
+
+function runrequestedsimulation( $ioservice)
+{	
+      $server='http://'.$ioservice->server.':'.$ioservice->port.'/';
+
+      if ($ioservice->method == 1){
+                $request = "runrequestedsimulation string ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result = iophp($request);
+	}
+        elseif ($ioservice->method == 0)
+	{
+                $request = "iogs requestedsimulation string ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result=system($request);
+	}
+      return $result;
+}
+
+function simulationstatus( $ioservice)
+{	
+      $server='http://'.$ioservice->server.':'.$ioservice->port.'/';
+
+      if ($ioservice->method == 1){
+                $request = "simulationstatus string ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result = iophp($request);
+	}
+        elseif ($ioservice->method == 0)
+	{
+                $request = "iogs simulationstatus string ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result=system($request);
+	}
+      return $result;
+}
+
+function setsimulationstatus( $newstatus, $ioservice)
+{	
+      $server='http://'.$ioservice->server.':'.$ioservice->port.'/';
+
+      if ($ioservice->method == 1){
+                $request = "setsimulationstatus string ".$newstatus." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result = iophp($request);
+	}
+        elseif ($ioservice->method == 0)
+	{
+                $request = "iogs setsimulationstatus string ".$newstatus." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result=system($request);
+	}
+      return $result;
+}
+
+function getsimulationresults( $outfile , $ioservice)
+{	
+      $server='http://'.$ioservice->server.':'.$ioservice->port.'/';
+
+      if ($ioservice->method == 1){
+                $request = "getsimulationresults string ".$outfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result = iophp($request);
+	}
+        elseif ($ioservice->method == 0)
+	{
+                $request = "iogs getsimulationresults string ".$outfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result=system($request);
+	}
+      return $result;
+}
+
 ?>
