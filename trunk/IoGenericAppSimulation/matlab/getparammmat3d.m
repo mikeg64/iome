@@ -1,4 +1,51 @@
-function mmat3d = getparammmat3d(obj,id,name,n,p,q,nr,nc)
+function [value]=getparammmat3d(name,n,p,q,nr,nc,elist)
+  %GetMetadata(name, property, port) 
+  
+  nargin=length(elist);
+  if nargin>0 then
+    server=elist{1};
+    if nargin>1 then
+      port=elist{2};
+      if nargin>2 then
+         id=elist{3};
+      else
+         id=0;
+      end 
+    else
+      port=8080;
+    end
+  else
+    server='localhost';
+    port=8080;
+    id=0;
+  end
+
+    sport=sprintf('%d',port);
+  obj.endpoint=['http://',server,':',sport];
+  vvalue=iogetparammmat3d(name, n,p,q,nr,nc,obj,id);
+
+   
+    ind=1;
+    for i1=1:ni
+       for i2=1:nj
+          for i3=1:nk
+            for i=1:nr
+              for j=1:nc
+               value(i1,i2,i3,i,j)=vvalue(ind);
+               ind=ind+1;
+              end
+            end
+        end
+      end
+    end
+
+
+  return value;
+  
+ %endfunction
+
+
+function mmat3d = iogetparammmat3d(obj,id,name,n,p,q,nr,nc)
 %getparammmat3d(obj,id,name,n,p,q,nr,nc)
 %
 %   Service definition of function ns__getparammmat3d
