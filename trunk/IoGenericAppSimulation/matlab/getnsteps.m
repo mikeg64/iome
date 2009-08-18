@@ -1,4 +1,4 @@
-function [nsstep]=getnsteps(name, elist)
+function [nsstep]=getnsteps(elist)
   %GetMetadata(name, property, port) 
   
   nargin=length(elist);

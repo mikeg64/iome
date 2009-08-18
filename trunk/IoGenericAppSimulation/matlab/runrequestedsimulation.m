@@ -25,7 +25,7 @@ function [status]=runrequestedsimulation(isimid,elist)
 
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
-  status=iorurequestedsimulation(obj,id,isimid);
+  status=iorurequestedsimulation(obj,isimid);
   return status;
   
  %endfunction

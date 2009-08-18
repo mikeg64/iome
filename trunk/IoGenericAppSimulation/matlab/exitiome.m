@@ -27,7 +27,7 @@ function [property]=exitiome(elist)
  %endfunction
 
 
-function status = exitiome(obj,id)
+function status = ioexitiome(obj,id)
 %exitiome(obj,id)
 %
 %   Service definition of function ns__exitiome

@@ -25,9 +25,14 @@ function [vvar]=setparammat(name, var, elist)
 
   [nr,nc]=size(var);
   rvar=reshape(var,1,nr*nc);
- 
 
-    status=iosetparammat(obj, id,name,rvar,nr,nc);
+  sval=vectostring(rvar',',');
+  
+  scommand=['iogs setparam mat ',name,' ',sval,' ',num2str(nr),' ',num2str(nc),' ',num2str(id),' ',sport,' ',server];
+  %display(scommand);
+  system(scommand); 
+
+    %status=iosetparammat(obj, id,name,rvar,nr,nc);
 
   
 %endfunction

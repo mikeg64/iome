@@ -34,7 +34,15 @@ function [status]=addparammat(name, var,flag,elist)
  %    ind=ind+1;
 %    end
 %  end
-    status=ioaddparammat(obj, id,name,rvar,nr,nc,flag);
+
+
+  sval=vectostring(rvar',',');
+  
+  scommand=['iogs addparam mat ',name,' ',sval,' ',num2str(nr*nc),' ',num2str(flag),' ',num2str(id),' ',sport,' ',server];
+  display(scommand);
+  system(scommand);
+
+    %status=ioaddparammat(obj, id,name,rvar,nr,nc,flag);
 
 %endfunction
 

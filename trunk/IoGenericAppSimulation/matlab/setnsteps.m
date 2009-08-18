@@ -1,6 +1,5 @@
 function [newnsteps]=setnsteps(var,elist)
-  %function [status]=SetNSteps(var,elist)
-  
+   
   nargin=length(elist);
   if nargin>0 then
     server=elist{1};
