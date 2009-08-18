@@ -1,12 +1,12 @@
-function [status]=setparamvec(name, vin, vecsize,elist)
+function [status]=setparamvec(name, value, n,elist)
   %AddMetadata(name, property, port) 
   
   nargin=length(elist);
-  if nargin>0 then
+  if nargin>0 
     server=elist{1};
-    if nargin>1 then
+    if nargin>1 
       port=elist{2};
-      if nargin>2 then
+      if nargin>2 
          id=elist{3};
       else
          id=0;
@@ -22,9 +22,18 @@ function [status]=setparamvec(name, vin, vecsize,elist)
 
    sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
+  sval=vectostring(value',',');
+  
+  scommand=['iogs setparam vec ',name,' ',sval,' ',num2str(n),' ',num2str(id),' ',sport,' ',server];
+  display(scommand);
+  system(scommand);
+%cvalue=vec2cellarray(value);
 
-   status=iosetparamvec(obj, id,name,vin,vecsize);
-
+%status=iosetparamvec(obj,id,name,cvalue,n);
+  status=0;
+   
+   
+   
 %endfunction
 
 function status = iosetparamvec(obj,id,name,value,n)
