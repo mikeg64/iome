@@ -36,7 +36,13 @@ function [status]=setparammmat3d(name, var, ni,nj,nk,nr,nc,elist)
         end
       end
     end
-    status=iosetparammat3d(obj, id,name,tmat,ni,nj,nk,nr,nc);
+
+  sval=vectostring(tmat',',');
+  
+  scommand=['iogs setparam mmat3d ',name,' ',sval,' ',num2str(ni),' ',num2str(nj),' ',num2str(nk),' ',num2str(nr),' ',num2str(nc),' ',num2str(id),' ',sport,' ',server];
+  system(scommand); 
+
+    %status=iosetparammat3d(obj, id,name,tmat,ni,nj,nk,nr,nc);
 
 %endfunction
 

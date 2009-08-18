@@ -38,8 +38,15 @@ function [status]=addparammmat3d(name, var, ni,nj,nk,nr,nc,flag,elist)
         end
       end
     end
-   
-  status=ioaddparammat3d(obj, id,name,vvar,ni,nj,nk,nr,nc,flag);
+ 
+
+  sval=vectostring(vvar',',');
+  
+  scommand=['iogs addparam mmat3d ',name,' ',sval,' ',num2str(ind),' ',num2str(flag),' ',num2str(id),' ',sport,' ',server];
+  display(scommand);
+  system(scommand);
+  
+  %status=ioaddparammat3d(obj, id,name,vvar,ni,nj,nk,nr,nc,flag);
 
 %endfunction
 

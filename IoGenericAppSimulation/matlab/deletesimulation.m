@@ -22,7 +22,7 @@ function [property]=deletesimulation(elist)
 
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
-  property=iodeletesimulation(obj,id,name);
+  property=iodeletesimulation(obj,id);
   
  %endfunction
 

@@ -19,11 +19,21 @@ function [status]=addparamvec(name, var, vsize,flag,elist)
     port=8080;
     id=0;
   end
-
+  
    sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
 
-  status=ioaddparamvec(obj, id,name,var,vsize,flag);
+  %status=ioaddparamvec(obj, id,name,var,vsize,flag);
+
+   sport=sprintf('%d',port);
+  obj.endpoint=['http://',server,':',sport];
+  sval=vectostring(var',',');
+  
+  scommand=['iogs addparam vec ',name,' ',sval,' ',num2str(n),' ',num2str(flag),' ',num2str(id),' ',sport,' ',server];
+  display(scommand);
+  system(scommand);
+
+
 
 %endfunction
 
