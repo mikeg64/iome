@@ -2,11 +2,11 @@ function [value]=getparamstring(name,elist)
   %GetMetadata(name, property, port) 
   
   nargin=length(elist);
-  if nargin>0 then
+  if nargin>0 
     server=elist{1};
-    if nargin>1 then
+    if nargin>1 
       port=elist{2};
-      if nargin>2 then
+      if nargin>2 
          id=elist{3};
       else
          id=0;
@@ -22,26 +22,8 @@ function [value]=getparamstring(name,elist)
 
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
-  value=iogetparamstring(name, obj,id);
-  return value;
   
- %endfunction
-
-
-function value = iogetparamstring(obj,id,name)
-%getparamstring(obj,id,name)
-%
-%   Service definition of function ns__getparamstring
-%   
-%     Input:
-%       id = (int)
-%       name = (string)
-%   
-%     Output:
-%       value = (string)
-
-% Build up the argument lists.
-values = { ...
+ values = { ...
    id, ...
    name, ...
    };
@@ -63,4 +45,7 @@ response = callSoapService( ...
     obj.endpoint, ...
     '', ...
     soapMessage);
-value = parseSoapResponse(response);
+value = parseSoapResponse(response); 
+  
+  
+  
