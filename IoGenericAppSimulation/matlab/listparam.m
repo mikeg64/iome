@@ -1,12 +1,12 @@
-function [list]=listparam(elist,type)
-  %GetMetadata(name, property, port) 
+function [list]=listparam(type,elist)
+  %[list]=listparam(type,elist)
   
   nargin=length(elist);
-  if nargin>0 then
+  if nargin>0 
     server=elist{1};
-    if nargin>1 then
+    if nargin>1 
       port=elist{2};
-      if nargin>2 then
+      if nargin>2 
          id=elist{3};
       else
          id=0;
@@ -23,7 +23,7 @@ function [list]=listparam(elist,type)
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
   list=iolistparam(obj,type, id);
-  return list;
+  %%return list;
   
  %endfunction
 
