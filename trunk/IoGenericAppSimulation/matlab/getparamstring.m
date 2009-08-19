@@ -1,5 +1,5 @@
 function [value]=getparamstring(name,elist)
-  %GetMetadata(name, property, port) 
+  %[value]=getparamstring(name,elist)
   
   nargin=length(elist);
   if nargin>0 

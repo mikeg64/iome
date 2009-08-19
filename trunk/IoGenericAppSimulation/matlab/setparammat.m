@@ -1,12 +1,12 @@
-function [vvar]=setparammat(name, var, elist)
-  %AddMetadata(name, property, port) 
+function [status]=setparammat(name, var, elist)
+  %[status]=setparammat(name, var, elist) 
   
   nargin=length(elist);
-  if nargin>0 then
+  if nargin>0 
     server=elist{1};
-    if nargin>1 then
+    if nargin>1 
       port=elist{2};
-      if nargin>2 then
+      if nargin>2 
          id=elist{3};
       else
          id=0;
@@ -24,13 +24,13 @@ function [vvar]=setparammat(name, var, elist)
   obj.endpoint=['http://',server,':',sport];
 
   [nr,nc]=size(var);
-  rvar=reshape(var,1,nr*nc);
+  rvar=reshape(var,nr*nc,1);
 
   sval=vectostring(rvar',',');
   
   scommand=['iogs setparam mat ',name,' ',sval,' ',num2str(nr),' ',num2str(nc),' ',num2str(id),' ',sport,' ',server];
   %display(scommand);
-  system(scommand); 
+  status=system(scommand); 
 
     %status=iosetparammat(obj, id,name,rvar,nr,nc);
 

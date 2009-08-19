@@ -1,5 +1,5 @@
-function [status]=addparamvec(name, var, vsize,flag,elist)
-  %AddMetadata(name, property, port) 
+function [status]=addparamvec(name, var,flag,elist)
+  %[status]=addparamvec(name, var, flag,elist) 
   
   nargin=length(elist);
   if nargin>0 
@@ -24,12 +24,12 @@ function [status]=addparamvec(name, var, vsize,flag,elist)
   obj.endpoint=['http://',server,':',sport];
 
   %status=ioaddparamvec(obj, id,name,var,vsize,flag);
-
+   vsize=length(var);
    sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
   sval=vectostring(var',',');
   
-  scommand=['iogs addparam vec ',name,' ',sval,' ',num2str(n),' ',num2str(flag),' ',num2str(id),' ',sport,' ',server];
+  scommand=['iogs addparam vec ',name,' ',sval,' ',num2str(vsize),' ',num2str(flag),' ',num2str(id),' ',sport,' ',server];
   display(scommand);
   system(scommand);
 

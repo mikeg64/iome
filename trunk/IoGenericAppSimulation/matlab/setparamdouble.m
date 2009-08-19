@@ -1,13 +1,13 @@
 function [status]=setparamdouble(name, doub,elist)
-  %AddMetadata(name, property, port) 
+  %[status]=setparamdouble(name, doub,elist) 
   
-  nargin=length(elist);
-  if nargin>0 then
-    server=elist(1);
-    if nargin>1 then
-      port=elist(2);
-      if nargin>2 then
-         id=elist(3);
+    nargin=length(elist);
+  if nargin>0 
+    server=elist{1};
+    if nargin>1 
+      port=elist{2};
+      if nargin>2 
+         id=elist{3};
       else
          id=0;
       end 

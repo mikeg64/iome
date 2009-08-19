@@ -1,12 +1,12 @@
 function [value]=getparamint(name,elist)
-  %GetMetadata(name, property, port) 
+  %[value]=getparamint(name,elist)
   
   nargin=length(elist);
-  if nargin>0 then
+  if nargin>0
     server=elist{1};
-    if nargin>1 then
+    if nargin>1
       port=elist{2};
-      if nargin>2 then
+      if nargin>2
          id=elist{3};
       else
          id=0;
@@ -22,8 +22,8 @@ function [value]=getparamint(name,elist)
 
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
-  value=iogetparamint(name, obj,id);
-  return value;
+  value=iogetparamint(obj,id,name);
+
   
  %endfunction
 

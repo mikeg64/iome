@@ -1,12 +1,12 @@
 function [status]=addparammat(name, var,flag,elist)
-  %AddMetadata(name, property, port) 
+  %[status]=addparammat(name, var,flag,elist) 
   
   nargin=length(elist);
-  if nargin>0 then
+  if nargin>0
     server=elist{1};
-    if nargin>1 then
+    if nargin>1
       port=elist{2};
-      if nargin>2 then
+      if nargin>2
          id=elist{3};
       else
          id=0;
@@ -24,7 +24,7 @@ function [status]=addparammat(name, var,flag,elist)
   obj.endpoint=['http://',server,':',sport];
 
   [nr,nc]=size(var);
-  rvar=reshape(var,1,nr*nc);
+  rvar=reshape(var,nr*nc,1);
   %status=(obj, id,name,rvar,nr,nc,flag);
 
  %   ind=1;
@@ -38,7 +38,7 @@ function [status]=addparammat(name, var,flag,elist)
 
   sval=vectostring(rvar',',');
   
-  scommand=['iogs addparam mat ',name,' ',sval,' ',num2str(nr*nc),' ',num2str(flag),' ',num2str(id),' ',sport,' ',server];
+  scommand=['iogs addparam mat ',name,' ',sval,' ',num2str(nr),' ',num2str(nc),' ',num2str(flag),' ',num2str(id),' ',sport,' ',server];
   display(scommand);
   system(scommand);
 

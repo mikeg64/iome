@@ -1,11 +1,11 @@
-function [status]=addparamdouble(name, id,doub, flag,elist)
-  %AddMetadata(name, property, port) 
+function [status]=addparamdouble(name, doub, flag,elist)
+  %[status]=addparamdouble(name, doub, flag,elist) 
   nargin=length(elist);
-  if nargin>0 then
+  if nargin>0
     server=elist{1};
-    if nargin>1 then
+    if nargin>1
       port=elist{2};
-      if nargin>2 then
+      if nargin>2
          id=elist{3};
       else
          id=0;
