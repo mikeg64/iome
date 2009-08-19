@@ -112,37 +112,7 @@ def vectostring(vec,separator):
   
 
 
-def InitIOME(simname, configname, statename, varargin):
-#def [status]=InitIOME(simname, configname, statename,port,server)
-    nargin=len(varargin);
-    if nargin>0:
-        server=varargin[0];
-        if nargin>2:
-            port=varargin[1];
-            id=varargin[2];
-        else:
-            id=0;
-            if nargin>1:
-              port=varargin[2]
-    else:
-        server='localhost';
-        port=8080;
-        id=0;
 
-    #Start the generic simulation
-    #Simulation name
-    #Config name
-    #State file name
-    #port
-
-    try:
-      scommand="iogs startiome "+simname+" "+configname+" "+statename+" "+str(port)+" "+server;
-      result=os.system(scommand);
-    except ValueError:
-      print "InitIOME Errot"
-      result =-1;
-
-    return result;
 
 
 def ExitIOME(varargin):
