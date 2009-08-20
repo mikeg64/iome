@@ -2,11 +2,11 @@ function [value]=writelocalsimulation(filename,elist)
   %GetMetadata(name, property, port) 
   
   nargin=length(elist);
-  if nargin>0 then
+  if nargin>0
     server=elist{1};
-    if nargin>1 then
+    if nargin>1
       port=elist{2};
-      if nargin>2 then
+      if nargin>2
          id=elist{3};
       else
          id=0;
@@ -32,7 +32,7 @@ function [value]=writelocalsimulation(filename,elist)
 	
 	status = fclose(fid);
 
-  return value;
+  %return value;
   
  %endfunction
 

@@ -1,11 +1,11 @@
 function [result]=readlocalsimulation(filename, elist)
 %function [status]=InitIOME(simname, configname, statename,port,server)
   nargin=length(elist);
-  if nargin>0 then
+  if nargin>0 
     server=elist{1};
-    if nargin>1 then
+    if nargin>1 
       port=elist{2};
-      if nargin>2 then
+      if nargin>2 
          id=elist{3};
       else
          id=0;
@@ -25,9 +25,9 @@ function [result]=readlocalsimulation(filename, elist)
   %Simulation Config name
   %returns
   fid = fopen(filename, 'r');
-  [a,count] = fscanf(fid, '%c', inf);
+  a = fscanf(fid, '%c', inf);
   fclose(fid);
-  
+  %display(a)
   result=ioreadlocalsimulation(obj,id,a);
   
 %endfunction
