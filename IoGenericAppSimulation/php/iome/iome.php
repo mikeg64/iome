@@ -138,14 +138,16 @@ function setparamdouble( $name, $val , $ioservice)
 function getparamdouble( $name , $ioservice)
 {	
       $server='http://'.$ioservice->server.':'.$ioservice->port.'/';
-
+      
       if ($ioservice->method == 1){
-                $request = "getparam double ".$name." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $request = "getparam double ".$name." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;	
+                //echo $request ;	
                 $result = iophp($request);
 	}
         elseif ($ioservice->method == 0)
 	{
-                $request = "ioclient getparam double ".$name." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $request = "ioclient getparam double ".$name." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;	
+               	
                 $result=system($request);
 	}
       return $result;
