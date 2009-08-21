@@ -166,7 +166,7 @@ CIoSimulation::CIoSimulation()
 CIoSimulation::~CIoSimulation()
 {
 	//CIoSimulant *pSimulant=NULL;
-	DeleteProperties();
+	//DeleteProperties();
 	delete [] m_sSimName;
 	delete [] m_sConfigFileName;
 	delete [] m_sStateFileName;
