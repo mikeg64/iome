@@ -66,8 +66,7 @@ CIoPropertyManager::CIoPropertyManager()
 
 CIoPropertyManager::~CIoPropertyManager()
 {
-	if(m_pProperties)
-		delete m_pProperties;
+	DeleteProperties();
 
 	m_pProperties=NULL;
 	m_pPropNames.clear();
