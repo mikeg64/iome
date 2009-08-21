@@ -1088,6 +1088,8 @@ void CIoPropertyManager::WriteArrayFlags(ostream &s)
 void CIoPropertyManager::DeleteProp(int index)
 {
 	m_pProperties->DeleteParam(index);
+	DeletePropName(index);
+	DeletePropFlag(index);
 }
 
 void CIoPropertyManager::DeletePropName(int index)
