@@ -184,6 +184,7 @@ CIoSimulation::~CIoSimulation()
 		delete [] m_sOutputFiles;
 
 	DeleteSimulantStates();
+	DeleteMetadata();
 
 
 

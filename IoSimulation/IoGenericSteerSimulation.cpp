@@ -64,7 +64,7 @@ CIoGenericSteerSimulation::~CIoGenericSteerSimulation(void)
 	m_pPropName.clear();
 	m_pPropFlag.clear();
 	m_pnodes.clear();
-	m_pnodes.clear();
+	m_pjobs.clear();
 }
 
 void CIoGenericSteerSimulation::CreatePropNames()
