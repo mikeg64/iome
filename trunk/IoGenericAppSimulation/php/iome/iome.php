@@ -8,7 +8,20 @@ class ioservice {
 
      //$method=0 default using system call
      //$method=1 using zend developed client plugin
-     //$method=2 using nusoap    
+     //$method=2 using nusoap
+
+     function client()
+	{
+	   $server='http://'.$this->server.':'.$this->port.'/';
+           $client = new SoapClient(NULL,
+		array(
+		"location" => $server,
+		"uri"      => "urn:IoSteerWS",
+		"style"    => SOAP_RPC,
+		"use"      => SOAP_ENCODED
+		   ));
+            return $client;
+	}     
 
 }
 
@@ -100,6 +113,91 @@ function mat2vec($mat)
     return $vec;
 }
 
+function addparamint( $name, $val , $ioservice)
+{	
+      $server='http://'.$ioservice->server.':'.$ioservice->port.'/';
+
+      if ($ioservice->method == 1){
+                $request = "addparam int ".$name." ".$val." 7 ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;				
+                $result = iophp($request);
+	}
+        elseif ($ioservice->method == 0)
+	{
+                $request = "ioclient addparam int ".$name." ".$val." 7 ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $result=system($request);
+	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"addparamint",
+			array(new SoapParam($name,"name"),new SoapParam($val,"value"),new SoapParam(7,"iflag"),
+		              new SoapParam($ioservice->id,"id")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#addparamint"));
+
+	}
+      return $result;
+}
+
+
+function setparamint( $name, $val , $ioservice)
+{	
+      $server='http://'.$ioservice->server.':'.$ioservice->port.'/';
+
+      if ($ioservice->method == 1){
+                $request = "setparam int ".$name." ".$val." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;	          	
+                $result = iophp($request);
+	}
+        elseif ($ioservice->method == 0)
+	{
+                $request = "ioclient setparam int ".$name." ".$val." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;
+				
+                $result=system($request);
+	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"setparamint",
+			array(new SoapParam($name,"name"),new SoapParam($val,"value"),
+		              new SoapParam($ioservice->id,"id")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#setparamint"));
+
+	}
+      return $result;
+}
+
+function getparamint( $name , $ioservice)
+{	
+      $server='http://'.$ioservice->server.':'.$ioservice->port.'/';
+      
+      if ($ioservice->method == 1){
+                $request = "getparam int ".$name." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;	
+                //echo $request ;	
+                $result = iophp($request);
+	}
+        elseif ($ioservice->method == 0)
+	{
+                $request = "ioclient getparam int ".$name." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;	
+               	
+                $result=system($request);
+	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"getparamint",
+			array(new SoapParam($name,"name"),
+		              new SoapParam($ioservice->id,"id")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#getparamint"));
+
+	}
+      return $result;
+}
+
 
 function addparamdouble( $name, $val , $ioservice)
 {	
@@ -113,6 +211,17 @@ function addparamdouble( $name, $val , $ioservice)
 	{
                 $request = "ioclient addparam double ".$name." ".$val." 7 ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
                 $result=system($request);
+	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"addparamdouble",
+			array(new SoapParam($name,"name"),new SoapParam($val,"value"),new SoapParam(7,"iflag"),
+		              new SoapParam($ioservice->id,"id")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#addparamdouble"));
+
 	}
       return $result;
 }
@@ -132,6 +241,17 @@ function setparamdouble( $name, $val , $ioservice)
 				
                 $result=system($request);
 	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"setparamdouble",
+			array(new SoapParam($name,"name"),new SoapParam($val,"value"),
+		              new SoapParam($ioservice->id,"id")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#setparamdouble"));
+
+	}
       return $result;
 }
 
@@ -150,6 +270,17 @@ function getparamdouble( $name , $ioservice)
                	
                 $result=system($request);
 	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"getparamdouble",
+			array(new SoapParam($name,"name"),
+		              new SoapParam($ioservice->id,"id")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#getparamdouble"));
+
+	}
       return $result;
 }
 
@@ -158,13 +289,24 @@ function addparamstring( $name, $val , $ioservice)
       $server='http://'.$ioservice->server.':'.$ioservice->port.'/';
 
       if ($ioservice->method == 1){
-                $request = "addparam double ".$name." ".$val." 7 ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;				
+                $request = "addparam string ".$name." ".$val." 7 ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;				
                 $result = iophp($request);
 	}
         elseif ($ioservice->method == 0)
 	{
-                $request = "ioclient addparam double ".$name." ".$val." 7 ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $request = "ioclient addparam string ".$name." ".$val." 7 ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
                 $result=system($request);
+	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"addparamstring",
+			array(new SoapParam($name,"name"),new SoapParam($val,"value"),new SoapParam(7,"iflag"),
+		              new SoapParam($ioservice->id,"id")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#addparamstring"));
+
 	}
       return $result;
 }
@@ -184,6 +326,17 @@ function setparamstring( $name, $val , $ioservice)
 				
                 $result=system($request);
 	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"setparamstring",
+			array(new SoapParam($name,"name"),new SoapParam($val,"value"),
+		              new SoapParam($ioservice->id,"id")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#setparamstring"));
+
+	}
       return $result;
 }
 
@@ -200,6 +353,17 @@ function getparamstring( $name , $ioservice)
                 $request = "ioclient getparam string ".$name." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
                 $result=system($request);
 	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"getparamstring",
+			array(new SoapParam($name,"name"),
+		              new SoapParam($ioservice->id,"id")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#getparamstring"));
+
+	}
       return $result;
 }
 
@@ -209,13 +373,24 @@ function runsimulation( $simfile , $outfile, $ioservice)
       $server='http://'.$ioservice->server.':'.$ioservice->port.'/';
 
       if ($ioservice->method == 1){
-                $request = "runsimulation string ".$simfile." ".$outfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $request = "runsimulation ".$simfile." ".$outfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
                 $result = iophp($request);
 	}
         elseif ($ioservice->method == 0)
 	{
-                $request = "iogs runsimulation string ".$simfile." ".$outfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
+                $request = "iogs runsimulation ".$simfile." ".$outfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
                 $result=system($request);
+	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"runsimulation",
+			array(new SoapParam($simfile,"simfilecontent"),
+		              new SoapParam($ioservice->id,"id")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#runsimulation"));
+
 	}
       return $result;
 }
@@ -233,6 +408,16 @@ function submitsimulation( $simfile , $ioservice)
                 $request = "iogs submitsimulation string ".$simfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
                 $result=system($request);
 	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"submitsimulation",
+			array(new SoapParam($simfile,"simfilecontent")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#submitsimulation"));
+
+	}
       return $result;
 }
 
@@ -248,6 +433,16 @@ function requestsimulation( $simfile , $ioservice)
 	{
                 $request = "iogs requestsimulation string ".$simfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
                 $result=system($request);
+	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"requestsimulation",
+			array(new SoapParam($simfile,"simfilecontent")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#requestsimulation"));
+
 	}
       return $result;
 }
@@ -265,6 +460,16 @@ function runrequestedsimulation( $ioservice)
                 $request = "iogs requestedsimulation string ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
                 $result=system($request);
 	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"runrequestedsimulation",
+			array(new SoapParam($ioservice->id,"isimid")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#runrequestedsimulation"));
+
+	}
       return $result;
 }
 
@@ -280,6 +485,16 @@ function simulationstatus( $ioservice)
 	{
                 $request = "iogs simulationstatus string ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
                 $result=system($request);
+	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"simulationstatus",
+			array(new SoapParam($ioservice->id,"isimid")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#simulationstatus"));
+
 	}
       return $result;
 }
@@ -297,6 +512,16 @@ function setsimulationstatus( $newstatus, $ioservice)
                 $request = "iogs setsimulationstatus string ".$newstatus." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
                 $result=system($request);
 	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"setsimulationstatus",
+			array(new SoapParam($ioservice->id,"isimid"),new SoapParam($newstaus,"newstatus")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#setsimulationstatus"));
+
+	}
       return $result;
 }
 
@@ -312,6 +537,16 @@ function getsimulationresults( $outfile , $ioservice)
 	{
                 $request = "iogs getsimulationresults string ".$outfile." ".$ioservice->id ." ".$ioservice->port ." ".$ioservice->server ;		
                 $result=system($request);
+	}
+        elseif ($ioservice->method == 2)
+	{
+		$client = $ioservice -> client();
+		//$result=$client->__call(
+		$result=$client->__soapCall(			
+			"getsimulationresults",
+			array(new SoapParam($ioservice->id,"isimid")),
+			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#getsimulationresults"));
+
 	}
       return $result;
 }
