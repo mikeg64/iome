@@ -20,6 +20,19 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
 
 <?php 
 
+$ios = new ioservice; 
+$ios->server = "localhost";
+$ios->port = 8080;
+$ios->id = 0;
+$ios->method = 2;
+$client = $ios->client();
+
+print(getparamdouble("d1", $ios)."\n");
+
+
+
+
+
 
 if(!empty($_POST['iodoaction'])){
 
