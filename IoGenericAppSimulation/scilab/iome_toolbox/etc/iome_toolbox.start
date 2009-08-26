@@ -20,12 +20,12 @@ disp('Load macros');
 iome_toolbox_lib = lib(pathmacros);
 
 // load gateways
-disp('Load gateways');
+//disp('Load gateways');
 
 warning_mode = warning('query');
 warning('off');
 // load gateways
-exec( root_tlbx + '/sci_gateway/loader_gateway.sce' );
+//exec( root_tlbx + '/sci_gateway/loader_gateway.sce' );
 warning(warning_mode);
 
 disp('Load help');
@@ -38,9 +38,9 @@ if ( fileinfo(path_addchapter) <> [] ) then
 end
 // ====================================================================
 // add demos
-pathdemos = pathconvert(root_tlbx+"/demos/iome_toolbox.dem.gateway.sce",%f,%t);
-add_demo("IOME Toolbox",pathdemos);
-clear pathdemos ;
+//pathdemos = pathconvert(root_tlbx+"/demos/iome_toolbox.dem.gateway.sce",%f,%t);
+//add_demo("IOME Toolbox",pathdemos);
+//clear pathdemos ;
 // ====================================================================
 clear warning_mode;
 clear path_addchapter;
