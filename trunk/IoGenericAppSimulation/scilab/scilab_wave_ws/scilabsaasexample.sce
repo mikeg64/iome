@@ -1,5 +1,6 @@
 //tdp=getenv('SCILAB_HOME')+'/share/scilab/contrib/iome_toolbox/loader.sce';
-tdp=getenv('SCILAB_HOME')+'/contrib/iome_toolbox/loader.sce';
+//tdp=getenv('SCILAB_HOME')+'/contrib/iome_toolbox/loader.sce';
+tdp=getenv('SCI')+'/contrib/iome_toolbox/loader.sce';
 exec(tdp);
 //this application is started using the io  start scilab application
 exec('../paramssaastest1.sce');
@@ -7,15 +8,16 @@ exec('../wave2d.sce');
 
 //open the file generated
 //portfile='ioserverinfo.txt';                            //add comment if  we are not running standalone
-portfile='saastest0_port.txt';                      //remove comment if  we are not running standalone
-//portfile=metadata.name+'_port.txt';
+//portfile='ioserverinfo.txt';                      //remove comment if  we are not running standalone
+portfile='mysim0_port.txt';
 fd=mopen(portfile,'r');
-res=mfscanf(fd,'%d %d %s')
-//res=mfscanf(fd,'%d')
+//res=mfscanf(fd,'%d %d %s')
+res=mfscanf(fd,'%d')
 mclose(fd);
 
 //port=res(1) id=res(2) hostname=res(3)
-elist=iome(res(3),res(1),res(2));
+//elist=iome(res(3),res(1),res(2));
+elist=iome('localhost',res(1),0);
 
 try
   readsimulation('simfile.xml',elist);
@@ -80,7 +82,7 @@ catch
 end
 
 exitiome(elist);
-//simulationstatus(elist);
+simulationstatus(elist);
 
 //remove comment if we are not running standalone
 
