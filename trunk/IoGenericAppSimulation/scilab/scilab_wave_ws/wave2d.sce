@@ -82,14 +82,14 @@ addmetadata('name',metadata.name,elist);
 addintparam('wavetype',params1.wavetype,7,elist);
 addintparam('nsteps',params1.nsteps,7,elist);
 adddoubleparam('maxamplitude',params1.maxamplitude,7,elist);
-addvecparam('wavenumber',params1.wavenumber,2, 7,elist);   //vec(2)
-adddoubleparam('wavefreq',params1.wavefreq,elist);
-addvecparam('delta',params1.delta,2,elist);               //vec(2)
-addvecparam('nmax',params1.nmax,2,elist);                 //vec(2)
-adddoubleparam('deltat',params1.deltat,elist);
+addvecparam('wavenumber',(params1.wavenumber)',2, 7,elist);   //vec(2)
+adddoubleparam('wavefreq',params1.wavefreq,7,elist);
+addvecparam('delta',(params1.delta)',2,7,elist);               //vec(2)
+addvecparam('nmax',(params1.nmax)',2,7,elist);                 //vec(2)
+adddoubleparam('deltat',params1.deltat,7,elist);
 
-addintparam('steeringenabled',params2.steeringenabled,elist);
-addintparam('finishsteering',params2.finishsteering,elist);
+addintparam('steeringenabled',params2.steeringenabled,7,elist);
+addintparam('finishsteering',params2.finishsteering,7,elist);
 
 
 //params2
