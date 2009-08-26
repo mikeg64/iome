@@ -1,29 +1,21 @@
-tdp=getenv('SCILAB_HOME')+'/share/scilab/contrib/iome_toolbox/loader.sce';
+//tdp=getenv('SCILAB_HOME')+'/share/scilab/contrib/iome_toolbox/loader.sce';
+tdp=getenv('SCILAB_HOME')+'/contrib/iome_toolbox/loader.sce';
 exec(tdp);
 //this application is started using the io  start scilab application
 exec('../paramssaastest1.sce');
-exec('../wave2d.sce')
-portid=8081;
-jobid=2;
+exec('../wave2d.sce');
+
 //open the file generated
 //portfile='ioserverinfo.txt';                            //add comment if  we are not running standalone
 portfile='saastest0_port.txt';                      //remove comment if  we are not running standalone
 //portfile=metadata.name+'_port.txt';
 fd=mopen(portfile,'r');
-//res=mfscanf(fd,'%d %d %s')
-res=mfscanf(fd,'%d')
+res=mfscanf(fd,'%d %d %s')
+//res=mfscanf(fd,'%d')
 mclose(fd);
 
-elist(2)=res(1);  //port
-//elist(3)=res(2);  //id
-elist(3)=0;
-//elist(1)=res(3);  //hostname
-elist(1)='localhost'
-
-//Add data to logfile
-//simfile='mine.xml'
-//createsim(consts,domain,source,metadata,simfile,elist);
-//WriteSimulation(simfile,elist);
+//port=res(1) id=res(2) hostname=res(3)
+elist=iome(res(3),res(1),res(2));
 
 try
   readsimulation('simfile.xml',elist);
@@ -36,13 +28,59 @@ mkdir(metadata.directory);
 mkdir('dx');
 
 try
-//  runsim(consts,domain,source,elist);
+  wavetype=params1.wavetype; //travelling
+  nsteps=params1.nsteps;
+  maxamplitude=params1.maxamplitude;
+  wavenumber=params1.wavenumber;
+  wavefreq=params1.wavefreq;
+  delta=params1.delta;
+  nmax=params1.nmax;
+  deltat=params1.deltat;
+  steeringenabled=params2.steeringenabled;
+  finishsteering=params2.finishsteering;
+
+
+  //params2
+  tstep=params2.tstep;
+
+
+  jobname=params2.jobname;;
+  //chdir( jobname);
+  //outfile='.out';
+  //formfile='.form';
+  
+  outfile=jobname+'.out';
+  formfile=jobname+'.form'; 
+  //  x=1:1:nmax(1);
+  //y=1:1:nmax(2);
+
+  fdform=mopen(formfile,'w');
+    mfprintf(fdform, '%d %d %d\n',nsteps, nmax(1), nmax(2));
+  mclose(fdform);
+
+  fd=mopen(outfile,'w');
+
+  for i=tstep:tstep+nsteps
+  z=wave2d(i*deltat, wavetype, maxamplitude, wavenumber, wavefreq, delta,nmax);
+   
+  //Write data to output
+
+   mfprintf(fd, '%d %d %d\n',i, nmax(1), nmax(2));
+   for j1=1:nmax(1)
+    for j2=1:nmax(2)
+        mfprintf(fd, '%f',z(j1,j2));
+    end
+    mfprintf(fd, '\n');
+   end
+
+  end //end of cycling over steps
+  mclose(fd);
 catch
    disp('failed to run sim');
 end
 
 exitiome(elist);
-simulationstatus(elist);
+//simulationstatus(elist);
 
 //remove comment if we are not running standalone
 
