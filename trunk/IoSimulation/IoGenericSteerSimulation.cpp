@@ -756,11 +756,11 @@ void CIoGenericSteerSimulation::RunSimulation()
 	try
 	{
 	#ifndef IO_MSVC
-		//system("./iogenericsim.sh");
-		pid=fork();
-		if(pid !=0)
-			m_ipid=pid;
-		execl( "./iogenericsim.sh", "iogenericsim.sh", NULL );
+		system("./iogenericsim.sh");
+		//pid=fork();
+		//if(pid !=0)
+		//	m_ipid=pid;
+		//execl( "./iogenericsim.sh", "iogenericsim.sh", NULL );
 		/*if((pid=fork())<0)
 		         procstatus=-1;
 		         
