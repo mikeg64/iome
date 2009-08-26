@@ -21,7 +21,7 @@ function [status]=addvecparam(name, var, vsize,flag,elist)
   end
 
   try
-    vecstring=vectostring(var,' ');
+    vecstring=vectostring(var,',');
     
     //put double quotes around the vec string so that it is
     //passed into unix shell script as a single variable
