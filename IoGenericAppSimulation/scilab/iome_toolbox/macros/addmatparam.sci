@@ -22,7 +22,7 @@ function [mat]=addmatparam(name,nr,nc,elist)
 
   
   try
-    scommand=sprintf("iogs getparam mat %s %d %d %d %d %s", name,nr,nc,  id,port,server);
+    scommand=sprintf("iogs addparam mat %s %d %d 7 %d %d %s", name,nr,nc,  id,port,server);
     result=unix_g(scommand);
     tmat=stringtovec(result, nr*nc,' ');
     
