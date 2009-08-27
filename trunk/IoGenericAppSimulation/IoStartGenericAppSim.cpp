@@ -198,7 +198,7 @@ char script[300];
 char appscript[300];
 struct soap m_soapclient;
 int finish=0;
-
+char m_workingdir[600]=".";
 #ifndef MAXNUMSIMS
 		#define MAXNUMSIMS 5
 #endif
@@ -1520,12 +1520,7 @@ int ns__runsimulation(struct soap *soap,int id,char *simfilecontent, char **resu
 					sprintf(command,"cp -p iogenericsim.sh %s/iogenericsim.sh",jobdir.c_str());
 					system(command);
 			   		chdir(jobdir.c_str());
-<<<<<<< .mine
 			   		system("chmod a+x iogenericsim.sh");
-=======
-			   		system("chmod a+x iogenericsim.sh");
-			   		
->>>>>>> .r154
 				#else
 		   			_chdir(m_workingdir);		   						
 			   		_mkdir(jobdir.c_str());
@@ -1789,11 +1784,9 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 		strcpy(simdataarray[simid].dir,jobdir.c_str());
 
 		isimid=&(simdataarray[simid].isimid);
-<<<<<<< .mine
-		pthread_create(&simdataarray[simid].tid, NULL, (void*(*)(void*))runsimulation, (void*)isimid);
-=======
+
 		pthread_create(&simdataarray[simid].tid, NULL, (void*(*)(void*))runanddeletesimulation, (void*)isimid);
->>>>>>> .r154
+
 		printf("Job submitted id=%d status=1  dir=%s  threadid=%d numjobs=%d \n",simid,simdataarray[simid].dir,simdataarray[simid].tid,numsims);
 
 			   	#ifndef IO_MSVC
