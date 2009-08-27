@@ -6210,6 +6210,8 @@ int RunSimulation( int argc, char **argv)
 	char *sservername="";
 	char *sresults="";
 	char *sin=NULL;
+	string sinput="";
+
 	int id=0;
 	string simfilecontent;
 
@@ -6241,7 +6243,6 @@ int RunSimulation( int argc, char **argv)
 
 	if(strcmp(infile,"")!=0)
 	{
-			string sinput="";
 			string sline="";
 			FILE *inf;
 			if((inf=fopen(infile,"r")) != NULL )
@@ -6290,6 +6291,7 @@ int SubmitSimulation( int argc, char **argv)
 	char *sservername="";
 	char *sresults="";
 	char *sin=NULL;
+	string sinput="";
 	string simfilecontent;
 	int isimid;
 	
@@ -6318,7 +6320,7 @@ int SubmitSimulation( int argc, char **argv)
 
 	if((strcmp(infile,"")!=0) &&  (strcmp(infile,"null")!=0))
 	{
-			string sinput="";
+			
 			string sline="";
 			FILE *inf;
 			if((inf=fopen(infile,"r")) != NULL )
