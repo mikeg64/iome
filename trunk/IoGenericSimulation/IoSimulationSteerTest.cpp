@@ -1915,7 +1915,7 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 			filestr.open (filename.c_str(), fstream::out );
             filestr<<simfilecontent; 
 			filestr.close();
-            printf("simfilecontent: %s\n",simfilecontent);
+            //printf("simfilecontent: %s\n",simfilecontent);
 			status=LocalTestSimulation->CreateSimulation((char *)filename.c_str());
 
 			//write data to output string
