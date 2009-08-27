@@ -1618,7 +1618,7 @@ int ns__newsimulation(struct soap *soap,int id,char *simname, char *xslname, int
 			jpid=TestSimulation->GetJobProcid(id);
 		    if(jpid==TestSimulation->m_iprocid)
 			{
-			    if((TestSimulation->m_inumprocs==1) && (id <(m_numsubprocs+MAXNUMSIMS)))
+			    if((TestSimulation->m_inumprocs==1) && (id <(numsims < m_numsubprocs+m_maxsims)))
 				{
 					isubprocid=id;
 
@@ -1701,7 +1701,7 @@ int ns__createsimulation(struct soap *soap,int id,char *filename, int *status)
 			jpid=TestSimulation->GetJobProcid(id);
 		    if(jpid==TestSimulation->m_iprocid)
 			{
-			    if((TestSimulation->m_inumprocs==1) && (id <(m_numsubprocs+MAXNUMSIMS)))
+			    if((TestSimulation->m_inumprocs==1) && (id <(numsims < m_numsubprocs+m_maxsims)))
 				{
 					isubprocid=id;
 
@@ -1762,11 +1762,11 @@ int ns__runsimulation(struct soap *soap,int id,char *simfilecontent, char **resu
 	{
 	try
 	{
-		if((numsims < m_numsubprocs+MAXNUMSIMS) )
+		if((numsims < m_numsubprocs+m_maxsims) )
 		{
 	
-			if((standalone==1) && (numsims>MAXNUMTHREADS))
-				return SOAP_OK;
+			//if((standalone==1) && (numsims>MAXNUMTHREADS))
+			//	return SOAP_OK;
 	
 				int simid;
 			if((simid=getsimdata())<0)
@@ -1962,11 +1962,11 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 	{
 	try
 	{
-	if((numsims < m_numsubprocs+MAXNUMSIMS) )
+	if((numsims < m_numsubprocs+m_maxsims) )
 	{
 
-		if((standalone==1) && (numsims>MAXNUMTHREADS))
-			return SOAP_OK;
+		//if((standalone==1) && (numsims>MAXNUMTHREADS))
+		//	return SOAP_OK;
 
 		int simid;
 		if((simid=getsimdata())<0)
@@ -2098,8 +2098,8 @@ int ns__requestsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 	if((numsims < m_numsubprocs+m_maxsims) )
 	{
 
-		if((standalone==1) && (numsims>MAXNUMTHREADS))
-			return SOAP_OK;
+		//if((standalone==1) && (numsims>MAXNUMTHREADS))
+		//	return SOAP_OK;
 
 	CIoGenericSteerSimulation *LocalTestSimulation;
     
