@@ -148,6 +148,7 @@ int m_wsflags[49];
 static CIoInitialiser m_Init;
 CIoGenericSteerSimulation *TestSimulation=NULL;
 static void *runsimulation(void *simulationid);
+static void *runanddeletesimulation(void *simulationid);
 static void *runscript(void *simulation);
 static void *executesimulation(void *simulation);	
 static void *process_request(void *soap);
@@ -160,7 +161,7 @@ char m_hostname[300] = "localhost";
 int m_port=8080;
 int port=m_port;
 struct soap m_soapclient;
-
+char m_workingdir[600]=".";
 struct simdata 
 {
 public :
