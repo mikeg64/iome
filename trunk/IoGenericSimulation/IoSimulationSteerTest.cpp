@@ -963,6 +963,7 @@ void *runsimulation(void *simulationid)
 		{
 			#ifndef IO_MSVC
 			   	  chdir(jobdir.c_str());
+			   	  //printf("job dir %s \n",jobdir.c_str());
 			#else
 			   	  _chdir(jobdir.c_str());
 			#endif	
@@ -1695,9 +1696,11 @@ int ns__runsimulation(struct soap *soap,int id,char *simfilecontent, char **resu
 				char command[500];
 		   		#ifndef IO_MSVC
 			   		mkdir(jobdir.c_str(),0755);
-					sprintf(command,"cp iogenericsim.sh %s/iogenericsim.sh",jobdir.c_str());
+					sprintf(command,"cp -p iogenericsim.sh %s/iogenericsim.sh",jobdir.c_str());
 					system(command);
 			   		chdir(jobdir.c_str());
+			   		system("chmod a+x iogenericsim.sh");
+			   		
 				#else
 			   		_mkdir(jobdir.c_str());
 					sprintf(command,"copy iogenericsim.bat %s\\iogenericsim.bat",jobdir.c_str());
@@ -1888,9 +1891,10 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 			char command[500];
 		   	#ifndef IO_MSVC
 			   	  mkdir(jobdir.c_str(),0755);
-				  sprintf(command,"cp iogenericsim.sh %s/iogenericsim.sh",jobdir.c_str());
+				  sprintf(command,"cp -p iogenericsim.sh %s/iogenericsim.sh",jobdir.c_str());
 				  system(command);
 			   	  chdir(jobdir.c_str());
+			   	  system("chmod a+x iogenericsim.sh");
 			#else
 			   	  _mkdir(jobdir.c_str());
 				  sprintf(command,"copy iogenericsim.bat %s\\iogenericsim.bat",jobdir.c_str());
@@ -1911,7 +1915,7 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 			filestr.open (filename.c_str(), fstream::out );
             filestr<<simfilecontent; 
 			filestr.close();
-
+            printf("simfilecontent: %s\n",simfilecontent);
 			status=LocalTestSimulation->CreateSimulation((char *)filename.c_str());
 
 			//write data to output string
@@ -1957,7 +1961,7 @@ int ns__submitsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 		strcpy(simdataarray[simid].dir,jobdir.c_str());
 
 		isimid=&(simdataarray[simid].isimid);
-		pthread_create(&simdataarray[simid].tid, NULL, (void*(*)(void*))runsimulation, (void*)&simid);
+		pthread_create(&simdataarray[simid].tid, NULL, (void*(*)(void*))runsimulation, (void*)isimid);
 		printf("Job submitted id=%d status=1  dir=%s  threadid=%d numjobs=%d \n",simid,simdataarray[simid].dir,simdataarray[simid].tid,numsims);
 
 			   	#ifndef IO_MSVC
@@ -2020,9 +2024,10 @@ int ns__requestsimulation(struct soap *soap,char *simfilecontent, int *isimid)
 		char command[500];
 		   	#ifndef IO_MSVC
 			   	  mkdir(jobdir.c_str(),0755);
-				  sprintf(command,"cp iogenericsim.sh %s/iogenericsim.sh",jobdir.c_str());
+				  sprintf(command,"cp -p iogenericsim.sh %s/iogenericsim.sh",jobdir.c_str());
 				  system(command);
 			   	  chdir(jobdir.c_str());
+			   	  system("chmod a+x iogenericsim.sh");			   	  
 			#else
 			   	  _mkdir(jobdir.c_str());
 				  sprintf(command,"copy iogenericsim.bat %s\\iogenericsim.bat",jobdir.c_str());
@@ -2122,6 +2127,7 @@ int ns__runrequestedsimulation(struct soap *soap,int isimid, int *istatus)
 	string filename="simfile.xml";
 	string jobdir;
 	int id=isimid;
+	int *iisimid;
 	int status=0;
     if(m_wsflags[IDns__runrequestedsimulation]==1)
 	{
@@ -2156,9 +2162,10 @@ int ns__runrequestedsimulation(struct soap *soap,int isimid, int *istatus)
 			   	  _chdir(jobdir.c_str());
 		#endif
         
+        *iisimid=isimid;
         
 		//isimid=&(simdataarray[isimid].isimid);
-		pthread_create(&simdataarray[isimid].tid, NULL, (void*(*)(void*))runsimulation, (void*)&isimid);
+		pthread_create(&simdataarray[isimid].tid, NULL, (void*(*)(void*))runsimulation, (void*)isimid);
 		printf("Job runrequested id=%d status=1  dir=%s  threadid=%d numjobs=%d \n",isimid,simdataarray[isimid].dir,simdataarray[isimid].tid,numsims);
 
         #ifndef IO_MSVC
@@ -2360,13 +2367,14 @@ try
 	if((numsims <= m_maxsims) && (isimid <= numsims))
 	{
 
-		if((standalone==1) && (numsims>MAXNUMTHREADS))
-			return SOAP_OK;
+		//if((standalone==1) && (numsims>MAXNUMTHREADS))
+		//	return SOAP_OK;
 		sjobdir=simdataarray[isimid].dir;
 	
 		   	#ifndef IO_MSVC
 			   	  //mkdir(jobdir.c_str(),0755);
-			   	  chdir(sjobdir.c_str());
+			   	  //chdir(sjobdir.c_str());
+			   	  ;
 			   	#else
 			   	  //_mkdir(jobdir.c_str());
 			   	  _chdir(sjobdir.c_str());
@@ -2375,7 +2383,7 @@ try
 	    LocalTestSimulation=(CIoGenericSteerSimulation *)(simdataarray[isimid].simptr);	
 		*status=simdataarray[isimid].status;
 
-		pthread_cancel(simdataarray[isimid].tid);
+//		pthread_cancel(simdataarray[isimid].tid);
 		simdataarray[isimid].isimid=-1;
 		simdataarray[isimid].simptr=NULL;
 		simdataarray[isimid].status=-1;
@@ -2391,17 +2399,21 @@ try
 		#ifndef IO_MSVC
 			   	  
 			   	  string sdelcommand="/bin/rm -rf ";
+			   	  
+			   	  printf("deleting %s %s\n",sdelcommand.c_str(),sjobdir.c_str());
 			   	  sdelcommand.append(sjobdir);
 			   	  system(sdelcommand.c_str());
-				  chdir("..");
-				  rmdir(sjobdir.c_str());
+				  //chdir("..");
+				  //rmdir(sjobdir.c_str());
+				  printf("deleting %s %s\n",sdelcommand.c_str(),sjobdir.c_str());
+				  
 			#else
 			   	  remove("*");
 			   	  _chdir("..");
 			   	  _rmdir(sjobdir.c_str());
 			#endif
 
-		   pthread_cancel(simdataarray[isimid].tid);
+		   //pthread_cancel(simdataarray[isimid].tid);
 
 	}
 }
