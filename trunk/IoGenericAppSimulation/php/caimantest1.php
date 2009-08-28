@@ -28,7 +28,21 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla') !== FALSE) {
       <input     name="MAX_FILE_SIZE" value="2000000" type="hidden">
       <!-- Name of input element determines name in $_FILES array -->
       <p><b>Input image: </b><br />
-      <input name="userfile" type="file"> 
+      <input name="userfile" type="file"><br />
+        MergeRGBChannels...........:
+	<input type="radio"
+	name="jobtype" value="ME">
+	<br>
+	Shading Correction.........:
+	<input type="radio" name="jobtype" value="SH">
+	<br>
+	Migration..................:
+	<input type="radio" name="jobtype" value="MI">
+	<br>
+	Scale Space Dimensions.....:
+	<input type="radio" name="jobtype" value="VT">
+	<br>
+ 
       <input value="Send File" type="submit"></p>
 </form>
 
