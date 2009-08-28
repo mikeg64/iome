@@ -128,13 +128,11 @@ function addparamint( $name, $val , $ioservice)
 	}
         elseif ($ioservice->method == 2)
 	{
+		$iflag=7;		
 		$client = $ioservice -> client();
 		//$result=$client->__call(
 		$result=$client->__soapCall(			
-			"addparamint",
-			array(new SoapParam($name,"name"),new SoapParam($val,"value"),new SoapParam(7,"iflag"),
-		              new SoapParam($ioservice->id,"id")),
-			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#addparamint"));
+			"addparamint",array(new SoapParam($name,"name"),new SoapParam($val,"value"),new SoapParam($iflag,"iflag"),new SoapParam($ioservice->id,"id")),array("uri" => "urn:IoSteerWS","soapaction"=>"urn:IoSteerWS#addparamint"));
 
 	}
       return $result;
@@ -214,13 +212,12 @@ function addparamdouble( $name, $val , $ioservice)
 	}
         elseif ($ioservice->method == 2)
 	{
+		$iflag=7;		
 		$client = $ioservice -> client();
 		//$result=$client->__call(
 		$result=$client->__soapCall(			
 			"addparamdouble",
-			array(new SoapParam($name,"name"),new SoapParam($val,"value"),new SoapParam(7,"iflag"),
-		              new SoapParam($ioservice->id,"id")),
-			array("uri" => "urn:IoSteerWS","soapaction" => "urn:IoSteerWS#addparamdouble"));
+			array(new SoapParam($name,"name"),new SoapParam($val,"value"),new SoapParam($iflag,"iflag"),new SoapParam($ioservice->id,"id")),array("uri" => "urn:IoSteerWS","soapaction"=>"urn:IoSteerWS#addparamdouble"));
 
 	}
       return $result;

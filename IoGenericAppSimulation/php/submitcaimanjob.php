@@ -8,7 +8,8 @@ $myioservice->id = 0;
 $myioservice->method = 1;
 
 //need correct write permission on target path
-$target_path="/var/www/html/uploads/";
+//$target_path="/var/www/html/uploads/";
+$target_path="/webusers/cs1mkg/public_html/iometest/uploads/";
 //echo $target_path ;
 echo getcwd();
 $target_path = $target_path.basename( $_FILES['userfile']['name']); 
@@ -22,6 +23,11 @@ if(move_uploaded_file($_FILES['userfile']['tmp_name'], $target_path)) {
         $useremail = $_POST['useremail'];
 
         }
+        $jobtype=0;
+ 	if(!empty($_POST['jobtype'])){
+        $jobtype = $_POST['jobtype'];
+
+        }
 	   /*The following lines read the job template xml file*/
 	   /*The %items%  in the jobfile content are replaced with
 	   the variable parameters*/
@@ -31,11 +37,13 @@ if(move_uploaded_file($_FILES['userfile']['tmp_name'], $target_path)) {
 	$jobfile = file_get_contents  ( "iocaimanphp.xml");
         $imagecontents = file_get_contents  ( $target_path);
         $tempjobfile = str_replace("%imagefile%", $imagefile, $jobfile);
-        $jobfile = str_replace("%useremail%", $useremail, $tempjobfile);
+        $temptjobfile = str_replace("%useremail%", $useremail, $tempjobfile);
+        $jobfile = str_replace("%jobtype%", $jobtype, $temptjobfile);
 
         //submit the job to the server
         //when the job runs it will pull the binary image file from the ftp server
-         //echo $jobfile ;
+        echo $imagefile ;
+        echo $jobtype;
 	//$result=(string)setparamdouble($name,(float)$_POST['floatval'],$myioservice);
 
 
