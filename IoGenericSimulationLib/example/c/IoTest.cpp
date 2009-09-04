@@ -59,7 +59,9 @@ int main(int argc, char* argv[])
 	#endif
 	int it=0; //test integer to be returned 
     //getintparam_( int id,char *sname,int *iv,  int port, char *sserver );
-    getintparam_( 0,"i1",&it,  8080, "localhost" );	
+    int id=0;
+    int port=8080;
+    getintparam_( &id,"i1",&it,  &port, "localhost" );	
 	printf("Get integer %d\n",it);
     //Set input filename as first arg
 	//if NULL use defaults
