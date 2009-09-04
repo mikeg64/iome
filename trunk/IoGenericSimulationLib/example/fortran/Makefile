@@ -4,8 +4,11 @@
 include make_suilven
 ### End User configurable options ###
 
-
-
+#use the following 3 lines when compiling 
+#with just the library libIoGenericSimulationl.a
+#BASICEXOBJS	=\
+#	IoTestc.o\
+#	IoTest.o
 
 
 BASICEXOBJS	=\
