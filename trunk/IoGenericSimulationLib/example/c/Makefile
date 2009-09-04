@@ -7,7 +7,7 @@ include make_suilven
 
 
 
-
+#use this BASICEXOBJS if not compiling with the libIoGenericSimulation
 BASICEXOBJS	=\
 	$(oDir)/IoTest.o\
 	../../IoGenericSimulationLib.o\
@@ -16,6 +16,9 @@ BASICEXOBJS	=\
 	../../../IoSimulation/soapC.o\
 	../../../IoSimulation/soapClient.o
 
+#use this BASICEXOBJS if  compiling with the libIoGenericSimulation
+BASICEXOBJS	=\
+	$(oDir)/IoTest.o
 	
 ALLOBJS	=	$(BASICEXOBJS)
 ALLBIN	=	$(Bin)/iotestc
