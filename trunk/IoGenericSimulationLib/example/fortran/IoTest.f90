@@ -9,8 +9,8 @@
       i1=0
       port=8080
       id=0
-!      server="localhost"//null
-!      name="i1"//null
+      server="localhost"//null
+      name="i1"//null
 !      print * ,'in fortan:',  server  
 
 !     getintparam_( int id,char *sname,int *iv,  int port, char *sserver );
