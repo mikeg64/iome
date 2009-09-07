@@ -4,22 +4,20 @@
 include make_suilven
 ### End User configurable options ###
 
-#use the following 3 lines when compiling 
-#with just the library libIoGenericSimulationl.a
-#BASICEXOBJS	=\
-#	IoTestc.o\
-#	IoTest.o
+
+
+
+
 
 
 BASICEXOBJS	=\
 	IoTestc.o\
-	IoTest.o\
-	../../IoGenericSimulationLib.o\
-	../../../IoSimulation/IoGenericSteerSimulation.o\
-	../../../IoSimulation/stdsoap2.o\
-	../../../IoSimulation/soapC.o\
-	../../../IoSimulation/soapClient.o
-
+	IoTest.o
+#	../../IoGenericSimulationLib.o\
+#	../../../IoSimulation/IoGenericSteerSimulation.o\
+#	../../../IoSimulation/stdsoap2.o\
+#	../../../IoSimulation/soapC.o\
+#	../../../IoSimulation/soapClient.o
 	
 ALLOBJS	=	$(BASICEXOBJS)
 ALLBIN	=	$(Bin)/iotestf
@@ -47,15 +45,6 @@ cleanall:	cleanobjs cleanbin
 
 all: iotestf
 
-
-
-
-
-
-#all:IoSimTestSimple
-	
-#clean:
-#	-rm $(OBJ) $(Bin)/IoSimTestSimple
 
 #@# Dependency rules follow -----------------------------
 
