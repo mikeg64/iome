@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns="urn:IoSteerWS">
+ <SOAP-ENV:Body SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <ns:setparammmat3d>
+   <id>0</id>
+   <name></name>
+   <value SOAP-ENC:arrayType="xsd:double[1]">
+    <item>0.0</item>
+   </value>
+   <n>0</n>
+   <p>0</p>
+   <q>0</q>
+   <nr>0</nr>
+   <nc>0</nc>
+  </ns:setparammmat3d>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
