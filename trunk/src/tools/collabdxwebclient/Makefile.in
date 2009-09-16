@@ -30,7 +30,7 @@ CXX = @CXX@
 CC = @CC@
 CFLAGS = -I. @CFLAGS@
 LDFLAGS = @LDFLAGS@
-LIBS = @LIBS@
+#LIBS = @LIBS@
 INSTALL = cp
 prefix = @prefix@
 exec_prefix = @exec_prefix@
@@ -41,7 +41,7 @@ infodir = $(prefix)/info
 DXBASE = @DXLIB@/dx
 LIBDXL=$(DXBASE)/lib_linux/libDXL.a
 XLIBS   = -lXm -lXt -lX11
-EXTRACFLAGS =  -Dlinux -DBASE=\"$(DXBASE)\" -I$(XERCESCROOT)/include -I$(XALANCROOT)/src -I$(XALANCROOT) -I$(prefix)/include -DIO_XERCESCVERSION=@XERCESCVERSION@ -I/usr/X11R6/include
+EXTRACFLAGS =  -Dlinux -DBASE=\"$(DXBASE)\" -I$(XERCESCROOT)/include -I$(XALANCROOT)/src -I$(XALANCROOT)  -I$(DXBASE)/include  -I$(prefix)/include -DIO_XERCESCVERSION=@XERCESCVERSION@ -I/usr/X11R6/include
 EXTRALIB	=	-lm -L$(XERCESCROOT)/lib -L$(XALANCROOT)/lib -lxerces-c -lxalan-c -L$(prefix)/lib  -L$(DXBASE)/lib_linux -L/usr/X11R6/lib -lm -ldl $(LIBDXL) $(XLIBS) $(libdir)/libioutils.a  $(libdir)/libiosimulation.a
 
 

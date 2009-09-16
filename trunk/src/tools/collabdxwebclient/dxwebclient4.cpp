@@ -26,7 +26,7 @@
 #include <Xm/PushBG.h>
 #include <Xm/FileSB.h>
 
-#include "dxl.h"
+#include <dxl.h>
 
 #ifndef IO_MSVC
 	#include <iome/simulation/IoInitialiser.h>
