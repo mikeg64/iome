@@ -101,25 +101,19 @@ uninstall:
 
 
 libioutils.a: $(OBJS)
-<<<<<<< .mine
-	/bin/rm -f $(libdir)/libioutils.a
-	$(AR) $(AR_FLAGS) libioutils.a $(LIB_OBJS)
-=======
+
 	/bin/rm -f libioutils.a
 	$(AR) $(AR_FLAGS) libioutils.a $(OBJS)
 #	$(RANLIB) libMYPROG.a
->>>>>>> .r192
 
-<<<<<<< .mine
-.cpp.o:
-	$(CXX) $(CFLAGS) $(INCLUDES) -c $<
-=======
+
+
 .cpp.o:
 	$(CXX) $(FLAGS) $(INCLUDES) -c $<
 
 PROG: $(OBJS) libMYPROG.a
 	$(CC) $(CFLAGS) -o PROG $(OBJS) $(LIBS)
->>>>>>> .r192
+
 
 #PROG: $(OBJS) libMYPROG.a
 #	$(CC) $(CFLAGS) -o PROG $(OBJS) $(LIBS)
@@ -143,16 +137,16 @@ maintainer-clean: clean
 #	cd ${srcdir} && autoconf
 
 # autoheader might not change config.h.in, so touch a stamp file
-${srcdir}/config.h.in: stamp-h.in
-${srcdir}/stamp-h.in: configure.in aclocal.m4
-		cd ${srcdir} && autoheader
-		echo timestamp > ${srcdir}/stamp-h.in
+#${srcdir}/config.h.in: stamp-h.in
+#${srcdir}/stamp-h.in: configure.in aclocal.m4
+#		cd ${srcdir} && autoheader
+#		echo timestamp > ${srcdir}/stamp-h.in
 
-config.h: stamp-h
-stamp-h: config.h.in config.status
-	./config.status
-Makefile: Makefile.in config.status
-	./config.status
-config.status: configure
-	./config.status --recheck
+#config.h: stamp-h
+#stamp-h: config.h.in config.status
+#	./config.status
+#Makefile: Makefile.in config.status
+#	./config.status
+#config.status: configure
+#	./config.status --recheck
 
