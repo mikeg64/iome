@@ -1,0 +1,87 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ(2.59)
+AC_INIT(FULL-PACKAGE-NAME, VERSION, BUG-REPORT-ADDRESS)
+AC_CONFIG_SRCDIR([config.h.in])
+AC_CONFIG_HEADER([config.h])
+
+# Checks for programs.
+AC_PROG_CXX
+AC_PROG_AWK
+AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AC_PROG_RANLIB
+
+# Checks for libraries.
+#AC_DEFINE([IO_XERCESCVERSION], ["xercesc_2_8"],
+#            [xerces version.])
+
+
+
+#if user types XERCESCVERSION=xercesc_2_7
+# on the ./configure command line
+#then set this variable in the Makefile.in
+#we have defined a variable called @XERCESCVERSION@
+AC_SUBST(XERCESCVERSION)
+if test -z $XERCESCVERSION;
+then
+    AC_SUBST(XERCESCVERSION,xercesc_2_8)
+fi
+
+AC_CHECK_LIB(xerces-c,XercesDOMParser::XercesDOMParser, [], [echo "Please Install the Apache Xerces-c library!"])
+#AC_CHECK_LIB(xerces-c,$XERCESCVERSION::XercesDOMParser::XercesDOMParser)
+
+# Checks for header files.
+AC_HEADER_STDC
+AC_HEADER_SYS_WAIT
+AC_CHECK_HEADERS([arpa/inet.h fcntl.h float.h limits.h netdb.h netinet/in.h stdlib.h string.h strings.h sys/ioctl.h sys/socket.h sys/time.h sys/timeb.h unistd.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+AC_C_CONST
+AC_C_INLINE
+AC_TYPE_SIZE_T
+AC_HEADER_TIME
+AC_STRUCT_TM
+
+# Checks for library functions.
+AC_FUNC_ERROR_AT_LINE
+AC_FUNC_FORK
+AC_PROG_GCC_TRADITIONAL
+AC_FUNC_MALLOC
+AC_FUNC_MEMCMP
+AC_FUNC_MKTIME
+AC_FUNC_SELECT_ARGTYPES
+AC_FUNC_STAT
+AC_FUNC_STRFTIME
+AC_FUNC_STRTOD
+AC_CHECK_FUNCS([floor ftime getcwd gethostbyname gettimeofday localtime_r memmove memset mkdir pow putenv rmdir select socket sqrt strchr strerror strstr strtoull])
+AC_CHECK_PROGS([SOAPCPP2],[soapcpp2],[yes],[echo Please install soap])
+AC_PATH_PROG([GSOAP_HOME],[soapcpp2])
+
+
+#Ensure that the correct copy of the stdsoap2.h and stdsoap2.cpp
+#header and source file
+echo "Copying stdsoap2.h and stdsoap2.cpp from the gsoap installation"
+AC_SUBST([STDSOAP2H], [`locate stdsoap2.h | tail -n 1`])
+AC_SUBST([STDSOAP2CPP], [`locate stdsoap2.cpp | tail -n 1`])
+echo $STDSOAP2H
+echo $STDSOAP2CPP
+cp $STDSOAP2H iome/simulation/stdsoap2.h
+cp $STDSOAP2CPP iome/simulation/stdsoap2.cpp
+
+AC_CONFIG_FILES([Makefile
+                 iome/Makefile
+                 iome/genericsimulationlib/Makefile
+                 iome/simulation/Makefile
+                 iome/utils/Makefile
+                 tools/Makefile
+                 tools/genericappsimulation/Makefile
+                 tools/genericgroupapp/Makefile
+                 tools/genericsimulation/Makefile
+                 tools/genericsimulationclient/Makefile
+                 tools/steerproxyws/Makefile])
+AC_OUTPUT

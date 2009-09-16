@@ -1,0 +1,200 @@
+# Main Makefile for Mike Griffiths iome application
+# Copyright (C) 1996 Michael Kenneth Griffiths.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+SHELL = /bin/sh
+top_srcdir = @top_srcdir@
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+.SUFFIXES:
+.SUFFIXES: .cpp .o
+
+OPT=-g -O
+
+AR = ar
+AR_FLAGS = rc
+#RANLIB = @RANLIB@
+CXX = @CXX@
+CC = @CC@
+CFLAGS = -I. @CFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+INSTALL = cp
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = $(exec_prefix)/bin
+libdir = $(prefix)/lib
+infodir = $(prefix)/info
+EXTRACFLAGS = -I$(XERCESCROOT)/include -I$(XALANCROOT)/src -I$(XALANCROOT) -I$(prefix)/include -DIO_XERCESCVERSION=@XERCESCVERSION@
+#EXTRALIB	=	-lm -L$(XERCESCROOT)/lib -L$(XALANCROOT)/lib -lxerces-c -lxalan-c -L$(prefix)/lib
+MYLIBS = ../../../lib/libioutils.a ../utils/IoFileUtils.o
+SOURCES = IoSimHandler.cpp \
+	IoSimulant.cpp \
+	IoEntity.cpp \
+	IoEntityType.cpp \
+	IoEntityTypeSet.cpp \
+	IoEntitySet.cpp \
+	IoEntityArray1d.cpp \
+	IoEntityArray3d.cpp \
+	IoEntityList.cpp \
+	IoModel.cpp \
+	IoSimulator.cpp \
+	IoSimulation.cpp \
+	IoInitialiser.cpp \
+	IoConfigDOMBuilder.cpp \
+	IoConfigDOMPrintFilter.cpp \
+	IoConfigSAXHandler.cpp \
+	IoConfigReader.cpp \
+	IoSimDOMBuilder.cpp \
+	IoSimDOMPrintFilter.cpp \
+	IoSimulationSAXHandler.cpp \
+	IoSimulationReader.cpp \
+	IoXMLSimulation.cpp \
+	IoAgentModel.cpp\
+	IoAgentXMLSimulation.cpp\
+	IoAgent.cpp\
+	IoAgentType.cpp\
+	IoAgentTypeSet.cpp\
+	IoAgentArray.cpp\
+	CIoWFModel.cpp \
+	CIoWFSimulator.cpp \
+	CIoSimulantLink.cpp \
+	CIoSimulantPort.cpp \
+	IoProc.cpp \
+	IoWFExecutable.cpp \
+	soapC.cpp \
+	soapClient.cpp \
+	soapServer.cpp \
+	stdsoap2.cpp \
+	IoWFSimulation.cpp \
+	IoGenericSteerSimulation.cpp \
+	IoGenericSteer.cpp \
+	IoMetadata.cpp
+
+DOCS=PROG.texi PROG.info
+#MISC=configure mkinstalldirs install-sh aclocal.m4
+OBJS = IoSimHandler.o \
+	IoSimulant.o \
+	IoEntity.o \
+	IoEntityType.o \
+	IoEntityTypeSet.o \
+	IoEntitySet.o \
+	IoEntityArray1d.o \
+	IoEntityArray3d.o \
+	IoEntityList.o \
+	IoModel.o \
+	IoSimulator.o \
+	IoSimulation.o \
+	IoInitialiser.o \
+	IoConfigDOMBuilder.o \
+	IoConfigDOMPrintFilter.o \
+	IoConfigSAXHandler.o \
+	IoConfigReader.o \
+	IoSimDOMBuilder.o \
+	IoSimDOMPrintFilter.o \
+	IoSimulationSAXHandler.o \
+	IoSimulationReader.o \
+	IoXMLSimulation.o \
+	IoAgentModel.o\
+	IoAgentXMLSimulation.o\
+	IoAgent.o\
+	IoAgentType.o\
+	IoAgentTypeSet.o\
+	IoAgentArray.o\
+	CIoWFModel.o \
+	CIoWFSimulator.o \
+	CIoSimulantLink.o \
+	CIoSimulantPort.o \
+	IoProc.o \
+	IoWFExecutable.o \
+	soapC.o \
+	soapClient.o \
+	soapServer.o \
+	stdsoap2.o \
+	IoWFSimulation.o \
+	IoGenericSteerSimulation.o \
+	IoGenericSteer.o \
+	IoMetadata.o
+
+LIB_OBJS=libiosimulation.o
+
+# ??? replace with your targets
+all: iows libiosimulation.a
+
+# ??? here I make the bindir, libdir and infodir directories; you
+# might not need all of these.  also, I assumed the names PROG and
+# libioutils.a for the program and library.
+install: all
+	mkdir -p $(bindir)
+	mkdir -p $(libdir)
+	mkdir -p $(infodir)
+	$(INSTALL) libiosimulation.a $(libdir)/libiosimulation.a
+
+uninstall:
+	/bin/rm -f $(libdir)/libiosimulation.a
+
+iows: IoSteerWS.h
+	soapcpp2 IoSteerWS.h
+
+libiosimulation.a: $(OBJS)
+	/bin/rm -f libiosimulation.a
+	$(AR) $(AR_FLAGS) libiosimulation.a $(OBJS) $(MYLIBS)
+#	$(RANLIB) libiosimulation.a
+
+
+.cpp.o:
+	$(CXX) $(CFLAGS) $(EXTRACFLAGS) -c $<
+
+.c.o:
+	$(CC) $(EXTRACFLAGS) $(CFLAGS) -c $<
+
+
+#PROG: $(OBJS) libMYPROG.a
+#	$(CC) $(CFLAGS) -o PROG $(OBJS) $(LIBS)
+
+clean:
+	/bin/rm -f core *.o $(OBJS) $(LIB_OBJS)
+
+distclean: clean
+	/bin/rm -f Makefile config.h config.status config.cache config.log \
+		marklib.dvi
+
+mostlyclean: clean
+
+maintainer-clean: clean
+
+#PROG.info: PROG.texi
+#	makeinfo PROG.texi
+
+# automatic re-running of configure if the ocnfigure.in file has changed
+#${srcdir}/configure: configure.in aclocal.m4
+#	cd ${srcdir} && autoconf
+
+# autoheader might not change config.h.in, so touch a stamp file
+#${srcdir}/config.h.in: stamp-h.in
+#${srcdir}/stamp-h.in: configure.in aclocal.m4
+#		cd ${srcdir} && autoheader
+#		echo timestamp > ${srcdir}/stamp-h.in
+
+#config.h: stamp-h
+#stamp-h: config.h.in config.status
+#	./config.status
+#Makefile: Makefile.in config.status
+#	./config.status
+#config.status: configure
+#	./config.status --recheck
+

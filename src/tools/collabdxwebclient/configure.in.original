@@ -1,0 +1,64 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ([2.63])
+AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
+AC_CONFIG_SRCDIR([dxwebclient4.cpp])
+AC_CONFIG_HEADERS([config.h])
+
+
+#if user types DXLIB=/usr/lib
+# on the ./configure command line
+#then set this variable in the Makefile.in
+#we have defined a variable called @DXLIB@
+AC_SUBST(DXLIB)
+if test -z $DXLIB;
+then
+    AC_SUBST(DXLIB,/usr/local)
+fi
+
+#if user types XERCESCVERSION=xercesc_2_7
+# on the ./configure command line
+#then set this variable in the Makefile.in
+#we have defined a variable called @XERCESCVERSION@
+AC_SUBST(XERCESCVERSION)
+if test -z $XERCESCVERSION;
+then
+    AC_SUBST(XERCESCVERSION,xercesc_2_8)
+fi
+
+AC_CHECK_LIB(xerces-c,XercesDOMParser::XercesDOMParser, [], [echo "Please Install the Apache Xerces-c library!"])
+#AC_CHECK_LIB(xerces-c,$XERCESCVERSION::XercesDOMParser::XercesDOMParser)
+
+
+# Checks for programs.
+AC_PROG_CXX
+AC_PROG_CC
+AC_PROG_INSTALL
+
+AC_CHECK_LIB([DX], [DXLStartDX])
+# Checks for libraries.
+# FIXME: Replace `main' with a function in `-lX11':
+AC_CHECK_LIB([X11], [main])
+# FIXME: Replace `main' with a function in `-lXm':
+AC_CHECK_LIB([Xm], [main])
+# FIXME: Replace `main' with a function in `-lXmu':
+AC_CHECK_LIB([Xmu], [main])
+# FIXME: Replace `main' with a function in `-lXt':
+AC_CHECK_LIB([Xt], [main])
+# FIXME: Replace `main' with a function in `-ldl':
+AC_CHECK_LIB([dl], [main])
+# FIXME: Replace `main' with a function in `-lm':
+AC_CHECK_LIB([m], [main])
+
+# Checks for header files.
+AC_CHECK_HEADERS([stdlib.h string.h unistd.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+
+# Checks for library functions.
+AC_CHECK_FUNCS([strchr])
+
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT

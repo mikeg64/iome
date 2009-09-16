@@ -1,0 +1,63 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoUtils", "iome\utils\IoUtils.vcproj", "{1306BEAC-FC7F-468C-BCAF-46A382EBBEC2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoSimulation", "iome\simulation\IoSimulation.vcproj", "{126E209E-8C75-4737-8B31-9884F6DC977B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoGenericSimulationLib", "iome\genericsimulationlib\IoGenericSimulationLib.vcproj", "{8C7719E4-32C8-41E7-8668-10E16897E638}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoCollabDXWebClient", "tools\collabdxwebclient\IoCollabDXWebClient.vcproj", "{53F23D65-131E-4836-89AA-AF388D99D0A7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoGenericAppSimulation", "tools\genericappsimulation\IoGenericAppSimulation.vcproj", "{9901C880-D8F4-414F-A669-DDC06A61E5A0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoGenericGroupApp", "tools\genericgroupapp\IoGenericGroupApp.vcproj", "{D4896AAF-B446-44AF-ADEC-EC8A2A64052C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoGenericSimulation", "tools\genericsimulation\IoGenericSimulation.vcproj", "{363D607F-C264-4013-9B72-D2290CD21D02}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoSteerProxyWS", "tools\steerproxyws\IoSteerProxyWS.vcproj", "{E845AE0C-9B3E-44AF-8160-5776EEE64FE7}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{1306BEAC-FC7F-468C-BCAF-46A382EBBEC2}.Debug.ActiveCfg = Debug|Win32
+		{1306BEAC-FC7F-468C-BCAF-46A382EBBEC2}.Debug.Build.0 = Debug|Win32
+		{1306BEAC-FC7F-468C-BCAF-46A382EBBEC2}.Release.ActiveCfg = Release|Win32
+		{1306BEAC-FC7F-468C-BCAF-46A382EBBEC2}.Release.Build.0 = Release|Win32
+		{126E209E-8C75-4737-8B31-9884F6DC977B}.Debug.ActiveCfg = Debug|Win32
+		{126E209E-8C75-4737-8B31-9884F6DC977B}.Debug.Build.0 = Debug|Win32
+		{126E209E-8C75-4737-8B31-9884F6DC977B}.Release.ActiveCfg = Release|Win32
+		{126E209E-8C75-4737-8B31-9884F6DC977B}.Release.Build.0 = Release|Win32
+		{8C7719E4-32C8-41E7-8668-10E16897E638}.Debug.ActiveCfg = Debug|Win32
+		{8C7719E4-32C8-41E7-8668-10E16897E638}.Debug.Build.0 = Debug|Win32
+		{8C7719E4-32C8-41E7-8668-10E16897E638}.Release.ActiveCfg = Release|Win32
+		{8C7719E4-32C8-41E7-8668-10E16897E638}.Release.Build.0 = Release|Win32
+		{53F23D65-131E-4836-89AA-AF388D99D0A7}.Debug.ActiveCfg = Debug|Win32
+		{53F23D65-131E-4836-89AA-AF388D99D0A7}.Debug.Build.0 = Debug|Win32
+		{53F23D65-131E-4836-89AA-AF388D99D0A7}.Release.ActiveCfg = Release|Win32
+		{53F23D65-131E-4836-89AA-AF388D99D0A7}.Release.Build.0 = Release|Win32
+		{9901C880-D8F4-414F-A669-DDC06A61E5A0}.Debug.ActiveCfg = Debug|Win32
+		{9901C880-D8F4-414F-A669-DDC06A61E5A0}.Debug.Build.0 = Debug|Win32
+		{9901C880-D8F4-414F-A669-DDC06A61E5A0}.Release.ActiveCfg = Release|Win32
+		{9901C880-D8F4-414F-A669-DDC06A61E5A0}.Release.Build.0 = Release|Win32
+		{D4896AAF-B446-44AF-ADEC-EC8A2A64052C}.Debug.ActiveCfg = Debug|Win32
+		{D4896AAF-B446-44AF-ADEC-EC8A2A64052C}.Debug.Build.0 = Debug|Win32
+		{D4896AAF-B446-44AF-ADEC-EC8A2A64052C}.Release.ActiveCfg = Release|Win32
+		{D4896AAF-B446-44AF-ADEC-EC8A2A64052C}.Release.Build.0 = Release|Win32
+		{363D607F-C264-4013-9B72-D2290CD21D02}.Debug.ActiveCfg = Debug|Win32
+		{363D607F-C264-4013-9B72-D2290CD21D02}.Debug.Build.0 = Debug|Win32
+		{363D607F-C264-4013-9B72-D2290CD21D02}.Release.ActiveCfg = Release|Win32
+		{363D607F-C264-4013-9B72-D2290CD21D02}.Release.Build.0 = Release|Win32
+		{E845AE0C-9B3E-44AF-8160-5776EEE64FE7}.Debug.ActiveCfg = Debug|Win32
+		{E845AE0C-9B3E-44AF-8160-5776EEE64FE7}.Debug.Build.0 = Debug|Win32
+		{E845AE0C-9B3E-44AF-8160-5776EEE64FE7}.Release.ActiveCfg = Release|Win32
+		{E845AE0C-9B3E-44AF-8160-5776EEE64FE7}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
