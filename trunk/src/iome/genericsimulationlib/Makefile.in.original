@@ -41,6 +41,13 @@ libdir = $(prefix)/lib
 infodir = $(prefix)/info
 simdir = ../simulation
 
+EXTRACFLAGS = -I$(XERCESCROOT)/include -I$(XALANCROOT)/src -I$(XALANCROOT) -I$(prefix)/include -DIO_XERCESCVERSION=xercesc_2_7
+#EXTRALIB	=	-lm -L$(XERCESCROOT)/lib -L$(XALANCROOT)/lib -lxerces-c -lxalan-c -L$(prefix)/lib
+MYLIBS = ../../../lib/libioutils.a ../../../lib/libiosimulation.a ../utils/IoFileUtils.o
+
+simdir = ../simulation
+
+
 
 SOURCES = IoGenericSimulationLib.cpp\
 	$(simdir)/IoGenericSteerSimulation.cpp\
@@ -51,10 +58,10 @@ SOURCES = IoGenericSimulationLib.cpp\
 DOCS=PROG.texi PROG.info
 MISC=configure mkinstalldirs install-sh aclocal.m4
 OBJS = IoGenericSimulationLib.o\
-	$(bindir)/IoGenericSteerSimulation.o\
-	$(bindir)/stdsoap2.o\
-	$(bindir)/soapC.o\
-	$(bindir)/soapClient.o
+	$(simdir)/IoGenericSteerSimulation.o\
+	$(simdir)/stdsoap2.o\
+	$(simdir)/soapC.o\
+	$(simdir)/soapClient.o
 
 LIB_OBJS=libiogenericsimulation.o
 
@@ -77,7 +84,13 @@ uninstall:
 libiogenericsimulation.a: $(OBJS)
 	/bin/rm -f libiogenericsimulation.a
 	$(AR) $(AR_FLAGS) libiogenericsimulation.a $(OBJS)
-	#$(RANLIB) libMYPROG.a
+
+.cpp.o:
+	$(CXX) $(CFLAGS) $(EXTRACFLAGS) -c $<
+
+.c.o:
+	$(CC) $(EXTRACFLAGS) $(CFLAGS) -c $<
+
 
 PROG: $(OBJS) libMYPROG.a
 	$(CC) $(CFLAGS) -o PROG $(OBJS) $(LIBS)
@@ -97,20 +110,20 @@ PROG.info: PROG.texi
 	makeinfo PROG.texi
 
 # automatic re-running of configure if the ocnfigure.in file has changed
-${srcdir}/configure: configure.in aclocal.m4
-	cd ${srcdir} && autoconf
+#${srcdir}/configure: configure.in aclocal.m4
+#	cd ${srcdir} && autoconf
 
 # autoheader might not change config.h.in, so touch a stamp file
-${srcdir}/config.h.in: stamp-h.in
-${srcdir}/stamp-h.in: configure.in aclocal.m4
-		cd ${srcdir} && autoheader
-		echo timestamp > ${srcdir}/stamp-h.in
+#${srcdir}/config.h.in: stamp-h.in
+#${srcdir}/stamp-h.in: configure.in aclocal.m4
+#		cd ${srcdir} && autoheader
+#		echo timestamp > ${srcdir}/stamp-h.in
 
-config.h: stamp-h
-stamp-h: config.h.in config.status
-	./config.status
-Makefile: Makefile.in config.status
-	./config.status
-config.status: configure
-	./config.status --recheck
+#config.h: stamp-h
+#stamp-h: config.h.in config.status
+#	./config.status
+#Makefile: Makefile.in config.status
+#	./config.status
+#config.status: configure
+#	./config.status --recheck
 
