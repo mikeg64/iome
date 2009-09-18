@@ -12,27 +12,27 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="Debug"
+			OutputDirectory="..\..\..\lib"
 			IntermediateDirectory="Debug"
-			ConfigurationType="1"
+			ConfigurationType="4"
 			CharacterSet="2"
-			ManagedExtensions="TRUE">
+			ManagedExtensions="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG"
-				MinimalRebuild="FALSE"
-				BasicRuntimeChecks="0"
-				RuntimeLibrary="1"
+				AdditionalIncludeDirectories="&quot;$(IO_XALANC_ROOT)\include&quot;;&quot;$(IO_XERCESC_ROOT)\include&quot;;..\..\..\include"
+				PreprocessorDefinitions="WIN32;_LIB;IO_MSVC;PLATFORM_WIN32;WITH_NONAMESPACES;IO_XERCESCVERSION=xercesc_2_7"
+				MinimalRebuild="TRUE"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="5"
+				BufferSecurityCheck="FALSE"
 				WarningLevel="3"
 				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/IoGenericSimulationLib.exe"
-				LinkIncremental="2"
-				GenerateDebugInformation="TRUE"/>
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)/iogenericsimulationlib.lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -45,8 +45,6 @@
 				Name="VCResourceCompilerTool"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"

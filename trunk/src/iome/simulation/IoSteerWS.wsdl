@@ -1229,7 +1229,7 @@
 </binding>
 
 <service name="IoSteerWS">
- <documentation>gSOAP 2.7.6e generated service definition</documentation>
+ <documentation>gSOAP 2.7.9l generated service definition</documentation>
  <port name="IoSteerWS" binding="tns:IoSteerWS">
   <SOAP:address location="http://mikeg.staff.shef.ac.uk/IOSteerWS.cgi"/>
  </port>
