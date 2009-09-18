@@ -63,9 +63,9 @@ mikeg@photon0.freeserve.co.uk
 	#include <sys/types.h>
 	#include <sys/wait.h>
 #else
-	#include <iome/simulation/IoInitialiser.h"
-	#include <iome/simulation/soapH.h"
-	#include <iome/simulation/IoGenericSteerSimulation.h"
+	#include <iome/simulation/IoInitialiser.h>
+	#include <iome/simulation/soapH.h>
+	#include <iome/simulation/IoGenericSteerSimulation.h>
 	//#include "..\IoSimulation\IoSteerWS.nsmap"
         #include <process.h>
 
@@ -86,7 +86,7 @@ mikeg@photon0.freeserve.co.uk
 //#include "soapH.h"
 //#include "IoSteerWS.nsmap"
 #include <iostream>
-#include <iome/simulation/IoGenericSimulationMethods.h>
+#include <iome/genericsimulationlib/IoGenericSimulationMethods.h>
 using std::cout;
 using std::endl;
 //#include "IoTestGenSimulation.h"

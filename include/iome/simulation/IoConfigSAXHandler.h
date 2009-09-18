@@ -68,10 +68,10 @@ mikeg@photon0.freeserve.co.uk
 #include <iome/simulation/IoEntityTypeSet.h>
 #else
  #include <iome/utils/IoParams.h>
-	#include <iome/simulationIoModel.h>
-	#include <iome/simulationIoSimulator.h>
-	#include <iome/simulationIoEntitySet.h>
-	#include <iome/simulationIoEntityTypeSet.h>
+	#include <iome/simulation/IoModel.h>
+	#include <iome/simulation/IoSimulator.h>
+	#include <iome/simulation/IoEntitySet.h>
+	#include <iome/simulation/IoEntityTypeSet.h>
 #endif
 
 
