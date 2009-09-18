@@ -42,7 +42,7 @@ mikeg@photon0.freeserve.co.uk
 --------------------------------------------------------------------------------
 */
 
-#include <iome/simulation/IoGenericSimulationLib.h>
+#include <iome/genericsimulationlib/IoGenericSimulationLib.h>
 
 
 	bool fileexists(string strFilename) {

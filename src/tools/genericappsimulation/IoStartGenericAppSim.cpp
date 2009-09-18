@@ -793,7 +793,7 @@ void *runanddeletesimulation(void *simulationid)
 			#else
 			   	  remove("*");
 			   	  _chdir(m_workingdir);
-			   	  _rmdir(sjobdir.c_str());
+			   	  _rmdir(jobdir.c_str());
 			#endif
 
 		if(/*(standalone!=1 ) && */(simulation != NULL))

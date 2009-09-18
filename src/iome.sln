@@ -5,8 +5,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoSimulation", "iome\simula
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoGenericSimulationLib", "iome\genericsimulationlib\IoGenericSimulationLib.vcproj", "{8C7719E4-32C8-41E7-8668-10E16897E638}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoCollabDXWebClient", "tools\collabdxwebclient\IoCollabDXWebClient.vcproj", "{53F23D65-131E-4836-89AA-AF388D99D0A7}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoGenericAppSimulation", "tools\genericappsimulation\IoGenericAppSimulation.vcproj", "{9901C880-D8F4-414F-A669-DDC06A61E5A0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoGenericGroupApp", "tools\genericgroupapp\IoGenericGroupApp.vcproj", "{D4896AAF-B446-44AF-ADEC-EC8A2A64052C}"
@@ -35,10 +33,6 @@ Global
 		{8C7719E4-32C8-41E7-8668-10E16897E638}.Debug.Build.0 = Debug|Win32
 		{8C7719E4-32C8-41E7-8668-10E16897E638}.Release.ActiveCfg = Release|Win32
 		{8C7719E4-32C8-41E7-8668-10E16897E638}.Release.Build.0 = Release|Win32
-		{53F23D65-131E-4836-89AA-AF388D99D0A7}.Debug.ActiveCfg = Debug|Win32
-		{53F23D65-131E-4836-89AA-AF388D99D0A7}.Debug.Build.0 = Debug|Win32
-		{53F23D65-131E-4836-89AA-AF388D99D0A7}.Release.ActiveCfg = Release|Win32
-		{53F23D65-131E-4836-89AA-AF388D99D0A7}.Release.Build.0 = Release|Win32
 		{9901C880-D8F4-414F-A669-DDC06A61E5A0}.Debug.ActiveCfg = Debug|Win32
 		{9901C880-D8F4-414F-A669-DDC06A61E5A0}.Debug.Build.0 = Debug|Win32
 		{9901C880-D8F4-414F-A669-DDC06A61E5A0}.Release.ActiveCfg = Release|Win32
