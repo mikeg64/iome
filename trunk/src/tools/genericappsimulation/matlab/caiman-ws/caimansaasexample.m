@@ -13,11 +13,16 @@ fclose(fd);
 elist=iome('localhost',res{1},0);
 readsimulation('simfile.xml',elist);
 
+setpref('Internet','SMTP_Server','mailhost.shef.ac.uk');
+setpref('Internet','E_mail','m.griffiths@sheffield.ac.uk');
+
+
 %get the parameters from the server
 try
     userEmail=getparamstring('useremail',elist);
     imageFile=getparamstring('imagefile',elist);
     jobtype=getparamstring('jobtype',elist);
+    outputCode=jobtype;
 catch
     display('Failed to get parameters from local iome server');
     exitiome(elist);
@@ -60,6 +65,7 @@ if ~strcmp(outputCode(1),'E')
             case 'SH'
                 try
                     [dataOut]               = shadingCorrection(dataIn(1:end,1:end,:));
+		    outputMessage = 'Shading Correction Completed Successfuly';
                 catch
                     outputCode              = 'ESH';
                 end
