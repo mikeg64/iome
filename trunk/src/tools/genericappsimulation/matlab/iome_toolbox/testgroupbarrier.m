@@ -23,7 +23,7 @@ function [value]=testgroupbarrier(elist)
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
   value=iotestgroupbarrier(obj,id);
-  return value;
+  %return value;
   
  %endfunction
 

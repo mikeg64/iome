@@ -29,7 +29,7 @@ function [status]=createsimulation(filename,elist)
 
 
 
-function status = createsimulation(obj,id,filename)
+function status = iocreatesimulation(obj,id,filename)
 %createsimulation(obj,id,filename)
 %
 %   Service definition of function ns__createsimulation

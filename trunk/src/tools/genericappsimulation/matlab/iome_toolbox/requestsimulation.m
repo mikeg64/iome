@@ -27,7 +27,7 @@ function [simid]=requestsimulation(filename,elist)
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
   simid=iorequestsimulation(obj,id,a);
-  return simid;
+ % return simid;
   
  %endfunction
 

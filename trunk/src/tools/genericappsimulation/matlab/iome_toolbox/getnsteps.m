@@ -23,7 +23,7 @@ function [nsstep]=getnsteps(elist)
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
   nsstep=iogetnsteps(obj,id);
-  return nsstep;
+  %return nsstep;
   
  %endfunction
 

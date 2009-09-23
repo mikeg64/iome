@@ -23,12 +23,12 @@ function [numobj]=getnumobj(elist)
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
   numobj=iogetnumobj(obj,id);
-  return numobj;
+  %return numobj;
   
  %endfunction
 
 
-function numobj = getnumobj(obj,id)
+function numobj = iogetnumobj(obj,id)
 %getnumobj(obj,id)
 %
 %   Service definition of function ns__getnumobj
