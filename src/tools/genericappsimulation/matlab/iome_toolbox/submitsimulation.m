@@ -27,7 +27,7 @@ function [isimid]=submitsimulation(simfile,elist)
   [a,count] = fscanf(fid, '%c', inf);
   fclose(fid);
   isimid=iosubmitsimulation(obj,id,a);
-  return isimid;
+  %return isimid;
   
  %endfunction
 

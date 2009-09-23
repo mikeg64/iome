@@ -26,7 +26,7 @@ function [status]=runsimulationstep(istepnum,elist)
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
   status=iorunsimulationstep(obj,id,istepnum);
-  return status;
+  %return status;
   
  %endfunction
 

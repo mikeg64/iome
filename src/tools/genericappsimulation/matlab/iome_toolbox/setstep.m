@@ -23,7 +23,7 @@ function [step]=setstep(newstep,elist)
   sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
   step=iosetstep(obj,id,newstep);
-  return step;
+ % return step;
   
  %endfunction
 

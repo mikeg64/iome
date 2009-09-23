@@ -79,7 +79,7 @@ mmat3d = parseSoapResponse(response);
     end
 
 
-  return value;
+  %return value;
   
  %endfunction
 

@@ -23,7 +23,7 @@ function [value]=getstep(elist)
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
   value=iogetstep(obj,id);
-  return value;
+  %return value;
   
  %endfunction
 

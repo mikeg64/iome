@@ -23,7 +23,7 @@ function [status]=setsimulationstatus(newstatus,elist)
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
   status=iosetsimulationstatus(obj,id,newstatus);
-  return status;
+  %return status;
   
  %endfunction
 
