@@ -34,7 +34,7 @@ end
 
 
 try
-    myftp=ftp('cpaneldev.shef.ac.uk','cs1mkg','*******');
+    myftp=ftp('cpaneldev.shef.ac.uk','cs1mkg','********');
     cd(myftp,'public_html/iometest/uploads');
     mget(myftp, imageFile);
     delete(myftp, imageFile);
@@ -120,7 +120,17 @@ else
             sendmail(userEmail,'Results from Caiman ',outputMessage);    
 end
 
-exitiome(elist);
-simulationstatus(elist);
-exit();
+try
+   exitiome(elist);
+catch
+   display('Unable to close IOME'); 
+end
+
+try
+    simulationstatus(elist);
+catch
+    display('iome server closed!');
+end
+
+%exit();
 
