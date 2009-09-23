@@ -78,7 +78,8 @@ def about():
 
 
 # create a menu
-menu = Menu(root, borderwidth=150)
+#menu = Menu(root, borderwidth=150)
+menu=Menu(root)
 root.config(menu=menu, height=150, width=300)
 
 filemenu = Menu(menu)
@@ -99,5 +100,5 @@ menu.add_cascade(label="Help", menu=helpmenu)
 helpmenu.add_command(label="About...", command=about)
 
 root.mainloop()
-top = Toplevel(height=300, width=600)
+#top = Toplevel(height=300, width=600)
 
