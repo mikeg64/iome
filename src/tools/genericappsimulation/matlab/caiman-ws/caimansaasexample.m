@@ -11,7 +11,7 @@ fclose(fd);
 %port=res(1) id=res(2) hostname=res(3)
 %elist=iome(res(3),res(1),res(2));
 elist=iome('localhost',res{1},0);
-readsimulation('simfile.xml',elist);
+%readsimulation('simfile.xml',elist);
 
 setpref('Internet','SMTP_Server','mailhost.shef.ac.uk');
 setpref('Internet','E_mail','m.griffiths@sheffield.ac.uk');
@@ -34,11 +34,11 @@ end
 
 
 try
-    myftp=ftp('cpaneldev.shef.ac.uk','cs1mkg','********');
-    cd(myftp,'public_html/iometest/uploads');
-    mget(myftp, imageFile);
-    delete(myftp, imageFile);
-    close(myftp);
+    %myftp=ftp('cpaneldev.shef.ac.uk','cs1mkg','Ambodach1');
+    %cd(myftp,'public_html/iometest/uploads');
+    %mget(myftp, imageFile);
+    %delete(myftp, imageFile);
+    %close(myftp);
     %testData = ulrwrite(imageLocation2,'testData.jpg');
     [dataIn]                            = imread(imageFile);
     [rows,cols,levs]                    = size(dataIn);
@@ -132,5 +132,5 @@ catch
     display('iome server closed!');
 end
 
-%exit();
+exit();
 
