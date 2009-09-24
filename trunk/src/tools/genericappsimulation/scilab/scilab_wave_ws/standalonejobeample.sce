@@ -46,7 +46,7 @@ fdform=mopen(formfile,'w');
 mclose(fdform);
 
 fd=mopen(outfile,'w');
-
+xset("colormap",jetcolormap(64));
 for i=tstep:tstep+nsteps
 z=wave2d(i*deltat, wavetype, maxamplitude, wavenumber, wavefreq, delta,nmax);
  
@@ -60,9 +60,17 @@ z=wave2d(i*deltat, wavetype, maxamplitude, wavenumber, wavefreq, delta,nmax);
   mfprintf(fd, '\n');
  end
 
+
+zzm = min(z); zzM = max(z);
+[xf,yf,zf]=genfac3d(x,y,z);
+zcol = dsearch(zf, linspace(zzm, zzM, 65));
+plot3d(xf, yf, list(zf, zcol), flag = [-2 6 4])
+
+
+//plot3d(x,y,z);
 end //end of cycling over steps
 mclose(fd);
 
-plot3d(x,y,z);
+//plot3d(x,y,z);
 //exit;
 
