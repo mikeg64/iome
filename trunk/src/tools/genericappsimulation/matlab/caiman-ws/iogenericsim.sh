@@ -1,8 +1,9 @@
 #!/bin/sh
-echo "starting scilab"
+echo "starting caiman job"
 
 #submits job to sge and waits for it to finish
-#qsub -sync y iogenericsim_sge.sh
-../iogenericsim_sge.sh
+cp ../iogenericsim_sge.sh .
+qsub -sync y iogenericsim_sge.sh
+#../iogenericsim_sge.sh
 echo finished
 exit 0

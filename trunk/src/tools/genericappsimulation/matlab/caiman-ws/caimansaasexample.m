@@ -23,10 +23,11 @@ try
     imageFile=getparamstring('imagefile',elist);
     jobtype=getparamstring('jobtype',elist);
     outputCode=jobtype;
+    disp(userEmail);
 catch
     display('Failed to get parameters from local iome server');
     exitiome(elist);
-    simulationstatus(elist);
+    exitiome(elist);
     exit();       
 end
 
@@ -34,7 +35,7 @@ end
 
 
 try
-    %myftp=ftp('cpaneldev.shef.ac.uk','cs1mkg','Ambodach1');
+    %myftp=ftp('cpaneldev.shef.ac.uk','cs1mkg','*******');
     %cd(myftp,'public_html/iometest/uploads');
     %mget(myftp, imageFile);
     %delete(myftp, imageFile);
@@ -127,7 +128,7 @@ catch
 end
 
 try
-    simulationstatus(elist);
+    exitiome(elist);
 catch
     display('iome server closed!');
 end
