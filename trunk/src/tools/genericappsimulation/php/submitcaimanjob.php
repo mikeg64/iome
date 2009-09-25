@@ -2,10 +2,10 @@
 require_once('iome/iome.php');
 
 $myioservice = new ioservice;
-$myioservice->server = 'localhost';
-$myioservice->port = '8080';
+$myioservice->server = 'suilven.shef.ac.uk';
+$myioservice->port = '60000';
 $myioservice->id = 0;
-$myioservice->method = 1;
+$myioservice->method = 2;
 
 //need correct write permission on target path
 //$target_path="/var/www/html/uploads/";
@@ -45,7 +45,10 @@ if(move_uploaded_file($_FILES['userfile']['tmp_name'], $target_path)) {
         echo $imagefile ;
         echo $jobtype;
 	//$result=(string)setparamdouble($name,(float)$_POST['floatval'],$myioservice);
-
+        submitsimulation($jobfile,$myioservice);
+        //during testing we use the request to set up the job
+        //this will not delete the directory when the job has completed
+		//requestsimulation($jobfile,$myioservice);
 
 } else{
     echo "There was an error uploading the file, please try again!";
