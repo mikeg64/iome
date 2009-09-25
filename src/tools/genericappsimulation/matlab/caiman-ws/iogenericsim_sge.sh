@@ -2,14 +2,18 @@
 #$ -q short.q
 
 IOME_SIMNAME="mysim"
-
+echo $HOSTNAME
 iogs initiome null $IOME_SIMNAME null  &
-
-IOME_WSPORT=`cat ${IOME_SIMNAME}0_port.txt`
-echo port is $IOME_WSPORT
 
 cp ../caimansaasexample.m .
 cp ../cpanellogin.sh .
+
+#sleep for 10 sec allow server to start properly
+sleep 10
+IOME_WSPORT=`cat ${IOME_SIMNAME}0_port.txt`
+echo port is $IOME_WSPORT
+
+
 
 iogs readsimulation simfile.xml 0 $IOME_WSPORT localhost
 IMFILE=`iogs getparam string imagefile 0 $IOME_WSPORT localhost`
