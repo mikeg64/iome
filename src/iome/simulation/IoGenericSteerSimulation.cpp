@@ -63,8 +63,8 @@ CIoGenericSteerSimulation::~CIoGenericSteerSimulation(void)
 	                                   //for the parameters so these values are fixed
 	m_pPropName.clear();
 	m_pPropFlag.clear();
-	m_pnodes.clear();
-	m_pjobs.clear();
+	DeleteJobs();
+	DeleteNodes();
 }
 
 void CIoGenericSteerSimulation::CreatePropNames()
@@ -810,6 +810,44 @@ int CIoGenericSteerSimulation::AddNode(int port, string server, int numsubprocs)
 
 }
 
+int CIoGenericSteerSimulation::DeleteNode(int id)
+{
+	int status=0;
+	NODEINFOPTR node;
+	vector<NODEINFOPTR>::iterator iter;
+	int ic=0;
+
+		for(iter=m_pnodes.begin();iter<m_pnodes.begin();iter++)
+	    {
+		   if (ic==id)
+		   {
+			node=(NODEINFOPTR)m_pnodes[id];
+			free(node);
+		   	m_pnodes.erase(iter);
+		   	break;
+		   }
+	    }
+	
+	return status;	
+}
+
+int CIoGenericSteerSimulation::DeleteNodes()
+{
+	int status=0;
+	NODEINFOPTR node;
+	vector<NODEINFOPTR>::iterator  iter;
+	for(iter=m_pnodes.begin();iter<m_pnodes.begin();iter++)
+	{
+		node= *iter;
+		free(node);
+	}
+	m_pnodes.clear();
+	return status;	
+}
+
+
+
+
 int CIoGenericSteerSimulation::GetNodePort(int id)
 {
   int port=8080;
@@ -852,6 +890,43 @@ int CIoGenericSteerSimulation::AddJob(int procid, int subprocid)
 	m_pjobs.insert(m_pjobs.end(),job);
 	return(m_pjobs.size()-1);
 }
+
+int CIoGenericSteerSimulation::DeleteJob(int id)
+{
+	int status=0;
+	JOBINFOPTR node;
+	vector<JOBINFOPTR>::iterator iter;
+	int ic;
+	for(iter=m_pjobs.begin();iter<m_pjobs.begin();iter++)
+	{
+		if(id == ic)
+		{
+			node=(JOBINFOPTR)m_pjobs[id];
+			free(node);
+			m_pjobs.erase(iter);
+			break;
+		}
+		ic++;	
+	}
+	return status;	
+}
+
+int CIoGenericSteerSimulation::DeleteJobs()
+{
+	int status=0;
+	JOBINFOPTR node;
+	vector<JOBINFOPTR>::iterator  iter;
+	for(iter=m_pjobs.begin();iter<m_pjobs.begin();iter++)
+	{
+		node= *iter;
+		free(node);
+	}
+	m_pjobs.clear();
+	return status;	
+}
+
+
+
 
 int CIoGenericSteerSimulation::GetJobProcid(int id)
 {
