@@ -672,7 +672,7 @@ int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char 
 					char *stempimportfile;
 					
 					stempimportfile=(char *)calloc(strlen(simname)+14,sizeof(char));
-					sprintf(stempimportfile,"%s%d_port.txt",i,simname);
+					sprintf(stempimportfile,"%s%d_port.txt",simname,i);
 					fstream filestr;
 					filestr.open (stempimportfile, fstream::in );
 					filestr>>iport;
