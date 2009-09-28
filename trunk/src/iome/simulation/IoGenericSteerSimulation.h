@@ -146,6 +146,9 @@ public:
 
 	//int ReadMachinefile(); //reads machinefile
 	int AddNode(int port, string server, int numsubprocs);
+	int DeleteNode(int id);
+	int DeleteNodes();
+	
 	int GetNodePort(int id);
 	//int SetNodePort(int id, int port);
 	char *GetNodeServer(int id);
@@ -154,6 +157,8 @@ public:
 	//int SetNodePort(int id, int port);
 
 	int AddJob(int procid, int subprocid);
+	int DeleteJob(int id);
+	int DeleteJobs();
 	int GetJobProcid(int id);
 	int GetJobSubprocid(int id);
 
