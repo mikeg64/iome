@@ -791,7 +791,15 @@ int InitIOME(char *scriptname, char *simname, char *simxslfile, int port , char 
 		 //  }
 		//}
 			//TestSimulation->RunSimulation();
-		//delete TestSimulation;
+		delete TestSimulation;
+		//delete array of LocalSimulation
+		for(int j=0; j<(m_numsubprocs+m_maxsims); j++)
+		{
+			free(simdataarray[j].sscript);
+			if((simdataarray[j].simptr)!=NULL)
+						delete(simdataarray[j].simptr);
+			free(simdataarray);
+		}
 				
 	}
 
