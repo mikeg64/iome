@@ -365,8 +365,8 @@ void CIoSimulation::SetSimClass(const char *name)
 	//	strcpy(m_sSimClass, name);
 	if(m_sSimClass && name)
 	{
-		delete [] m_sSimClass;
-		m_sSimClass = (char *) new char [1+strlen(name)];
+		//delete [] m_sSimClass;
+		//m_sSimClass = (char *) new char [1+strlen(name)];
 		strcpy(m_sSimClass, name);
 	}
 }
@@ -377,8 +377,8 @@ void CIoSimulation::SetSimulantClass(const char *name)
 	//	strcpy(m_sSimClass, name);
 	if(m_sSimulantClass && name)
 	{
-		delete [] m_sSimulantClass;
-		m_sSimulantClass = (char *) new char [1+strlen(name)];
+		//delete [] m_sSimulantClass;
+		//m_sSimulantClass = (char *) new char [1+strlen(name)];
 		strcpy(m_sSimulantClass, name);
 	}
 }
@@ -387,8 +387,8 @@ void CIoSimulation::SetSimName(char *name)
 {
 	if(m_sSimName && name)
 	{
-		delete [] m_sSimName;
-		m_sSimName = (char *) new char [1+strlen(name)];
+		//delete [] m_sSimName;
+		//m_sSimName = (char *) new char [1+strlen(name)];
 		strcpy(m_sSimName, name);
 	}
 }
@@ -397,8 +397,8 @@ void CIoSimulation::SetHomeDir(const char *name)
 {
 	if(m_sHomeDir && name)
 	{
-		delete [] m_sHomeDir;
-		m_sHomeDir = (char *) new char [1+strlen(name)];
+		//delete [] m_sHomeDir;
+		//m_sHomeDir = (char *) new char [1+strlen(name)];
 		strcpy(m_sHomeDir, name);
 	}
 }
