@@ -78,6 +78,7 @@ CIoXMLSimulation::CIoXMLSimulation()
 
 CIoXMLSimulation::~CIoXMLSimulation()
 {
+	delete [] m_sSimXSLFileName;
 	delete [] m_sConfigXSLFileName;
 	delete [] m_sStateXSLFileName;
 	delete [] m_sConfigXSLFilePrefix;
