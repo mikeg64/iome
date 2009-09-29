@@ -466,12 +466,12 @@ int CIoGenericSteerSimulation::AddParamDouble(double value, string sparamname, i
 	int status=0;
 	CIoPropertyManager *ppropman=(CIoPropertyManager *)this;
 	float vf=value;
-	CIoParam par=new CIoParam(&vf);
-	ppropman->AddProperty(&par);
+	CIoParam *par=new CIoParam(&vf);
+	ppropman->AddProperty(par);
 	ppropman->AddPropName(sparamname.c_str());
 	ppropman->AddPropFlag(iflag);
 
-	m_pConstParams.push_back(&par); 
+	m_pConstParams.push_back(par); 
 	m_pPropName.push_back(sparamname);
 	m_pPropFlag.push_back(iflag);
 	
@@ -806,6 +806,8 @@ int CIoGenericSteerSimulation::AddNode(int port, string server, int numsubprocs)
 	strcpy(node->server,server.c_str());
 	node->numsubprocs=numsubprocs;
 	m_pnodes.insert(m_pnodes.end(),node);
+	
+	
 	return(m_pnodes.size()-1);
 
 }
@@ -817,15 +819,17 @@ int CIoGenericSteerSimulation::DeleteNode(int id)
 	vector<NODEINFOPTR>::iterator iter;
 	int ic=0;
 
-		for(iter=m_pnodes.begin();iter<m_pnodes.begin();iter++)
+		for(iter=m_pnodes.begin();iter<m_pnodes.end();iter++)
 	    {
 		   if (ic==id)
 		   {
 			node=(NODEINFOPTR)m_pnodes[id];
+			free(node->server);
 			free(node);
 		   	m_pnodes.erase(iter);
 		   	break;
 		   }
+		   ic++;
 	    }
 	
 	return status;	
@@ -836,10 +840,12 @@ int CIoGenericSteerSimulation::DeleteNodes()
 	int status=0;
 	NODEINFOPTR node;
 	vector<NODEINFOPTR>::iterator  iter;
-	for(iter=m_pnodes.begin();iter<m_pnodes.begin();iter++)
+	for(iter=m_pnodes.begin();iter<m_pnodes.end();iter++)
 	{
 		node= *iter;
+		free(node->server);
 		free(node);
+		m_pnodes.erase(iter);
 	}
 	m_pnodes.clear();
 	return status;	
@@ -897,7 +903,7 @@ int CIoGenericSteerSimulation::DeleteJob(int id)
 	JOBINFOPTR node;
 	vector<JOBINFOPTR>::iterator iter;
 	int ic;
-	for(iter=m_pjobs.begin();iter<m_pjobs.begin();iter++)
+	for(iter=m_pjobs.begin();iter<m_pjobs.end();iter++)
 	{
 		if(id == ic)
 		{
@@ -916,7 +922,7 @@ int CIoGenericSteerSimulation::DeleteJobs()
 	int status=0;
 	JOBINFOPTR node;
 	vector<JOBINFOPTR>::iterator  iter;
-	for(iter=m_pjobs.begin();iter<m_pjobs.begin();iter++)
+	for(iter=m_pjobs.begin();iter<m_pjobs.end();iter++)
 	{
 		node= *iter;
 		free(node);
