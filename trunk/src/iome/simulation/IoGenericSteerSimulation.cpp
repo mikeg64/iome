@@ -472,9 +472,9 @@ int CIoGenericSteerSimulation::AddParamDouble(double value, string sparamname, i
 	ppropman->AddPropFlag(iflag);
 
 	m_pConstParams.push_back(par); 
-	m_pPropName.push_back(sparamname);
-	m_pPropFlag.push_back(iflag);
-	
+	//m_pPropName.push_back(sparamname);
+	//m_pPropFlag.push_back(iflag);
+	delete par;
 	
 	return status;	
 }
@@ -486,15 +486,15 @@ int CIoGenericSteerSimulation::AddParamInt(int value, string sparamname, int ifl
 	int status=0;
 	CIoPropertyManager *ppropman=(CIoPropertyManager *)this;
 	int vf=value;
-	CIoParam par=new CIoParam(&vf);
-	ppropman->AddProperty(&par);
+	CIoParam *par=new CIoParam(&vf);
+	ppropman->AddProperty(par);
 	ppropman->AddPropName(sparamname.c_str());
 	ppropman->AddPropFlag(iflag);
 
-	m_pConstParams.push_back(&par); 
-	m_pPropName.push_back(sparamname);
-	m_pPropFlag.push_back(iflag);
-	
+	m_pConstParams.push_back(par); 
+	//m_pPropName.push_back(sparamname);
+	//m_pPropFlag.push_back(iflag);
+	delete par;
 	
 	return status;	
 }
@@ -504,16 +504,16 @@ int CIoGenericSteerSimulation::AddParamString(string value, string sparamname, i
 	int status=0;
 	CIoPropertyManager *ppropman=(CIoPropertyManager *)this;
 	char *vf=(char *)value.c_str();
-	CIoParam par=new CIoParam(vf);
-	ppropman->AddProperty(&par);
+	CIoParam *par=new CIoParam(vf);
+	ppropman->AddProperty(par);
 	ppropman->AddPropName(sparamname.c_str());
 	ppropman->AddPropFlag(iflag);
 
-	m_pConstParams.push_back(&par); 
-	m_pPropName.push_back(sparamname);
-	m_pPropFlag.push_back(iflag);
+	m_pConstParams.push_back(par); 
+	//m_pPropName.push_back(sparamname);
+	//m_pPropFlag.push_back(iflag);
 	
-	
+	delete par;
 	return status;	
 }
 
@@ -528,16 +528,16 @@ int CIoGenericSteerSimulation::AddParamVec(double *value, int n, string sparamna
 		if(value != NULL)
 			vf.set(i,value[i]);
 
-	CIoParam par=new CIoParam(&vf);
-	ppropman->AddProperty(&par);
+	CIoParam *par=new CIoParam(&vf);
+	ppropman->AddProperty(par);
 	ppropman->AddPropName(sparamname.c_str());
 	ppropman->AddPropFlag(iflag);
 
-	m_pConstParams.push_back(&par); 
-	m_pPropName.push_back(sparamname);
-	m_pPropFlag.push_back(iflag);
+	m_pConstParams.push_back(par); 
+	//m_pPropName.push_back(sparamname);
+	//m_pPropFlag.push_back(iflag);
 	
-	
+	delete par;
 	return status;	
 }
 
@@ -556,16 +556,16 @@ int CIoGenericSteerSimulation::AddParamMat(double *value, int nr, int nc, string
 				if(value != NULL)
 					vf.setval(i,j,value[count++]);
 
-	CIoParam par=new CIoParam(&vf);
-	ppropman->AddProperty(&par);
+	CIoParam *par=new CIoParam(&vf);
+	ppropman->AddProperty(par);
 	ppropman->AddPropName(sparamname.c_str());
 	ppropman->AddPropFlag(iflag);
 
-	m_pConstParams.push_back(&par); 
-	m_pPropName.push_back(sparamname);
-	m_pPropFlag.push_back(iflag);
+	m_pConstParams.push_back(par); 
+	//m_pPropName.push_back(sparamname);
+	//m_pPropFlag.push_back(iflag);
 	
-	
+	delete par;
 	return status;
 }
 
@@ -603,16 +603,16 @@ int CIoGenericSteerSimulation::AddParammmat3d(double *value, int n, int p, int q
 	
 
 
-	CIoParam par=new CIoParam(&vf);
-	ppropman->AddProperty(&par);
+	CIoParam *par=new CIoParam(&vf);
+	ppropman->AddProperty(par);
 	ppropman->AddPropName(sparamname.c_str());
 	ppropman->AddPropFlag(iflag);
 
-	m_pConstParams.push_back(&par); 
-	m_pPropName.push_back(sparamname);
-	m_pPropFlag.push_back(iflag);
+	m_pConstParams.push_back(par); 
+	//m_pPropName.push_back(sparamname);
+	//m_pPropFlag.push_back(iflag);
 	
-	
+	delete par;
 	return status;
 }
 
@@ -1061,9 +1061,9 @@ int CIoGenericSteerSimulation::DeleteParam(char *name)
 		pstring = (string) (*nameit);
 		if(strcmp(pstring.c_str(), name)==0)
 		{
-			m_pPropName.erase(nameit);
+			//m_pPropName.erase(nameit);
 			m_pConstParams.erase(parit);
-			m_pPropFlag.erase(flagit);
+			//m_pPropFlag.erase(flagit);
 
 			DeleteProp(icount);
 			DeletePropFlag(icount);
