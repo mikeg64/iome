@@ -1085,13 +1085,13 @@ void CIoGenericSteerSimulation::ListParam(char *type, char *slist)
 
 	CIoParam *pparam=NULL;
 	
-		
-	for(index=0; index<m_pProperties->GetNumParams();index++)
+	int np=m_pProperties->GetNumParams();
+	for(index=0; index<np;index++)
 	{
 		if(index>=0)
 		{
 			pparam=GetProperty(index);
-			sname=m_pPropName[index];
+			sname=GetPropertyName(index);
 			if(pparam && (pparam->GetType()==IO_PARAM_FLOAT)  && (strcmp(type,"double")==0))
 			{
 			    
