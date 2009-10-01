@@ -184,7 +184,7 @@ CIoSimulation::~CIoSimulation()
 		delete [] m_sOutputFiles;
 
 	DeleteSimulantStates();
-	DeleteMetadata();
+	DeleteAllMetadata();
 
 
 
@@ -224,10 +224,26 @@ void CIoSimulation::DeleteMetadata(string sname)
 		metadata=(CIoMetadata *)(*m_lMetadataIterator);
 		if(metadata && ((metadata->m_sname).compare(sname)==0))
 		{
+							delete metadata;
 							m_lMetadataList.erase(m_lMetadataIterator);
 							return;
 		}
 										
+	}
+
+}
+
+void CIoSimulation::DeleteAllMetadata()
+{
+
+ 	CIoMetadata *metadata=NULL;
+	int i=0;
+
+    for(m_lMetadataIterator=m_lMetadataList.begin(); m_lMetadataIterator != m_lMetadataList.end();m_lMetadataIterator++ ,i++ )
+	{
+		metadata=(CIoMetadata *)(*m_lMetadataIterator);
+		delete metadata;
+		m_lMetadataList.erase(m_lMetadataIterator);										
 	}
 
 }
