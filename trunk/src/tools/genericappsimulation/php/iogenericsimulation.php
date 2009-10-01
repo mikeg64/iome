@@ -2,19 +2,33 @@
 
 class iogenericsimulation {
  
+        var $name;
 	private $params = array();
 	private $metadata = array();
  
 	public function __construct() {
 	}
  
-	public function push($data) {
-		array_push($this->params, $data);
+	public function addmetadata($prop, $name) {
+                $metad=new iometadata($prop, $name)
+		array_push($this->params, $metad);
 	}
- 
-	public function pop() {
-		return array_pop($this->params);
-	}
+
+	public function setmetadata($prop, $name) {
+		foreach ($metadata as $value)
+		  {
+		  if( ($value->name) == $name) $value->property=$prop;
+		  } 
+	} 
+
+	public function getmetadata($name) {
+                foreach ($metadata as $value)
+		  {
+		  if( ($value->name) == $name) return $value->property;
+		  } 
+  
+		return;
+	}        
 
 	public function readsimulation($filename) {
 
@@ -25,8 +39,8 @@ class iogenericsimulation {
 
 	public function writesimulation($filename) {
 
-		$writer=new iosimwriter();
-                $status=$writer->writesimulation($filename, $this);
+		$writer=new iosimwriter($this);
+                $status=$writer->writesimulation($filename);
 		return $status;
 	}
  
