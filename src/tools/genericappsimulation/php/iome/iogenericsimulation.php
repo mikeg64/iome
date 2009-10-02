@@ -21,7 +21,7 @@ class iogenericsimulation {
 		  } 
 	} 
 
-	public function getmetadata($name) {
+	public function getmetadatabyname($name) {
                 foreach ($metadata as $value)
 		  {
 		  if( ($value->name) == $name) return $value->property;
@@ -30,8 +30,17 @@ class iogenericsimulation {
 		return;
 	}        
 
-	public function readsimulation($filename) {
+	public function getmetadata($index) {
+ 		$mlist = $this->metadata;
+		return $mlist[$index];
+ 	}
 
+	public function getparam($index) {
+ 		$plist = $this->params;
+		return $plist[$index];
+ 	}
+
+	public function readsimulation($filename) {
 		$parser=new iosimreader();
                 $status=$parser->readsimulation($filename, $this);
 		return $status;
@@ -42,6 +51,16 @@ class iogenericsimulation {
 		$writer=new iosimwriter($this);
                 $status=$writer->writesimulation($filename);
 		return $status;
+	}
+
+	public function getnumparams() {
+		$pars=$this->params
+		return $pars->count();
+	}
+
+	public function getnummetadata() {
+		$met=$this->metadata
+		return $met->count();
 	}
  
 }
