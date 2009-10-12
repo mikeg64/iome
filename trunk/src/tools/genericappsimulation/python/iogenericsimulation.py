@@ -22,6 +22,19 @@ class iogenericsimulation:
         self.metadata.append(metad)
     def addprop(self, prop):
         self.params.append(prop)
+    def getprop(self, index):
+        numprops=self.params.len()
+        if index<numprops:
+            prop=self.params[index]
+        else:
+            prop=self.params[0]
+        return prop
+    def setprop(self, index, prop):
+        numprops=self.params.len()
+        if index<numprops:
+            params[index]=prop
+        else:
+            params[0]=prop
     def readsimulation(self,filename):
         parser = xml.sax.make_parser()
         handler = iosimreader.simhandler()
