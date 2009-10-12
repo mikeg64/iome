@@ -4,13 +4,14 @@
 
 
 exec("wave2d.sce");
+exec("savevtk_xym.sci");
 
 jobname='job1';
 
 //Read input
 
 wavetype=1; //travelling
-nsteps=4;
+nsteps=40;
 maxamplitude=20;
 wavenumber(1)=10;
 wavenumber(2)=5;
@@ -41,35 +42,36 @@ formfile='.form';
 x=1:1:nmax(1);
 y=1:1:nmax(2);
 
-fdform=mopen(formfile,'w');
-  mfprintf(fdform, '%d %d %d\n',nsteps, nmax(1), nmax(2));
-mclose(fdform);
+//fdform=mopen(formfile,'w');
+//  mfprintf(fdform, '%d %d %d\n',nsteps, nmax(1), nmax(2));
+//mclose(fdform);
 
-fd=mopen(outfile,'w');
-xset("colormap",jetcolormap(64));
+//fd=mopen(outfile,'w');
+//xset("colormap",jetcolormap(64));
 for i=tstep:tstep+nsteps
 z=wave2d(i*deltat, wavetype, maxamplitude, wavenumber, wavefreq, delta,nmax);
- 
+
+sfilename=sprintf("z_%d",i);
 //Write data to output
+savevtk_xym(x,y,z,"z",sfilename);
+// mfprintf(fd, '%d %d %d\n',i, nmax(1), nmax(2));
+// for j1=1:nmax(1)
+//  for j2=1:nmax(2)
+//      mfprintf(fd, '%f',z(j1,j2));
+//  end
+//  mfprintf(fd, '\n');
+// end
 
- mfprintf(fd, '%d %d %d\n',i, nmax(1), nmax(2));
- for j1=1:nmax(1)
-  for j2=1:nmax(2)
-      mfprintf(fd, '%f',z(j1,j2));
-  end
-  mfprintf(fd, '\n');
- end
 
-
-zzm = min(z); zzM = max(z);
-[xf,yf,zf]=genfac3d(x,y,z);
-zcol = dsearch(zf, linspace(zzm, zzM, 65));
-plot3d(xf, yf, list(zf, zcol), flag = [-2 6 4])
+//zzm = min(z); zzM = max(z);
+//[xf,yf,zf]=genfac3d(x,y,z);
+//zcol = dsearch(z, linspace(zzm, zzM, 65));
+//plot3d(x, y, list(z, zcol), flag = [-2 6 4])
 
 
 //plot3d(x,y,z);
 end //end of cycling over steps
-mclose(fd);
+//mclose(fd);
 
 //plot3d(x,y,z);
 //exit;
