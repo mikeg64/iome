@@ -8,23 +8,30 @@ import xml.sax.handler
 from iometadata import *
 from iogenericsimulation import *
 from iosimwriter import *
-
+from ioparam import *
 
 # simreader
 class simhandler(xml.sax.handler.ContentHandler):
     simulation=""
     currentprop=""
     numprops=0
+    currentindex=0
     def __init__(self, isim):
         self.simulation=isim
     def startElement(self, name, attributes):
         if name == "props":
-            self.numprops = attributes["numprops"]
+            self.numprops = attributes["numprops"]            
+            #create an array of props
+            for n in range(1, self.numprops):
+                iparam=ioparam("prop","value")
+                self.simulation.addprop(iparam)
         elif name == "prop":
             self.buffer = ""
             pname=attributes["name"]
             pindex=attributes["index"]
-            self.currentprop = ioparam(pname)
+            self.currentprop = self.simulation.getprop(pindex)
+            self.currentindex=pindex
+            self.currentprop.name=pname
         elif name == "metadata":
             psim=self.simulation
             psim.addmetadata(attributes["name"],attributes["property"])
@@ -32,15 +39,38 @@ class simhandler(xml.sax.handler.ContentHandler):
             psim=self.simulation
             pprop=self.currentprop
             pprop.type="int"
-            psim.addprop(self.currentprop)
+            pprop.svalue=self.buffer
+            psim.setprop(self.currentindex,self.currentprop)
         elif name == "float":
-            self.inTitle = 1
+            psim=self.simulation
+            pprop=self.currentprop
+            pprop.type="float"
+            pprop.svalue=self.buffer
+            psim.setprop(self.currentindex,self.currentprop)
         elif name == "string":
-            self.inTitle = 1
+            psim=self.simulation
+            pprop=self.currentprop
+            pprop.type="string"
+            pprop.svalue=self.buffer
+            psim.setprop(self.currentindex,self.currentprop)
         elif name == "vec":
-            self.inTitle = 1
+            psim=self.simulation
+            pprop=self.currentprop
+            pprop.type="vec"
+            pprop.size=attributes["size"]
+            pprop.svalue=self.buffer
+            psim.setprop(self.currentindex,self.currentprop)
         elif name == "mat":
-            self.inTitle = 1
+            psim=self.simulation
+            pprop=self.currentprop
+            pprop.type="mat"
+            pprop.rows=attributes["rows"]
+            pprop.cols=attributes["cols"]
+            pprop.svalue=self.buffer
+            psim.setprop(self.currentindex,self.currentprop)
+        elif name == "simulation":
+            psim=self.simulation
+            psim.name=attributes["name"]
     def characters(self, data):
         self.buffer= data
     def endElement(self, name):
