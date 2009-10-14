@@ -8,8 +8,6 @@ import sys
 
 # metadata
 class iometadata:
-    name=""
-    mproperty=""
 
     def __init__(self, iname, iproperty):
         self.name=iname

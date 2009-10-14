@@ -12,11 +12,11 @@ from iosimwriter import *
 
 # genericsimulation
 class iogenericsimulation:
-    name=""
-    metadata=[]
-    params=[]
+
     def __init__(self, iname):
         self.name=iname
+        self.metadata=[]
+        self.params=[]
     def addmetadata(self, prop,name):
         metad=iometadata(prop,name)
         self.metadata.append(metad)

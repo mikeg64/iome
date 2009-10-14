@@ -8,14 +8,14 @@ import sys
 
 # metadata
 class ioparam:
-    name=""
-    pid=""
-    ptype=""
-    size=1
-    cols=0
-    rows=0
-    svalue=""
+
     def __init__(self, iname, iproperty):
         self.name=iname
         self.mproperty=iproperty
         self.ptype="int"
+        self.pid=""
+        self.ptype=""
+        self.size=1
+        self.cols=0
+        self.rows=0
+        self.svalue=""
