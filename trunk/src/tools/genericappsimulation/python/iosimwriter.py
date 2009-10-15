@@ -48,7 +48,10 @@ class iosimwriter
         return metadatalistelement
     def createmetadataelement(doc, metadata)
         metadataelement=doc.createElement("metadata")
-
+        name=metadata.name
+        property=metadata.property
+        metadataelement.setAttribute("name",name)
+        metadataelement.setAttribute("property",property)
         return metadataelement
     def createpropselement(doc)
         propselement=doc.createElement("props")
@@ -62,7 +65,26 @@ class iosimwriter
         return propselement    
     def createpropelement(doc,index,prop)
         propelement=doc.createElement("prop")
-
+        propelement.setAttribute("index",index)
+        propelement.setAttribute("name",prop.name)
+        propelement.setAttribute("flag",7)
+        type=prop.ptype        
+        if type="int":
+            valelement=doc.createElement("int")
+        elif type="float":
+            valelement=doc.createElement("float")
+        elif type="vec":
+            valelement=doc.createElement("vec")
+            valelement.setAttribute("size",prop.size)            
+        elif type="string":
+            valelement=doc.createElement("string")            
+        elif type="mat":
+            valelement=doc.createElement("mat")
+            valelement.setAttribute("rows",prop.rows)            
+            valelement.setAttribute("cols",prop.cols)            
+        val = doc.createTextNode(prop.svalue)
+        valelement.appendChild(val)
+        propelement.appendChild(valelement)            
         return propelement        
     def createstepselement(doc)
         stepselement=doc.createElement("steps")
