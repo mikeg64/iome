@@ -3,44 +3,44 @@ function [consts,domain,source,metadata]=loadsim(simfile,elist)
 //loads a simulation file and sets the consts and domains
 //elist=list();  parameter used by iome to contain port and server address
 //ReadSimulation(simfile,elist)
-source.sf=GetDoubleParam('frequency',elist);//source frequency
-source.sa=GetDoubleParam('amplitude',elist);//source amplitude
-source.sx=GetDoubleParam('sx',elist);//source x location
-source.sy=GetDoubleParam('sy',elist);//source y location
+source.sf=getdoubleparam('frequency',elist);//source frequency
+source.sa=getdoubleparam('amplitude',elist);//source amplitude
+source.sx=getdoubleparam('sx',elist);//source x location
+source.sy=getdoubleparam('sy',elist);//source y location
   
   // Constants
-consts.g  =GetDoubleParam('g',elist);
-consts.u0 =GetDoubleParam('u0',elist);                               
-consts.v0 =GetDoubleParam('v0',elist);
-consts.b  =GetDoubleParam('b',elist);                               
-consts.h0 =GetDoubleParam('h0',elist); 
+consts.g  =getdoubleparam('g',elist);
+consts.u0 =getdoubleparam('u0',elist);                               
+consts.v0 =getdoubleparam('v0',elist);
+consts.b  =getdoubleparam('b',elist);                               
+consts.h0 =getdoubleparam('h0',elist); 
 
 //Domain definition
 // Define the x domain
 //ni = 151; 
-domain.ni=GetDoubleParam('ni',elist);
-domain.xmax=GetDoubleParam('xmax',elist);                      
+domain.ni=getdoubleparam('ni',elist);
+domain.xmax=getdoubleparam('xmax',elist);                      
 dx = domain.xmax/(domain.ni-1);
 x  = [0:dx:domain.xmax];
 
 // Define the y domain
 //nj = 151;  
-domain.nj=GetDoubleParam('nj',elist);
-domain.ymax=GetDoubleParam('ymax',elist);                      
+domain.nj=getdoubleparam('nj',elist);
+domain.ymax=getdoubleparam('ymax',elist);                      
 dy = ymax/(domain.nj-1);
 y  = [0:dy:domain.ymax];
-domain.nt=GetIntParam('nt',elist);
-domain.tmax=GetDoubleParam('tmax',elist);
-domain.step=GetIntParam('step',elist);
-domain.steeringenabled=GetIntParam('steeringenabled',elist);
-domain.finishsteering=GetIntParam('finishsteering',elist);
+domain.nt=getintparam('nt',elist);
+domain.tmax=getdoubleparam('tmax',elist);
+domain.step=getintparam('step',elist);
+domain.steeringenabled=getintparam('steeringenabled',elist);
+domain.finishsteering=getintparam('finishsteering',elist);
 
-metadata.directory=GetMetadata('directory',elist);
-metadata.author=GetMetadata('author',elist);
-metadata.sdate=GetMetadata('date',elist);
-metadata.platform=GetMetadata('platform',elist);
-metadata.desc=GetMetadata('description',elist);
-metadata.name=GetMetadata('name',elist);
+metadata.directory=getmetadata('directory',elist);
+metadata.author=getmetadata('author',elist);
+metadata.sdate=getmetadata('date',elist);
+metadata.platform=getmetadata('platform',elist);
+metadata.desc=getmetadata('description',elist);
+metadata.name=getmetadata('name',elist);
 
 endfunction
 
@@ -49,24 +49,24 @@ function []=createsim(consts, domain,source,metadata,simfile,elist)
 //elist=list();  parameter used by iome to contain port and server address
 //elist=list();
 
-AddMetadata('author',metadata.author,elist);
-AddMetadata('directory',metadata.directory,elist);
-AddMetadata('date',metadata.sdate,elist);
-AddMetadata('platform',metadata.platform,elist);
-AddMetadata('description',metadata.desc,elist);
-AddMetadata('name',metadata.name,elist);
+addmetadata('author',metadata.author,elist);
+addmetadata('directory',metadata.directory,elist);
+addmetadata('date',metadata.sdate,elist);
+addmetadata('platform',metadata.platform,elist);
+addmetadata('description',metadata.desc,elist);
+addmetadata('name',metadata.name,elist);
 
-AddDoubleParam('frequency',source.sf,7,elist);
-AddDoubleParam('amplitude',source.sa,7,elist);
-AddDoubleParam('sx',source.sx,7,elist);
-AddDoubleParam('sy',source.sy,7,elist);
+adddoubleparam('frequency',source.sf,7,elist);
+adddoubleparam('amplitude',source.sa,7,elist);
+adddoubleparam('sx',source.sx,7,elist);
+adddoubleparam('sy',source.sy,7,elist);
 
 // Constants
-AddDoubleParam('g',consts.g,7,elist);
-AddDoubleParam('u0',consts.u0,7,elist);
-AddDoubleParam('v0',consts.v0,7,elist);
-AddDoubleParam('b',consts.b,7,elist);
-AddDoubleParam('h0',consts.h0,7,elist);
+adddoubleparam('g',consts.g,7,elist);
+adddoubleparam('u0',consts.u0,7,elist);
+adddoubleparam('v0',consts.v0,7,elist);
+adddoubleparam('b',consts.b,7,elist);
+adddoubleparam('h0',consts.h0,7,elist);
 
 //Domain definition
 // Define the x domain
@@ -96,25 +96,25 @@ t=[1:dt:tmax];
 domain.nt=length(t);
 courant = wavespeed*dt/dx;
 
-AddDoubleParam('ni',domain.ni,7,elist);
-AddDoubleParam('nj',domain.ni,7,elist);
-AddDoubleParam('xmax',domain.xmax,7,elist);
-AddDoubleParam('ymax',domain.ymax,7,elist);
-AddDoubleParam('tmax',domain.tmax,7,elist);
-AddIntParam('nt',domain.nt,7,elist);
-AddIntParam('steeringenabled',domain.steeringenabled,7,elist);
-AddIntParam('finishsteering',domain.finishsteering,7,elist);
-AddIntParam('step',domain.step,7,elist);
+adddoubleparam('ni',domain.ni,7,elist);
+adddoubleparam('nj',domain.ni,7,elist);
+adddoubleparam('xmax',domain.xmax,7,elist);
+adddoubleparam('ymax',domain.ymax,7,elist);
+adddoubleparam('tmax',domain.tmax,7,elist);
+addintparam('nt',domain.nt,7,elist);
+addintparam('steeringenabled',domain.steeringenabled,7,elist);
+addintparam('finishsteering',domain.finishsteering,7,elist);
+addintparam('step',domain.step,7,elist);
 
 statsu=zeros(domain.nt,3);
 statsv=zeros(domain.nt,3);
 statsh=zeros(domain.nt,3);
 
-AddMatParam('statsu',statsu,7,elist);
-AddMatParam('statsv',statsv,7,elist);
-AddMatParam('statsh',statsh,7,elist);
+addmatparam('statsu',statsu,7,elist);
+addmatparam('statsv',statsv,7,elist);
+addmatparam('statsh',statsh,7,elist);
 
-AddStringParam('resultsfile','results.zip',7,elist);
+addstringparam('resultsfile','results.zip',7,elist);
 //simfile=sprintf('%s.xml',simname)
 
 
@@ -193,12 +193,12 @@ end
 //For a steerable simulation generate and save a dxformfile that saves a single data step
 //used for the steering dx module
 
-sdir=GetMetadata('directory',elist);
+sdir=getmetadata('directory',elist);
 //sdir=metadata.directory
 
 //name=metadata.name;
 
-name=GetMetadata('name',elist);
+name=getmetadata('name',elist);
 disp(sdir,name)
 
 outfile=sprintf('%s/%s.out',sdir,name);
@@ -305,21 +305,21 @@ for n=1:(length(t)-1)
     //disp('computing stats');
     
     //set the params
-    //SetMatParam('statsu',statsu,nt,3,elist)
-    //SetMatParam('statsv',statsu,nt,3,elist)
-    //SetMatParam('statsh',statsu,nt,3,elist)
-    SetIntParam('step',n,elist);
+    //setmatparam('statsu',statsu,nt,3,elist)
+    //setmatparam('statsv',statsu,nt,3,elist)
+    //setmatparam('statsh',statsu,nt,3,elist)
+    setintparam('step',n,elist);
     
     if steeringenabled==1
       //disp('getting updatea params');
       //for steering get the modified control params
-      sf=GetDoubleParam('frequency',elist);//source frequency
-      sa=GetDoubleParam('amplitude',elist);//source amplitude
-      sx=GetDoubleParam('sx',elist);//source x location
-      sy=GetDoubleParam('sy',elist);//source y location
-      finishsteering=GetIntParam('finishsteering',elist);//source y location  
+      sf=getdoubleparam('frequency',elist);//source frequency
+      sa=getdoubleparam('amplitude',elist);//source amplitude
+      sx=getdoubleparam('sx',elist);//source x location
+      sy=getdoubleparam('sy',elist);//source y location
+      finishsteering=getintparam('finishsteering',elist);//source y location  
         // Constants
-      g  =GetDoubleParam('g',elist);
+      g  =getdoubleparam('g',elist);
     
     
       //save file containing current data
@@ -362,9 +362,9 @@ end
 end //while finishsteering loop
 
 disp('finalising');
-SetMatParam('statsu',statsu,elist);
-SetMatParam('statsv',statsu,elist);
-SetMatParam('statsh',statsu,elist);
+setmatparam('statsu',statsu,elist);
+setmatparam('statsv',statsu,elist);
+setmatparam('statsh',statsu,elist);
 disp('finished');
 //for the completed simulation
 nsteps=length(t);
