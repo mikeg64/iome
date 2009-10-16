@@ -110,9 +110,9 @@ statsu=zeros(domain.nt,3);
 statsv=zeros(domain.nt,3);
 statsh=zeros(domain.nt,3);
 
-addmatparam('statsu',statsu,7,elist);
-addmatparam('statsv',statsv,7,elist);
-addmatparam('statsh',statsh,7,elist);
+addmatparam('statsu',statsu,domain.nt,3,elist);
+addmatparam('statsv',statsv,domain.nt,3,elist);
+addmatparam('statsh',statsh,domain.nt,3,elist);
 
 addstringparam('resultsfile','results.zip',7,elist);
 //simfile=sprintf('%s.xml',simname)

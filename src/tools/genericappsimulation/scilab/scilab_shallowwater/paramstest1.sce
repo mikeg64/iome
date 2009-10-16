@@ -41,8 +41,8 @@ metadata.directory='out';
 metadata.author='MikeG';
 metadata.sdate=date();
 metadata.platform='felix';
-metadata.desc='A simple test of SAAS';
-metadata.name='intsaas1';
+metadata.desc='A simple test of colaborative steering';
+metadata.name='mysim';
 
 elist=list(2);
 //elist(1)='192.168.1.104';
