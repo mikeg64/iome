@@ -4,6 +4,7 @@ class iosimreader {
 
 	$iogsimulation;
         $currentprop;
+	$currentelement;
 	public function __construct($iosim) {
 		$this->iogsimulation=$iosim;
 
@@ -31,13 +32,15 @@ class iosimreader {
 	function startElementHandler ($parser,$name,$attrib){
 
 	switch ($name) {
-		case $name=="metadata" : {	                
+		case $name=="metadata" : {
+                        $this->currentelement="metadata";	                
 		        $name = $attrib["name"];
 		        $prop = $attrib["content"];
 			$iogsimulation->addmetadata($name, $prop);
 		        break;
 		        }
 		case $name=="prop" : {
+			$this->currentelement="prop";
                         $prop = new ioparam();
 			$prop->flag = $attrib["flag"];
 			$prop->id = $attrib["index"];
@@ -75,17 +78,14 @@ class iosimreader {
 	}
 
 	function endElementHandler ($parser,$name){
-	$state='';
-	if($name=="CONTACT") {$usercount++;}
+		
+	
 	}
 
 	function characterDataHandler ($parser, $data) {
-	global $usercount;
-	global $userdata;
-	global $state;
-	if (!$state) {return;}
-	if ($state=="COMPANY") { $userdata[$usercount]["bcompany"] = $data;}
-	if ($state=="GENDER") { $userdata[$usercount]["gender"] = $data;}
+	    if( $currentelement=="prop" )
+			$prop=$this->currentprop
+			$prop->value=$data 
 	}
 
 }
