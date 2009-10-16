@@ -1,4 +1,4 @@
-function [status]=adddoubleparam(name, doub, flag,elist)
+function [status]=adddoubleparam(name, doub,elist)
   //AddMetadata(name, property, port) 
   nargin=length(elist);
   if nargin>0 then
@@ -19,7 +19,7 @@ function [status]=adddoubleparam(name, doub, flag,elist)
     id=0;
   end
 
-  
+  flag=7;
   
   try
     scommand=sprintf("iogs addparam double %s %f %d %d %d %s", name, doub,flag,  id,port,server);

@@ -27,7 +27,7 @@
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=adddoubleparam(name, double, flag,elist)</synopsis>
+    <synopsis>[status]=adddoubleparam(name, double,elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
@@ -35,13 +35,13 @@
 
     <para>Add double parameter to server.</para>
 
-    <para>Add double parameter to server. flag=7, elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
+    <para>Add double parameter to server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
   </refsection>
 
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">adddoubleparam(name, doub, flag,elist)</programlisting>
+    <programlisting role="example">adddoubleparam(name, doub,elist)</programlisting>
   </refsection>
 
   <refsection>

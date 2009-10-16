@@ -34,7 +34,7 @@ function [mat]=getmatparam(name,nr,nc,elist)
       end
     end
   catch
-    disp('GetParamMat error!');
+    disp('getmatparam error!');
     mat=-1;
   end  
   

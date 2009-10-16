@@ -27,7 +27,7 @@
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=setmatparam(name, mat, nr,nc,elist)</synopsis>
+    <synopsis>[status]=setmatparam(name, mat,elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
@@ -41,7 +41,7 @@
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">setmatparam(name, vec,nr,nc,elist)</programlisting>
+    <programlisting role="example">setmatparam(name, mat,elist)</programlisting>
   </refsection>
 
   <refsection>

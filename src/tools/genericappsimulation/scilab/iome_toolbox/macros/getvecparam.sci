@@ -22,6 +22,8 @@ function [vec]=getvecparam(name, vecsize,elist)
 
   
   try
+    
+    
     scommand=sprintf("iogs getparam vec %s %d %d %d %s", name,vecsize,  id,port,server);
     result=unix_g(scommand);
     vec=stringtovec(result, vecsize,' ');

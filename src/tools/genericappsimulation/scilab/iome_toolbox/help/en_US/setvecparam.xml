@@ -27,7 +27,7 @@
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=setvecparam(name, vec, sizeofvec, elist)</synopsis>
+    <synopsis>[status]=setvecparam(name, vec, elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
@@ -41,7 +41,7 @@
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">setvecparam(name, vec,sizeofvec, elist)</programlisting>
+    <programlisting role="example">setvecparam(name, vec, elist)</programlisting>
   </refsection>
 
   <refsection>

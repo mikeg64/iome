@@ -27,7 +27,7 @@
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=addvecparam(name, vec, sizeofvec, flag,elist)</synopsis>
+    <synopsis>[status]=addvecparam(name, vec,elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
@@ -35,13 +35,13 @@
 
     <para>Add vec parameter to server.</para>
 
-    <para>Add vec parameter to server. flag=7, elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
+    <para>Add vec parameter to server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
   </refsection>
 
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">addvecparam(name, vec,sizeofvec, flag,elist)</programlisting>
+    <programlisting role="example">addvecparam(name, vec,sizeofvec,elist)</programlisting>
   </refsection>
 
   <refsection>
