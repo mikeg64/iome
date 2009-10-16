@@ -1,4 +1,4 @@
-function [status]=addvecparam(name, var, vsize,flag,elist)
+function [status]=addvecparam(name, var, elist)
   //AddMetadata(name, property, port) 
   
   nargin=length(elist);
@@ -21,6 +21,7 @@ function [status]=addvecparam(name, var, vsize,flag,elist)
   end
 
   try
+    flag=7;
     vecstring=vectostring(var,',');
     
     //put double quotes around the vec string so that it is

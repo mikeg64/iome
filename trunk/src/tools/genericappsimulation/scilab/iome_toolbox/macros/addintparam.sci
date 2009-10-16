@@ -1,4 +1,4 @@
-function [status]=addintparam(name, var, flag,elist)
+function [status]=addintparam(name, var,elist)
   //AddMetadata(name, property, port) 
   nargin=length(elist);
   if nargin>0 then
@@ -20,7 +20,7 @@ function [status]=addintparam(name, var, flag,elist)
   end
 
   
-  
+  flag=7;
   try  
     scommand=sprintf("iogs addparam int %s %d %d %d %d %s", name, var,flag,  id,port,server);
     result=unix_g(scommand);

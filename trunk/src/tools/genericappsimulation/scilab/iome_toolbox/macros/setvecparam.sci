@@ -1,4 +1,4 @@
-function [result]=setvecparam(name, vin, vecsize,elist)
+function [result]=setvecparam(name, vin,elist)
   //AddMetadata(name, property, port) 
   
   nargin=length(elist);
@@ -22,12 +22,19 @@ function [result]=setvecparam(name, vin, vecsize,elist)
 
   
   try
+    
+    [l1,l2]=size(vin);
+    if l1>l2
+      len=l1;
+    else
+      len=l2;
+    end
     vecstring=vectostring(vin, ',');
     
     //put double quotes around the vec string so that it is
     //passed into unix shell script as a single variable
     uvecstring=sprintf('""%s""',vecstring);
-    scommand=sprintf("iogs setparam vec %s %s %d %d %d %s", name, uvecstring,vecsize,  id,port,server);
+    scommand=sprintf("iogs setparam vec %s %s %d %d %d %s", name, uvecstring,len,  id,port,server);
     result=unix_g(scommand);
   catch
     disp('SetVecParam!');

@@ -27,7 +27,7 @@
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=addstringparam(name, string, flag,elist)</synopsis>
+    <synopsis>[status]=addstringparam(name, string,elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
@@ -35,7 +35,7 @@
 
     <para>Add string parameter to server.</para>
 
-    <para>Add string parameter to server. flag=7, elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
+    <para>Add string parameter to server elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
   </refsection>
 
   <refsection>

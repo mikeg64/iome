@@ -1,4 +1,4 @@
-function [status]=addstringparam(name, var, flag,elist)
+function [status]=addstringparam(name, var,elist)
   //AddMetadata(name, property, port) 
   nargin=length(elist);
   if nargin>0 then
@@ -18,7 +18,7 @@ function [status]=addstringparam(name, var, flag,elist)
     port=8080;
     id=0;
   end
-
+  flag=7;
   
   
   try

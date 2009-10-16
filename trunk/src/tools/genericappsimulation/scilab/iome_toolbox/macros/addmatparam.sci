@@ -1,4 +1,4 @@
-function [mat]=addmatparam(name,nr,nc,elist)
+function [mat]=addmatparam(name,var,elist)
   //AddMetadata(name, property, port)
   
   nargin=length(elist);
@@ -22,7 +22,17 @@ function [mat]=addmatparam(name,nr,nc,elist)
 
   
   try
-    scommand=sprintf("iogs addparam mat %s %d %d 7 %d %d %s", name,nr,nc,  id,port,server);
+    [nr,nc]=size(var);
+    
+    
+    vecstring=vectostring(var,' ');
+    
+    //put double quotes around the vec string so that it is
+    //passed into unix shell script as a single variable
+    uvecstring=sprintf('""%s""',vecstring);
+    
+    
+    scommand=sprintf("iogs addparam mat %s %s %d %d 7 %d %d %s", name,uvecstring, nr,nc,  id,port,server);
     result=unix_g(scommand);
     tmat=stringtovec(result, nr*nc,' ');
     
@@ -34,7 +44,7 @@ function [mat]=addmatparam(name,nr,nc,elist)
       end
     end
   catch
-    disp('GetParamMat error!');
+    disp('addmatparam error!');
     mat=-1;
   end  
   

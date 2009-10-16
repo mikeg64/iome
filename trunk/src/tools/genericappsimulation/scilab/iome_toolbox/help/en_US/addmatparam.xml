@@ -27,7 +27,7 @@
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=addmatparam(name, mat, nr,nc, flag,elist)</synopsis>
+    <synopsis>[status]=addmatparam(name, mat,elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
@@ -35,13 +35,13 @@
 
     <para>Add mat parameter to server.</para>
 
-    <para>Add mat parameter to server. flag=7, elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
+    <para>Add mat parameter to server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
   </refsection>
 
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">addmatparam(name, vec,nr,nc, flag,elist)</programlisting>
+    <programlisting role="example">addmatparam(name, vec,elist)</programlisting>
   </refsection>
 
   <refsection>
