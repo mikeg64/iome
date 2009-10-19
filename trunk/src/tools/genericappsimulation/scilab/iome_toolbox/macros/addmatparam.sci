@@ -25,24 +25,18 @@ function [mat]=addmatparam(name,var,elist)
     [nr,nc]=size(var);
     
     
-    vecstring=vectostring(var,' ');
+    
+    
+    vecstring=vectostring(matrix(var',1,nr*nc),',');
     
     //put double quotes around the vec string so that it is
     //passed into unix shell script as a single variable
-    uvecstring=sprintf('""%s""',vecstring);
+    //uvecstring=sprintf('""%s""',vecstring);
     
     
-    scommand=sprintf("iogs addparam mat %s %s %d %d 7 %d %d %s", name,uvecstring, nr,nc,  id,port,server);
-    result=unix_g(scommand);
-    tmat=stringtovec(result, nr*nc,' ');
-    
-    ind=1;
-    for i=1:nr
-      for j=1:nc
-       mat(i,j)=tmat(ind);
-       ind=ind+1;
-      end
-    end
+    scommand=sprintf("iogs addparam mat %s %s %d %d 7 %d %d %s", name,vecstring, nr,nc,  id,port,server);
+    unix_g(scommand);
+    mat=var;
   catch
     disp('addmatparam error!');
     mat=-1;

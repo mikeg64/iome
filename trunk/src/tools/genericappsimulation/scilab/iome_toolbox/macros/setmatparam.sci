@@ -20,25 +20,18 @@ function [vvar]=setmatparam(name, var, elist)
     id=0;
   end
   try
-    [nr,nc]=size(var);
-       ind=1;
-       vvar=zeros(nr*nc);
-    for i=1:nr
-      for j=1:nc
-       vvar(ind)=var(i,j);
-       ind=ind+1;
-      end
-    end 
-    vecstring=vectostring(vvar,' ');
+    [nr,nc]=size(var); 
+    vecstring=vectostring(matrix(var',1,nr*nc),',');
     
     //put double quotes around the vec string so that it is
     //passed into unix shell script as a single variable
-    uvecstring=sprintf('""%s""',vecstring);
-    scommand=sprintf("iogs setparam mat %s %s %d %d %d %d %s", name, uvecstring,nr,nc,  id, port,server);
-    result=unix_g(scommand);
+    //uvecstring=sprintf('""%s""',vecstring);
+    scommand=sprintf("iogs setparam mat %s %s %d %d %d %d %s", name, vecstring,nr,nc,  id, port,server);
+    unix_g(scommand);
+    vvar=var;
   catch
     disp('SetMatParam error!');
-    result=-1;
+    vvar=-1;
   end
   status=0;
 endfunction
