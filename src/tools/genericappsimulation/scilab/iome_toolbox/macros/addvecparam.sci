@@ -22,13 +22,23 @@ function [status]=addvecparam(name, var, elist)
 
   try
     flag=7;
-    vecstring=vectostring(var,',');
+    [l1,l2]=size(var);
+    if l1>l2
+      len=l1;
+      nvar=var';
+    else
+      len=l2;
+      nvar=var;
+    end  
+    
+    vecstring=vectostring(nvar,',');
     
     //put double quotes around the vec string so that it is
     //passed into unix shell script as a single variable
-    uvecstring=sprintf('""%s""',vecstring); 
-    scommand=sprintf("iogs addparam vec %s %s %d %d %d %d %s", name, uvecstring,vsize,flag,  id,port,server);
-    status=unix_g(scommand);
+    //uvecstring=sprintf('""%s""',vecstring); 
+    scommand=sprintf("iogs addparam vec %s %s %d %d %d %d %s", name, vecstring,len,flag,  id,port,server);
+    unix_g(scommand);
+    status=0;
   catch
     disp('AddVecParam!');
     status=-1;
