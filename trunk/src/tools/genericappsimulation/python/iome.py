@@ -551,24 +551,27 @@ def AddStringParam(name, var, flag,varargin):
 
 
 def GetStringParam(name,varargin):
-  #AddMetadata(name, property, port) 
+  #AddMetadata(name, property, port)
     nargin=len(varargin);
     port=8080;
 
     if nargin>0:
         server=varargin[0];
-        if nargin>1:
-          port=varargin[1];
+        if nargin>2:
+            port=varargin[1];
+            id=varargin[2];
         else:
-          port=8080;
+            id=0;
+            if nargin>1:
+              port=varargin[2]
     else:
         server='localhost';
         port=8080;
-    
-    #scommand="iogs getparam string "+ name+" "+str(port)+" "+server
+        id=0;
+  
+    #scommand="iogs getparam float "+ name+" "+str(port)+" "+server
     #res=os.popen(scommand).readlines()
-    #result=res[0].strip()
-
+    #fval=float(res[0].strip())
     scontact="http://"+server+":"+str(port);
     try:
       service=IoSteerWSSOAP(url=scontact);
@@ -578,12 +581,19 @@ def GetStringParam(name,varargin):
 
       response=service.getparamstring(request);
     
-      sval=response._dval;
+      fval=response._value;
     except ValueError:
       print "GetStringParam error!"
-      result =-1;    
+      fval =-1;
+
     
-    return sval;
+    
+    return fval;
+
+    
+
+
+
 
 
 def SetStringParam(name, var,varargin):
