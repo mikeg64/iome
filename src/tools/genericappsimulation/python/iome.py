@@ -115,7 +115,7 @@ def vectostring(vec,separator):
 
 
 
-def ExitIOME(varargin):
+def exitiome(varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
@@ -154,7 +154,7 @@ def ExitIOME(varargin):
 
 
 
-def AddMetadata(name, property,varargin):
+def addmetadata(name, property,varargin):
 #AddMetadata(name, property, port)  
     nargin=len(varargin);
     port=8080;
@@ -190,7 +190,7 @@ def AddMetadata(name, property,varargin):
       
     return result;
 
-def SetMetadata(name, property,varargin):
+def setmetadata(name, property,varargin):
   #SetMetadata(name, property, port) 
     nargin=len(varargin);
     port=8080;
@@ -227,7 +227,7 @@ def SetMetadata(name, property,varargin):
       
     return result;
 
-def GetMetadata(name,varargin):
+def getmetadata(name,varargin):
   #GetMetadata(name, property, port) 
     nargin=len(varargin);
     port=8080;
@@ -264,8 +264,9 @@ def GetMetadata(name,varargin):
     return result;
 
 
-def AddFloatParam(name, vfloat, flag,varargin):
+def addparamdouble(name, vfloat,varargin):
   #AddMetadata(name, property, port) 
+    flag=7;
     nargin=len(varargin);
     port=8080;
 
@@ -304,7 +305,7 @@ def AddFloatParam(name, vfloat, flag,varargin):
     #result=res[0].strip()
  
 
-def GetFloatParam(name,varargin):
+def getparamdouble(name,varargin):
   #AddMetadata(name, property, port) 
     nargin=len(varargin);
     port=8080;
@@ -345,9 +346,9 @@ def GetFloatParam(name,varargin):
     return fval;
 
 
-def SetFloatParam(name, vfloat, flag,varargin):
+def setparamfloat(name, vfloat,varargin):
   #AddMetadata(name, property, port) 
-  
+    flag=7;
     nargin=len(varargin);
     port=8080;
 
@@ -386,8 +387,9 @@ def SetFloatParam(name, vfloat, flag,varargin):
 
 
 
-def AddIntParam(name, var, flag,varargin):
+def addparamint(name, var,varargin):
   #AddMetadata(name, property, port) 
+    flag=7;
     nargin=len(varargin);
     port=8080;
 
@@ -428,7 +430,7 @@ def AddIntParam(name, var, flag,varargin):
     return result;
 
 
-def GetIntParam(name,varargin):
+def getparamint(name,varargin):
   #AddMetadata(name, property, port) 
     nargin=len(varargin);
     port=8080;
@@ -467,9 +469,9 @@ def GetIntParam(name,varargin):
     
     return ival;
 
-def SetIntParam(name, var, flag,varargin):
+def setparamint(name, var,varargin):
   #AddMetadata(name, property, port) 
-  
+    flag=7;
     nargin=len(varargin);
     port=8080;
 
@@ -508,10 +510,11 @@ def SetIntParam(name, var, flag,varargin):
     return result;
 
 
-def AddStringParam(name, var, flag,varargin):
+def Addparamstring(name, var,varargin):
   #AddMetadata(name, property, port) 
     nargin=len(varargin);
     port=8080;
+    flag=7;
 
     if nargin>0:
         server=varargin[0];
@@ -550,7 +553,7 @@ def AddStringParam(name, var, flag,varargin):
     return result;
 
 
-def GetStringParam(name,varargin):
+def getparamstring(name,varargin):
   #AddMetadata(name, property, port)
     nargin=len(varargin);
     port=8080;
@@ -596,7 +599,7 @@ def GetStringParam(name,varargin):
 
 
 
-def SetStringParam(name, var,varargin):
+def setparamstring(name, var,varargin):
   #AddMetadata(name, property, port) 
   
     nargin=len(varargin);
@@ -636,9 +639,9 @@ def SetStringParam(name, var,varargin):
     
     return result;
 
-def AddVecParam(name, var, vsize,flag,varargin):
+def addparamvec(name, var, vsize,varargin):
   #AddMetadata(name, property, port) 
-  
+    flag=7;
     nargin=len(varargin);
     port=8080;
 
@@ -695,7 +698,7 @@ def AddVecParam(name, var, vsize,flag,varargin):
 
 
 
-def GetVecParam(name, vecsize,varargin):
+def getparamvec(name, vecsize,varargin):
   #AddMetadata(name, property, port)  
     nargin=len(varargin);
     port=8080;
@@ -738,9 +741,9 @@ def GetVecParam(name, vecsize,varargin):
   
 
 
-def SetVecParam(name, vec, vecsize,flag,varargin):
+def setparamvec(name, vec, vecsize,varargin):
   #AddMetadata(name, property, port) 
-  
+    flag=7;
     nargin=len(varargin);
     port=8080;
 
@@ -789,12 +792,12 @@ def SetVecParam(name, vec, vecsize,flag,varargin):
 
 
 
-def AddMatParam(name, var, nr,nc,flag,varargin):
+def addparammat(name, var, nr,nc,varargin):
   #AddMetadata(name, property, port) 
   
     nargin=len(varargin);
     port=8080;
-
+    flag=7;
     if nargin>0:
         server=varargin[0];
         if nargin>2:
@@ -853,7 +856,7 @@ def AddMatParam(name, var, nr,nc,flag,varargin):
 
 
 
-def GetMatParam(name, nr,nc,varargin):
+def getparammat(name, nr,nc,varargin):
   #AddMetadata(name, property, port)
   
     nargin=len(varargin);
@@ -905,9 +908,9 @@ def GetMatParam(name, nr,nc,varargin):
 
 
 
-def SetMatParam(name, var, nr,nc,flag,varargin):
+def setparammat(name, var, nr,nc,varargin):
   #AddMetadata(name, property, port) 
-  
+    flag=7;
     nargin=len(varargin);
     port=8080;
 
@@ -965,9 +968,9 @@ def SetMatParam(name, var, nr,nc,flag,varargin):
 
 
 
-def Addmmat3dParam(name, var, ni,nj,nk,nr,nc,flag,varargin):
+def addparammmat3d(name, var, ni,nj,nk,nr,nc,varargin):
   #AddMetadata(name, property, port) 
-  
+    flag=7;
     nargin=len(varargin);
     port=8080;
 
@@ -1023,7 +1026,7 @@ def Addmmat3dParam(name, var, ni,nj,nk,nr,nc,flag,varargin):
 
 
 
-def Getmmat3dParam(name, ni,nj,nk,nr,nc,varargin):
+def getparammmat3d(name, ni,nj,nk,nr,nc,varargin):
   #AddMetadata(name, property, port)
   
     nargin=len(varargin);
@@ -1074,9 +1077,9 @@ def Getmmat3dParam(name, ni,nj,nk,nr,nc,varargin):
     return result;
 
 
-def Setmmat3dParam(name, var, ni,nj,nk,nr,nc,flag,varargin):
+def setparammmat3d(name, var, ni,nj,nk,nr,nc,varargin):
   #AddMetadata(name, property, port) 
-  
+    flag=7;
     nargin=len(varargin);
     port=8080;
 
@@ -1129,7 +1132,7 @@ def Setmmat3dParam(name, var, ni,nj,nk,nr,nc,flag,varargin):
     
     return result;
 
-def RunSimulation(simfile, outfile, varargin):
+def runsimulation(simfile, outfile, varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
@@ -1179,7 +1182,7 @@ def RunSimulation(simfile, outfile, varargin):
     return result;
 
     
-def SubmitSimulation(simfile, varargin):
+def submitsimulation(simfile, varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
@@ -1225,7 +1228,7 @@ def SubmitSimulation(simfile, varargin):
   #result=os.system(scommand);
     return isimid;
 
-def SimulationStatus(varargin):
+def simulationstatus(varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
@@ -1268,7 +1271,7 @@ def SimulationStatus(varargin):
     return status;
 
 
-def GetSimulationResult(outfile, varargin):
+def getsimulationresult(outfile, varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
@@ -1312,7 +1315,7 @@ def GetSimulationResult(outfile, varargin):
   #result=os.system(scommand);
     return result;
 
-def DeleteSimulation(varargin):
+def deletesimulation(varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
@@ -1354,7 +1357,7 @@ def DeleteSimulation(varargin):
   #result=os.system(scommand);
     return status;
 
-def ReadSimulation(simfile,varargin):
+def readsimulation(simfile,varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
@@ -1397,7 +1400,7 @@ def ReadSimulation(simfile,varargin):
   #result=os.system(scommand);
     return status;
 
-def NewSimulation(simname,xslname,varargin):
+def newsimulation(simname,xslname,varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
@@ -1442,7 +1445,7 @@ def NewSimulation(simname,xslname,varargin):
     return status;
 
 
-def WriteSimulation(simfile,varargin):
+def writesimulation(simfile,varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
@@ -1488,7 +1491,7 @@ def WriteSimulation(simfile,varargin):
   #result=os.system(scommand);
     return result;
 
-def GetObjNum(varargin):
+def getobjnum(varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
@@ -1531,7 +1534,7 @@ def GetObjNum(varargin):
     return objnum;
 
 
-def GetNumObj(varargin):
+def getnumobj(varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
@@ -1574,7 +1577,7 @@ def GetNumObj(varargin):
     return numobj;
 
 
-def GroupBarrier(myid, varargin):
+def groupbarrier(myid, varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
@@ -1639,7 +1642,7 @@ def GroupBarrier(myid, varargin):
 
     return result;
 
-def DeleteParam(paramname,varargin):
+def deleteparam(paramname,varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
@@ -1681,7 +1684,7 @@ def DeleteParam(paramname,varargin):
   #result=os.system(scommand);
     return status;
 
-def ListParam(paramtype,varargin):
+def listparam(paramtype,varargin):
   #Stop the server and exit IOME
     port=8080;
     nargin=len(varargin);
