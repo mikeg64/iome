@@ -1,5 +1,6 @@
-function [status]=addparamdouble(name, doub, flag,elist)
+function [status]=addparamdouble(name, doub,elist)
   %[status]=addparamdouble(name, doub, flag,elist) 
+  flag=7;	  
   nargin=length(elist);
   if nargin>0
     server=elist{1};

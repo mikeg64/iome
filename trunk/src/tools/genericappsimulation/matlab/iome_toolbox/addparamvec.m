@@ -1,6 +1,6 @@
-function [status]=addparamvec(name, var,flag,elist)
+function [status]=addparamvec(name, var,elist)
   %[status]=addparamvec(name, var, flag,elist) 
-  
+  flag=7;
   nargin=length(elist);
   if nargin>0 
     server=elist{1};
