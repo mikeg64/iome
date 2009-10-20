@@ -1,6 +1,7 @@
-function [status]=addparamstring(name, var, flag,elist)
+function [status]=addparamstring(name, var,elist)
   %AddMetadata(name, property, port) 
   nargin=length(elist);
+  flag=7;
    if nargin>0 
     server=elist{1};
     if nargin>1 

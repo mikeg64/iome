@@ -1,5 +1,6 @@
-function [status]=addparamint(name, var, flag,elist)
+function [status]=addparamint(name, var,elist)
   %[status]=addparamint(name, var, flag,elist)
+  flag=7;
   nargin=length(elist);
   if nargin>0
     server=elist{1};

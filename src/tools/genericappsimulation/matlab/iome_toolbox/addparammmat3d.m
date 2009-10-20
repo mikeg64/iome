@@ -1,6 +1,6 @@
-function [status]=addparammmat3d(name, var, ni,nj,nk,nr,nc,flag,elist)
+function [status]=addparammmat3d(name, var, ni,nj,nk,nr,nc,elist)
   %AddMetadata(name, property, port) 
-
+  flag=7;
   nargin=length(elist);
   if nargin>0 then
     server=elist{1};
