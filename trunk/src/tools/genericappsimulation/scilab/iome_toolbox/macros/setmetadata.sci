@@ -20,9 +20,9 @@ function [status]=setmetadata(name, property,elist)
     id=0;
   end
 
-  
+  uprop=sprintf('""%s""',property); 
   try
-    scommand=sprintf("iogs setmetadata %s %s %d %d %s", name, property,  id,port,server);
+    scommand=sprintf("iogs setmetadata %s %s %d %d %s", name, uprop,  id,port,server);
     result=unix_g(scommand);
     status=0;
   catch

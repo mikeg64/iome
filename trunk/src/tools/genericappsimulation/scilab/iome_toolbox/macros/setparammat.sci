@@ -21,7 +21,7 @@ function [vvar]=setparammat(name, var, elist)
   end
   try
     [nr,nc]=size(var); 
-    vecstring=vectostring(matrix(var',1,nr*nc),',');
+    vecstring=vectostring(matrix(var,1,nr*nc),',');
     
     //put double quotes around the vec string so that it is
     //passed into unix shell script as a single variable
