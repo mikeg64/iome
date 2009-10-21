@@ -30,7 +30,7 @@ function [status]=addparamvec(name, var,elist)
   sval=vectostring(var',',');
   
   scommand=['iogs addparam vec ',name,' ',sval,' ',num2str(vsize),' ',num2str(flag),' ',num2str(id),' ',sport,' ',server];
-  display(scommand);
+  %display(scommand);
   system(scommand);
 
 
