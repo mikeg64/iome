@@ -1,4 +1,4 @@
-function [status]=setparamstring(name, var,elist)
+function [status]=deletemetadata(name,elist)
   //AddMetadata(name, property, port) 
   
   nargin=length(elist);
@@ -20,12 +20,12 @@ function [status]=setparamstring(name, var,elist)
     id=0;
   end
 
-  uvar=sprintf('""%s""',var); 
   try
-    scommand=sprintf("iogs setparam string %s %s %d %d %s", name, uvar,  id,port,server);
+    scommand=sprintf("iogs deletemetadata %s %d  %d %s", name,id,  port,server);
     status=unix_g(scommand);
   catch
-    disp('SetStringParam!');
+    disp('DeleteMetadata Error!');
     status=-1;
-  end
+  end   
 endfunction
+

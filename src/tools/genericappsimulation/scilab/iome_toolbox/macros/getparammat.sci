@@ -26,13 +26,14 @@ function [mat]=getparammat(name,nr,nc,elist)
     result=unix_g(scommand);
     tmat=stringtovec(result, nr*nc,' ');
     
-    ind=1;
-    for i=1:nr
-      for j=1:nc
-       mat(i,j)=tmat(ind);
-       ind=ind+1;
-      end
-    end
+    //ind=1;
+    //for j=1:nc
+    //  for i=1:nr
+    //   mat(i,j)=tmat(ind);
+    //   ind=ind+1;
+    //  end
+    //end
+    mat=matrix(tmat,5,3);
   catch
     disp('getmatparam error!');
     mat=-1;

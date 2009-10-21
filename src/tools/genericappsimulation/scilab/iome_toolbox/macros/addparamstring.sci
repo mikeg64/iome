@@ -20,9 +20,9 @@ function [status]=addparamstring(name, var,elist)
   end
   flag=7;
   
-  
+  uvar=sprintf('""%s""',var);
   try
-    scommand=sprintf("iogs addparam string %s %s %d %d %d %s", name, var,flag,  id,port,server);
+    scommand=sprintf("iogs addparam string %s %s %d %d %d %s", name, uvar,flag,  id,port,server);
     status=unix_g(scommand);
   catch
     disp('AddStringParam!');

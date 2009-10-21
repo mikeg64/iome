@@ -1,5 +1,5 @@
-function [status]=setparamstring(name, var,elist)
-  //AddMetadata(name, property, port) 
+function [property]=listmetadata(elist)
+  //GetMetadata(name, property, port) 
   
   nargin=length(elist);
   if nargin>0 then
@@ -20,12 +20,14 @@ function [status]=setparamstring(name, var,elist)
     id=0;
   end
 
-  uvar=sprintf('""%s""',var); 
+  
   try
-    scommand=sprintf("iogs setparam string %s %s %d %d %s", name, uvar,  id,port,server);
-    status=unix_g(scommand);
+    scommand=sprintf("iogs listmetadata %d %d %s", id,port,server);
+    property=unix_g(scommand);
+    status=0;
   catch
-    disp('SetStringParam!');
+    disp('ListMetadata Error!');
     status=-1;
-  end
+  end 
 endfunction
+
