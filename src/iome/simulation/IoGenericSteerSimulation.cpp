@@ -625,7 +625,7 @@ int CIoGenericSteerSimulation::CreateSimulation(char *sFilename)
 	DeleteSimulantStates();
 	DeleteNames();
 	DeleteFlags();
-	DeleteMetadata();
+	DeleteAllMetadata();
 	if(m_pProperties)
 		delete m_pProperties;
 	m_pProperties=new CIoParam;
