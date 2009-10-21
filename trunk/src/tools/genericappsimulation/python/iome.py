@@ -96,6 +96,42 @@ def stringtovec(stringvar, vsize, separator):
     b=b+1
   return vec
 
+def mattovec(mat):
+  nr=len(mat);
+  nc=len(mat[0]);
+  vsize=nr*nc;
+  vec=zeros(vsize);
+
+  b=0;
+  ir=0;
+  while ir<nr:
+    ic=0;
+    while ic<nc:
+      vec[b]=mat[ir][ic];
+      ic=ic+1
+      b=b+1
+    ir=ir+1
+    
+
+  return vec
+
+def vectomat(vec,nr,nc):
+  vsize=len(vec);
+  mat=zeros(nr,nc);
+   
+  b=0;
+  ir=0;
+  while ir<nc:
+    ic=0;
+    while ic<nc:
+      mat[ir][ic]=vec[b];
+      ic=ic+1
+      b=b+1
+    ir+1
+    
+
+  return mat
+
 
 def vectostring(vec,separator):
   vsize=len(vec);
@@ -510,7 +546,7 @@ def setparamint(name, var,varargin):
     return result;
 
 
-def Addparamstring(name, var,varargin):
+def addparamstring(name, var,varargin):
   #AddMetadata(name, property, port) 
     nargin=len(varargin);
     port=8080;
@@ -792,7 +828,7 @@ def setparamvec(name, vec, vecsize,varargin):
 
 
 
-def addparammat(name, var, nr,nc,varargin):
+def addparammat(name, var,varargin):
   #AddMetadata(name, property, port) 
   
     nargin=len(varargin);
@@ -811,7 +847,8 @@ def addparammat(name, var, nr,nc,varargin):
         server='localhost';
         port=8080;
         id=0;
-
+    nr=len(var);
+    nc=len(var [0]);
     #i=0
     #j=0
     #vvar=[]
@@ -908,7 +945,7 @@ def getparammat(name, nr,nc,varargin):
 
 
 
-def setparammat(name, var, nr,nc,varargin):
+def setparammat(name, var,varargin):
   #AddMetadata(name, property, port) 
     flag=7;
     nargin=len(varargin);
@@ -928,7 +965,8 @@ def setparammat(name, var, nr,nc,varargin):
         port=8080;
         id=0;
 
-  
+    nr=len(var);
+    nc=len(m1[0]);
     #put double quotes around the vec string so that it is
     #passed into unix shell script as a single variable
     #umatstring=sprintf('""%s""',matstring); 
