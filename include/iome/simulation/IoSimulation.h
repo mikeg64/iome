@@ -191,7 +191,7 @@ public:
 	void ListMetadata(char *slist);
 
 	CIoMetadata *GetMetadata(int index);
-	void DeleteMetadata(){m_lMetadataList.clear();}
+	void DeleteAllMetadata();
 	string GetMetadataContent(string sname);
 	void AddSimulantState(CIoSimulant *pSim);
 	CIoSimulant *GetSimulantState(int index);
