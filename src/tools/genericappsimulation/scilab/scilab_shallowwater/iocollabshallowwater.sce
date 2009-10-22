@@ -1,16 +1,16 @@
 function [cam,settings,metadata]=loadcollabsim(simfile,elist)
 //loads a simulation file and sets the consts and domains
 //elist=list();  parameter used by iome to contain port and server address
-ReadSimulation(simfile,elist)
+readsimulation(simfile,elist)
 
 // Camera parameters
-cam.camfrom=getvecparam('camfrom',3,elist)  ;//= [25 25 21];
-cam.camto=getvecparam('camto',3,elist)  ;//= [23 25 0];
-cam.camup=getvecparam('camup',3,elist)  ;//= [23 25 0];
-cam.camwidth =getfloatparam('camwidth',elist);//= 47;
+cam.camfrom=getparamvec('camfrom',3,elist)  ;//= [25 25 21];
+cam.camto=getparamvec('camto',3,elist)  ;//= [23 25 0];
+cam.camup=getparamvec('camup',3,elist)  ;//= [23 25 0];
+cam.camwidth =getparamdouble('camwidth',elist);//= 47;
 
-settings.step=getintparam('step',elist); //= 1;
-settings.name=getstringparam('name',elist);
+settings.step=getparamint('step',elist); //= 1;
+settings.name=getparamstring('name',elist);
 
 metadata.author=getmetadata('author',elist);
 metadata.sdate=getmetadata('date',elist);
@@ -31,13 +31,13 @@ addmetadata('platform',metadata.platform,elist);
 addmetadata('description',metadata.desc,elist);
 addmetadata('name',metadata.name,elist);
 
-addvecparam('camfrom',cam.camfrom,3,7,elist)  ;//= [25 25 21];
-addvecparam('camto',cam.camto,3,7,elist)  ;//= [23 25 0];
-addvecparam('camup',cam.camup,3,7,elist)  ;//= [23 25 0];
-addfloatparam('camwidth',cam.camwidth,7,elist);//= 47;
+addparamvec('camfrom',cam.camfrom,3,elist)  ;//= [25 25 21];
+addparamvec('camto',cam.camto,3,elist)  ;//= [23 25 0];
+addparamvec('camup',cam.camup,3,elist)  ;//= [23 25 0];
+addparamdouble('camwidth',cam.camwidth,elist);//= 47;
 
-addintparam('step',settings.step,7,elist); //= 1;
-addstringparam('name',settings.name,7,elist);
+addparamint('step',settings.step,elist); //= 1;
+addparamstring('name',settings.name,elist);
 
 
 

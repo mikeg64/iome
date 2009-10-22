@@ -1,7 +1,8 @@
 //exec('../IoGenericScilabSimulation.sce');  //this should be executed by the iome start up application
 //exec('../IoSetUpGenericScilabSimulation.sce');
 
-tdp=getenv('SCILAB_HOME')+'/share/scilab/contrib/iome_toolbox/loader.sce';
+//tdp=getenv('SCILAB_HOME')+'/share/scilab/contrib/iome_toolbox/loader.sce';
+tdp='/usr/share/scilab/contrib/iome_toolbox/loader.sce';
 exec(tdp);
 exec('ioshallowwater.sce');
 
@@ -19,14 +20,14 @@ mclose(fd);
 elist(2)=portid;
 
 
-simfile=metadata.name+'.xml';
+simfile='mysim1.xml';
 //NewSimulation(metadata.name,'test1.xsl',elist);
-createsim(consts,domain,source,metadata,simfile,elist);
+//createsim(consts,domain,source,metadata,simfile,elist);
 
-//[consts,domain,source]=loadsim('test1_16_02_09.xml',elist);
+[consts,domain,source]=loadsim(simfile,elist);
 //chdir(metadata.directory);
 
-//runsim(consts,domain,source,metadata,simfile,elist);
+runsim(consts,domain,source,metadata,simfile,elist);
 writesimulation(simfile,elist);
 //chdir('..');
 //exit();
