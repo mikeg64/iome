@@ -2,38 +2,38 @@ function [consts,domain,source,metadata]=loadsim(simfile,elist)
 //add initial wave height as new param
 //loads a simulation file and sets the consts and domains
 //elist=list();  parameter used by iome to contain port and server address
-//ReadSimulation(simfile,elist)
-source.sf=getdoubleparam('frequency',elist);//source frequency
-source.sa=getdoubleparam('amplitude',elist);//source amplitude
-source.sx=getdoubleparam('sx',elist);//source x location
-source.sy=getdoubleparam('sy',elist);//source y location
+readsimulation(simfile,elist)
+source.sf=getparamdouble('frequency',elist);//source frequency
+source.sa=getparamdouble('amplitude',elist);//source amplitude
+source.sx=getparamdouble('sx',elist);//source x location
+source.sy=getparamdouble('sy',elist);//source y location
   
   // Constants
-consts.g  =getdoubleparam('g',elist);
-consts.u0 =getdoubleparam('u0',elist);                               
-consts.v0 =getdoubleparam('v0',elist);
-consts.b  =getdoubleparam('b',elist);                               
-consts.h0 =getdoubleparam('h0',elist); 
+consts.g  =getparamdouble('g',elist);
+consts.u0 =getparamdouble('u0',elist);                               
+consts.v0 =getparamdouble('v0',elist);
+consts.b  =getparamdouble('b',elist);                               
+consts.h0 =getparamdouble('h0',elist); 
 
 //Domain definition
 // Define the x domain
 //ni = 151; 
-domain.ni=getdoubleparam('ni',elist);
-domain.xmax=getdoubleparam('xmax',elist);                      
+domain.ni=getparamdouble('ni',elist);
+domain.xmax=getparamdouble('xmax',elist);                      
 dx = domain.xmax/(domain.ni-1);
 x  = [0:dx:domain.xmax];
 
 // Define the y domain
 //nj = 151;  
-domain.nj=getdoubleparam('nj',elist);
-domain.ymax=getdoubleparam('ymax',elist);                      
+domain.nj=getparamdouble('nj',elist);
+domain.ymax=getparamdouble('ymax',elist);                      
 dy = ymax/(domain.nj-1);
 y  = [0:dy:domain.ymax];
-domain.nt=getintparam('nt',elist);
-domain.tmax=getdoubleparam('tmax',elist);
-domain.step=getintparam('step',elist);
-domain.steeringenabled=getintparam('steeringenabled',elist);
-domain.finishsteering=getintparam('finishsteering',elist);
+domain.nt=getparamint('nt',elist);
+domain.tmax=getparamdouble('tmax',elist);
+domain.step=getparamint('step',elist);
+domain.steeringenabled=getparamint('steeringenabled',elist);
+domain.finishsteering=getparamint('finishsteering',elist);
 
 metadata.directory=getmetadata('directory',elist);
 metadata.author=getmetadata('author',elist);
@@ -56,17 +56,17 @@ addmetadata('platform',metadata.platform,elist);
 addmetadata('description',metadata.desc,elist);
 addmetadata('name',metadata.name,elist);
 
-adddoubleparam('frequency',source.sf,7,elist);
-adddoubleparam('amplitude',source.sa,7,elist);
-adddoubleparam('sx',source.sx,7,elist);
-adddoubleparam('sy',source.sy,7,elist);
+addparamdouble('frequency',source.sf,elist);
+addparamdouble('amplitude',source.sa,elist);
+addparamdouble('sx',source.sx,elist);
+addparamdouble('sy',source.sy,elist);
 
 // Constants
-adddoubleparam('g',consts.g,7,elist);
-adddoubleparam('u0',consts.u0,7,elist);
-adddoubleparam('v0',consts.v0,7,elist);
-adddoubleparam('b',consts.b,7,elist);
-adddoubleparam('h0',consts.h0,7,elist);
+addparamdouble('g',consts.g,elist);
+addparamdouble('u0',consts.u0,elist);
+addparamdouble('v0',consts.v0,elist);
+addparamdouble('b',consts.b,elist);
+addparamdouble('h0',consts.h0,elist);
 
 //Domain definition
 // Define the x domain
@@ -96,25 +96,25 @@ t=[1:dt:tmax];
 domain.nt=length(t);
 courant = wavespeed*dt/dx;
 
-adddoubleparam('ni',domain.ni,7,elist);
-adddoubleparam('nj',domain.ni,7,elist);
-adddoubleparam('xmax',domain.xmax,7,elist);
-adddoubleparam('ymax',domain.ymax,7,elist);
-adddoubleparam('tmax',domain.tmax,7,elist);
-addintparam('nt',domain.nt,7,elist);
-addintparam('steeringenabled',domain.steeringenabled,7,elist);
-addintparam('finishsteering',domain.finishsteering,7,elist);
-addintparam('step',domain.step,7,elist);
+addparamdouble('ni',domain.ni,elist);
+addparamdouble('nj',domain.ni,elist);
+addparamdouble('xmax',domain.xmax,elist);
+addparamdouble('ymax',domain.ymax,elist);
+addparamdouble('tmax',domain.tmax,elist);
+addparamint('nt',domain.nt,elist);
+addparamint('steeringenabled',domain.steeringenabled,elist);
+addparamint('finishsteering',domain.finishsteering,elist);
+addparamint('step',domain.step,elist);
 
 statsu=zeros(domain.nt,3);
 statsv=zeros(domain.nt,3);
 statsh=zeros(domain.nt,3);
 
-addmatparam('statsu',statsu,domain.nt,3,elist);
-addmatparam('statsv',statsv,domain.nt,3,elist);
-addmatparam('statsh',statsh,domain.nt,3,elist);
+addparammat('statsu',statsu,elist);
+addparammat('statsv',statsv,elist);
+addparammat('statsh',statsh,elist);
 
-addstringparam('resultsfile','results.zip',7,elist);
+addparamstring('resultsfile','results.zip',elist);
 //simfile=sprintf('%s.xml',simname)
 
 
@@ -305,21 +305,21 @@ for n=1:(length(t)-1)
     //disp('computing stats');
     
     //set the params
-    //setmatparam('statsu',statsu,nt,3,elist)
-    //setmatparam('statsv',statsu,nt,3,elist)
-    //setmatparam('statsh',statsu,nt,3,elist)
-    setintparam('step',n,elist);
+    //setparammat('statsu',statsu,nt,3,elist)
+    //setparammat('statsv',statsu,nt,3,elist)
+    //setparammat('statsh',statsu,nt,3,elist)
+    setparamint('step',n,elist);
     
     if steeringenabled==1
       //disp('getting updatea params');
       //for steering get the modified control params
-      sf=getdoubleparam('frequency',elist);//source frequency
-      sa=getdoubleparam('amplitude',elist);//source amplitude
-      sx=getdoubleparam('sx',elist);//source x location
-      sy=getdoubleparam('sy',elist);//source y location
-      finishsteering=getintparam('finishsteering',elist);//source y location  
+      sf=getparamdouble('frequency',elist);//source frequency
+      sa=getparamdouble('amplitude',elist);//source amplitude
+      sx=getparamdouble('sx',elist);//source x location
+      sy=getparamdouble('sy',elist);//source y location
+      finishsteering=getparamint('finishsteering',elist);//source y location  
         // Constants
-      g  =getdoubleparam('g',elist);
+      g  =getparamdouble('g',elist);
     
     
       //save file containing current data
@@ -362,9 +362,9 @@ end
 end //while finishsteering loop
 
 disp('finalising');
-setmatparam('statsu',statsu,elist);
-setmatparam('statsv',statsu,elist);
-setmatparam('statsh',statsu,elist);
+setparammat('statsu',statsu,elist);
+setparammat('statsv',statsu,elist);
+setparammat('statsh',statsu,elist);
 disp('finished');
 //for the completed simulation
 nsteps=length(t);
