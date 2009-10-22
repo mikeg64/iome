@@ -103,32 +103,34 @@ def mattovec(mat):
   vec=zeros(vsize);
 
   b=0;
-  ir=0;
-  while ir<nr:
-    ic=0;
-    while ic<nc:
+  ic=-1;
+  while ic<nc:
+    ir=0;
+    ic=ic+1;
+    while ic<nc and ir<nr:
       vec[b]=mat[ir][ic];
-      ic=ic+1
+      ir=ir+1
       b=b+1
-    ir=ir+1
+
     
 
   return vec
 
 def vectomat(vec,nr,nc):
   vsize=len(vec);
-  mat=zeros(nr,nc);
+  mat=newmat(nr,nc);
    
   b=0;
-  ir=0;
-  while ir<nc:
-    ic=0;
-    while ic<nc:
+  ic=-1;
+  while ic<nc:
+    ir=0;
+    ic=ic+1
+    while ir<nr and ic<nc:
       mat[ir][ic]=vec[b];
-      ic=ic+1
+      ir=ir+1
       b=b+1
-    ir+1
     
+   
 
   return mat
 
@@ -147,6 +149,14 @@ def vectostring(vec,separator):
   return vecstring
   
 
+def iome(sserver,iport,iid):
+
+    myvar=[]
+    myvar.append(sserver)
+    myvar.append(iport)
+    myvar.append(iid)
+
+    return myvar;
 
 
 
@@ -849,6 +859,7 @@ def addparammat(name, var,varargin):
         id=0;
     nr=len(var);
     nc=len(var [0]);
+    vvar=mattovec(var);
     #i=0
     #j=0
     #vvar=[]
@@ -878,7 +889,7 @@ def addparammat(name, var,varargin):
       request = addparammatRequest();
       request._id=id;
       request._name=name;
-      request._value=var;
+      request._value=vvar;
       request._iflag=flag;
       request._nr=nr;
       request._nc=nc;
@@ -940,8 +951,9 @@ def getparammat(name, nr,nc,varargin):
     except ValueError:
       print "GetMatParam error!"
       result =-1;    
-    
-    return result;
+
+    mat=vectomat(result,nr,nc);
+    return mat;
 
 
 
@@ -966,7 +978,8 @@ def setparammat(name, var,varargin):
         id=0;
 
     nr=len(var);
-    nc=len(m1[0]);
+    nc=len(var[0]);
+    vvar=mattovec(var);
     #put double quotes around the vec string so that it is
     #passed into unix shell script as a single variable
     #umatstring=sprintf('""%s""',matstring); 
@@ -984,7 +997,7 @@ def setparammat(name, var,varargin):
       request = setparammatRequest();
       request._id=id;
       request._name=name;
-      request._value=var;
+      request._value=vvar;
       request._iflag=flag;
       request._nr=nr;
       request._nc=nc;
