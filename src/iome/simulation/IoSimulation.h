@@ -183,7 +183,8 @@ public:
 
 	int m_idistributemethod;
 	int m_inumprocs;
-	
+
+	void DeleteAllMetadata();
 	void DeleteMetadata(string sname);	
 	void AddMetadata(string sname, string scontent);
 	void SetMetadata(string sname, string scontent);
@@ -191,7 +192,6 @@ public:
 	void ListMetadata(char *slist);
 
 	CIoMetadata *GetMetadata(int index);
-	void DeleteAllMetadata();
 	string GetMetadataContent(string sname);
 	void AddSimulantState(CIoSimulant *pSim);
 	CIoSimulant *GetSimulantState(int index);
