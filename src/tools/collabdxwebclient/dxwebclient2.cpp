@@ -12,16 +12,18 @@
 #include "dxl.h"
 
 #ifndef IO_MSVC
-	#include "../IoSimulation/IoInitialiser.h"
-	#include "../IoSimulation/soapH.h"
-	#include "../IoSimulation/IoGenericSteerSimulation.h"
-	#include "../IoSimulation/IoSteerWS.nsmap"
+	#include <iome/simulation/IoInitialiser.h>
+	#include <iome/simulation/soapH.h>
+	#include <iome/simulation/IoGenericSteerSimulation.h>
+	#include <iome/simulation/IoSteerWS.nsmap>
 #else
-	#include "..\IoSimulation\IoInitialiser.h"
-	#include "..\IoSimulation\soapH.h"
-	#include "..\IoSimulation\IoGenericSteerSimulation.h"
-	#include "..\IoSimulation\IoSteerWS.nsmap"
+	#include <iome/simulation/IoInitialiser.h>
+	#include <iome/simulation/soapH.h>
+	#include <iome/simulation/IoGenericSteerSimulation.h>
+	#include <iome/simulation/IoSteerWS.nsmap>
 #endif
+
+
 
 
 
@@ -36,6 +38,7 @@ int m_iclosedx=0;
 int m_iupdatelocal=0;
 int m_iupdateserver=0;
 
+int m_id=0;
 int m_clientid=0;
 int m_nfinputs=0;
 int m_nfoutputs=0;
@@ -206,10 +209,10 @@ void loadstate_handler(DXLConnection *conn, const char *name, const char *value,
 
 
   //get nhistory
-	soap_call_ns__getparamint(&m_soap, m_server, "", "ihistory", &ihistory );
+//	soap_call_ns__getparamint(&m_soap, m_server, "", "ihistory", &ihistory );
  //get metadata.name and create new name
-  soap_call_ns__getmetadata(&m_soap, m_server, "", 0, "name", &scont);
-  sprintf(sxmlfile,"%s_%d.xml",scont,ihistory);
+ // soap_call_ns__getmetadata(&m_soap, m_server, "", 0, "name", &scont);
+ // sprintf(sxmlfile,"%s_%d.xml",scont,ihistory);
 
 
   //soap_call_ns__readsimulation(&m_soap, m_server, "",  sxmlfile, &status);
@@ -238,8 +241,8 @@ void output_fvalue_handler(DXLConnection *conn, const char *name, const char *va
 		  		sprintf(m_sofvalues[j],"%s", value);
 				strncpy(sname,name,strlen(name)-1);
 				dval=atof(value);
-				printf("actual out float stuff %s %f\n",sname,dval);
-				soap_call_ns__setparamdouble(&m_soap, m_server, "", sname,dval, &status );
+				//printf("actual out float stuff %s %f\n",sname,dval);
+				soap_call_ns__setparamdouble(&m_soap, m_server, "", m_id, sname,dval, &status );
 
     			//soap_call_ns__status(&m_soap, m_server, "", m_clientid, &status);
     			//soap_call_ns__setinput(&m_soap, m_server, "", m_clientid, m_sfoutputs[j], m_sofvalues[j], &status);
@@ -276,8 +279,8 @@ void output_ivalue_handler(DXLConnection *conn, const char *name, const char *va
 						  		//sprintf(m_sofvalues[j],"%s", value);
 				strncpy(sname,name,strlen(name)-1);
 				sscanf(value,"%d",&ival);
-				printf("i out soap vals %s %s %s %s %s %d\n",name, sname,m_sioutputs[j],m_soivalues[j], value,ival);
-				soap_call_ns__setparamint(&m_soap, m_server, "", sname,ival, &status );
+				//printf("i out soap vals %s %s %s %s %s %d\n",name, sname,m_sioutputs[j],m_soivalues[j], value,ival);
+				soap_call_ns__setparamint(&m_soap, m_server, "", m_id,sname,ival, &status );
 
     			//soap_call_ns__status(&m_soap, m_server, "", m_clientid, &status);
     			//soap_call_ns__setinput(&m_soap, m_server, "", m_clientid, m_sfoutputs[j], m_sofvalues[j], &status);
@@ -361,7 +364,7 @@ void output_vvalue_handler(DXLConnection *conn, const char *name, const char *va
                 
                 //printf("actual output vvalue handler %s %s\n", sname, value);
                 //printf("values %f %f %f %d",vval[0],vval[1],vval[2],vecsize);
-				soap_call_ns__setparamvec(&m_soap, m_server, "", sname,sdata,vsize, &status );
+				soap_call_ns__setparamvec(&m_soap, m_server, "",m_id, sname,sdata,vsize, &status );
                 free(vval);
                 free(newval);
                 free(snewval);
@@ -397,7 +400,7 @@ void output_svalue_handler(DXLConnection *conn, const char *name, const char *va
 
 				strncpy(sname,name,strlen(name)-1);
 				//sscanf(value,"%f",&dval);
-				printf("actual output svalue handler %s %s\n", sname, value);
+				//printf("actual output svalue handler %s %s\n", sname, value);
 				//soap_call_ns__setparamstring(&m_soap, m_server, "", sname,(char *)value, &status );
 
     			//soap_call_ns__status(&m_soap, m_server, "", m_clientid, &status);
@@ -1080,8 +1083,12 @@ main(int argc, char *argv[])
     
       if (DXLIsMessagePending(conn))
          DXLHandlePendingMessages(conn);
-         printf("Hit return to continue:");
-          gets(result);
+
+         if(m_iupdateserver==0)
+	{
+         	printf("Hit return to continue:");
+          	gets(result);
+	}
     			DXLExecuteOnce(conn);
 			SyncAfterExecute(conn);
     isync=0;
@@ -1118,7 +1125,7 @@ main(int argc, char *argv[])
 				double dvalue;
 				sname=(char *)calloc(strlen(m_sfinputs[i])-1,sizeof(char));
 				strncpy(sname,m_sfinputs[i],strlen(m_sfinputs[i])-1);
-				soap_call_ns__getparamdouble(&m_soap, m_server, "", sname, &dvalue );
+				soap_call_ns__getparamdouble(&m_soap, m_server, "", m_id,sname, &dvalue );
 				sprintf(m_sifvalues[i],"%f",dvalue);
 				//soap_call_ns__getinput(&m_soap, m_server, "", m_clientid, m_sfinputs[i], &soapresp);
 				printf("finput %d %s value=%f %s %s\n",i,sname,dvalue,m_sfinputs[i], m_sifvalues[i]);
@@ -1133,7 +1140,7 @@ main(int argc, char *argv[])
 				char *sname;
 				sname=(char *)calloc(strlen(m_siinputs[i])-1,sizeof(char));
 				strncpy(sname,m_siinputs[i],strlen(m_siinputs[i])-1);
-				soap_call_ns__getparamint(&m_soap, m_server, "", sname, &ivalue );
+				soap_call_ns__getparamint(&m_soap, m_server, "",m_id, sname, &ivalue );
 				sprintf(m_siivalues[i],"%d",ivalue);
 				printf("iinput %d %s %s value=%d\n",i,sname,m_siinputs[i],ivalue);
 		    	DXLSetInteger(conn, m_siinputs[i], ivalue);
@@ -1180,7 +1187,7 @@ main(int argc, char *argv[])
 				psdata=&sdata;
                 sname=(char *)calloc(strlen(m_svinputs[i])-1,sizeof(char));
 				strncpy(sname,m_svinputs[i],strlen(m_svinputs[i])-1);
-				soap_call_ns__getparamvec(&m_soap, m_server, "", sname,m_ilenvvals[i], &psdata );
+				soap_call_ns__getparamvec(&m_soap, m_server, "", m_id,sname,m_ilenvvals[i], &psdata );
 				for(j=0; j<m_ilenvvals[i];j++)
 					sprintf(tsvalue,"%s %f", tsvalue, psdata->__ptr[j]);
 				sprintf(m_sivvalues[i],"[ %s ]",tsvalue);
