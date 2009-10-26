@@ -33,7 +33,8 @@ function [mat]=getparammat(name,nr,nc,elist)
     //   ind=ind+1;
     //  end
     //end
-    mat=matrix(tmat,nr,nc);
+    //mat=matrix(tmat,nc,nr)';
+    mat=matrix(tmat,nc,nr)';
   catch
     disp('getmatparam error!');
     mat=-1;
