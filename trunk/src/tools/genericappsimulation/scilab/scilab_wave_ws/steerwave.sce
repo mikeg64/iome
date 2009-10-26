@@ -2,26 +2,15 @@
 //with the command:
 //  /usr/bin/scilex -nw -nb -f run_wave2d_dx.sce
 
+tdp=getenv('SCILAB_HOME')+'/share/scilab/contrib/iome_toolbox/loader.sce';
+//tdp='/usr/share/scilab/contrib/iome_toolbox/loader.sce';
+exec(tdp);
 
 exec("wave2d.sce");
 exec("savevtk_xym.sci");
+exec("waveparams.sce");
 
-jobname='steerjob1';
 
-//Read input
-
-wavetype=1; //travelling
-nsteps=60;
-maxamplitude=20;
-wavenumber(1)=10;
-wavenumber(2)=5;
-wavefreq=8;
-delta(1)=0.01;
-delta(2)=0.01;
-nmax(1)=100;
-nmax(2)=100;
-deltat=0.05;
-tstep=1;
 
 
 //Wave packet
@@ -36,8 +25,9 @@ outfile='.out';
 formfile='.form';
 outfile='out/'+jobname+'.out';
 formfile=jobname+'.form';
+simfile=jobname+'.xml';
 sdir='out';
-
+createsim(params1,params2,metadata,simfile,elist);
 
 
 //clf;
@@ -51,9 +41,12 @@ mclose(fdform);
 //fd=mopen(outfile,'w');
 //xset("colormap",jetcolormap(64));
 gendxgen(sdir,jobname,2,nmax(1),nmax(2));
+disp(nsteps);
 for i=tstep:tstep+nsteps
-z=wave2d(i*deltat, wavetype, maxamplitude, wavenumber, wavefreq, delta,nmax);
-
+z1=wave2d(i*deltat, wavetype, maxamplitude, wavenumber, wavefreq, delta,nmax);
+//z2=wave2d(i*deltat, wavetype, maxamplitude, wavenumber2, wavefreq, delta,nmax);
+z2=0;
+z=z1+z2;
 sfilename=sprintf("z_%d",i);
 //Write data to output
 //savevtk_xym(x,y,z,"z",sfilename);
@@ -72,6 +65,19 @@ mclose(fd);
 //as soon as the file is written we can copy to the working directory
 scommand=sprintf("cp temp %s\n",outfile);
 unix_g(scommand);
+
+steeringenabled=getparamint('steeringenabled',elist);
+finishsteering=getparamint('finishsteering',elist);
+if finishsteering=1 
+ break;  
+end
+
+setparamdouble('step',i,elist);
+if steeringenabled=1
+  maxamplitude=getparamint('maxamplitude',elist);
+  wavenumber=getparamvec('wavenumber',2,elist);   //vec(2)
+  wavefreq=getparamdouble('wavefreq',elist);
+end
 
 //zzm = min(z); zzM = max(z);
 //[xf,yf,zf]=genfac3d(x,y,z);

@@ -39,22 +39,22 @@ endfunction
 function [params1,params2,metadata]=loadsim(elist)
 
 
-params1.wavetype=getintparam('wavetype',elist); //travelling
-params1.nsteps=getintparam('nsteps',elist);
-params1.maxamplitude=getintparam('maxamplitude',elist);
-params1.wavenumber=getvecparam('wavenumber',2,elist);   //vec(2)
-params1.wavefreq=getdoubleparam('wavefreq',elist);
-params1.delta=getvecparam('delta',2,elist);               //vec(2)
-params1.nmax=getvecparam('nmax',2,elist);                 //vec(2)
-params1.deltat=getdoubleparam('deltat',elist);
+params1.wavetype=getparamint('wavetype',elist); //travelling
+params1.nsteps=getparamint('nsteps',elist);
+params1.maxamplitude=getparamint('maxamplitude',elist);
+params1.wavenumber=getparamvec('wavenumber',2,elist);   //vec(2)
+params1.wavefreq=getparamdouble('wavefreq',elist);
+params1.delta=getparamvec('delta',2,elist);               //vec(2)
+params1.nmax=getparamvec('nmax',2,elist);                 //vec(2)
+params1.deltat=getparamdouble('deltat',elist);
 
-params2.steeringenabled=getintparam('steeringenabled',elist);
-params2.finishsteering=getintparam('finishsteering',elist);
+params2.steeringenabled=getparamint('steeringenabled',elist);
+params2.finishsteering=getparamint('finishsteering',elist);
 
 
 //params2
-params2.tstep=getdoubleparam('tstep',elist);
-params2.jobname=getstringparam('jobname',elist);
+params2.tstep=getparamdouble('tstep',elist);
+params2.jobname=getparamstring('jobname',elist);
 
 
 metadata.directory=getmetadata('directory',elist);
@@ -78,23 +78,23 @@ addmetadata('platform',metadata.platform,elist);
 addmetadata('description',metadata.desc,elist);
 addmetadata('name',metadata.name,elist);
 
+addparamdouble('step',0,elist);
+addparamint('wavetype',params1.wavetype,elist);
+addparamint('nsteps',params1.nsteps,elist);
+addparamdouble('maxamplitude',params1.maxamplitude,elist);
+addparamvec('wavenumber',(params1.wavenumber)',elist);   //vec(2)
+addparamdouble('wavefreq',params1.wavefreq,elist);
+addparamvec('delta',(params1.delta)',elist);               //vec(2)
+addparamvec('nmax',(params1.nmax)',elist);                 //vec(2)
+addparamdouble('deltat',params1.deltat,elist);
 
-addintparam('wavetype',params1.wavetype,7,elist);
-addintparam('nsteps',params1.nsteps,7,elist);
-adddoubleparam('maxamplitude',params1.maxamplitude,7,elist);
-addvecparam('wavenumber',(params1.wavenumber)',2, 7,elist);   //vec(2)
-adddoubleparam('wavefreq',params1.wavefreq,7,elist);
-addvecparam('delta',(params1.delta)',2,7,elist);               //vec(2)
-addvecparam('nmax',(params1.nmax)',2,7,elist);                 //vec(2)
-adddoubleparam('deltat',params1.deltat,7,elist);
-
-addintparam('steeringenabled',params2.steeringenabled,7,elist);
-addintparam('finishsteering',params2.finishsteering,7,elist);
+addparamint('steeringenabled',params2.steeringenabled,elist);
+addparamint('finishsteering',params2.finishsteering,elist);
 
 
 //params2
-adddoubleparam('tstep',params2.tstep,7,elist);
-addstringparam('jobname',params2.jobname,7,elist);
+addparamdouble('tstep',params2.tstep,elist);
+addparamstring('jobname',params2.jobname,elist);
 
 endfunction
 
