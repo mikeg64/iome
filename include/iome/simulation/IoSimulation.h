@@ -184,8 +184,10 @@ public:
 	int m_idistributemethod;
 	int m_inumprocs;
 
-	void DeleteAllMetadata();
-	void DeleteMetadata(string sname);	
+
+	void DeleteMetadata(string sname);
+	void DeleteAllMetadata();	
+		
 	void AddMetadata(string sname, string scontent);
 	void SetMetadata(string sname, string scontent);
 	string GetMetadata(string sname);
