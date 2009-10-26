@@ -1,14 +1,14 @@
 //
-// time: Fri Oct 23 11:01:39 2009
+// time: Mon Oct 26 12:22:55 2009
 //
 // version: 3.2.0 (format), 4.4.4 (DX)
 //
 //
 // MODULE main
 // page assignment: model_input	order=3, windowed=0, showing=0
-// page assignment: steercontrol	order=2, windowed=0, showing=0
-// page assignment: wave2d	order=4, windowed=0, showing=1
-// workspace: width = 494, height = 612
+// page assignment: steercontrol	order=2, windowed=0, showing=1
+// page assignment: wave2d	order=4, windowed=0, showing=0
+// workspace: width = 712, height = 641
 // layout: snap = 0, width = 50, height = 50, align = NN
 //
 macro main(
@@ -43,12 +43,12 @@ main_Receiver_33_out_1[cache: 0] = generalfile;
     // 
     // node Integer[11]: x = 439, y = 20, inputs = 11, label = Integer
     // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_11"
-    // input[3]: defaulting = 0, visible = 0, type = 1, value = 10 
+    // input[3]: defaulting = 0, visible = 0, type = 1, value = 27 
     // input[5]: defaulting = 1, visible = 0, type = 1, value = 1
     // input[6]: defaulting = 1, visible = 0, type = 1, value = 1000000
     // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
     // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
-    // output[1]: visible = 1, type = 1, value = 10 
+    // output[1]: visible = 1, type = 1, value = 27 
     // page group: wave2d
     //
     // 
@@ -84,23 +84,13 @@ main_Import_1_out_1 =
     main_Compute_1_out_1
     ) [instance: 1, cache: 1];
     // 
-    // node Select[1]: x = 253, y = 190, inputs = 3, label = Select
-    // page group: wave2d
-    //
-main_Select_1_out_1 = 
-    Select(
-    main_Import_1_out_1,
-    main_Select_1_in_2,
-    main_Select_1_in_3
-    ) [instance: 1, cache: 1];
-    // 
     // node RubberSheet[1]: x = 253, y = 280, inputs = 4, label = RubberSheet
     // input[2]: defaulting = 0, visible = 1, type = 5, value = 2.0
     // page group: wave2d
     //
 main_RubberSheet_1_out_1 = 
     RubberSheet(
-    main_Select_1_out_1,
+    main_Import_1_out_1,
     main_RubberSheet_1_in_2,
     main_RubberSheet_1_in_3,
     main_RubberSheet_1_in_4
@@ -112,12 +102,12 @@ main_RubberSheet_1_out_1 =
     // input[3]: defaulting = 0, visible = 0, type = 16777224, value = { [0.0 1.0] [1.0 1.0] }
     // input[4]: defaulting = 0, visible = 0, type = 16777224, value = { [0.0 1.0] [1.0 1.0] }
     // input[5]: defaulting = 0, visible = 0, type = 32, value = "Colormap_1"
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = -1.0
-    // input[8]: defaulting = 1, visible = 0, type = 5, value = 0.99999899
+    // input[7]: defaulting = 1, visible = 0, type = 5, value = -0.99986899
+    // input[8]: defaulting = 1, visible = 0, type = 5, value = 0.99997002
     // input[9]: defaulting = 1, visible = 0, type = 1, value = 20
-    // input[12]: defaulting = 0, visible = 0, type = 16777221, value = { -1.0 0.99999899 }
-    // input[17]: defaulting = 0, visible = 0, type = 5, value = NULL
-    // input[18]: defaulting = 0, visible = 0, type = 5, value = NULL
+    // input[12]: defaulting = 0, visible = 0, type = 16777221, value = { -0.99986899 0.99997002 }
+    // input[17]: defaulting = 0, visible = 0, type = 5, value = -0.99986899
+    // input[18]: defaulting = 0, visible = 0, type = 5, value = 0.99997002
     // page group: wave2d
     // window: position = (0.0000,0.0430), size = 0.6875x0.5872
     //
@@ -129,7 +119,7 @@ main_Colormap_1_out_2[cache: 2] =
     main_Colormap_1_in_3,
     main_Colormap_1_in_4,
     main_Colormap_1_in_5,
-    main_Colormap_1_in_6,
+    main_Import_1_out_1,
     main_Colormap_1_in_7,
     main_Colormap_1_in_8,
     main_Colormap_1_in_9,
@@ -181,7 +171,7 @@ main_Collect_1_out_1 =
     ) [instance: 3, cache: 1];
     // 
     // node StringList[2]: x = 98, y = 57, inputs = 0, label = StringList
-    // output[1]: visible = 1, type = 16777248, value = { "namei" }
+    // output[1]: visible = 1, type = 16777248, value = NULL
     // page group: steercontrol
     //
     // 
@@ -195,7 +185,7 @@ main_Collect_1_out_1 =
     ) [instance: 4, cache: 1];
     // 
     // node StringList[3]: x = 204, y = 225, inputs = 0, label = StringList
-    // output[1]: visible = 1, type = 16777248, value = { "stepo" }
+    // output[1]: visible = 1, type = 16777248, value = { "wavetypeo", "steeringenabledo", "finishsteeringo" }
     // page group: steercontrol
     //
     // 
@@ -209,7 +199,7 @@ main_Collect_1_out_1 =
     ) [instance: 5, cache: 1];
     // 
     // node StringList[4]: x = 100, y = 225, inputs = 0, label = StringList
-    // output[1]: visible = 1, type = 16777248, value = { "stepi" }
+    // output[1]: visible = 1, type = 16777248, value = NULL
     // page group: steercontrol
     //
     // 
@@ -222,42 +212,28 @@ main_Collect_1_out_1 =
     main_StringList_4_out_1
     ) [instance: 6, cache: 1];
     // 
-    // node Integer[10]: x = 483, y = 439, inputs = 11, label = Integer
-    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_10"
-    // input[3]: defaulting = 0, visible = 0, type = 1, value = 0
-    // input[5]: defaulting = 0, visible = 0, type = 1, value = -1000000
-    // input[6]: defaulting = 0, visible = 0, type = 1, value = 1000000
-    // input[7]: defaulting = 0, visible = 0, type = 5, value = 1.0
+    // node Integer[14]: x = 657, y = 449, inputs = 11, label = Integer
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_14"
+    // input[3]: defaulting = 1, visible = 0, type = 1, value = 0
+    // input[5]: defaulting = 1, visible = 0, type = 1, value = 0
+    // input[6]: defaulting = 1, visible = 0, type = 1, value = 1
+    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
     // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
     // output[1]: visible = 1, type = 1, value = 0
     // page group: steercontrol
     //
-main_Integer_10_out_1[cache: 2] = 
-    Integer(
-    main_Integer_10_in_1,
-    main_Integer_10_in_2,
-    main_Integer_10_in_3,
-    main_Integer_10_in_4,
-    main_Integer_10_in_5,
-    main_Integer_10_in_6,
-    main_Integer_10_in_7,
-    main_Integer_10_in_8,
-    main_Integer_10_in_9,
-    main_Integer_10_in_10,
-    main_Integer_10_in_11
-    ) [instance: 10, cache: 1];
     // 
-    // node DXLOutput[7]: x = 507, y = 577, inputs = 2, label = updateserver
+    // node DXLOutput[7]: x = 507, y = 576, inputs = 2, label = updateserver
     // input[1]: defaulting = 0, visible = 0, type = 32, value = "updateserver"
     // page group: steercontrol
     //
     DXLOutput(
     main_DXLOutput_7_in_1,
-    main_Integer_10_out_1
+    main_Integer_14_out_1
     ) [instance: 7, cache: 1];
     // 
     // node StringList[6]: x = 531, y = 68, inputs = 0, label = StringList
-    // output[1]: visible = 1, type = 16777248, value = { "camupo", "camfromo", "camtoo" }
+    // output[1]: visible = 1, type = 16777248, value = { "wavenumbero" }
     // page group: steercontrol
     //
     // 
@@ -271,7 +247,7 @@ main_Integer_10_out_1[cache: 2] =
     ) [instance: 8, cache: 1];
     // 
     // node StringList[7]: x = 427, y = 68, inputs = 0, label = StringList
-    // output[1]: visible = 1, type = 16777248, value = { "camfromi", "camtoi", "camupi" }
+    // output[1]: visible = 1, type = 16777248, value = NULL
     // page group: steercontrol
     //
     // 
@@ -285,7 +261,7 @@ main_Integer_10_out_1[cache: 2] =
     ) [instance: 9, cache: 1];
     // 
     // node StringList[8]: x = 531, y = 261, inputs = 0, label = StringList
-    // output[1]: visible = 1, type = 16777248, value = { "camwidtho" }
+    // output[1]: visible = 1, type = 16777248, value = { "wavefreqo", "maxamplitudeo" }
     // page group: steercontrol
     //
     // 
@@ -299,7 +275,7 @@ main_Integer_10_out_1[cache: 2] =
     ) [instance: 16, cache: 1];
     // 
     // node StringList[9]: x = 437, y = 261, inputs = 0, label = StringList
-    // output[1]: visible = 1, type = 16777248, value = { "camwidthi" }
+    // output[1]: visible = 1, type = 16777248, value = NULL
     // page group: steercontrol
     //
     // 
@@ -380,15 +356,135 @@ main_Integer_9_out_1[cache: 2] =
     main_Integer_9_out_1
     ) [instance: 19, cache: 1];
     // 
+    // node Scalar[4]: x = 196, y = 184, inputs = 11, label = Scalar
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Scalar_4"
+    // input[3]: defaulting = 0, visible = 0, type = 5, value = 50.0 
+    // input[5]: defaulting = 1, visible = 0, type = 5, value = -1000000.0
+    // input[6]: defaulting = 1, visible = 0, type = 5, value = 1000000.0
+    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
+    // input[9]: defaulting = 1, visible = 0, type = 1, value = 5
+    // output[1]: visible = 1, type = 5, value = 50.0 
+    // page group: model_input
+    //
+    // 
+    // node DXLOutput[22]: x = 194, y = 306, inputs = 2, label = wavefreqo
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "wavefreqo"
+    // page group: model_input
+    //
+    DXLOutput(
+    main_DXLOutput_22_in_1,
+    main_Scalar_4_out_1
+    ) [instance: 22, cache: 1];
+    // 
+    // node Integer[1]: x = 10, y = 10, inputs = 11, label = Integer
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_1"
+    // input[3]: defaulting = 0, visible = 0, type = 1, value = 1 
+    // input[5]: defaulting = 1, visible = 0, type = 1, value = 0
+    // input[6]: defaulting = 1, visible = 0, type = 1, value = 1
+    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
+    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
+    // output[1]: visible = 1, type = 1, value = 1 
+    // page group: model_input
+    //
+    // 
+    // node DXLOutput[23]: x = 21, y = 105, inputs = 2, label = wavetypeo
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "wavetypeo"
+    // page group: model_input
+    //
+    DXLOutput(
+    main_DXLOutput_23_in_1,
+    main_Integer_1_out_1
+    ) [instance: 23, cache: 1];
+    // 
+    // node Scalar[1]: x = 94, y = 12, inputs = 11, label = Scalar
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Scalar_1"
+    // input[3]: defaulting = 0, visible = 0, type = 5, value = 50.0 
+    // input[5]: defaulting = 1, visible = 0, type = 5, value = 0.0
+    // input[6]: defaulting = 1, visible = 0, type = 5, value = 1000000.0
+    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
+    // input[9]: defaulting = 1, visible = 0, type = 1, value = 5
+    // output[1]: visible = 1, type = 5, value = 50.0 
+    // page group: model_input
+    //
+    // 
+    // node DXLOutput[24]: x = 158, y = 94, inputs = 2, label = maxamplitudeo
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "maxamplitudeo"
+    // page group: model_input
+    //
+    DXLOutput(
+    main_DXLOutput_24_in_1,
+    main_Scalar_1_out_1
+    ) [instance: 24, cache: 1];
+    // 
+    // node Vector[1]: x = 50, y = 213, inputs = 11, label = Vector
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Vector_1"
+    // input[3]: defaulting = 0, visible = 0, type = 8, value = [ 10 5 ]
+    // input[5]: defaulting = 1, visible = 0, type = 8, value = [ -1000000.0 -1000000.0 -1000000.0 ]
+    // input[6]: defaulting = 1, visible = 0, type = 8, value = [ 1000000.0 1000000.0 1000000.0 ]
+    // input[7]: defaulting = 1, visible = 0, type = 8, value = [       1        1        1]
+    // input[9]: defaulting = 1, visible = 0, type = 8, value = [ 5.0 5.0 5.0 ]
+    // output[1]: visible = 1, type = 8, value = [ 10 5 ]
+    // page group: model_input
+    //
+    // 
+    // node DXLOutput[25]: x = 52, y = 315, inputs = 2, label = wavenumbero
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "wavenumbero"
+    // page group: model_input
+    //
+    DXLOutput(
+    main_DXLOutput_25_in_1,
+    main_Vector_1_out_1
+    ) [instance: 25, cache: 1];
+    // 
+    // node Integer[12]: x = 52, y = 413, inputs = 11, label = Integer
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_12"
+    // input[3]: defaulting = 0, visible = 0, type = 1, value = 1 
+    // input[5]: defaulting = 1, visible = 0, type = 1, value = 0
+    // input[6]: defaulting = 1, visible = 0, type = 1, value = 1
+    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
+    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
+    // output[1]: visible = 1, type = 1, value = 1 
+    // page group: model_input
+    //
+    // 
+    // node DXLOutput[26]: x = 62, y = 521, inputs = 2, label = steeringenabledo
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "steeringenabledo"
+    // page group: model_input
+    //
+    DXLOutput(
+    main_DXLOutput_26_in_1,
+    main_Integer_12_out_1
+    ) [instance: 26, cache: 1];
+    // 
+    // node Integer[13]: x = 236, y = 409, inputs = 11, label = Integer
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_13"
+    // input[3]: defaulting = 0, visible = 0, type = 1, value = 1 
+    // input[5]: defaulting = 1, visible = 0, type = 1, value = 0
+    // input[6]: defaulting = 1, visible = 0, type = 1, value = 1
+    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
+    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
+    // output[1]: visible = 1, type = 1, value = 1 
+    // page group: model_input
+    //
+    // 
+    // node DXLOutput[27]: x = 283, y = 532, inputs = 2, label = finishsteeringo
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "finishsteeringo"
+    // page group: model_input
+    //
+    DXLOutput(
+    main_DXLOutput_27_in_1,
+    main_Integer_13_out_1
+    ) [instance: 27, cache: 1];
+    // 
     // node Image[2]: x = 362, y = 550, inputs = 49, label = Image
     // input[1]: defaulting = 0, visible = 0, type = 67108863, value = "Image_2"
     // input[4]: defaulting = 0, visible = 0, type = 1, value = 1
-    // input[5]: defaulting = 0, visible = 0, type = 8, value = [49.5 49.5 2.02656e-06]
-    // input[6]: defaulting = 0, visible = 0, type = 8, value = [49.5 49.5 265.304]
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = 142.176
-    // input[8]: defaulting = 0, visible = 0, type = 1, value = 481
-    // input[9]: defaulting = 0, visible = 0, type = 5, value = 0.995
-    // input[10]: defaulting = 0, visible = 0, type = 8, value = [0 1 0]
+    // input[5]: defaulting = 0, visible = 0, type = 8, value = [49.5 49.5 -6.90222e-05]
+    // input[6]: defaulting = 0, visible = 0, type = 8, value = [-135.448 -180.57 190.825]
+    // input[7]: defaulting = 1, visible = 0, type = 5, value = 188.368
+    // input[8]: defaulting = 0, visible = 0, type = 1, value = 538
+    // input[9]: defaulting = 0, visible = 0, type = 5, value = 0.791
+    // input[10]: defaulting = 0, visible = 0, type = 8, value = [0.32342 0.436404 0.839614]
     // input[11]: defaulting = 0, visible = 0, type = 5, value = 30.0
     // input[12]: defaulting = 0, visible = 0, type = 1, value = 1
     // input[14]: defaulting = 0, visible = 0, type = 1, value = 1
@@ -396,12 +492,12 @@ main_Integer_9_out_1[cache: 2] =
     // input[16]: defaulting = 1, visible = 0, type = 32, value = "none"
     // input[17]: defaulting = 1, visible = 0, type = 1, value = 1
     // input[18]: defaulting = 1, visible = 0, type = 1, value = 1
-    // input[19]: defaulting = 0, visible = 0, type = 1, value = 0
+    // input[19]: defaulting = 0, visible = 0, type = 3, value = 0
     // input[29]: defaulting = 1, visible = 0, type = 3, value = 0
-    // input[41]: defaulting = 0, visible = 0, type = 32, value = "none"
+    // input[41]: defaulting = 0, visible = 0, type = 32, value = "rotate"
     // page group: wave2d
     // depth: value = 24
-    // window: position = (0.0020,0.2370), size = 0.4834x0.6771
+    // window: position = (0.0059,0.0391), size = 0.5391x0.6120
     // internal caching: 1
     //
 main_Image_2_out_1,
@@ -459,143 +555,6 @@ main_Image_2_out_3 =
     main_Image_2_in_49
     ) [instance: 2, cache: 1];
     // 
-    // node Integer[1]: x = 10, y = 10, inputs = 11, label = Integer
-    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_1"
-    // input[3]: defaulting = 0, visible = 0, type = 1, value = 1 
-    // input[5]: defaulting = 1, visible = 0, type = 1, value = 0
-    // input[6]: defaulting = 1, visible = 0, type = 1, value = 1
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
-    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
-    // output[1]: visible = 1, type = 1, value = 1 
-    // page group: model_input
-    //
-    // 
-    // node Integer[2]: x = 95, y = 10, inputs = 11, label = Integer
-    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_2"
-    // input[3]: defaulting = 0, visible = 0, type = 1, value = 100 
-    // input[5]: defaulting = 1, visible = 0, type = 1, value = -1000000
-    // input[6]: defaulting = 1, visible = 0, type = 1, value = 1000000
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
-    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
-    // output[1]: visible = 1, type = 1, value = 100 
-    // page group: model_input
-    //
-    // 
-    // node Integer[3]: x = 180, y = 10, inputs = 11, label = Integer
-    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_3"
-    // input[3]: defaulting = 0, visible = 0, type = 1, value = 100 
-    // input[5]: defaulting = 1, visible = 0, type = 1, value = -1000000
-    // input[6]: defaulting = 1, visible = 0, type = 1, value = 1000000
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
-    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
-    // output[1]: visible = 1, type = 1, value = 100 
-    // page group: model_input
-    //
-    // 
-    // node Integer[4]: x = 426, y = 269, inputs = 11, label = Integer
-    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_4"
-    // input[3]: defaulting = 0, visible = 0, type = 1, value = 1 
-    // input[5]: defaulting = 1, visible = 0, type = 1, value = -1000000
-    // input[6]: defaulting = 1, visible = 0, type = 1, value = 1000000
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
-    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
-    // output[1]: visible = 1, type = 1, value = 1 
-    // page group: model_input
-    //
-    // 
-    // node Integer[5]: x = 273, y = 10, inputs = 11, label = Integer
-    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Integer_5"
-    // input[3]: defaulting = 0, visible = 0, type = 1, value = 32 
-    // input[5]: defaulting = 1, visible = 0, type = 1, value = 1
-    // input[6]: defaulting = 1, visible = 0, type = 1, value = 1000000
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
-    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
-    // output[1]: visible = 1, type = 1, value = 32 
-    // page group: model_input
-    //
-    // 
-    // node Scalar[1]: x = 366, y = 10, inputs = 11, label = Scalar
-    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Scalar_1"
-    // input[3]: defaulting = 0, visible = 0, type = 5, value = 20.0 
-    // input[5]: defaulting = 1, visible = 0, type = 5, value = 0.0
-    // input[6]: defaulting = 1, visible = 0, type = 5, value = 1000000.0
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
-    // input[9]: defaulting = 1, visible = 0, type = 1, value = 5
-    // output[1]: visible = 1, type = 5, value = 20.0 
-    // page group: model_input
-    //
-    // 
-    // node Scalar[2]: x = 13, y = 261, inputs = 11, label = Scalar
-    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Scalar_2"
-    // input[3]: defaulting = 0, visible = 0, type = 5, value = 5.28 
-    // input[5]: defaulting = 1, visible = 0, type = 5, value = 0.0
-    // input[6]: defaulting = 1, visible = 0, type = 5, value = 1000000.0
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
-    // input[9]: defaulting = 1, visible = 0, type = 1, value = 5
-    // output[1]: visible = 1, type = 5, value = 5.28 
-    // page group: model_input
-    //
-    // 
-    // node Scalar[3]: x = 85, y = 264, inputs = 11, label = Scalar
-    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Scalar_3"
-    // input[3]: defaulting = 0, visible = 0, type = 5, value = 200.0 
-    // input[5]: defaulting = 1, visible = 0, type = 5, value = -1000000.0
-    // input[6]: defaulting = 1, visible = 0, type = 5, value = 1000000.0
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
-    // input[9]: defaulting = 1, visible = 0, type = 1, value = 5
-    // output[1]: visible = 1, type = 5, value = 200.0 
-    // page group: model_input
-    //
-    // 
-    // node Scalar[4]: x = 158, y = 264, inputs = 11, label = Scalar
-    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Scalar_4"
-    // input[3]: defaulting = 0, visible = 0, type = 5, value = 8.0 
-    // input[5]: defaulting = 1, visible = 0, type = 5, value = -1000000.0
-    // input[6]: defaulting = 1, visible = 0, type = 5, value = 1000000.0
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
-    // input[9]: defaulting = 1, visible = 0, type = 1, value = 5
-    // output[1]: visible = 1, type = 5, value = 8.0 
-    // page group: model_input
-    //
-    // 
-    // node Scalar[5]: x = 227, y = 265, inputs = 11, label = Scalar
-    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Scalar_5"
-    // input[3]: defaulting = 0, visible = 0, type = 5, value = 0.01 
-    // input[5]: defaulting = 1, visible = 0, type = 5, value = -1000000.0
-    // input[6]: defaulting = 1, visible = 0, type = 5, value = 1000000.0
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
-    // input[9]: defaulting = 1, visible = 0, type = 1, value = 5
-    // output[1]: visible = 1, type = 5, value = 0.01 
-    // page group: model_input
-    //
-    // 
-    // node Scalar[6]: x = 292, y = 266, inputs = 11, label = Scalar
-    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Scalar_6"
-    // input[3]: defaulting = 0, visible = 0, type = 5, value = 0.01 
-    // input[5]: defaulting = 1, visible = 0, type = 5, value = -1000000.0
-    // input[6]: defaulting = 1, visible = 0, type = 5, value = 1000000.0
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
-    // input[9]: defaulting = 1, visible = 0, type = 1, value = 5
-    // output[1]: visible = 1, type = 5, value = 0.01 
-    // page group: model_input
-    //
-    // 
-    // node Scalar[7]: x = 357, y = 268, inputs = 11, label = Scalar
-    // input[1]: defaulting = 0, visible = 0, type = 32, value = "Scalar_7"
-    // input[3]: defaulting = 0, visible = 0, type = 5, value = 0.05 
-    // input[5]: defaulting = 1, visible = 0, type = 5, value = -1000000.0
-    // input[6]: defaulting = 1, visible = 0, type = 5, value = 1000000.0
-    // input[7]: defaulting = 1, visible = 0, type = 5, value = 1.0
-    // input[9]: defaulting = 1, visible = 0, type = 1, value = 5
-    // output[1]: visible = 1, type = 5, value = 0.05 
-    // page group: model_input
-    //
-    // 
-    // node Transmitter[28]: x = 265, y = 100, inputs = 1, label = numtsteps
-    // page group: model_input
-    //
-numtsteps = main_Integer_5_out_1;
-    // 
     // node Transmitter[35]: x = 403, y = 577, inputs = 1, label = updatelocalt
     // page group: steercontrol
     //
@@ -611,7 +570,7 @@ main_Transmitter_27_out_1 = NULL;
 main_Receiver_33_out_1 = NULL;
 main_Integer_11_in_1 = "Integer_11";
 main_Integer_11_in_2 = NULL;
-main_Integer_11_in_3 = 10 ;
+main_Integer_11_in_3 = 27 ;
 main_Integer_11_in_4 = NULL;
 main_Integer_11_in_5 = NULL;
 main_Integer_11_in_6 = NULL;
@@ -620,7 +579,7 @@ main_Integer_11_in_8 = NULL;
 main_Integer_11_in_9 = NULL;
 main_Integer_11_in_10 = NULL;
 main_Integer_11_in_11 = NULL;
-main_Integer_11_out_1 = 10 ;
+main_Integer_11_out_1 = 27 ;
 main_Compute_1_in_1 = "int($0/$0+0.49)";
 main_Compute_1_in_3 = NULL;
 main_Compute_1_out_1 = NULL;
@@ -629,9 +588,6 @@ main_Import_1_in_3 = "general";
 main_Import_1_in_4 = NULL;
 main_Import_1_in_5 = NULL;
 main_Import_1_out_1 = NULL;
-main_Select_1_in_2 = NULL;
-main_Select_1_in_3 = NULL;
-main_Select_1_out_1 = NULL;
 main_RubberSheet_1_in_2 = 2.0;
 main_RubberSheet_1_in_3 = NULL;
 main_RubberSheet_1_in_4 = NULL;
@@ -641,19 +597,18 @@ main_Colormap_1_in_2 = { [0.0 1.0] [1.0 1.0] };
 main_Colormap_1_in_3 = { [0.0 1.0] [1.0 1.0] };
 main_Colormap_1_in_4 = { [0.0 1.0] [1.0 1.0] };
 main_Colormap_1_in_5 = "Colormap_1";
-main_Colormap_1_in_6 = NULL;
 main_Colormap_1_in_7 = NULL;
 main_Colormap_1_in_8 = NULL;
 main_Colormap_1_in_9 = NULL;
 main_Colormap_1_in_10 = NULL;
 main_Colormap_1_in_11 = NULL;
-main_Colormap_1_in_12 = { -1.0 0.99999899 };
+main_Colormap_1_in_12 = { -0.99986899 0.99997002 };
 main_Colormap_1_in_13 = NULL;
 main_Colormap_1_in_14 = NULL;
 main_Colormap_1_in_15 = NULL;
 main_Colormap_1_in_16 = NULL;
-main_Colormap_1_in_17 = NULL;
-main_Colormap_1_in_18 = NULL;
+main_Colormap_1_in_17 = -0.99986899;
+main_Colormap_1_in_18 = 0.99997002;
 main_Colormap_1_in_19 = NULL;
 main_Colormap_1_out_1 = NULL;
 main_Color_1_in_3 = NULL;
@@ -664,32 +619,32 @@ main_Collect_1_in_2 = NULL;
 main_Collect_1_out_1 = NULL;
 main_StringList_5_out_1 = { "nameo" };
 main_DXLOutput_3_in_1 = "string_output_list";
-main_StringList_2_out_1 = { "namei" };
+main_StringList_2_out_1 = NULL;
 main_DXLOutput_4_in_1 = "string_input_list";
-main_StringList_3_out_1 = { "stepo" };
+main_StringList_3_out_1 = { "wavetypeo", "steeringenabledo", "finishsteeringo" };
 main_DXLOutput_5_in_1 = "int_output_list";
-main_StringList_4_out_1 = { "stepi" };
+main_StringList_4_out_1 = NULL;
 main_DXLOutput_6_in_1 = "int_input_list";
-main_Integer_10_in_1 = "Integer_10";
-main_Integer_10_in_2 = NULL;
-main_Integer_10_in_3 = 0;
-main_Integer_10_in_4 = NULL;
-main_Integer_10_in_5 = -1000000;
-main_Integer_10_in_6 = 1000000;
-main_Integer_10_in_7 = 1.0;
-main_Integer_10_in_8 = NULL;
-main_Integer_10_in_9 = NULL;
-main_Integer_10_in_10 = NULL;
-main_Integer_10_in_11 = NULL;
-main_Integer_10_out_1 = 0;
+main_Integer_14_in_1 = "Integer_14";
+main_Integer_14_in_2 = NULL;
+main_Integer_14_in_3 = NULL;
+main_Integer_14_in_4 = NULL;
+main_Integer_14_in_5 = NULL;
+main_Integer_14_in_6 = NULL;
+main_Integer_14_in_7 = NULL;
+main_Integer_14_in_8 = NULL;
+main_Integer_14_in_9 = NULL;
+main_Integer_14_in_10 = NULL;
+main_Integer_14_in_11 = NULL;
+main_Integer_14_out_1 = 0;
 main_DXLOutput_7_in_1 = "updateserver";
-main_StringList_6_out_1 = { "camupo", "camfromo", "camtoo" };
+main_StringList_6_out_1 = { "wavenumbero" };
 main_DXLOutput_8_in_1 = "vector_output_list";
-main_StringList_7_out_1 = { "camfromi", "camtoi", "camupi" };
+main_StringList_7_out_1 = NULL;
 main_DXLOutput_9_in_1 = "vector_input_list";
-main_StringList_8_out_1 = { "camwidtho" };
+main_StringList_8_out_1 = { "wavefreqo", "maxamplitudeo" };
 main_DXLOutput_16_in_1 = "float_output_list";
-main_StringList_9_out_1 = { "camwidthi" };
+main_StringList_9_out_1 = NULL;
 main_DXLOutput_17_in_1 = "float_input_list";
 main_Integer_8_in_1 = "Integer_8";
 main_Integer_8_in_2 = NULL;
@@ -717,6 +672,84 @@ main_Integer_9_in_10 = NULL;
 main_Integer_9_in_11 = NULL;
 main_Integer_9_out_1 = 0 ;
 main_DXLOutput_19_in_1 = "updatelocal";
+main_Scalar_4_in_1 = "Scalar_4";
+main_Scalar_4_in_2 = NULL;
+main_Scalar_4_in_3 = 50.0 ;
+main_Scalar_4_in_4 = NULL;
+main_Scalar_4_in_5 = NULL;
+main_Scalar_4_in_6 = NULL;
+main_Scalar_4_in_7 = NULL;
+main_Scalar_4_in_8 = NULL;
+main_Scalar_4_in_9 = NULL;
+main_Scalar_4_in_10 = NULL;
+main_Scalar_4_in_11 = NULL;
+main_Scalar_4_out_1 = 50.0 ;
+main_DXLOutput_22_in_1 = "wavefreqo";
+main_Integer_1_in_1 = "Integer_1";
+main_Integer_1_in_2 = NULL;
+main_Integer_1_in_3 = 1 ;
+main_Integer_1_in_4 = NULL;
+main_Integer_1_in_5 = NULL;
+main_Integer_1_in_6 = NULL;
+main_Integer_1_in_7 = NULL;
+main_Integer_1_in_8 = NULL;
+main_Integer_1_in_9 = NULL;
+main_Integer_1_in_10 = NULL;
+main_Integer_1_in_11 = NULL;
+main_Integer_1_out_1 = 1 ;
+main_DXLOutput_23_in_1 = "wavetypeo";
+main_Scalar_1_in_1 = "Scalar_1";
+main_Scalar_1_in_2 = NULL;
+main_Scalar_1_in_3 = 50.0 ;
+main_Scalar_1_in_4 = NULL;
+main_Scalar_1_in_5 = NULL;
+main_Scalar_1_in_6 = NULL;
+main_Scalar_1_in_7 = NULL;
+main_Scalar_1_in_8 = NULL;
+main_Scalar_1_in_9 = NULL;
+main_Scalar_1_in_10 = NULL;
+main_Scalar_1_in_11 = NULL;
+main_Scalar_1_out_1 = 50.0 ;
+main_DXLOutput_24_in_1 = "maxamplitudeo";
+main_Vector_1_in_1 = "Vector_1";
+main_Vector_1_in_2 = NULL;
+main_Vector_1_in_3 = [ 10 5 ];
+main_Vector_1_in_4 = NULL;
+main_Vector_1_in_5 = NULL;
+main_Vector_1_in_6 = NULL;
+main_Vector_1_in_7 = NULL;
+main_Vector_1_in_8 = NULL;
+main_Vector_1_in_9 = NULL;
+main_Vector_1_in_10 = NULL;
+main_Vector_1_in_11 = NULL;
+main_Vector_1_out_1 = [ 10 5 ];
+main_DXLOutput_25_in_1 = "wavenumbero";
+main_Integer_12_in_1 = "Integer_12";
+main_Integer_12_in_2 = NULL;
+main_Integer_12_in_3 = 1 ;
+main_Integer_12_in_4 = NULL;
+main_Integer_12_in_5 = NULL;
+main_Integer_12_in_6 = NULL;
+main_Integer_12_in_7 = NULL;
+main_Integer_12_in_8 = NULL;
+main_Integer_12_in_9 = NULL;
+main_Integer_12_in_10 = NULL;
+main_Integer_12_in_11 = NULL;
+main_Integer_12_out_1 = 1 ;
+main_DXLOutput_26_in_1 = "steeringenabledo";
+main_Integer_13_in_1 = "Integer_13";
+main_Integer_13_in_2 = NULL;
+main_Integer_13_in_3 = 1 ;
+main_Integer_13_in_4 = NULL;
+main_Integer_13_in_5 = NULL;
+main_Integer_13_in_6 = NULL;
+main_Integer_13_in_7 = NULL;
+main_Integer_13_in_8 = NULL;
+main_Integer_13_in_9 = NULL;
+main_Integer_13_in_10 = NULL;
+main_Integer_13_in_11 = NULL;
+main_Integer_13_out_1 = 1 ;
+main_DXLOutput_27_in_1 = "finishsteeringo";
 macro Image(
         id,
         object,
@@ -1032,12 +1065,12 @@ macro Image(
 main_Image_2_in_1 = "Image_2";
 main_Image_2_in_3 = "X24,,";
 main_Image_2_in_4 = 1;
-main_Image_2_in_5 = [49.5 49.5 2.02656e-06];
-main_Image_2_in_6 = [49.5 49.5 265.304];
+main_Image_2_in_5 = [49.5 49.5 -6.90222e-05];
+main_Image_2_in_6 = [-135.448 -180.57 190.825];
 main_Image_2_in_7 = NULL;
-main_Image_2_in_8 = 481;
-main_Image_2_in_9 = 0.995;
-main_Image_2_in_10 = [0 1 0];
+main_Image_2_in_8 = 538;
+main_Image_2_in_9 = 0.791;
+main_Image_2_in_10 = [0.32342 0.436404 0.839614];
 main_Image_2_in_11 = 30.0;
 main_Image_2_in_12 = 1;
 main_Image_2_in_13 = NULL;
@@ -1067,7 +1100,7 @@ main_Image_2_in_37 = NULL;
 main_Image_2_in_38 = NULL;
 main_Image_2_in_39 = NULL;
 main_Image_2_in_40 = NULL;
-main_Image_2_in_41 = "none";
+main_Image_2_in_41 = "rotate";
 main_Image_2_in_42 = NULL;
 main_Image_2_in_43 = NULL;
 main_Image_2_in_44 = NULL;
@@ -1076,139 +1109,6 @@ main_Image_2_in_46 = NULL;
 main_Image_2_in_47 = NULL;
 main_Image_2_in_48 = NULL;
 main_Image_2_in_49 = NULL;
-main_Integer_1_in_1 = "Integer_1";
-main_Integer_1_in_2 = NULL;
-main_Integer_1_in_3 = 1 ;
-main_Integer_1_in_4 = NULL;
-main_Integer_1_in_5 = NULL;
-main_Integer_1_in_6 = NULL;
-main_Integer_1_in_7 = NULL;
-main_Integer_1_in_8 = NULL;
-main_Integer_1_in_9 = NULL;
-main_Integer_1_in_10 = NULL;
-main_Integer_1_in_11 = NULL;
-main_Integer_2_in_1 = "Integer_2";
-main_Integer_2_in_2 = NULL;
-main_Integer_2_in_3 = 100 ;
-main_Integer_2_in_4 = NULL;
-main_Integer_2_in_5 = NULL;
-main_Integer_2_in_6 = NULL;
-main_Integer_2_in_7 = NULL;
-main_Integer_2_in_8 = NULL;
-main_Integer_2_in_9 = NULL;
-main_Integer_2_in_10 = NULL;
-main_Integer_2_in_11 = NULL;
-main_Integer_3_in_1 = "Integer_3";
-main_Integer_3_in_2 = NULL;
-main_Integer_3_in_3 = 100 ;
-main_Integer_3_in_4 = NULL;
-main_Integer_3_in_5 = NULL;
-main_Integer_3_in_6 = NULL;
-main_Integer_3_in_7 = NULL;
-main_Integer_3_in_8 = NULL;
-main_Integer_3_in_9 = NULL;
-main_Integer_3_in_10 = NULL;
-main_Integer_3_in_11 = NULL;
-main_Integer_4_in_1 = "Integer_4";
-main_Integer_4_in_2 = NULL;
-main_Integer_4_in_3 = 1 ;
-main_Integer_4_in_4 = NULL;
-main_Integer_4_in_5 = NULL;
-main_Integer_4_in_6 = NULL;
-main_Integer_4_in_7 = NULL;
-main_Integer_4_in_8 = NULL;
-main_Integer_4_in_9 = NULL;
-main_Integer_4_in_10 = NULL;
-main_Integer_4_in_11 = NULL;
-main_Integer_5_in_1 = "Integer_5";
-main_Integer_5_in_2 = NULL;
-main_Integer_5_in_3 = 32 ;
-main_Integer_5_in_4 = NULL;
-main_Integer_5_in_5 = NULL;
-main_Integer_5_in_6 = NULL;
-main_Integer_5_in_7 = NULL;
-main_Integer_5_in_8 = NULL;
-main_Integer_5_in_9 = NULL;
-main_Integer_5_in_10 = NULL;
-main_Integer_5_in_11 = NULL;
-main_Integer_5_out_1 = 32 ;
-main_Scalar_1_in_1 = "Scalar_1";
-main_Scalar_1_in_2 = NULL;
-main_Scalar_1_in_3 = 20.0 ;
-main_Scalar_1_in_4 = NULL;
-main_Scalar_1_in_5 = NULL;
-main_Scalar_1_in_6 = NULL;
-main_Scalar_1_in_7 = NULL;
-main_Scalar_1_in_8 = NULL;
-main_Scalar_1_in_9 = NULL;
-main_Scalar_1_in_10 = NULL;
-main_Scalar_1_in_11 = NULL;
-main_Scalar_2_in_1 = "Scalar_2";
-main_Scalar_2_in_2 = NULL;
-main_Scalar_2_in_3 = 5.28 ;
-main_Scalar_2_in_4 = NULL;
-main_Scalar_2_in_5 = NULL;
-main_Scalar_2_in_6 = NULL;
-main_Scalar_2_in_7 = NULL;
-main_Scalar_2_in_8 = NULL;
-main_Scalar_2_in_9 = NULL;
-main_Scalar_2_in_10 = NULL;
-main_Scalar_2_in_11 = NULL;
-main_Scalar_3_in_1 = "Scalar_3";
-main_Scalar_3_in_2 = NULL;
-main_Scalar_3_in_3 = 200.0 ;
-main_Scalar_3_in_4 = NULL;
-main_Scalar_3_in_5 = NULL;
-main_Scalar_3_in_6 = NULL;
-main_Scalar_3_in_7 = NULL;
-main_Scalar_3_in_8 = NULL;
-main_Scalar_3_in_9 = NULL;
-main_Scalar_3_in_10 = NULL;
-main_Scalar_3_in_11 = NULL;
-main_Scalar_4_in_1 = "Scalar_4";
-main_Scalar_4_in_2 = NULL;
-main_Scalar_4_in_3 = 8.0 ;
-main_Scalar_4_in_4 = NULL;
-main_Scalar_4_in_5 = NULL;
-main_Scalar_4_in_6 = NULL;
-main_Scalar_4_in_7 = NULL;
-main_Scalar_4_in_8 = NULL;
-main_Scalar_4_in_9 = NULL;
-main_Scalar_4_in_10 = NULL;
-main_Scalar_4_in_11 = NULL;
-main_Scalar_5_in_1 = "Scalar_5";
-main_Scalar_5_in_2 = NULL;
-main_Scalar_5_in_3 = 0.01 ;
-main_Scalar_5_in_4 = NULL;
-main_Scalar_5_in_5 = NULL;
-main_Scalar_5_in_6 = NULL;
-main_Scalar_5_in_7 = NULL;
-main_Scalar_5_in_8 = NULL;
-main_Scalar_5_in_9 = NULL;
-main_Scalar_5_in_10 = NULL;
-main_Scalar_5_in_11 = NULL;
-main_Scalar_6_in_1 = "Scalar_6";
-main_Scalar_6_in_2 = NULL;
-main_Scalar_6_in_3 = 0.01 ;
-main_Scalar_6_in_4 = NULL;
-main_Scalar_6_in_5 = NULL;
-main_Scalar_6_in_6 = NULL;
-main_Scalar_6_in_7 = NULL;
-main_Scalar_6_in_8 = NULL;
-main_Scalar_6_in_9 = NULL;
-main_Scalar_6_in_10 = NULL;
-main_Scalar_6_in_11 = NULL;
-main_Scalar_7_in_1 = "Scalar_7";
-main_Scalar_7_in_2 = NULL;
-main_Scalar_7_in_3 = 0.05 ;
-main_Scalar_7_in_4 = NULL;
-main_Scalar_7_in_5 = NULL;
-main_Scalar_7_in_6 = NULL;
-main_Scalar_7_in_7 = NULL;
-main_Scalar_7_in_8 = NULL;
-main_Scalar_7_in_9 = NULL;
-main_Scalar_7_in_10 = NULL;
-main_Scalar_7_in_11 = NULL;
 Executive("product version 4 4 4");
 $sync
 // This network contains DXLink tools.  Therefore, the following line(s)
