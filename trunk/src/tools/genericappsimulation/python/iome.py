@@ -5,7 +5,8 @@
 import os
 import sys
 
-from IoSteerWS_client import *
+#from IoSteerWS_client import *
+from IoSteerWS_services import *
 
     
 #To use these defs make sure the location of the IOME iogs application
@@ -185,9 +186,7 @@ def exitiome(varargin):
       service=IoSteerWSSOAP(url=scontact);
       request = exitiomeRequest();
       request._id=id;
-
-      response=service.exitiome(request);
-  
+      response=service.exitiome(request);  
       result=response._status;
     except ValueError:
       print "ExitIOME Errot"
@@ -1231,6 +1230,59 @@ def runsimulation(simfile, outfile, varargin):
   #scommand="iogs exitiome";
   #result=os.system(scommand);
     return result;
+
+def requestsimulation(simfile, varargin):
+  #Stop the server and exit IOME
+    port=8080;
+    nargin=len(varargin);
+    if nargin>0:
+        server=varargin[0];
+        if nargin>2:
+            port=varargin[1];
+            id=varargin[2];
+        else:
+            id=0;
+            if nargin>1:
+              port=varargin[2]
+    else:
+        server='localhost';
+        port=8080;
+        id=0;
+
+    scontact="http://"+server+":"+str(port);
+
+    try:
+      service=IoSteerWSSOAP(url=scontact);
+      request = requestsimulationRequest();
+
+
+      #read simulation file
+      
+      
+      if simfile !="null":
+          f=open(simfile,'r');
+          scontent=f.read();
+          f.close();
+      else:
+          scontent='null';
+      request._simfilecontent=scontent;
+        
+        
+      
+      response=service.requestsimulation(request);
+  
+      newid=response._isimid;
+      f=open(outfile,'w');
+      f.write(result);
+      f.close();
+      
+    except ValueError:
+      print "RequestSimulation Errot"
+      newid =-1;
+  
+  #scommand="iogs exitiome";
+  #result=os.system(scommand);
+    return newid;
 
     
 def submitsimulation(simfile, varargin):
