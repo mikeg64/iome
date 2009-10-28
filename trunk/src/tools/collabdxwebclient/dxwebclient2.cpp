@@ -1059,6 +1059,8 @@ main(int argc, char *argv[])
     /*DXLSetValue(conn, "file_to_import","temperature");
     DXLSetValue(conn, "maptoplane_point", "[0 5000 5000]");*/
     printf("dx web client started with net file: %s\n",argv[1]);
+
+    
     /*printf("Hit return to continue:");
     gets(result);*/
     #ifndef IO_MSVC
