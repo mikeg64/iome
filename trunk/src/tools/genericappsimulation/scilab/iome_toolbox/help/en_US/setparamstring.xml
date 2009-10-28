@@ -3,10 +3,10 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA - Allan CORNET
  * 
- * This file is released infrom the public domain
+ * This file is released inon the public domain
  *
  -->
-<refentry version="5.0-subset Scilab" xml:id="getintparam" xml:lang="en"
+<refentry version="5.0-subset Scilab" xml:id="setparamstring" xml:lang="en"
           xmlns="http://docbook.org/ns/docbook"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           xmlns:svg="http://www.w3.org/2000/svg"
@@ -19,29 +19,29 @@
   </info>
 
   <refnamediv>
-    <refname>getintparam</refname>
+    <refname>setparamstring</refname>
 
-    <refpurpose>Get int parameter from server.</refpurpose>
+    <refpurpose>Set string parameter on server.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=getintparam(name, elist)</synopsis>
+    <synopsis>[status]=setparamstring(name, string, elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
     <title>Description</title>
 
-    <para>Get int parameter from server.</para>
+    <para>Set string parameter on server.</para>
 
-    <para>Get int parameter from server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
+    <para>Set string parameter on server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
   </refsection>
 
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">getintparam(name, elist)</programlisting>
+    <programlisting role="example">setparamstring(name, string, elist)</programlisting>
   </refsection>
 
   <refsection>

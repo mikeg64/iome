@@ -3,10 +3,10 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA - Allan CORNET
  * 
- * This file is released into the public domain
+ * This file is released inon the public domain
  *
  -->
-<refentry version="5.0-subset Scilab" xml:id="scilab_sum" xml:lang="en"
+<refentry version="5.0-subset Scilab" xml:id="setparamvec" xml:lang="en"
           xmlns="http://docbook.org/ns/docbook"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           xmlns:svg="http://www.w3.org/2000/svg"
@@ -19,29 +19,29 @@
   </info>
 
   <refnamediv>
-    <refname>addmmat3dparam</refname>
+    <refname>setparamvec</refname>
 
-    <refpurpose>Add mmat3d parameter to server.</refpurpose>
+    <refpurpose>Set vec parameter on server.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=addmmat3dparam(name, mmat3d, ni,nj,nk,nr,nc, flag,elist)</synopsis>
+    <synopsis>[status]=setparamvec(name, vec, elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
     <title>Description</title>
 
-    <para>Add mmat3d parameter to server.</para>
+    <para>Set vec parameter on server.</para>
 
-    <para>Add mmat3d parameter to server. flag=7, elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
+    <para>Set vec parameter on server. felist(1)='localhost', elist(2)=8080, elist(3)=id</para>
   </refsection>
 
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">addmmat3dparam(name, mmat3d, ni,nj,nk,nr,nc, flag,elist)</programlisting>
+    <programlisting role="example">setparamvec(name, vec, elist)</programlisting>
   </refsection>
 
   <refsection>

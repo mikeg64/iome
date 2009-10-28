@@ -3,10 +3,10 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA - Allan CORNET
  * 
- * This file is released infrom the public domain
+ * This file is released into the public domain
  *
  -->
-<refentry version="5.0-subset Scilab" xml:id="getmmat3dparam" xml:lang="en"
+<refentry version="5.0-subset Scilab" xml:id="scilab_sum" xml:lang="en"
           xmlns="http://docbook.org/ns/docbook"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           xmlns:svg="http://www.w3.org/2000/svg"
@@ -19,29 +19,29 @@
   </info>
 
   <refnamediv>
-    <refname>getmmat3dparam</refname>
+    <refname>addparamdouble</refname>
 
-    <refpurpose>get mmat3d parameter from server.</refpurpose>
+    <refpurpose>Add double parameter to server.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=getmmat3dparam(name, ni,nj,nk,nr,nc, elist)</synopsis>
+    <synopsis>[status]=addparamdouble(name, double,elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
     <title>Description</title>
 
-    <para>get mmat3d parameter from server.</para>
+    <para>Add double parameter to server.</para>
 
-    <para>get mmat3d parameter from server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
+    <para>Add double parameter to server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
   </refsection>
 
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">getmmat3dparam(name,  ni,nj,nk,nr,nc, elist)</programlisting>
+    <programlisting role="example">addparamdouble(name, doub,elist)</programlisting>
   </refsection>
 
   <refsection>

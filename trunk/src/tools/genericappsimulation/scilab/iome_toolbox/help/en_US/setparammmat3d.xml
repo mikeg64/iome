@@ -3,10 +3,10 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA - Allan CORNET
  * 
- * This file is released into the public domain
+ * This file is released inon the public domain
  *
  -->
-<refentry version="5.0-subset Scilab" xml:id="setintparam" xml:lang="en"
+<refentry version="5.0-subset Scilab" xml:id="setparammmat3d" xml:lang="en"
           xmlns="http://docbook.org/ns/docbook"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           xmlns:svg="http://www.w3.org/2000/svg"
@@ -19,29 +19,29 @@
   </info>
 
   <refnamediv>
-    <refname>setintparam</refname>
+    <refname>setparammmat3d</refname>
 
-    <refpurpose>Set int parameter to server.</refpurpose>
+    <refpurpose>Set mmat3d parameter on server.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=setintparam(name, int, elist)</synopsis>
+    <synopsis>[status]=setparammmat3d(name, mmat3d, ni,nj,nk,nr,nc,elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
     <title>Description</title>
 
-    <para>Set int parameter to server.</para>
+    <para>Set mmat3d parameter on server.</para>
 
-    <para>Set int parameter to server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
+    <para>Set mmat3d parameter on server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
   </refsection>
 
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">setintparam(name, int, elist)</programlisting>
+    <programlisting role="example">setparammmat3d(name, mmat3d, ni,nj,nk,nr,nc, elist)</programlisting>
   </refsection>
 
   <refsection>

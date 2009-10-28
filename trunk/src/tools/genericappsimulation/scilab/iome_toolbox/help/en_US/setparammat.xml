@@ -3,10 +3,10 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA - Allan CORNET
  * 
- * This file is released into the public domain
+ * This file is released inon the public domain
  *
  -->
-<refentry version="5.0-subset Scilab" xml:id="scilab_sum" xml:lang="en"
+<refentry version="5.0-subset Scilab" xml:id="setparammat" xml:lang="en"
           xmlns="http://docbook.org/ns/docbook"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           xmlns:svg="http://www.w3.org/2000/svg"
@@ -19,29 +19,29 @@
   </info>
 
   <refnamediv>
-    <refname>addintparam</refname>
+    <refname>setparammat</refname>
 
-    <refpurpose>Add int parameter to server.</refpurpose>
+    <refpurpose>Set mat parameter on server.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=addintparam(name, int,elist)</synopsis>
+    <synopsis>[status]=setparammat(name, mat,elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
     <title>Description</title>
 
-    <para>Add int parameter to server.</para>
+    <para>Set mat parameter on server.</para>
 
-    <para>Add int parameter to server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
+    <para>Set mat parameter on server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
   </refsection>
 
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">addintparam(name, int,elist)</programlisting>
+    <programlisting role="example">setparammat(name, mat,elist)</programlisting>
   </refsection>
 
   <refsection>
