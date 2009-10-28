@@ -2,8 +2,8 @@
 //with the command:
 //  /usr/bin/scilex -nw -nb -f run_wave2d_dx.sce
 
-tdp=getenv('SCILAB_HOME')+'/share/scilab/contrib/iome_toolbox/loader.sce';
-//tdp='/usr/share/scilab/contrib/iome_toolbox/loader.sce';
+//tdp=getenv('SCILAB_HOME')+'/share/scilab/contrib/iome_toolbox/loader.sce';
+tdp='/usr/share/scilab/contrib/iome_toolbox/loader.sce';
 exec(tdp);
 
 exec("wave2d.sce");
