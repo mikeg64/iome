@@ -1503,6 +1503,51 @@ def readsimulation(simfile,varargin):
   #result=os.system(scommand);
     return status;
 
+def readlocalsimulation(simfile,varargin):
+  #Stop the server and exit IOME
+    port=8080;
+    nargin=len(varargin);
+    if nargin>0:
+        server=varargin[0];
+        if nargin>2:
+            port=varargin[1];
+            id=varargin[2];
+        else:
+            id=0;
+            if nargin>1:
+              port=varargin[2]
+    else:
+        server='localhost';
+        port=8080;
+        id=0;
+
+    scontact="http://"+server+":"+str(port);
+
+    try:
+      service=IoSteerWSSOAP(url=scontact);
+      request = readlocalsimulationRequest();
+
+
+      #read simulation file
+      
+      request._isimid=id;
+      request._filename=simfile;
+
+      
+      response=service.readlocalsimulation(request);
+  
+      status=response._status;
+      
+    except ValueError:
+      print "ReadLocalSimulation Error"
+      status =-1;
+  
+  #scommand="iogs exitiome";
+  #result=os.system(scommand);
+    return status;
+
+
+
 def newsimulation(simname,xslname,varargin):
   #Stop the server and exit IOME
     port=8080;
@@ -1593,6 +1638,54 @@ def writesimulation(simfile,varargin):
   #scommand="iogs exitiome";
   #result=os.system(scommand);
     return result;
+
+def writelocalsimulation(simfile,varargin):
+  #Stop the server and exit IOME
+    port=8080;
+    nargin=len(varargin);
+    if nargin>0:
+        server=varargin[0];
+        if nargin>2:
+            port=varargin[1];
+            id=varargin[2];
+        else:
+            id=0;
+            if nargin>1:
+              port=varargin[2]
+    else:
+        server='localhost';
+        port=8080;
+        id=0;
+
+    scontact="http://"+server+":"+str(port);
+
+    try:
+      service=IoSteerWSSOAP(url=scontact);
+      request = writelocalsimulationRequest();
+
+
+      #read simulation file
+      
+      request._id=id;
+      request._filename=simfile;
+
+
+      
+      response=service.writelocalsimulation(request);
+      result=response._filecontent;
+      f=open(simfile,'w');
+      f.write(result);
+      f.close();
+      
+    except ValueError:
+      print "WriteLocalSimulation Error"
+      result =-1;
+  
+  #scommand="iogs exitiome";
+  #result=os.system(scommand);
+    return result;
+
+
 
 def getobjnum(varargin):
   #Stop the server and exit IOME
