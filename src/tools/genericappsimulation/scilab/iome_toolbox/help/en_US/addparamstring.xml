@@ -19,7 +19,7 @@
   </info>
 
   <refnamediv>
-    <refname>addstringparam</refname>
+    <refname>addparamstring</refname>
 
     <refpurpose>Add string parameter to server.</refpurpose>
   </refnamediv>
@@ -27,7 +27,7 @@
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=addstringparam(name, string,elist)</synopsis>
+    <synopsis>[status]=addparamstring(name, string,elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
@@ -41,7 +41,7 @@
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">addstringparam(name, string, flag,elist)</programlisting>
+    <programlisting role="example">addparamstring(name, string, flag,elist)</programlisting>
   </refsection>
 
   <refsection>

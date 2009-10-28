@@ -3,10 +3,10 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA - Allan CORNET
  * 
- * This file is released inon the public domain
+ * This file is released into the public domain
  *
  -->
-<refentry version="5.0-subset Scilab" xml:id="setstringparam" xml:lang="en"
+<refentry version="5.0-subset Scilab" xml:id="scilab_sum" xml:lang="en"
           xmlns="http://docbook.org/ns/docbook"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           xmlns:svg="http://www.w3.org/2000/svg"
@@ -19,29 +19,29 @@
   </info>
 
   <refnamediv>
-    <refname>setstringparam</refname>
+    <refname>addparammat</refname>
 
-    <refpurpose>Set string parameter on server.</refpurpose>
+    <refpurpose>Add mat parameter to server.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=setstringparam(name, string, elist)</synopsis>
+    <synopsis>[status]=addparammat(name, mat,elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
     <title>Description</title>
 
-    <para>Set string parameter on server.</para>
+    <para>Add mat parameter to server.</para>
 
-    <para>Set string parameter on server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
+    <para>Add mat parameter to server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
   </refsection>
 
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">setstringparam(name, string, elist)</programlisting>
+    <programlisting role="example">addparammat(name, vec,elist)</programlisting>
   </refsection>
 
   <refsection>

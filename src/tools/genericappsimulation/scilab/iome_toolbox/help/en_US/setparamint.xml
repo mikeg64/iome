@@ -6,7 +6,7 @@
  * This file is released into the public domain
  *
  -->
-<refentry version="5.0-subset Scilab" xml:id="scilab_sum" xml:lang="en"
+<refentry version="5.0-subset Scilab" xml:id="setparamint" xml:lang="en"
           xmlns="http://docbook.org/ns/docbook"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           xmlns:svg="http://www.w3.org/2000/svg"
@@ -19,29 +19,29 @@
   </info>
 
   <refnamediv>
-    <refname>addmatparam</refname>
+    <refname>setparamint</refname>
 
-    <refpurpose>Add mat parameter to server.</refpurpose>
+    <refpurpose>Set int parameter to server.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=addmatparam(name, mat,elist)</synopsis>
+    <synopsis>[status]=setparamint(name, int, elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
     <title>Description</title>
 
-    <para>Add mat parameter to server.</para>
+    <para>Set int parameter to server.</para>
 
-    <para>Add mat parameter to server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
+    <para>Set int parameter to server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
   </refsection>
 
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">addmatparam(name, vec,elist)</programlisting>
+    <programlisting role="example">setparamint(name, int, elist)</programlisting>
   </refsection>
 
   <refsection>

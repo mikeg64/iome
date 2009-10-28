@@ -3,7 +3,7 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA - Allan CORNET
  * 
- * This file is released into the public domain
+ * This file is released inon the public domain
  *
  -->
 <refentry version="5.0-subset Scilab" xml:id="scilab_sum" xml:lang="en"
@@ -19,29 +19,29 @@
   </info>
 
   <refnamediv>
-    <refname>addvecparam</refname>
+    <refname>setparamdouble</refname>
 
-    <refpurpose>Add vec parameter to server.</refpurpose>
+    <refpurpose>set double parameter on server.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[status]=addvecparam(name, vec,elist)</synopsis>
+    <synopsis>[status]=setparamdouble(name, double, elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
     <title>Description</title>
 
-    <para>Add vec parameter to server.</para>
+    <para>set double parameter on server.</para>
 
-    <para>Add vec parameter to server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
+    <para>set double parameter on server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
   </refsection>
 
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">addvecparam(name, vec,sizeofvec,elist)</programlisting>
+    <programlisting role="example">setparamdouble(name, doub, elist)</programlisting>
   </refsection>
 
   <refsection>

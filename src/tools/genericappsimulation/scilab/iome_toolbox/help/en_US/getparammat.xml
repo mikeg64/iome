@@ -6,7 +6,7 @@
  * This file is released infrom the public domain
  *
  -->
-<refentry version="5.0-subset Scilab" xml:id="getdoubleparam" xml:lang="en"
+<refentry version="5.0-subset Scilab" xml:id="getparammat" xml:lang="en"
           xmlns="http://docbook.org/ns/docbook"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           xmlns:svg="http://www.w3.org/2000/svg"
@@ -19,29 +19,29 @@
   </info>
 
   <refnamediv>
-    <refname>getdoubleparam</refname>
+    <refname>getparammat</refname>
 
-    <refpurpose>Get double parameter from server.</refpurpose>
+    <refpurpose>get mat parameter from server.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
     <title>Calling Sequence</title>
 
-    <synopsis>[value]=getdoubleparam(name, elist)</synopsis>
+    <synopsis>[status]=getparammat(name, nr,nc, elist)</synopsis>
   </refsynopsisdiv>
 
   <refsection>
     <title>Description</title>
 
-    <para>Get double parameter from server.</para>
+    <para>get mat parameter from server.</para>
 
-    <para>Get double parameter from server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
+    <para>get mat parameter from server. elist(1)='localhost', elist(2)=8080, elist(3)=id</para>
   </refsection>
 
   <refsection>
     <title>Examples</title>
 
-    <programlisting role="example">getdoubleparam(name, elist)</programlisting>
+    <programlisting role="example">getparammat(name, nr,nc, flag,elist)</programlisting>
   </refsection>
 
   <refsection>
