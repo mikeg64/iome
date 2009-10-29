@@ -2,9 +2,9 @@
 //with the command:
 //  /usr/bin/scilex -nw -nb -f run_wave2d_dx.sce
 
-//tdp=getenv('SCILAB_HOME')+'/share/scilab/contrib/iome_toolbox/loader.sce';
+tdp=getenv('SCILAB_HOME')+'/share/scilab/contrib/iome_toolbox/loader.sce';
 //tdp='/usr/share/scilab/contrib/iome_toolbox/loader.sce';
-tdp=getenv('SCILAB_HOME')+'/contrib/iome_toolbox/loader.sce';
+//tdp=getenv('SCILAB_HOME')+'/contrib/iome_toolbox/loader.sce';
 exec(tdp);
 
 exec("wave2d.sce");
@@ -64,10 +64,11 @@ else
   end
   mfprintf(fd, '\n');
  end
+ mclose(fd);
  scommand=sprintf("cp temp %s\n",outfile);
 end
 
-//mclose(fd);
+
 
 //as soon as the file is written we can copy to the working directory
 //scommand=sprintf("cp temp %s\n",outfile);
@@ -96,8 +97,9 @@ end
 end //end of cycling over steps
 
 
-
+exitiome(elist);
+exitiome(elist);
 
 //plot3d(x,y,z);
-//exit;
+exit;
 
