@@ -1,6 +1,6 @@
 
 //Read input
-
+usevtk=0;
 wavetype=1; //travelling
 nsteps=96000;
 maxamplitude=20;

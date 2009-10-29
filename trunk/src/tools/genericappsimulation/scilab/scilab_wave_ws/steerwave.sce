@@ -3,7 +3,8 @@
 //  /usr/bin/scilex -nw -nb -f run_wave2d_dx.sce
 
 //tdp=getenv('SCILAB_HOME')+'/share/scilab/contrib/iome_toolbox/loader.sce';
-tdp='/usr/share/scilab/contrib/iome_toolbox/loader.sce';
+//tdp='/usr/share/scilab/contrib/iome_toolbox/loader.sce';
+tdp=getenv('SCILAB_HOME')+'/contrib/iome_toolbox/loader.sce';
 exec(tdp);
 
 exec("wave2d.sce");
@@ -47,23 +48,30 @@ z1=wave2d(i*deltat, wavetype, maxamplitude, wavenumber, wavefreq, delta,nmax);
 //z2=wave2d(i*deltat, wavetype, maxamplitude, wavenumber2, wavefreq, delta,nmax);
 z2=0;
 z=z1+z2;
-sfilename=sprintf("z_%d",i);
+
+sfilename=sprintf("%s.vtk",jobname);
 //Write data to output
-//savevtk_xym(x,y,z,"z",sfilename);
+if usevtk=1
+  savevtk_xym(x,y,z,"z",'temp');
+  scommand=sprintf("cp temp.vtk %s\n",sfilename);
+else
 //write the data to a temporary file 
-fd=mopen('temp','w');
-mfprintf(fd, '%d %d %d\n',i, nmax(1), nmax(2));
+ fd=mopen('temp','w');
+ mfprintf(fd, '%d %d %d\n',i, nmax(1), nmax(2));
  for j1=1:nmax(1)
   for j2=1:nmax(2)
       mfprintf(fd, '%f',z(j1,j2));
   end
   mfprintf(fd, '\n');
  end
+ scommand=sprintf("cp temp %s\n",outfile);
+end
 
-mclose(fd);
+//mclose(fd);
 
 //as soon as the file is written we can copy to the working directory
-scommand=sprintf("cp temp %s\n",outfile);
+//scommand=sprintf("cp temp %s\n",outfile);
+
 unix_g(scommand);
 
 steeringenabled=getparamint('steeringenabled',elist);
