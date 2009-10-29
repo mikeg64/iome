@@ -26,21 +26,21 @@ class steeringparams:
         self.wavenumber = wavenumber
         self.maxamplitude = maxamplitude
         self.frequency = frequency
-        self.steerinenabled = 0
+        self.steeringenabled = 0
         self.finishsteering = 0
         
     def getparams(self):
         self.maxamplitude = iome.getparamdouble('maxamplitude',self.elist);
         self.frequency = iome.getparamdouble('wavefreq',self.elist);
-        self.steerinenabled = iome.getparamint('steeringenabled',self.elist);
-        self.finishsteering = iome.getparamint('finishsteering',self.elist);
+        #self.steerinenabled = iome.getparamint('steeringenabled',self.elist);
+        #self.finishsteering = iome.getparamint('finishsteering',self.elist);
         self.wavenumber = iome.getparamvec('wavenumber',2,self.elist);
 
     def setparams(self):
         iome.setparamdouble('maxamplitude',self.maxamplitude,self.elist);
         iome.setparamdouble('wavefreq', self.frequency, self.elist);
-        iome.setparamint('steeringenabled', self.steerinenabled, self.elist);
-        iome.setparamint('finishsteering', self.finishsteering, self.elist);
+        #iome.setparamint('steeringenabled', self.steerinenabled, self.elist);
+        #iome.setparamint('finishsteering', self.finishsteering, self.elist);
         iome.setparamvec('wavenumber',self.wavenumber, 2,self.elist);
 
 
@@ -81,10 +81,16 @@ class Application(Frame):
     def setparams(self):
         #this will de the actual set params
         print "set params!"
+        self.mysteeringparams.setparams();
 
     def getparams(self):
         #this will de the actual set params
         print "get params!"
+        self.mysteeringparams.getparams();
+        self.e1.insert(0,self.mysteeringparams.maxamplitude);
+        self.e2.insert(0,self.mysteeringparams.wavenumber[0]);
+        self.e3.insert(0,self.mysteeringparams.wavenumber[1]);
+        self.e4.insert(0,self.mysteeringparams.frequency);        
 
 
     def connection(self):
@@ -95,28 +101,51 @@ class Application(Frame):
         
     def maxamplitude(self, event):
         #this will de the actual set params
+        self.mysteeringparams.maxamplitude=float(self.e1.get());
+        iome.setparamdouble('maxamplitude', self.mysteeringparams.maxamplitude, self.mysteeringparams.elist);
         print "maxamplitude!"
 
     def frequency(self, event):
+        self.mysteeringparams.frequency=float(self.e4.get());
         #this will de the actual set params
+        iome.setparamdouble('wavefreq', self.mysteeringparams.frequency, self.mysteeringparams.elist);
         print "frequency!"
 
     def k1(self, event):
         #this will de the actual set params
+        self.mysteeringparams.wavenumber[0]=float(self.e2.get());
+        iome.setparamvec('wavenumber', self.mysteeringparams.wavenumber,2, self.mysteeringparams.elist);
         print "k1!"
 
     def k2(self, event):
         #this will de the actual set params
+        self.mysteeringparams.wavenumber[1]=float(self.e3.get());
+        iome.setparamvec('wavenumber', self.mysteeringparams.wavenumber,2, self.mysteeringparams.elist);
+        
         print "k2!"
  
 
     def enablesteering(self):
         #this will de the actual set params
         print "enablesteering!"
+        es=self.mysteeringparams.steeringenabled
+        if es==1:
+            self.mysteeringparams.steeringenabled=0
+        else:
+            self.mysteeringparams.steeringenabled=1
+        print self.mysteeringparams.steeringenabled
+        iome.setparamint('steeringenabled', self.mysteeringparams.steeringenabled, self.mysteeringparams.elist);
+            
 
     def finishsteering(self):
         #this will de the actual set params
         print "finishsteering"
+        es=self.mysteeringparams.finishsteering
+        if es==1:
+            self.mysteeringparams.finishsteering=0
+        else:
+            self.mysteeringparams.finishsteering=1
+        iome.setparamint('finishsteering', self.mysteeringparams.finishsteering, self.mysteeringparams.elist);
 
 
     def createWidgets(self):
@@ -193,15 +222,12 @@ class Application(Frame):
         k[0]=10;
         k[1]=5;
         self.mysteeringparams=steeringparams(k,20,8);
-
         self.pack()
         self.createWidgets()
 
 
-
 root = Tk()
 app = Application(master=root)
-
 app.master.title("Steering Example")
 app.master.maxsize(1000, 400)
 app.mainloop()

@@ -391,7 +391,7 @@ def getparamdouble(name,varargin):
     return fval;
 
 
-def setparamfloat(name, vfloat,varargin):
+def setparamdouble(name, vfloat,varargin):
   #AddMetadata(name, property, port) 
     flag=7;
     nargin=len(varargin);
