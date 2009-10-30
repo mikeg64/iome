@@ -49,6 +49,7 @@ if(move_uploaded_file($_FILES['userfile']['tmp_name'], $target_path)) {
         //during testing we use the request to set up the job
         //this will not delete the directory when the job has completed
 		//requestsimulation($jobfile,$myioservice);
+		//runrequestedsimulation($jobfile,$myioservice);
 
 } else{
     echo "There was an error uploading the file, please try again!";
