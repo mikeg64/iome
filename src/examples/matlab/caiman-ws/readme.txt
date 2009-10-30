@@ -12,3 +12,6 @@ machine cpaneldev.shef.ac.uk login cs1mkg passwd thepassword
 It is important to set the permissions for .netrc to  600(rw----)
 
 Useful reference   http://rcsg-gsir.imsb-dsgi.nrc-cnrc.gc.ca/documents/internet/node52.html
+
+Start the iome server using the following command
+iogs initiome null caiman null 60000 >& iogs.log &
