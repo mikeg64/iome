@@ -2,17 +2,17 @@
 SUBDIRS=utils simulation genericsimulationlib
 
 
-all: ioutils iosimulation iogenericsimultionlib
+all: ioutils iosimulation iogenericsimulationlib
 
 
 ioutils:
-	@set -e; cd utils; make -f Makefile all
+	@set -e; cd utils; make -f Makefile install
 
 iosimulation:
-	@set -e; cd simulation; make -f Makefile all
+	@set -e; cd simulation; make -f Makefile install
 
 iogenericsimulationlib:
-	@set -e; cd genericsimulationlib; make -f Makefile all
+	@set -e; cd genericsimulationlib; make -f Makefile install
 
 
 clean :
