@@ -1,4 +1,0 @@
-cd public_html/iometest/uploads
-binary
-get %imagefile%
-quit

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?><iosim filename="jobtestsim3_27_02_09_2.xml"><simulation class="GenericSteerSimulation" createmethod="1" name="collabtestsim3" nprocs="1" simulantclass="AgentModel" simulanttype="0"><props flag="7" name="" numprops="6">
-<prop flag="7" index="0" name="camfrom"><vec size="3">5 27 12.25 </vec></prop>
-<prop flag="7" index="1" name="camto"><vec size="3">31 28 5.25 </vec></prop>
-<prop flag="7" index="2" name="camup"><vec size="3">1.17 -1.25 0 </vec></prop>
-<prop flag="7" index="3" name="camwidth"><float>47.000000</float></prop>
-<prop flag="7" index="4" name="step"><int>25</int></prop>
-<prop flag="7" index="5" name="name"><string>testsim3</string></prop></props><steps configstepfreq="1" statestepfreq="1">2</steps><fileprops configfilename="8b." configreadmethod="1" configwritemethod="1" simreadmethod="1" simwritemethod="1" statefilename="pa." statereadmethod="1" statewritemethod="1"/><metadatalist><metadata content="MikeG" name="author"/><metadata content="27-Feb-2009" name="date"/><metadata content="felix" name="platform"/><metadata content="collabtestsim3" name="name"/></metadatalist></simulation></iosim>

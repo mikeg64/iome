@@ -1,5 +1,0 @@
-user cs1mkg "*******"
-cd public_html/iometest/uploads
-binary
-get %imagefile%
-quit
