@@ -6,10 +6,10 @@ all: libs tools
 
 
 libs:
-	@set -e; cd iome; make -f Makefile install
+	@set -e; cd iome; make -f Makefile all
 
 tools:
-	@set -e; cd tools; make -f Makefile install
+	@set -e; cd tools; make -f Makefile all
 
 clean :
 	@set -e; for i in $(SUBDIRS); do (cd $$i; make -f Makefile clean) || exit 1; done
