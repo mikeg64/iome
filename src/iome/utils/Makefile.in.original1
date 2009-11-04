@@ -1,0 +1,53 @@
+#Makefile for ioutils
+#make include file for building IoUtils on felix
+
+CC = g++
+COPTFLAGS = -O 
+CLINKER = ${CC}
+FLAGS = -ggdb -g
+LIBS = -lm
+LINKFLAGS = -g -Wall -Wno-deprecated
+#VPATH = src:../include
+
+OPTFLAGS= $(COPTFLAGS)
+##### User configurable options #####
+#include make_iceberg
+### End User configurable options ###
+INCLUDES = -I$(IOME_HOME)/include
+OBJ = vec.o \
+		vecpair.o \
+		mat.o \
+		ivec.o \
+		IoString.o \
+		IoStringArray.o \
+		IoParams.o \
+		IoPropertyManager.o \
+		IoFileUtils.o \
+		IoParamFilter.o \
+		IoParamSetStats.o \
+		fmat3d.o \
+		mmat3d.o \
+		fparser.o \
+		fpoptimizer.o \
+		mersenne.o \
+		mother.o \
+		rancombi.o
+
+#Compile
+libIoUtils.a : $(OBJ)
+	ar -rv $(@) $(OBJ)
+
+	
+.cpp.o:
+	$(CC) $(FLAGS) $(INCLUDES) $(LINKFLAGS) -c $<
+
+all:libIoUtils.a
+	cp libIoUtils.a ../lib/libIoUtils.a
+	
+cleanall :
+	rm libIoUtils.a $(OBJ)
+	
+clean :
+	rm $(OBJ)	
+
+

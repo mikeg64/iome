@@ -1,0 +1,152 @@
+# Main Makefile for Mike Griffiths iome application
+# Copyright (C) 1996 Michael Kenneth Griffiths.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+SHELL = /bin/sh
+top_srcdir = @top_srcdir@
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+.SUFFIXES:
+.SUFFIXES: .cpp .o
+
+OPT=-g -O
+
+AR = ar
+AR_FLAGS = rc
+#RANLIB = @RANLIB@
+
+CXX = @CXX@
+CC = @CC@
+CXX = @CXX@
+CFLAGS = -I. @CFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+INSTALL = cp
+prefix = @prefix@
+INCLUDES = -I$(IOME_HOME)/include
+exec_prefix = @exec_prefix@
+bindir = $(exec_prefix)/bin
+libdir = $(prefix)/lib
+infodir = $(prefix)/info
+IOME_HOME = $(prefix)
+INCLUDES = -I$(IOME_HOME)/include
+
+SOURCES = vec.cpp \
+		vecpair.cpp \
+		mat.cpp \
+		ivec.cpp \
+		IoString.cpp \
+		IoStringArray.cpp \
+		IoParams.cpp \
+		IoPropertyManager.cpp \
+		IoFileUtils.cpp \
+		IoParamFilter.cpp \
+		IoParamSetStats.cpp \
+		mmat3d.cpp \
+		fparser.cpp \
+		fpoptimizer.cpp \
+		mersenne.cpp \
+		mother.cpp \
+		rancombi.cpp
+DOCS=PROG.texi PROG.info
+MISC=configure mkinstalldirs install-sh aclocal.m4
+OBJS = vec.o \
+		vecpair.o \
+		mat.o \
+		ivec.o \
+		IoString.o \
+		IoStringArray.o \
+		IoParams.o \
+		IoPropertyManager.o \
+		IoFileUtils.o \
+		IoParamFilter.o \
+		IoParamSetStats.o \
+		mmat3d.o \
+		fparser.o \
+		fpoptimizer.o \
+		mersenne.o \
+		mother.o \
+		rancombi.o
+
+LIB_OBJS=$(OBJS)
+
+# ??? replace with your targets
+all: libioutils.a
+
+# ??? here I make the bindir, libdir and infodir directories; you
+# might not need all of these.  also, I assumed the names PROG and
+# libioutils.a for the program and library.
+install: all
+	mkdir -p $(bindir)
+	mkdir -p $(libdir)
+	mkdir -p $(infodir)
+	$(INSTALL) libioutils.a $(libdir)/libioutils.a
+
+uninstall:
+	/bin/rm -f $(libdir)/libioutils.a
+
+
+libioutils.a: $(OBJS)
+
+	/bin/rm -f libioutils.a
+	$(AR) $(AR_FLAGS) libioutils.a $(OBJS)
+#	$(RANLIB) libMYPROG.a
+
+
+
+.cpp.o:
+	$(CXX) $(FLAGS) $(INCLUDES) -c $<
+
+PROG: $(OBJS) libMYPROG.a
+	$(CC) $(CFLAGS) -o PROG $(OBJS) $(LIBS)
+
+
+#PROG: $(OBJS) libMYPROG.a
+#	$(CC) $(CFLAGS) -o PROG $(OBJS) $(LIBS)
+
+clean:
+	/bin/rm -f core *.o $(OBJS) $(LIB_OBJS) libioutils.a
+
+distclean: clean
+	/bin/rm -f Makefile config.h config.status config.cache config.log \
+		marklib.dvi
+
+mostlyclean: clean
+
+maintainer-clean: clean
+
+#PROG.info: PROG.texi
+#	makeinfo PROG.texi
+
+# automatic re-running of configure if the ocnfigure.in file has changed
+#${srcdir}/configure: configure.in aclocal.m4
+#	cd ${srcdir} && autoconf
+
+# autoheader might not change config.h.in, so touch a stamp file
+#${srcdir}/config.h.in: stamp-h.in
+#${srcdir}/stamp-h.in: configure.in aclocal.m4
+#		cd ${srcdir} && autoheader
+#		echo timestamp > ${srcdir}/stamp-h.in
+
+#config.h: stamp-h
+#stamp-h: config.h.in config.status
+#	./config.status
+#Makefile: Makefile.in config.status
+#	./config.status
+#config.status: configure
+#	./config.status --recheck
+
