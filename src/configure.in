@@ -79,7 +79,6 @@ AC_CONFIG_FILES([Makefile
                  iome/simulation/Makefile
                  iome/utils/Makefile
                  tools/Makefile
-                 tools/genericappsimulation/Makefile
                  tools/genericgroupapp/Makefile
                  tools/genericsimulation/Makefile
                  tools/genericsimulationclient/Makefile
