@@ -1,0 +1,50 @@
+#make include file for building StarSimulation IoSimTestSimple on Felix
+# Standard defines:
+CC  	=	g++
+LD  	=	g++
+WRES	=	
+CCOMP	=	gcc
+HOMEV	=	
+VPATH	=	$(HOMEV)/include
+oDir	=	.
+Bin	=	../bin
+BASE = /usr/local/dx
+#LIBDXL=$(BASE)/lib_linux/libDXL.a
+
+#libDirs	=	-L../lib \
+#	-L/usr/local/lib
+
+#incDirs	=	-I../IoUtils
+incDirs = -I$(BASE)/include -I../IoUtils -I../IoSimulation -I../IoAgentSimulation -I$(XERCESCROOT)/src -I$(XALANCROOT)/src  -I/usr/X11R6/include 
+
+#LD_FLAGS =	-g
+LD_FLAGS =	-g
+LIBS	=	-L../lib -L/usr/local/lib  -L$(XERCESCROOT)/lib -L$(XALANCROOT)/lib -lxerces-c -lxalan-c -lxalanMsg -L$(BASE)/lib_linux -L/usr/X11R6/lib -lm -ldl 
+XLIBS   = -lXm -lXt -lXmu -lX11
+#C_FLAGS	=	-g
+C_FLAGS	= -g -Dlinux -DBASE=\"$(BASE)\" -DIO_XERCESCVERSION=xercesc_2_8
+MYLIBS = ../lib/libIoUtils.a  ../lib/libIoSimulation.a
+#MYLIBS = ../lib/libIoUtils.a  ../lib/libIoSimulation.a
+#	../lib/libIoXMLSimulation.a 
+#	../IoLifeSimulation/IoLifeCell.o\
+#	../IoLifeSimulation/IoLifeCellArray.o\
+#	../IoLifeSimulation/IoLifeModel.o\
+#	../IoLifeSimulation/IoLifeSimulation.o\
+
+SRCS	=\
+	IoSimTestSimple.cpp
+
+#EXOBJS	=\
+#    $(oDir)/IoTestLifeSimulation.o \
+#	$(oDir)/IoSimulationTest.o
+
+ALLOBJS	=	$(EXOBJS)
+ALLBIN	=	$(Bin)/IoSimTestSimple.exe
+ALLTGT	=	$(Bin)/IoSimTestSimple.exe
+
+
+#INCLUDES = ../IoUtils/vec.h ../IoUtils/IoPropertyManager.h
+INCLUDES = -I$(XERCESCROOT)/include -I$(XALANCROOT)/include
+
+
+
