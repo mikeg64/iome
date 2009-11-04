@@ -1,0 +1,10 @@
+#! /bin/sh
+#
+# Created by configure
+
+'./configure' \
+'--disable-option-checking' \
+'--prefix=/home/mike/proj/iome_release' \
+'--cache-file=/dev/null' \
+'--srcdir=.' \
+"$@"
