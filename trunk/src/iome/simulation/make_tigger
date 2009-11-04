@@ -1,0 +1,14 @@
+#make include file for building ising model on iceberg
+
+CC = g++
+COPTFLAGS = -O 
+CLINKER = ${CC}
+FLAGS = 
+LIBS = -lm
+LINKFLAGS = -g -Wall -Wno-deprecated -DIO_CYGWIN_WIN32 -DIO_GNUGPP
+VPATH = src:../include
+
+OPTFLAGS= $(COPTFLAGS)
+
+
+
