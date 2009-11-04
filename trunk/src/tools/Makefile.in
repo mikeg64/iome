@@ -1,0 +1,26 @@
+# List of subdirectories
+SUBDIRS=genericsimulation genericappsimulation steerproxyws genericsimulationclient genericgroupapp
+
+
+#all: genericsimulation genericappsimulation steerproxyws genericsimulationclient genericgroupapp
+all: genericsimulation steerproxyws
+
+genericsimulation:
+	@set -e; cd genericsimulation; make -f Makefile install
+
+#genericappsimulationclient:
+#	@set -e; cd genericappsimulation; make -f Makefile install
+
+#genericsimulationclient:
+#	@set -e; cd genericsimulationclient; make -f Makefile install
+
+#genericgroupapp:
+#	@set -e; cd genericgroupapp; make -f Makefile install
+
+steerproxyws:
+	@set -e; cd steerproxyws; make -f Makefile install
+
+clean :
+	@set -e; for i in $(SUBDIRS); do (cd $$i; make -f Makefile clean) || exit 1; done
+
+

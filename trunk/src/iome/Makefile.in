@@ -1,0 +1,21 @@
+# List of subdirectories
+SUBDIRS=utils simulation genericsimulationlib
+
+
+all: ioutils iosimulation iogenericsimulationlib
+
+
+ioutils:
+	@set -e; cd utils; make -f Makefile install
+
+iosimulation:
+	@set -e; cd simulation; make -f Makefile install
+
+iogenericsimulationlib:
+	@set -e; cd genericsimulationlib; make -f Makefile install
+
+
+clean :
+	@set -e; for i in $(SUBDIRS); do (cd $$i; make -f Makefile clean) || exit 1; done
+
+
