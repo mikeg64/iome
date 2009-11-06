@@ -58,7 +58,7 @@ disp(nsteps);
 
 //Creates and set graphical entities which represent the surface
 //--------------------------------------------------------------
-plot3d1(x,y,z,35,45,' ');
+plot3d1(x,y,mval,35,45,' ');
 s=gce(); //the handle on the surface
 s.color_flag=1 ; //assign facet color according to Z value
 title("evolution of a 3d surface","fontsize",3)
@@ -72,54 +72,59 @@ drawnow();
 //for i=1:max(size(I))
 //end
 
-
+  n1=nmax(1);
+  n2=nmax(2);
+  //nmax(1)=mfscanf(fd, '%f');
+  //nmax(2)=mfscanf(fd, '%f');
 
 
 
 for i=tstep:tstep+nsteps
 
 
-  realtime(i); //wait till date 0.1*i seconds
+  realtime(1.0); //wait till date 0.1*i seconds
+  sleep(1000);
 
 
 
 
   fd=mopen(outfile, 'r');
-  i=mfscanf(fd, '%f');
-  n1=nmax(1);
-  n2=nmax(2);
+  ii=mfscanf(fd, '%f');
+  //n1=nmax(1);
+  //n2=nmax(2);
   nmax(1)=mfscanf(fd, '%f');
   nmax(2)=mfscanf(fd, '%f');
 
-  printf('Reading matrix %d %d \n',nmax(1) ,nmax(2));
+  //printf('Reading matrix %d %d \n',nmax(1) ,nmax(2));
 	
-	for i=1:n1
-	  for j=1:n2
+	for i1=1:n1
+	  for j1=1:n2
 	    		   fval=mfscanf(fd, '%f');    
-	 		   mval(i,j)=fval;			   
+	 		   mval(i1,j1)=fval;			   
 	  end
 	end
 	
 	mclose(fd);
-	printf('finished reading %s\n', outfile);
+	//printf('finished reading %s\n', outfile);
 	z1=mval;
      s.data.z = z1;
 
 
 
+steeringenabled=0;
+finishsteering=0;
 
-
-steeringenabled=getparamint('steeringenabled',elist);
-finishsteering=getparamint('finishsteering',elist);
+//steeringenabled=getparamint('steeringenabled',elist);
+//finishsteering=getparamint('finishsteering',elist);
 if finishsteering=1 
  break;  
 end
 
 setparamdouble('step',i,elist);
 if steeringenabled=1
-  maxamplitude=getparamint('maxamplitude',elist);
-  wavenumber=getparamvec('wavenumber',2,elist);   //vec(2)
-  wavefreq=getparamdouble('wavefreq',elist);
+//  maxamplitude=getparamint('maxamplitude',elist);
+//  wavenumber=getparamvec('wavenumber',2,elist);   //vec(2)
+//  wavefreq=getparamdouble('wavefreq',elist);
 end
 
 //zzm = min(z); zzM = max(z);
