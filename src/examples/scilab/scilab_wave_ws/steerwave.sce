@@ -24,7 +24,7 @@ pwavnum=7;
 
 outfile='.out';
 formfile='.form';
-outfile='out/'+jobname+'.out';
+outfile='out/'+jobname+'.'+ext;
 formfile=jobname+'.form';
 simfile=jobname+'.xml';
 sdir='out';
@@ -51,7 +51,9 @@ z=z1+z2;
 
 sfilename=sprintf("%s.vtk",jobname);
 //Write data to output
-if usevtk=1
+if usesci=1
+  savematfile(outfile,'z');
+elseif usevtk=1
   savevtk_xym(x,y,z,"z",'temp');
   scommand=sprintf("cp temp.vtk %s\n",sfilename);
 else
@@ -66,14 +68,14 @@ else
  end
  scommand=sprintf("cp temp %s\n",outfile);
  mclose(fd);
+ //as soon as the file is written we can copy to the working directory
+ //scommand=sprintf("cp temp %s\n",outfile);
+ unix_g(scommand);
 end
 
-//mclose(fd);
 
-//as soon as the file is written we can copy to the working directory
-//scommand=sprintf("cp temp %s\n",outfile);
 
-unix_g(scommand);
+
 
 steeringenabled=getparamint('steeringenabled',elist);
 finishsteering=getparamint('finishsteering',elist);

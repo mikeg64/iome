@@ -1,6 +1,9 @@
 
 //Read input
-usevtk=0;
+usevtk=0;  //use ext=.out
+usesci=0;
+//ext='mat';  //for case matrix
+ext='out';
 wavetype=1; //travelling
 nsteps=96000;
 maxamplitude=20;

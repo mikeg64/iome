@@ -11,7 +11,7 @@ exec("wave2d.sce");
 exec("savevtk_xym.sci");
 exec("waveparams.sce");
 
-
+stacksize('max');
 
 
 //Wave packet
@@ -24,7 +24,7 @@ pwavnum=7;
 
 outfile='.out';
 formfile='.form';
-outfile='out/'+jobname+'.out';
+outfile='out/'+jobname+'.'+ext;
 formfile=jobname+'.form';
 simfile=jobname+'.xml';
 sdir='out';
@@ -90,24 +90,19 @@ for i=tstep:tstep+nsteps
 
   fd=mopen(outfile, 'r');
   ii=mfscanf(fd, '%f');
-  //n1=nmax(1);
-  //n2=nmax(2);
   nmax(1)=mfscanf(fd, '%f');
   nmax(2)=mfscanf(fd, '%f');
-
-  //printf('Reading matrix %d %d \n',nmax(1) ,nmax(2));
-	
 	for i1=1:n1
 	  for j1=1:n2
 	    		   fval=mfscanf(fd, '%f');    
 	 		   mval(i1,j1)=fval;			   
 	  end
-	end
-	
+	end	
 	mclose(fd);
-	//printf('finished reading %s\n', outfile);
-	z1=mval;
-     s.data.z = z1;
+	z=mval;
+     //loadmatfile(outfile,'z');
+     s.data.z = z;
+     //clear(z);
 
 
 
@@ -120,7 +115,7 @@ if finishsteering=1
  break;  
 end
 
-setparamdouble('step',i,elist);
+//setparamdouble('step',i,elist);
 if steeringenabled=1
 //  maxamplitude=getparamint('maxamplitude',elist);
 //  wavenumber=getparamvec('wavenumber',2,elist);   //vec(2)
