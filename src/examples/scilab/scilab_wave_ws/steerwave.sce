@@ -65,6 +65,7 @@ else
   mfprintf(fd, '\n');
  end
  scommand=sprintf("cp temp %s\n",outfile);
+ mclose(fd);
 end
 
 //mclose(fd);

@@ -1,0 +1,1 @@
+WScilex -nb -f vizwave.sce &
