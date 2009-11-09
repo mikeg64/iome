@@ -7,18 +7,16 @@ include make_suilven
 
 
 
-#use this BASICEXOBJS if not compiling with the libIoGenericSimulation
-BASICEXOBJS	=\
-	$(oDir)/IoTest.o\
-	../../IoGenericSimulationLib.o\
-	../../../IoSimulation/IoGenericSteerSimulation.o\
-	../../../IoSimulation/stdsoap2.o\
-	../../../IoSimulation/soapC.o\
-	../../../IoSimulation/soapClient.o
 
-#use this BASICEXOBJS if  compiling with the libIoGenericSimulation
+
+
 BASICEXOBJS	=\
-	$(oDir)/IoTest.o
+	IoTest.o
+#	../../IoGenericSimulationLib.o\
+#	../../../IoSimulation/IoGenericSteerSimulation.o\
+#	../../../IoSimulation/stdsoap2.o\
+#	../../../IoSimulation/soapC.o\
+#	../../../IoSimulation/soapClient.o
 	
 ALLOBJS	=	$(BASICEXOBJS)
 ALLBIN	=	$(Bin)/iotestc
@@ -47,21 +45,14 @@ cleanall:	cleanobjs cleanbin
 all: iotestc
 
 
-
-
-
-
-#all:IoSimTestSimple
-	
-#clean:
-#	-rm $(OBJ) $(Bin)/IoSimTestSimple
-
 #@# Dependency rules follow -----------------------------
 
 
-iotestc:$(BASICEXOBJS) IoTest.o
-	$(LD) -g $(LIBS)  $(incDirs) -o $(Bin)/iotestc $(BASICEXOBJS) $(MYLIBS)
+iotestc:$(BASICEXOBJS)
+	$(CC) -g $(LIBS)  $(incDirs) -o $(Bin)/iotestc $(BASICEXOBJS) $(MYLIBS)
 
+#IoTest.o: IoTest.f90
+#	$(FF) -o $@ -c $<
 
 
 .cpp.o:
@@ -69,5 +60,6 @@ iotestc:$(BASICEXOBJS) IoTest.o
 
 .c.o:
 	$(CC) $(C_FLAGS) $(incDirs) $(LINKFLAGS)    -o $@ -c $<
+
 
 
