@@ -40,32 +40,17 @@ mikeg@photon0.freeserve.co.uk
 */
 
 
-#ifdef CWDEBUG
-	#include <libcwd/sys.h>
-	#include <libcwd/debug.h>
-	#include "debug.h"
-#endif
 
-#ifndef IO_MSVC
-	#include "../IoSimulation/IoInitialiser.h"
-	#include "../../../IoSimulation/soapH.h"
-	#include "../../IoGenericSimulationLib.h"
-	#include "../../../IoSimulation/IoSteerWS.nsmap"
-    #include <unistd.h>
+
+	#include <iome/simulation/IoInitialiser.h>
+	//#include <iome/simulation/soapH.h>
+	#include <iome/genericsimulationlib/IoGenericSimulationLib.h>
+	#include <iome/simulation/IoSteerWS.nsmap>
+    	#include <unistd.h>
 	#include <sys/stat.h>
 	#include <sys/types.h>
 
-#else
-	#include "..\IoSimulation\IoInitialiser.h"
-	#include "..\IoSimulation\soapH.h"
-	#include "..\IoSimulation\IoGenericSteerSimulation.h"
-	#include "..\..\..\IoSimulation\IoSteerWS.nsmap"
 
-	#include <direct.h>
-	
-	#include <sys/stat.h>
-	#include <sys/types.h>
-#endif
 
 //#include "stdafx.h"
 //#include "IoTestDEVSimulation.h"
