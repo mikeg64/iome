@@ -8,12 +8,12 @@ AppName=iome
 AppVerName=iome 1.5
 DefaultDirName={pf}\iome
 DefaultGroupName=iome
-UninstallDisplayIcon={app}\ioui.bat
+UninstallDisplayIcon={app}\bin\ioui.py
 
 
 
 [Files]
-Source: "bin\ioui.bat"; DestDir: "{app}\bin"
+Source: "src\tools\python\ioui.py"; DestDir: "{app}\bin"
 Source: "bin\*"; DestDir: "{app}\bin"
 Source: "lib\*"; DestDir: "{app}\lib"
 Source: "src\examples\python\*"; DestDir: "{app}\src\examples\python"
@@ -48,11 +48,16 @@ Source: "src\tools\php\iome\*"; DestDir: "{app}\src\tools\php\iome"
 Source: "src\tools\matlab\iome_toolbox\*"; DestDir: "{app}\src\tools\matlab\iome_toolbox"
 Source: "src\tools\scilab\iome_toolbox\*"; DestDir: "{app}\src\tools\scilab\iome_toolbox"
 Source: "src\tools\scilab\iome_toolbox\demos\*"; DestDir: "{app}\src\tools\scilab\iome_toolbox\demos"
+Source: "src\tools\scilab\iome_toolbox\macros\*"; DestDir: "{app}\src\tools\scilab\iome_toolbox\macros"
 Source: "src\tools\scilab\iome_toolbox\etc\*"; DestDir: "{app}\src\tools\scilab\iome_toolbox\etc"
 Source: "src\tools\scilab\iome_toolbox\help\*"; DestDir: "{app}\src\tools\scilab\iome_toolbox\help"
 Source: "src\tools\scilab\iome_toolbox\help\en_US\*"; DestDir: "{app}\src\tools\scilab\iome_toolbox\help\en_US"
 
-
+Source: "src\tools\python\*"; DestDir: "{app}\src\tools\python"
+Source: "src\tools\python\ZSI\*"; DestDir: "{app}\src\tools\python\ZSI"
+Source: "src\tools\python\ZSI\twisted\*"; DestDir: "{app}\src\tools\python\ZSI\twisted"
+Source: "src\tools\python\ZSI\wstools\*"; DestDir: "{app}\src\tools\python\ZSI\wstools"
+Source: "src\tools\python\ZSI\generate\*"; DestDir: "{app}\src\tools\python\ZSI\generate"
 
 Source: "src\tools\scilab\iome_toolbox\macros\*"; DestDir: "{app}\src\tools\scilab\iome_toolbox\macros"
 Source: "src\tools\scilab\iome_toolbox\tests\unit_tests\*"; DestDir: "{app}\src\tools\scilab\iome_toolbox\tests\unit_tests"
@@ -61,7 +66,7 @@ Source: "src\tools\scilab\iome_toolbox\tests\unit_tests\*"; DestDir: "{app}\src\
 Source: "Readme.txt"; DestDir: "{app}"; Flags: isreadme
 
 [Icons]
-Name: "{group}\My Program"; Filename: "{app}\MyProg.exe"
+Name: "{group}\iome"; Filename: "{app}\bin\ioui.py"
 
 [Registry]
 Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; ValueType: string; ValueName: "IOME_HOME"; ValueData: "{app}"
