@@ -103,11 +103,11 @@ for i = 1:length(x)
 end    
     
  %h((45000/100000*(length(x)-1)+1):floor(55000/100000*(length(x)-1)+1),(45000/100000*(length(y)-1)+1):floor(55000/100000*(length(y)-1)+1),1) = 5030;
-nli = int32((sx-sf)*(ni-1)+1);
- nui = int32((sx+sf)*(ni-1)+1);
- nlj = int32((sy-sf)*(nj-1)+1);
- nuj = int32((sy+sf)*(nj-1)+1);
- h(nli:nui,nlj:nuj,1) = 5000+sa; 
+nli = int32((double(sx)-double(sf))*(ni-1)+1);
+ nui = int32((double(sx)+double(sf))*(ni-1)+1);
+ nlj = int32((double(sy)-double(sf))*(nj-1)+1);
+ nuj = int32((double(sy)+double(sf))*(nj-1)+1);
+ h(nli:nui,nlj:nuj,1) = 50+sa; 
     
 for n=1:(length(t)-1)
   %disp('step n');
@@ -177,7 +177,7 @@ for n=1:(length(t)-1)
       fprintf(fdt,'%f\n',n);
       for i1=1:ni
         for j1=1:ni
-          fprintf(fdt,' %f %f %f ',u(i1,j1,1),v(i1,j1,1),h(i1,j1,1));
+          fprintf(fdt,'%f %f %f',u(i1,j1,1),v(i1,j1,1),h(i1,j1,1));
         end
         fprintf(fdt,'\n');
       end
@@ -193,9 +193,9 @@ for n=1:(length(t)-1)
       fprintf(fd,'%f\n',n);
       for i1=1:ni
         for j1=1:nj
-          fprintf(fd,' %f %f %f ',u(i1,j1,1),v(i1,j1,1),h(i1,j1,1));
+          fprintf(fd,'%f %f %f',u(i1,j1,1),v(i1,j1,1),h(i1,j1,1));
         end
-        fprintf(fd,'\n');
+        fprintf(fd,'\n')
       end
     end
     
@@ -211,12 +211,12 @@ steeringenabled=getparamint('steeringenabled',elist)
 if steeringenabled>0
       %disp('getting updatea params');
       %for steering get the modified control params
-      sf=str2num(getparamdouble('frequency',elist));%source frequency
-      sa=str2num(getparamdouble('amplitude',elist));%source amplitude
-      sx=str2num(getparamdouble('sx',elist));%source x location
-      sy=str2num(getparamdouble('sy',elist));%source y location        
+      sf=str2num(getparamdouble('frequency',elist);%source frequency
+      sa=getparamdouble('amplitude',elist);%source amplitude
+      sx=getparamdouble('sx',elist);%source x location
+      sy=getparamdouble('sy',elist);%source y location        
 end
-finishsteering=getparamint('finishsteering',elist);
+finishsteering=getparamint('finishsteering',elist)
 
 
 
