@@ -11,7 +11,7 @@ function myuidialog()
 	//exec("run_epidem_funcs.sce");
 	//exec("callsolver_epidem_funcs.sce");
 	//exec("evolve_epidem_funcs.sce");
-	exec("clientuicontrol.sce");
+	//exec("clientuicontrol.sce");
 
   
   list_item = ["rouge"  "vert"  "tomate"  "chevre" "Truc"];
@@ -20,8 +20,7 @@ function myuidialog()
 
 
   f = figure("Position",[50 50 300 200],...
-	     "BackgroundColor",[0.9 0.9 0.9],...
-	     "Unit", "pixel");
+	     "BackgroundColor",[0.9 0.9 0.9]);
 
   m=uimenu(f,'label', 'menu');
   // create an item on the menu bar
