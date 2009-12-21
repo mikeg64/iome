@@ -23,6 +23,7 @@ Source: "src\examples\php\*"; DestDir: "{app}\src\examples\php"
 Source: "src\examples\scilab\*"; DestDir: "{app}\src\examples\scilab"
 Source: "src\examples\scilab\scilab_shallowwater\*"; DestDir: "{app}\src\examples\scilab\scilab_shallowwater"
 Source: "src\examples\scilab\scilab_shallowwater\dx\*"; DestDir: "{app}\src\examples\scilab\scilab_shallowwater\dx"
+Source: "src\examples\scilab\scilab_shallowwater\out\*"; DestDir: "{app}\src\examples\scilab\scilab_shallowwater\out"
 
 Source: "src\examples\scilab\scilab_wave_ws\*"; DestDir: "{app}\src\examples\scilab\scilab_wave_ws"
 Source: "src\examples\scilab\scilab_wave_ws\dx\*"; DestDir: "{app}\src\examples\scilab\scilab_wave_ws\dx"
@@ -30,6 +31,12 @@ Source: "src\examples\scilab\scilab_wave_ws\out\*"; DestDir: "{app}\src\examples
 
 Source: "src\examples\matlab\*"; DestDir: "{app}\src\examples\matlab"
 Source: "src\examples\matlab\matlab_shallowwater\*"; DestDir: "{app}\src\examples\matlab\matlab_shallowwater"
+Source: "src\examples\matlab\matlab_shallowwater\dx\*"; DestDir: "{app}\src\examples\matlab\matlab_shallowwater\dx"
+Source: "src\examples\matlab\matlab_shallowwater\out\*"; DestDir: "{app}\src\examples\matlab\matlab_shallowwater\out"
+
+Source: "src\examples\matlab\matlab_wave_ws\*"; DestDir: "{app}\src\examples\matlab\matlab_wave_ws"
+Source: "src\examples\matlab\matlab_wave_ws\dx\*"; DestDir: "{app}\src\examples\matlab\matlab_wave_ws\dx"
+Source: "src\examples\matlab\matlab_wave_ws\out\*"; DestDir: "{app}\src\examples\matlab\matlab_wave_ws\out"
 
 Source: "src\examples\matlab\caiman-ws\*"; DestDir: "{app}\src\examples\matlab\caiman-ws"
 Source: "src\examples\matlab\caiman-ws\caimanDir\*"; DestDir: "{app}\src\examples\matlab\caiman-ws\caimanDir"
