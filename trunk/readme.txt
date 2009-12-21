@@ -11,4 +11,23 @@ should double click the startdemo.bat file
 
 For further information refer to the iome blog and wiki
 
+To install the source version
+The Apache Xerces-c and Xalan-C libraries are required
+Apache Xerces-c may be downloaded from
+http://xerces.apache.org/xerces-c/download.cgi
+
+Apache Xalanc may be downloaded from
+http://xml.apache.org/xalan-c/
+
+On ubuntu xercesc is installed using
+apt-get install libxerces-c28
+apt-get install libxalan110
+
+ 
+The default version for the xerces libraries is xercesc_2_8 a diffrenet version may be selected 
+using the XERCESCVERSION flag in the ./configure command
+Run the configure routine using
+./configure --prefix=/usr/local/iome XERCESCVERSION=xercesc_2_7
+make all
+make install
 
