@@ -1,4 +1,6 @@
 //this should be executed by the iome start up application
+tdp=getenv('SCILAB_HOME')+'/contrib/iome_toolbox/loader.sce';
+exec(tdp);
 exec('ioshallowwater.sce');
 
 //this application is started using the io  start scilab application

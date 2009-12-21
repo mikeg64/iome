@@ -106,15 +106,7 @@ addparamint('steeringenabled',domain.steeringenabled,elist);
 addparamint('finishsteering',domain.finishsteering,elist);
 addparamint('step',domain.step,elist);
 
-statsu=zeros(domain.nt,3);
-statsv=zeros(domain.nt,3);
-statsh=zeros(domain.nt,3);
 
-addparammat('statsu',statsu,elist);
-addparammat('statsv',statsv,elist);
-addparammat('statsh',statsh,elist);
-
-addparamstring('resultsfile','results.zip',elist);
 //simfile=sprintf('%s.xml',simname)
 
 
@@ -125,6 +117,8 @@ function []=runsim(consts, domain,source, metadata,simname,elist)
 
 //elist=list();  parameter used by iome to contain port and server address
 //elist=list(); 
+usesci=1;
+usevtk=0;
 
 sf=source.sf;//source frequency
 sa=source.sa;//source amplitude
@@ -171,24 +165,6 @@ domain.nt=length(t);
 nt=domain.nt;
 courant = wavespeed*dt/dx;
 
-// Build empty u, v, b matrices
-u=zeros(length(x), length(y), 2);
-v=zeros(length(x), length(y), 2);
-b=zeros(length(x), length(y));
-
-// Define h
-h=zeros(length(x), length(y), 2); 
-h(:,:,1) = 5000;                              
-h((45000/100000*(length(x)-1)+1):floor(55000/100000*(length(x)-1)+1),(45000/100000*(length(y)-1)+1):floor(55000/100000*(length(y)-1)+1),1) = 5030;
-
-//Define b
-for i = 1:length(x)
-    if x(i) > 20001
-        b(:,i) = 0;
-    elseif x(i) < 20000
-        b(:,i) = 5000/20000*(20000-x(i));
-    end
-end
 
 //For a steerable simulation generate and save a dxformfile that saves a single data step
 //used for the steering dx module
@@ -199,14 +175,15 @@ sdir=getmetadata('directory',elist);
 //name=metadata.name;
 
 name=getmetadata('name',elist);
-disp(sdir,name)
+//disp(sdir,name)
 
 outfile=sprintf('%s/%s.out',sdir,name);
-fd=mopen(outfile,'w');
+//disp(outfile);
+//fd=mopen(outfile,'w');
 if steeringenabled==1
   
-  mkdir('tmp');
-  gendxgen('tmp',name,1,ni,nj);
+  mkdir('out');
+  gendxgen('out',name,1,ni,nj);
 end
 
 formfile=sdir+'/'+'form'+name+'.out';
@@ -214,19 +191,48 @@ fdform=mopen(formfile,'w');
   mfprintf(fdform, '%d %d %d\n',max(size(t))-1, ni, nj);
 mclose(fdform);
 
-statsu=zeros(nt,3);
-statsv=zeros(nt,3);
-statsh=zeros(nt,3);
+
 // Employ Lax
 //disp(length(t));
 
 
 while finishsteering == 0
- h((45000/100000*(length(x)-1)+1):floor(55000/100000*(length(x)-1)+1),(45000/100000*(length(y)-1)+1):floor(55000/100000*(length(y)-1)+1),1) = 5030;
+ //h((45000/100000*(length(x)-1)+1):floor(55000/100000*(length(x)-1)+1),(45000/100000*(length(y)-1)+1):floor(55000/100000*(length(y)-1)+1),1) = 5030;
  
-    if steeringenabled==0
-      finishsteering=1;
-    end
+ 
+ // Build empty u, v, b matrices
+  u=zeros(length(x), length(y), 2);
+  v=zeros(length(x), length(y), 2);
+  b=zeros(length(x), length(y));
+
+  // Define h
+  h=zeros(length(x), length(y), 2); 
+  h(:,:,1) = 5000;                              
+  //h((45000/100000*(length(x)-1)+1):floor(55000/100000*(length(x)-1)+1),(45000/100000*(length(y)-1)+1):floor(55000/100000*(length(y)-1)+1),1) = (5000+sa);
+
+  nli = ((sx-sf)*(ni-1)+1);
+   nui = ((sx+sf)*(ni-1)+1);
+   nlj = ((sy-sf)*(nj-1)+1);
+   nuj = ((sy+sf)*(nj-1)+1);
+   h(nli:nui,nlj:nuj,1) = (5000+sa); 
+  //Define b
+  for i = 1:length(x)
+      if x(i) > 20001
+          b(:,i) = 0;
+      elseif x(i) < 20000
+          b(:,i) = 5000/20000*(20000-x(i));
+      end
+  end
+
+ 
+ 
+ 
+ steeringenabled=getparamint('steeringenabled',elist);
+ finishsteering=getparamint('finishsteering',elist);
+ if finishsteering==1 
+  break;  
+ end
+
 for n=1:(length(t)-1)
   //disp('step n');
   //disp(n);
@@ -244,25 +250,25 @@ for n=1:(length(t)-1)
                 - 0.5*(dt/dy)*((v(i,j+1,1)^2)/2 - (v(i,j+1,1)^2)/2)...
                 - 0.5*(dt/dx)*(u(i,j,1))*(v(i+1,j,1) - v(i-1,j,1)) - 0.5*g*(dt/dy)*(h(i,j+1,1)-h(i,j-1,1));
             
-            if i==sx & j==sy then
+            //if i==sx & j==sy then
                    h(i,j,2) = ((h(i+1,j,1) + h(i-1,j,1) + h(i,j+1,1) + h(i,j-1,1))/4)...
                   - 0.5*(dt/dx)*(u(i,j,1))*((h(i+1,j,1)-b(i+1,j)) - (h(i-1,j,1)-b(i-1,j)))...
                   - 0.5*(dt/dy)*(v(i,j,1))*((h(i,j+1,1)-b(i,j+1)) - (h(i,j-1,1)-b(i,j-1)))...
                   - 0.5*(dt/dx)*(h(i,j,1)-b(i,j))*(u(i+1,j,1)- u(i-1,j,1))...
                   - 0.5*(dt/dy)*(h(i,j,1)-b(i,j))*(v(i,j+1,1) - v(i,j-1,1));
 
-            else
-              h(i,j,2) = sa*sin(n*sf)+((h(i+1,j,1) + h(i-1,j,1) + h(i,j+1,1) + h(i,j-1,1))/4)...
-                  - 0.5*(dt/dx)*(u(i,j,1))*((h(i+1,j,1)-b(i+1,j)) - (h(i-1,j,1)-b(i-1,j)))...
-                  - 0.5*(dt/dy)*(v(i,j,1))*((h(i,j+1,1)-b(i,j+1)) - (h(i,j-1,1)-b(i,j-1)))...
-                  - 0.5*(dt/dx)*(h(i,j,1)-b(i,j))*(u(i+1,j,1)- u(i-1,j,1))...
-                  - 0.5*(dt/dy)*(h(i,j,1)-b(i,j))*(v(i,j+1,1) - v(i,j-1,1));
-            end
+           // else
+            //  h(i,j,2) = sa*sin(n*sf)+((h(i+1,j,1) + h(i-1,j,1) + h(i,j+1,1) + h(i,j-1,1))/4)...
+            //      - 0.5*(dt/dx)*(u(i,j,1))*((h(i+1,j,1)-b(i+1,j)) - (h(i-1,j,1)-b(i-1,j)))...
+            //      - 0.5*(dt/dy)*(v(i,j,1))*((h(i,j+1,1)-b(i,j+1)) - (h(i,j-1,1)-b(i,j-1)))...
+            //      - 0.5*(dt/dx)*(h(i,j,1)-b(i,j))*(u(i+1,j,1)- u(i-1,j,1))...
+            //      - 0.5*(dt/dy)*(h(i,j,1)-b(i,j))*(v(i,j+1,1) - v(i,j-1,1));
+            //end
                 
 
 
         end
-    end
+    end  //end looping over grid elements
 
     // Define Boundary Conditions
     u(1,:,2) = 2.5*u(2,:,2) - 2*u(3,:,2) + 0.5*u(4,:,2);
@@ -284,23 +290,7 @@ for n=1:(length(t)-1)
     u(:,:,1)=u(:,:,2);
     v(:,:,1)=v(:,:,2);
     
-    //calculate max
-    statsu(n,1)=max(u(:,:,1));
-    statsv(n,1)=max(v(:,:,1));
-    statsh(n,1)=max(h(:,:,1));
 
-    //calculate min
-    statsu(n,2)=min(u(:,:,1));
-    statsv(n,2)=min(v(:,:,1));
-    statsh(n,2)=min(h(:,:,1));
-
-    //calculate mean
-    t1=mean(u(:,:,1),'r');
-    statsu(n,3)=mean(t1,'c');
-    t1=mean(v(:,:,1),'r');
-    statsv(n,3)=mean(t1,'c');
-    t1=mean(h(:,:,1),'r');
-    statsh(n,3)=mean(t1,'c');
     
     //disp('computing stats');
     
@@ -322,9 +312,25 @@ for n=1:(length(t)-1)
       g  =getparamdouble('g',elist);
     
     
+    
+    
+    end  //end actions if steeringenabled==1
+
+  //Write data to output
+if usesci=1
+  configfile=sprintf('out/%ss%d.mat',name,n);
+  z=h(:,:,1);
+  savematfile('tempdat.mat','z');
+  scommand=sprintf("cp tempdat.mat %s\n",configfile);
+elseif usevtk=1
+  sfilename=sprintf("%s.vtk",jobname);
+  savevtk_xym(x,y,h(:,:,1),"h",'temp');
+  scommand=sprintf("cp temp.vtk %s\n",sfilename);
+else
+//write the data to a temporary file 
       //save file containing current data
-      configfile=sprintf('tmp/%ss%d.out',name,n);
-      fdt=mopen(configfile,'w');
+      configfile=sprintf('out/%ss%d.out',name,n);
+      fdt=mopen('temp','w');
       mfprintf(fdt,'%f\n',n);
       for i1=1:ni
         for j1=1:ni
@@ -333,45 +339,57 @@ for n=1:(length(t)-1)
         mfprintf(fdt,'\n')
       end
       mclose(fdt);
-    
-    
-    end
+ scommand=sprintf("cp temp %s\n",configfile);
+ mclose(fd);
+ //as soon as the file is written we can copy to the working directory
+ //scommand=sprintf("cp temp %s\n",outfile);
+ 
+end
+unix_g(scommand);
+unix_g('rm tempdat.mat');
+
+
+
+
+steeringenabled=getparamint('steeringenabled',elist);
+finishsteering=getparamint('finishsteering',elist);
+
+
+  
   
     //disp('writing data');
     //if finishsteering==1
-      mfprintf(fd,'%f\n',n);
-      for i1=1:ni
-        for j1=1:nj
-          mfprintf(fd,'%f %f %f',u(i1,j1,1),v(i1,j1,1),h(i1,j1,1));
-        end
-        mfprintf(fd,'\n')
-      end
+    //  mfprintf(fd,'%f\n',n);
+   //   for i1=1:ni
+    //    for j1=1:nj
+    //      mfprintf(fd,'%f %f %f',u(i1,j1,1),v(i1,j1,1),h(i1,j1,1));
+    //    end
+    //    mfprintf(fd,'\n')
+   //   end
     //end
     
     //disp('written data');
-end
+end    //end of time loop
 
   // force the final ouput file to be over written
-  if steeringenabled==1
-    if finishsteering==0
-      mclose(fd);
-      fd=mopen(outfile,'w');
-    end
+  if finishsteering=1
+    
+    break;  
   end
+
+ 
 //disp('while finsish steering');
 end //while finishsteering loop
 
 disp('finalising');
-setparammat('statsu',statsu,elist);
-setparammat('statsv',statsu,elist);
-setparammat('statsh',statsu,elist);
+
 disp('finished');
 //for the completed simulation
 nsteps=length(t);
-mclose(fd);
+//mclose(fd);
 
 
-gendxgen(sdir,name,length(t),ni,nj);
+//gendxgen(sdir,name,length(t),ni,nj);
 
 //remove the files in the tmp directory
 //the files that were used for steering
