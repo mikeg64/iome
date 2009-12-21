@@ -24,7 +24,7 @@ pwavnum=7;
 
 outfile='.out';
 formfile='.form';
-outfile='out/'+jobname+'.'+ext;
+outfile='out/'+jobname+'.out';
 formfile=jobname+'.form';
 simfile=jobname+'.xml';
 sdir='out';
@@ -51,9 +51,7 @@ z=z1+z2;
 
 sfilename=sprintf("%s.vtk",jobname);
 //Write data to output
-if usesci=1
-  savematfile(outfile,'z');
-elseif usevtk=1
+if usevtk=1
   savevtk_xym(x,y,z,"z",'temp');
   scommand=sprintf("cp temp.vtk %s\n",sfilename);
 else
@@ -66,16 +64,16 @@ else
   end
   mfprintf(fd, '\n');
  end
- scommand=sprintf("cp temp %s\n",outfile);
  mclose(fd);
- //as soon as the file is written we can copy to the working directory
- //scommand=sprintf("cp temp %s\n",outfile);
- unix_g(scommand);
+ scommand=sprintf("cp temp %s\n",outfile);
 end
 
 
 
+//as soon as the file is written we can copy to the working directory
+//scommand=sprintf("cp temp %s\n",outfile);
 
+unix_g(scommand);
 
 steeringenabled=getparamint('steeringenabled',elist);
 finishsteering=getparamint('finishsteering',elist);
@@ -85,9 +83,12 @@ end
 
 setparamdouble('step',i,elist);
 if steeringenabled=1
+   
   maxamplitude=getparamint('maxamplitude',elist);
   wavenumber=getparamvec('wavenumber',2,elist);   //vec(2)
   wavefreq=getparamdouble('wavefreq',elist);
+  //disp('wavenumber');
+  //disp(wavenumber);
 end
 
 //zzm = min(z); zzM = max(z);
@@ -99,8 +100,9 @@ end
 end //end of cycling over steps
 
 
-
+exitiome(elist);
+exitiome(elist);
 
 //plot3d(x,y,z);
-//exit;
+exit;
 

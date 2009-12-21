@@ -1,9 +1,6 @@
 
 //Read input
-usevtk=0;  //use ext=.out
-usesci=0;
-//ext='mat';  //for case matrix
-ext='out';
+usevtk=0;
 wavetype=1; //travelling
 nsteps=96000;
 maxamplitude=20;
@@ -16,7 +13,7 @@ nmax(1)=100;
 nmax(2)=100;
 deltat=0.05;
 
-steeringenabled=0;
+steeringenabled=1;
 finishsteering=0;
 
 
