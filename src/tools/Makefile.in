@@ -4,11 +4,17 @@ SUBDIRS=genericsimulation steerproxyws
 all :
 	@set -e; for i in $(SUBDIRS); do (cd $$i; make all -f Makefile ) || exit 1; done
 
-install :
-	@set -e; for i in $(SUBDIRS); do (cd $$i; make install -f Makefile ) || exit 1; done
 
 
 clean :
 	@set -e; for i in $(SUBDIRS); do (cd $$i; make clean -f Makefile) || exit 1; done
+
+
+all :
+	@set -e; for i in $(SUBDIRS); do (cd $$i; make all -f Makefile ) || exit 1; done
+
+
+install :
+	@set -e; for i in $(SUBDIRS); do (cd $$i; make install -f Makefile ) || exit 1; done
 
 
