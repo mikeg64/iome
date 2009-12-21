@@ -6577,7 +6577,7 @@ echo $STDSOAP2CPP
 cp $STDSOAP2H iome/simulation/stdsoap2.h
 cp $STDSOAP2CPP iome/simulation/stdsoap2.cpp
 
-                                                                                                              ac_config_files="$ac_config_files Makefile iome/Makefile iome/genericsimulationlib/Makefile iome/simulation/Makefile iome/utils/Makefile tools/Makefile tools/genericappsimulation/Makefile tools/genericgroupapp/Makefile tools/genericsimulation/Makefile tools/genericsimulationclient/Makefile tools/steerproxyws/Makefile"
+                                                                                                              ac_config_files="$ac_config_files Makefile iome/Makefile iome/genericsimulationlib/Makefile iome/simulation/Makefile iome/utils/Makefile tools/Makefile tools/genericsimulation/Makefile tools/steerproxyws/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure

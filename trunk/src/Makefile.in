@@ -2,16 +2,17 @@
 SUBDIRS=iome tools
 
 
-all: libs tools
 
-
-libs:
-	@set -e; cd iome; make -f Makefile all
-
-tools:
-	@set -e; cd tools; make -f Makefile all
 
 clean :
-	@set -e; for i in $(SUBDIRS); do (cd $$i; make -f Makefile clean) || exit 1; done
+	@set -e; for i in $(SUBDIRS); do (cd $$i; make clean -f Makefile) || exit 1; done
+
+
+all :
+	@set -e; for i in $(SUBDIRS); do (cd $$i; make all -f Makefile ) || exit 1; done
+
+
+install :
+	@set -e; for i in $(SUBDIRS); do (cd $$i; make install -f Makefile ) || exit 1; done
 
 
