@@ -22,7 +22,7 @@ function [value]=getparamint(name,elist)
 
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
-  value=iogetparamint(obj,id,name);
+  value=str2num(iogetparamint(obj,id,name));
 
   
  %endfunction
