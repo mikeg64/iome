@@ -22,7 +22,7 @@ function [value]=getparamdouble(name,elist)
 
     sport=sprintf('%d',port);
   obj.endpoint=['http://',server,':',sport];
-  value=iogetparamdouble(obj,id,name);
+  value=str2num(iogetparamdouble(obj,id,name));
   %return value;
   
  %endfunction
