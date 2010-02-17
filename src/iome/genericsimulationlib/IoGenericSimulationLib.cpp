@@ -598,14 +598,14 @@ int setmetadata_(int id, char *sname, char *sproperty,  int port, char *sserver)
 }
 
 
-int getmetadata_(int id, char *sname, char *sproperty,  int port, char *sserver)
+int getmetadata_(int id, char *sname, char **sproperty,  int port, char *sserver)
 {	
 	char m_serverclient[300] = "localhost:8080";
 	struct soap m_soapclient;
 
 
 	int status=0;
-	char *content=sproperty;
+	char *content= *sproperty;
 	char *name=sname;
 	//int id=0;
 
