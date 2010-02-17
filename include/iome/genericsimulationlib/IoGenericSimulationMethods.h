@@ -36,7 +36,7 @@ extern "C" int addmmat3dparam_( int id,char *sname,double *vv ,int ni, int nj, i
 
 extern "C" int addmetadata_( int id,char *sname, char *sproperty,  int port, char *sserver);
 extern "C" int setmetadata_( int id,char *sname, char *sproperty,  int port, char *sserver);
-extern "C" int getmetadata_( int id,char *sname, char *sproperty,  int port, char *sserver);
+extern "C" int getmetadata_( int id,char *sname, char **sproperty,  int port, char *sserver);
 extern "C" int deletemetadata_( int id,char *sname,  int port, char *sserver);
 extern "C" int listmetadata_(int id, char  **list ,  int port, char *sserver);
 
