@@ -3,22 +3,25 @@ require_once('iome/iome.php');
 
 $myioservice = new ioservice;
 $myioservice->server = 'suilven.shef.ac.uk';
-$myioservice->port = '60000';
+$myioservice->port = '60001';
 $myioservice->id = 0;
 $myioservice->method = 2;
 
 //need correct write permission on target path
+$currenttime = time();
 //$target_path="/var/www/html/uploads/";
-$target_path="/webusers/cs1mkg/public_html/iometest/uploads/";
+$target_path="/webusers/cs6grid/public_html/iometest/uploads/$currenttime";
 //echo $target_path ;
 echo getcwd();
+
 $target_path = $target_path.basename( $_FILES['userfile']['name']); 
 //echo $target_path ;
 if(move_uploaded_file($_FILES['userfile']['tmp_name'], $target_path)) {
     echo "The file ".  basename( $_FILES['userfile']['name']). 
     " has been uploaded";
 
-	$imagefile = basename( $_FILES['userfile']['name']);
+	//$imagefile = basename( $_FILES['userfile']['name']);
+       $imagefile =  basename($target_path); 
  	if(!empty($_POST['useremail'])){
         $useremail = $_POST['useremail'];
 
@@ -48,8 +51,10 @@ if(move_uploaded_file($_FILES['userfile']['tmp_name'], $target_path)) {
         submitsimulation($jobfile,$myioservice);
         //during testing we use the request to set up the job
         //this will not delete the directory when the job has completed
-		//requestsimulation($jobfile,$myioservice);
-		//runrequestedsimulation($jobfile,$myioservice);
+		//$result = requestsimulation($jobfile,$myioservice);
+            //echo $result;
+            //$myioservice -> id = $result;
+		//runrequestedsimulation($myioservice);
 
 } else{
     echo "There was an error uploading the file, please try again!";
