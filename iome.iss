@@ -1,4 +1,5 @@
 ; -- Example3.iss --
+;needs header files for xercesc and xalanc
 ; Same as Example1.iss, but creates some registry entries too.
 
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING .ISS SCRIPT FILES!
