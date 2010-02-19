@@ -41,7 +41,8 @@ try
     %delete(myftp, imageFile);
     %close(myftp);
     %testData = ulrwrite(imageLocation2,'testData.jpg');
-    [dataIn]                            = imread(imageFile);
+    [dataIn] = imread(strcat('http://wrgrid.group.shef.ac.uk/iometest/uploads/',imageFile));
+    %[dataIn]                            = imread(imageFile);
     [rows,cols,levs]                    = size(dataIn);
     ImageName                           = imageFile;
 catch
