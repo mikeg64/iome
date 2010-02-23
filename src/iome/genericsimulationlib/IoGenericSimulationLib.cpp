@@ -605,10 +605,10 @@ int getmetadata_(int id, char *sname, char **sproperty,  int port, char *sserver
 
 
 	int status=0;
-	char *content= *sproperty;
+	char *content= (char *)calloc(500,sizeof(char));
 	char *name=sname;
 	//int id=0;
-
+       
 	if(sserver != NULL)
 		sprintf(m_serverclient,"%s:%d",sserver,port);
 	else
@@ -616,7 +616,7 @@ int getmetadata_(int id, char *sname, char **sproperty,  int port, char *sserver
 
 	soap_call_ns__getmetadata(&m_soapclient, m_serverclient, "", id, name, &content);
 	printf("%s",content);
-	
+	strcpy(*sproperty,content);
 
 	return status;
 }
