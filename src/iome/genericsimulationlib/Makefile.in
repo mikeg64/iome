@@ -41,7 +41,7 @@ libdir = $(prefix)/lib
 infodir = $(prefix)/info
 simdir = ../simulation
 
-EXTRACFLAGS = -I$(XERCESCROOT)/include -I$(XALANCROOT)/src -I$(XALANCROOT) -I$(prefix)/include -DIO_XERCESCVERSION=@XERCESCVERSION@
+EXTRACFLAGS = -I../../../include -DIO_XERCESCVERSION=@XERCESCVERSION@ -I../../../include -I$(XERCESCROOT)/include -I$(XALANCROOT)/src -I$(XALANCROOT) -I$(prefix)/include 
 #EXTRALIB	=	-lm -L$(XERCESCROOT)/lib -L$(XALANCROOT)/lib -lxerces-c -lxalan-c -L$(prefix)/lib
 MYLIBS = ../../../lib/libioutils.a ../../../lib/libiosimulation.a ../utils/IoFileUtils.o
 
