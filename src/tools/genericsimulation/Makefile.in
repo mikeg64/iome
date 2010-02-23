@@ -37,7 +37,7 @@ exec_prefix = @exec_prefix@
 bindir = $(exec_prefix)/bin
 libdir = $(prefix)/lib
 infodir = $(prefix)/info
-EXTRACFLAGS = -I$(XERCESCROOT)/include -I$(XALANCROOT)/src -I$(XALANCROOT) -I$(prefix)/include -DIO_XERCESCVERSION=@XERCESCVERSION@
+EXTRACFLAGS = -I../../../include -I$(XERCESCROOT)/include -I$(XALANCROOT)/src -I$(XALANCROOT) -I$(prefix)/include -DIO_XERCESCVERSION=@XERCESCVERSION@
 EXTRALIB	=	-lm -L$(XERCESCROOT)/lib -L$(XALANCROOT)/lib -lxerces-c -lxalan-c -L$(prefix)/lib $(libdir)/libioutils.a  $(libdir)/libiosimulation.a
 
 
