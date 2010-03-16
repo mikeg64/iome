@@ -66,6 +66,24 @@ ivec::ivec(int size, int val)
 
 } //constructor
 
+ivec::ivec(int v1, int v2)
+{
+	v = new int[n=2];
+	v[0]=v1;
+	v[1]=v2;
+} //constructor
+
+
+ivec::ivec(int v1, int v2, int v3)
+{
+	v = new int[n=3];
+	v[0]=v1;
+	v[1]=v2;
+	v[2]=v3;
+} //constructor
+
+
+
 ivec::~ivec() {delete [] v; } //delete [] v;} //destructor
 
 ivec::ivec(ivec &v1) //copy-initializer
