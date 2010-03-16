@@ -66,6 +66,22 @@ vec::vec(int size, float val)
 
 } //constructor
 
+vec::vec(float v1, float v2)
+{
+	v = new float[n=2];
+	v[0]=v1;
+	v[1]=v2;
+} //constructor
+
+
+vec::vec(float v1, float v2, float v3)
+{
+	v = new float[n=3];
+	v[0]=v1;
+	v[1]=v2;
+	v[2]=v3;
+} //constructor
+
 vec::~vec() {if(v !=NULL) delete [] v; } //destructor
 
 vec::vec(vec &v1) //copy-initializer
