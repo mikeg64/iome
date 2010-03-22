@@ -53,6 +53,7 @@ mikeg@photon0.freeserve.co.uk
 #include <iome/utils/Iostdcpp.h>
 
 
+
 // No max or min for C++
 #define max(a,b) (((a) > (b)) ? (a) : (b))
 #define min(a,b) (((a) < (b)) ? (a) : (b))
@@ -94,8 +95,13 @@ public:
 	vec&  genecrossover(vec *parent1, vec *parent2, float weight=0.5);
 	vec & genemutate(float prob, float noise=0.1);
 	vec(int size=MAXVEC, float val=0); //constructor
+        vec(float v1, float v2); //constructor
+        vec(float v1, float v2, float v3); //constructor
 	virtual ~vec();
-		
+	float x(){return(v[0]);}
+	float y(){return((n>0?v[1]:0));}
+	float z(){return((n>1?v[2]:0));}
+
 		vec(vec &v1); //copy-initializer
 		int length();
 		float magnitude();
