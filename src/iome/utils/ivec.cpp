@@ -66,13 +66,6 @@ ivec::ivec(int size, int val)
 
 } //constructor
 
-ivec::ivec(int v1, int v2)
-{
-	v = new int[n=2];
-	v[0]=v1;
-	v[1]=v2;
-} //constructor
-
 
 ivec::ivec(int v1, int v2, int v3)
 {
