@@ -85,9 +85,15 @@ public:
 
 		int *v;
 
+	int x(){return(v[0]);}
+	int y(){return((n>0?v[1]:0));}
+	int z(){return((n>1?v[2]:0));}
 	int dot(ivec &v1);
 	ivec  cross(ivec &v1);
 	ivec(int size=MAXIVEC, int val=0); //constructor
+
+    ivec(int v1, int v2, int v3); //constructor
+
 	virtual ~ivec();
 
 		ivec(ivec &v1); //copy-initializer
