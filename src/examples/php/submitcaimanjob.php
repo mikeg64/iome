@@ -52,7 +52,7 @@ if(move_uploaded_file($_FILES['userfile']['tmp_name'], $target_path)) {
         //during testing we use the request to set up the job
         //this will not delete the directory when the job has completed
 		//$result = requestsimulation($jobfile,$myioservice);
-            //echo $result;
+            echo $result;
             //$myioservice -> id = $result;
 		//runrequestedsimulation($myioservice);
 
