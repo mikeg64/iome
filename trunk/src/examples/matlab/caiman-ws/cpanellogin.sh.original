@@ -1,4 +1,4 @@
-user cs1mkg "*******"
+user username "*******"
 cd public_html/iometest/uploads
 binary
 get %imagefile%
