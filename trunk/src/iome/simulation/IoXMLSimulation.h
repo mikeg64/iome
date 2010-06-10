@@ -53,22 +53,22 @@ mikeg@photon0.freeserve.co.uk
 #ifndef IO_MSVC
 	#include <iome/utils/IoPropertyManager.h>
 	#include <iome/utils/IoFileUtils.h>
-	#include <iome/simulation/IoSimulator.h>
+	//#include <iome/simulation/IoSimulator.h>
 	#include <iome/simulation/IoSimulation.h>
-	#include <iome/simulation/IoModel.h>
+	//#include <iome/simulation/IoModel.h>
 #else
 	#include <iome/utils/IoPropertyManager.h>
 	#include <iome/utils/IoFileUtils.h>
-	#include <iome/simulation/IoSimulator.h>
+	//#include <iome/simulation/IoSimulator.h>
 	#include <iome/simulation/IoSimulation.h>
-	#include <iome/simulation/IoModel.h>
+	//#include <iome/simulation/IoModel.h>
 	
 #endif
 
-	#include <iome/simulation/IoConfigDOMBuilder.h>
+	//#include <iome/simulation/IoConfigDOMBuilder.h>
 	#include <iome/simulation/IoSimDOMBuilder.h>
 	#include <iome/simulation/IoSimulationReader.h>
-	#include <iome/simulation/IoConfigReader.h>
+	//#include <iome/simulation/IoConfigReader.h>
 
 
 
@@ -117,7 +117,7 @@ using std::ifstream;
 using std::ofstream;
 using std::endl;
 
-class CIoConfigDOMBuilder;
+//class CIoConfigDOMBuilder;
 
 
 class CIoXMLSimulation : public CIoSimulation 
@@ -135,24 +135,24 @@ public:
 
 
 
-	CIoConfigDOMBuilder *m_pDOMState;
+	//CIoConfigDOMBuilder *m_pDOMState;
 
-	#ifndef IO_XERCESCVERSION
-	    xercesc_2_7::DOMDocument *m_pConfigDOM;
-	#else  	
-		IO_XERCESCVERSION::DOMDocument *m_pConfigDOM;
-	#endif
+	//#ifndef IO_XERCESCVERSION
+	//    xercesc_2_7::DOMDocument *m_pConfigDOM;
+	//#else  	
+	//	IO_XERCESCVERSION::DOMDocument *m_pConfigDOM;
+	//#endif
 	//xercesc_2_8::DOMDocument *m_pConfigDOM;	
 	//xercesc_2_7::DOMDocument *m_pConfigDOM;
 	//xercesc_2_6::DOMDocument *m_pConfigDOM;
 	XalanCompiledStylesheet *m_pCompiledStyleSheet;
 
 
-	#ifndef IO_XERCESCVERSION
-	    xercesc_2_7::DOMDocument *m_pTransformedConfigDOM;
-	#else  	
-		IO_XERCESCVERSION::DOMDocument *m_pTransformedConfigDOM;
-	#endif
+	//#ifndef IO_XERCESCVERSION
+	//    xercesc_2_7::DOMDocument *m_pTransformedConfigDOM;
+	//#else  	
+	//	IO_XERCESCVERSION::DOMDocument *m_pTransformedConfigDOM;
+	//#endif
 	//xercesc_2_8::DOMDocument *m_pTransformedConfigDOM;
 	//xercesc_2_7::DOMDocument *m_pTransformedConfigDOM;
 	//xercesc_2_6::DOMDocument *m_pTransformedConfigDOM;
@@ -164,9 +164,9 @@ public:
 	int CreateTransformedConfigDOM();
 	void DeleteTransformedConfigDOM();
 
-	virtual int CreateConfig();
-	int CreateConfigDOM();
-	void DeleteConfigDOM();
+	//virtual int CreateConfig();
+	//int CreateConfigDOM();
+	//void DeleteConfigDOM();
 
 
 
@@ -206,26 +206,12 @@ public:
 	//are each parameter has write flag which has default 1 meaning
 	//write the parameter may be set using the property manager or the property
 
-	//A format string identifier
-	virtual int ReadConfig(char *sConfigFilename, int format=0);
-	virtual int WriteConfig(char *sConfigFilename, int format=0, char *sXSLFilename=NULL, int iStepNum=-1);
-
-	virtual int ReadState(char *sStateFilename, int format=NULL);
-	virtual int WriteState(char *sStateFilename, int format=NULL, char *sXSLFilename=NULL, int iStepNum=-1);
-
-	virtual int ReadStateInfo(char *sStateFilename, int format=0);
-	virtual int WriteStateInfo(char *sStateFilename, int format=0, char *sXSLFilename=NULL, int iStepNum=-1);
 
 
 	int XSLTransform(char *sxmlin, char *sxslin, char *sxmlout);
 	int SimTrans2AscFormat(char *ssimfile, char *ssimoutfile, int method=1);
 	int SimTransAscFormat2XML(char *ssimfile, char *ssimoutfile);
 
-	int StateTrans2AscFormat(char *sstatefile, char *sstateoutfile, int method=1);
-	int StateTransAscFormat2XML(char *sstatefile, char *sstateoutfile, int method=1);
-
-	int CfgTrans2AscFormat(char *scfgfile, char *scfgoutfile, int method=1);
-	int CfgTransAscFormat2XML(char *scfgfile, char *scfgoutfile, int method=1);
 
 };
 

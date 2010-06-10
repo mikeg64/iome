@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<iosim filename="simfile.xml">
+    <simulation class="GenericSteerSimulation" createmethod="1" name="mysim" nprocs="1" simulantclass="AgentModel" simulanttype="0">
+        <props flag="7" name="" numprops="11">
+        <prop flag="7" index="0" name="parameter_number"><int>2</int></prop>
+        <prop flag="7" index="1" name="population_number"><int>30</int></prop>
+        <prop flag="7" index="2" name="generation_number"><int>50</int></prop>
+        <prop flag="7" index="3" name="crossover_probability"><float>0.9</float></prop>
+        <prop flag="7" index="4" name="mutation_probability"><float>0.6</float></prop>
+        <prop flag="7" index="5" name="useremail"><string>user@sheffield.ac.uk</string></prop>
+        <prop flag="7" index="6" name="equation"><string>y=n+sum(x.^2-cos(2*pi*x));</string></prop>
+        <prop flag="7" index="7" name="minimum_obtained"><vec size="2">0 0 </vec></prop>
+        <prop flag="7" index="8" name="evaluation_number"><int>0</int></prop>
+        <prop flag="7" index="9" name="value_obtained"><float>0</float></prop>
+        <prop flag="7" index="10" name="jobref"><string>123456</string></prop>
+    </props><steps configstepfreq="1" statestepfreq="1">2</steps>
+    <fileprops configfilename="configfile.xml" configreadmethod="1" configwritemethod="1" simreadmethod="1" simwritemethod="1" statefilename="statefile.xml" statereadmethod="1" statewritemethod="1"/>
+    <metadatalist>
+        <metadata content="MikeG" name="author"/>
+        <metadata content="02-June-2010" name="date"/>
+        <metadata content="iceberg" name="platform"/>
+        <metadata content="GAbatchIOWS" name="name"/>
+    </metadatalist></simulation>
+</iosim>

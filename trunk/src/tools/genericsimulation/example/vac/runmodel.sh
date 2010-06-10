@@ -10,18 +10,20 @@
 #Setting for demo is
 #./setvac -d=22 -phi=0 -z=0 -g=1976,44 -p=mhd -u=sim1 -on=cd,rk,mpi -off=mc,fct,tvdlf,tvd,impl,poisson,ct,gencoord,resist
 
-
+echo $1
 
 #load the default simulation params
-if [ $# -gt 1 ]
+if [ $# -gt 0 ]
 then
 	source $1
 else
 	source simulationparams.sh
 fi
 
+
+echo $2
 #load the default model params
-if [ $# -gt 2 ]
+if [ $# -gt 1 ]
 then
 	source $2
 else
@@ -76,8 +78,8 @@ then
 	
 	make vacini -f $vacinimakefile
 
-	cp vac ../vac
-	cp vacini ../vacini
+#	cp vac ../vac
+#	cp vacini ../vacini
 
 	cd ..
 

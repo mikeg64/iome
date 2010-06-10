@@ -8,11 +8,17 @@ rundate=`date`
 modelname="mymodel"
 modelnotes="my model notes"
 
-
 vaciniparfile="inipar/vacini.par"
 vacparfile="par/vac.par"
 
 #distributed ini file configured for 10 processor iceberg
+	#the distributed infile must be of the form
+        #filename_npFFLL.ini
+        #FF and LL are integeres
+        #FF is the first processor
+        #LL is the last processor
+        #example
+        #filename_np0110.ini
 inifile="data/vacinifile.ini"
 distribinifile="data/vacinifile_np0110.ini"
 
@@ -22,9 +28,9 @@ distribinifile="data/vacinifile_np0110.ini"
 #     the first character of this variable name is its type 
 #     d=double, i=integer, v=vector, s=string
 #%vacparlist% dpar1 dpar2 dpar3
-par1=""
-par2=""
-par3=""
+par[0]=""
+par[0]=""
+par[0]=""
 
 #vacinipar parameters
 #file must contain the line starting #vaciniparlist enclosed by %%

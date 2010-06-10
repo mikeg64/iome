@@ -31,10 +31,10 @@ finishsteering=0;
 domain=struct('ni',ni,'xmax',xmax,'nj',nj,'ymax',ymax,'nt',nt,'tmax',tmax,'step',step,'steeringenabled',steeringenabled,'finishsteering',finishsteering);
 
 
-sf=0.05;//source frequency
-sa=300;//source amplitude
-sx=0.5;//source x location
-sy=0.5;//source y location
+sf=10;//source frequency
+sa=5;//source amplitude
+sx=20;//source x location
+sy=30;//source y location
 source=struct('sf',sf,'sa',sa,'sx',sx,'sy',sy);
 
 metadata.directory='out';

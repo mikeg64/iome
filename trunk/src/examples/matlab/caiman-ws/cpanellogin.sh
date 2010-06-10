@@ -1,4 +1,4 @@
-cd public_html/iometest/uploads
+cd public_html/caiman/imageUploads
 binary
-get %imagefile%
+get 126519929316b_cal_1.png
 quit

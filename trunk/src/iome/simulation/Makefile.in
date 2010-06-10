@@ -42,92 +42,34 @@ infodir = $(prefix)/info
 EXTRACFLAGS = -I../../../include -I$(XERCESCROOT)/include -I$(XALANCROOT)/src -I$(XALANCROOT) -I$(prefix)/include -DIO_XERCESCVERSION=@XERCESCVERSION@
 #EXTRALIB	=	-lm -L$(XERCESCROOT)/lib -L$(XALANCROOT)/lib -lxerces-c -lxalan-c -L$(prefix)/lib
 MYLIBS = ../../../lib/libioutils.a ../utils/IoFileUtils.o
-SOURCES = IoSimHandler.cpp \
-	IoSimulant.cpp \
-	IoEntity.cpp \
-	IoEntityType.cpp \
-	IoEntityTypeSet.cpp \
-	IoEntitySet.cpp \
-	IoEntityArray1d.cpp \
-	IoEntityArray3d.cpp \
-	IoEntityList.cpp \
-	IoModel.cpp \
-	IoSimulator.cpp \
-	IoSimulation.cpp \
+SOURCES = IoSimulation.cpp \
 	IoInitialiser.cpp \
-	IoConfigDOMBuilder.cpp \
-	IoConfigDOMPrintFilter.cpp \
-	IoConfigSAXHandler.cpp \
-	IoConfigReader.cpp \
 	IoSimDOMBuilder.cpp \
 	IoSimDOMPrintFilter.cpp \
 	IoSimulationSAXHandler.cpp \
 	IoSimulationReader.cpp \
 	IoXMLSimulation.cpp \
-	IoAgentModel.cpp\
-	IoAgentXMLSimulation.cpp\
-	IoAgent.cpp\
-	IoAgentType.cpp\
-	IoAgentTypeSet.cpp\
-	IoAgentArray.cpp\
-	CIoWFModel.cpp \
-	CIoWFSimulator.cpp \
-	CIoSimulantLink.cpp \
-	CIoSimulantPort.cpp \
-	IoProc.cpp \
-	IoWFExecutable.cpp \
 	soapC.cpp \
 	soapClient.cpp \
 	soapServer.cpp \
 	stdsoap2.cpp \
-	IoWFSimulation.cpp \
 	IoGenericSteerSimulation.cpp \
-	IoGenericSteer.cpp \
 	IoMetadata.cpp
 
 DOCS=PROG.texi PROG.info
 #MISC=configure mkinstalldirs install-sh aclocal.m4
-OBJS = IoSimHandler.o \
-	IoSimulant.o \
-	IoEntity.o \
-	IoEntityType.o \
-	IoEntityTypeSet.o \
-	IoEntitySet.o \
-	IoEntityArray1d.o \
-	IoEntityArray3d.o \
-	IoEntityList.o \
-	IoModel.o \
-	IoSimulator.o \
-	IoSimulation.o \
+OBJS = IoSimulation.o \
 	IoInitialiser.o \
-	IoConfigDOMBuilder.o \
-	IoConfigDOMPrintFilter.o \
-	IoConfigSAXHandler.o \
-	IoConfigReader.o \
 	IoSimDOMBuilder.o \
 	IoSimDOMPrintFilter.o \
 	IoSimulationSAXHandler.o \
 	IoSimulationReader.o \
 	IoXMLSimulation.o \
-	IoAgentModel.o\
-	IoAgentXMLSimulation.o\
-	IoAgent.o\
-	IoAgentType.o\
-	IoAgentTypeSet.o\
-	IoAgentArray.o\
-	CIoWFModel.o \
-	CIoWFSimulator.o \
-	CIoSimulantLink.o \
-	CIoSimulantPort.o \
-	IoProc.o \
-	IoWFExecutable.o \
 	soapC.o \
 	soapClient.o \
 	soapServer.o \
 	stdsoap2.o \
-	IoWFSimulation.o \
 	IoGenericSteerSimulation.o \
-	IoGenericSteer.o \
 	IoMetadata.o
 
 LIB_OBJS=libiosimulation.o

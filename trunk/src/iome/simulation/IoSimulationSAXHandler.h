@@ -61,16 +61,16 @@ mikeg@photon0.freeserve.co.uk
 
 #ifndef IO_MSVC
  #include <iome/utils/IoParams.h>
-#include <iome/simulation/IoModel.h>
-#include <iome/simulation/IoSimulator.h>
-#include <iome/simulation/IoEntitySet.h>
-#include <iome/simulation/IoEntityTypeSet.h>
+//#include <iome/simulation/IoModel.h>
+//#include <iome/simulation/IoSimulator.h>
+//#include <iome/simulation/IoEntitySet.h>
+//#include <iome/simulation/IoEntityTypeSet.h>
 #else
  #include <iome/utils/IoParams.h>
-	#include <iome/simulation/IoModel.h>
-	#include <iome/simulation/IoSimulator.h>
-	#include <iome/simulation/IoEntitySet.h>
-	#include <iome/simulation/IoEntityTypeSet.h>
+//	#include <iome/simulation/IoModel.h>
+//	#include <iome/simulation/IoSimulator.h>
+//	#include <iome/simulation/IoEntitySet.h>
+//	#include <iome/simulation/IoEntityTypeSet.h>
 #endif
 
 
@@ -88,10 +88,10 @@ using std::ostringstream;
 using namespace xercesc;
 
 typedef CIoParam *   PARAMPTR;
-typedef CIoSimulant * SIMULANTPTR;
+//typedef CIoSimulant * SIMULANTPTR;
 typedef std::stack<PARAMPTR> PARAM_STACK;
 typedef std::stack<int> ELEMENT_STACK;
-typedef std::stack<SIMULANTPTR> SIMULANT_STACK;
+//typedef std::stack<SIMULANTPTR> SIMULANT_STACK;
 typedef std::stack<int> PARAMINDEX_STACK;
 typedef std::stack<int> ARRAYSIZE_STACK;
 
@@ -137,7 +137,7 @@ public:
 	CIoSimulationSAXHandler(CIoXMLSimulation *pSimulation);
 	~CIoSimulationSAXHandler(void);
 
-	CIoSimulant *m_pSimulant;
+//	CIoSimulant *m_pSimulant;
 	CIoXMLSimulation *m_pSimulation;
 	PARAM_STACK  m_ParamStack;   //Used for building param arrays
 	PARAM_STACK  m_ParamArrayStack;   //Used for building param arrays
@@ -146,7 +146,7 @@ public:
 
 	ELEMENT_STACK m_ElementStack;  //For general parser control
 	ELEMENT_STACK m_SimElementStack;  //For parser control to indicate current simulation object
-	SIMULANT_STACK m_SimulantStack;  //For parsing models and simulators in particular 
+//	SIMULANT_STACK m_SimulantStack;  //For parsing models and simulators in particular 
 	PARAMINDEX_STACK m_ParamIndexStack;
 
 	    //read in variables
@@ -163,11 +163,11 @@ public:
 		static CIoParam *m_pCPropArray;
 		static CIoParam *m_pCArray;
 
-		static CIoEntitySet *m_pEntitySet;
-		static int m_inumentities;
-		static CIoEntityTypeSet *m_pEntityTypeSet;
-		static int m_inumentitytypes;
-		static CIoEntityType *m_pEntityType;
+		//static CIoEntitySet *m_pEntitySet;
+		//static int m_inumentities;
+		//static CIoEntityTypeSet *m_pEntityTypeSet;
+		//static int m_inumentitytypes;
+		//static CIoEntityType *m_pEntityType;
 		static int m_vecsize;
 		static int m_matrows;
 		static int m_matcols;
@@ -176,8 +176,8 @@ public:
 		static int m_mm3d;
 
 		static int m_matcurrentrow;
-		static CIoSimulantLink *m_psimulantlink;
-		static CIoSimulantPort *m_pport;
+		//static CIoSimulantLink *m_psimulantlink;
+		//static CIoSimulantPort *m_pport;
 
     // -----------------------------------------------------------------------
     //  Handlers for the SAX ContentHandler interface
@@ -185,9 +185,9 @@ public:
     void startElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
 
     void StartSimulationElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
-	void StartSimulantElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
-    void StartSimulatorElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
-	void StartModelElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
+	//void StartSimulantElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
+    //void StartSimulatorElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
+	//void StartModelElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
 	void StartParamArrayElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
 	void StartParamElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
 	void StartArrayElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
@@ -201,18 +201,18 @@ public:
 	void StartMatrixElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
 	void Startmmat3dElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
 
-    void StartEntitySetElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
-    void StartEntityTypeSetElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
-    void StartEntityTypeElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
+    //void StartEntitySetElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
+    //void StartEntityTypeSetElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
+    //void StartEntityTypeElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
     void StartStepsElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
     void StartfilepropsElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
-	void StartEntitypropsElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
+	//void StartEntitypropsElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
 	void StartMetadatalistElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
 	void StartMetadataElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
-	void StartLinksElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
-	void StartLinkElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
-	void StartFromElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
-	void StartToElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
+	//void StartLinksElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
+	//void StartLinkElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
+	//void StartFromElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
+	//void StartToElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs);
 
 	void SetPropArrayFlag(int index, int iflag);
 	void SetPropArrayName(int index, char *sname);
@@ -237,15 +237,15 @@ public:
 	void EndMatrixElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
 	void Endmmat3dElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
 
-	void EndModelElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
+	//void EndModelElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
 
 	void EndMetadatalistElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
 	void EndMetadataElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
 
-	void EndLinksElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
-	void EndLinkElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
-	void EndFromElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
-	void EndToElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
+	//void EndLinksElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
+	//void EndLinkElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
+	//void EndFromElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
+	//void EndToElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
 
 
 

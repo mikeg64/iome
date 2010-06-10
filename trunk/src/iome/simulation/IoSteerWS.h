@@ -14,11 +14,11 @@ public :
 };
 int ns__add(double a, double b, double *result);
 
-int ns__getstep(int id, int *step);
-int ns__setstep(int id, int newstep, int *step);
+//int ns__getstep(int id, int *step);
+//int ns__setstep(int id, int newstep, int *step);
 
-int ns__getnsteps(int id, int *nsstep);
-int ns__setnsteps(int id, int newnsteps, int *nsteps);
+//int ns__getnsteps(int id, int *nsstep);
+//int ns__setnsteps(int id, int newnsteps, int *nsteps);
 
 
 
@@ -26,7 +26,7 @@ int ns__setnsteps(int id, int newnsteps, int *nsteps);
 //int ns__getprocid(int id, int *procid);
 //int ns__getnumprocs(int id, int *numprocs);
 
-int ns__runsimulationstep( int id, int istepnum, int *status);
+//int ns__runsimulationstep( int id, int istepnum, int *status);
 // if sim file content is null just runs the simulation using current state
 int ns__runsimulation( int id, char *simfilecontent, char **result);
 
@@ -106,5 +106,5 @@ int ns__getgroupparammat( int id, char *name, int nr, int nc, struct fdata **dva
 int ns__getgroupparamstring( int id, char *name, char **value );
 int ns__getgroupparammmat3d( int id, char *name, int n, int p, int q, int nr, int nc, struct fdata **mmat3d );*/
 
-int ns__testgroupbarrier(int id, int *state);
-int ns__setgroupbarrier(int id, int state, int *newstate);
+/*int ns__testgroupbarrier(int id, int *state);
+int ns__setgroupbarrier(int id, int state, int *newstate);*/

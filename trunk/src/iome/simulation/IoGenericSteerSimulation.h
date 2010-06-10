@@ -47,7 +47,7 @@ mikeg@photon0.freeserve.co.uk
 #endif*/
 
 
-#include <iome/simulation/IoWFSimulation.h>
+#include <iome/simulation/IoXMLSimulation.h>
 #include <iome/simulation/IoModel.h>
 //#include "IoAgentSimulator.h"
 #ifndef IO_MSVC
@@ -84,7 +84,7 @@ typedef struct nodeinfo*   NODEINFOPTR;
 typedef struct jobinfo*   JOBINFOPTR;
 
 class CIoGenericSteerSimulation :
-	public CIoWFSimulation
+	public CIoXMLSimulation
 {
 public:
 	CIoGenericSteerSimulation(void);

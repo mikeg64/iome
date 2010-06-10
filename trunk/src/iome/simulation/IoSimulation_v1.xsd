@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Michael Kenneth Griffiths (Self Employed) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="iosim">
+		<xs:annotation>
+			<xs:appinfo>A simulation file containing definitions for creating a simulation</xs:appinfo>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="simulation" type="simulation"/>
+			</xs:sequence>
+			<xs:attribute name="filename" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="comments" type="xs:string"/>
+	<xs:simpleType name="intval">
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="floatval">
+		<xs:restriction base="xs:float"/>
+	</xs:simpleType>
+	<xs:complexType name="arrayval">
+		<xs:attribute name="numprops" type="xs:integer" default="1"/>
+	</xs:complexType>
+	<xs:complexType name="propstype">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="prop" type="property"/>
+		</xs:sequence>
+		<xs:attribute name="flag" type="xs:int"/>
+		<xs:attribute name="numprops" type="xs:int"/>
+		<xs:attribute name="name" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="property">
+		<xs:choice>
+			<xs:element name="int" type="intval"/>
+			<xs:element name="float" type="floatval" default="0"/>
+			<xs:element name="array" type="arrayval"/>
+			<xs:element name="string" type="stringval"/>
+			<xs:element name="mat">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="cols" type="xs:int" use="required"/>
+							<xs:attribute name="rows" type="xs:int" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="vec">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="size" type="xs:int" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="fmat3d">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="dep" type="xs:int"/>
+							<xs:attribute name="col" type="xs:int"/>
+							<xs:attribute name="row" type="xs:int"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="vmat3d">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="row" type="xs:int" use="required"/>
+							<xs:attribute name="col" type="xs:int" use="required"/>
+							<xs:attribute name="dep" type="xs:int" use="required"/>
+							<xs:attribute name="vsize" type="xs:int" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="mmat3d">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="row" type="xs:int" use="required"/>
+							<xs:attribute name="col" type="xs:int" use="required"/>
+							<xs:attribute name="dep" type="xs:int" use="required"/>
+							<xs:attribute name="mrow" type="xs:int" use="required"/>
+							<xs:attribute name="mcol" type="xs:int" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="outfile" type="xs:string" use="optional"/>
+		<xs:attribute name="infile" type="xs:string" use="optional"/>
+		<xs:attribute name="flag" type="xs:int"/>
+		<xs:attribute name="index" type="xs:integer" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="optional" default="name"/>
+	</xs:complexType>
+	<xs:complexType name="entitysetcreatortype">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:attribute name="createmethod" type="xs:integer" default="0"/>
+				<xs:attribute name="class" type="xs:string"/>
+				<xs:attribute name="name" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="entitysettype">
+		<xs:sequence>
+			<xs:element name="entitytypeset" type="entitytypesettype" minOccurs="0"/>
+			<xs:sequence>
+				<xs:element name="props">
+					<xs:complexType>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="prop" type="property"/>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string"/>
+						<xs:attribute name="numprops" type="xs:int"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:element name="entityprops" type="propstype"/>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="class" type="xs:string"/>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="numentities" type="xs:integer"/>
+	</xs:complexType>
+	<xs:complexType name="entitytypesetcreatortype">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:attribute name="class" type="xs:string"/>
+				<xs:attribute name="numentitytypes" type="xs:integer"/>
+				<xs:attribute name="createmethod" type="xs:integer" default="0"/>
+				<xs:attribute name="name" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="entitytypesettype">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:sequence minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="entitytype">
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:extension base="entitytypetype"/>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="class" type="xs:string"/>
+				<xs:attribute name="numentitytypes" type="xs:integer"/>
+				<xs:attribute name="name" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+		<!--The entity type set type can belong to either an entity set, a simulator or a model. It has a create attribute if create is 0 the entity set is inherited from a parent simulant-->
+	</xs:complexType>
+	<xs:complexType name="entitytypetype">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:sequence>
+					<xs:element name="props" type="property"/>
+				</xs:sequence>
+				<xs:attribute name="class" type="xs:string"/>
+				<xs:attribute name="name" type="xs:string"/>
+				<xs:attribute name="index" type="xs:integer"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="modelcreatortype">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:attribute name="createmethod" type="xs:integer"/>
+				<xs:attribute name="class" type="xs:string"/>
+				<xs:attribute name="name" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="modeltype">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:sequence>
+					<xs:element name="props" type="propstype"/>
+					<xs:sequence minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="entityset" type="entitysettype"/>
+					</xs:sequence>
+					<xs:element name="executable" type="executabletype" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="createmethod" type="xs:integer" default="0"/>
+				<xs:attribute name="class" type="xs:string"/>
+				<xs:attribute name="name" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="simulatortype">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:sequence maxOccurs="unbounded">
+					<xs:choice>
+						<xs:element name="model">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="modeltype">
+										<xs:attribute name="index" type="xs:string"/>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="simulator">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="simulatortype"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+					<xs:element name="links" type="linkstype" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="name" type="xs:string"/>
+				<xs:attribute name="class" type="xs:string" use="required"/>
+				<xs:attribute name="createmethod" type="xs:integer" default="0"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="simulation">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:sequence>
+					<xs:element name="steps" type="xs:int"/>
+					<xs:choice>
+						<xs:element name="simulator">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="simulatortype">
+										<xs:attribute name="type" type="xs:string"/>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="model">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="modeltype">
+										<xs:attribute name="index" type="xs:int"/>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+					<xs:element name="fileprops">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="xs:anySimpleType">
+									<xs:attribute name="configfilename" type="xs:string" use="optional"/>
+									<xs:attribute name="readmethod" type="xs:integer"/>
+									<xs:attribute name="writemethod" type="xs:integer"/>
+									<xs:attribute name="statefilename" type="xs:string"/>
+									<xs:attribute name="statexslfile" type="xs:string"/>
+									<xs:attribute name="configxslfile" type="xs:string"/>
+									<xs:attribute name="statexslfileprefix" type="xs:string"/>
+									<xs:attribute name="configxslfileprefix" type="xs:string"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="props" type="propstype"/>
+					<xs:element name="distribute" minOccurs="0">
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:extension base="distributetype">
+									<xs:attribute name="savemode" type="xs:integer"/>
+								</xs:extension>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="class" type="xs:string" use="required"/>
+				<xs:attribute name="simulanttype" type="xs:integer"/>
+				<xs:attribute name="simulantclass" type="xs:string"/>
+				<xs:attribute name="createmethod" type="xs:integer" use="required"/>
+				<xs:attribute name="name" type="xs:string"/>
+				<xs:attribute name="cycles" type="xs:int"/>
+				<xs:attribute name="version" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="stringval">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="entitytype">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:attribute name="type" type="xs:string"/>
+				<xs:attribute name="entitytype" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="listype">
+		<xs:list itemType="xs:float"/>
+	</xs:simpleType>
+	<xs:simpleType name="intlistype">
+		<xs:list itemType="xs:int"/>
+	</xs:simpleType>
+	<xs:complexType name="linkstype">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="link" type="linktype"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="linktype">
+		<xs:sequence>
+			<xs:element name="from">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="simulantmap" type="xs:string"/>
+							<xs:attribute name="simulantid" type="xs:integer"/>
+							<xs:attribute name="simulantname" type="xs:string"/>
+							<xs:attribute name="portid" type="xs:integer"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="to">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="portid" type="xs:int" use="required"/>
+							<xs:attribute name="simulantname" type="xs:string" use="required"/>
+							<xs:attribute name="simulantid" type="xs:integer"/>
+							<xs:attribute name="simulantmap" type="xs:string"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="executabletype">
+		<xs:sequence>
+			<xs:element name="host">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="jobmanager" type="xs:string"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="input">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="port" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attribute name="paramid" type="xs:int"/>
+										<xs:attribute name="localfile" type="xs:string"/>
+										<xs:attribute name="type" type="xs:string"/>
+										<xs:attribute name="portid" type="xs:int"/>
+										<xs:attribute name="username" type="xs:integer"/>
+										<xs:attribute name="encrypted-password" type="xs:string"/>
+										<xs:attribute name="parammap" type="xs:string"/>
+										<xs:attribute name="remotefile" type="xs:string"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="output">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="port" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attribute name="paramid" type="xs:int"/>
+										<xs:attribute name="number" type="xs:int"/>
+										<xs:attribute name="type" type="xs:string"/>
+										<xs:attribute name="localfile" type="xs:string"/>
+										<xs:attribute name="username" type="xs:string"/>
+										<xs:attribute name="encrypted-password" type="xs:string"/>
+										<xs:attribute name="parammap" type="xs:string"/>
+										<xs:attribute name="remotefile" type="xs:string"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="executable">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="username" type="xs:string"/>
+							<xs:attribute name="encrypted-password" type="xs:string"/>
+							<xs:attribute name="method" type="xs:string"/>
+							<xs:attribute name="command" type="xs:string"/>
+							<xs:attribute name="parameters" type="xs:string"/>
+							<xs:attribute name="jobmanager" type="xs:string"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="distributetype">
+		<xs:annotation>
+			<xs:documentation>server name of master server</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="proc" type="proctype" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="procid" type="xs:integer"/>
+		<xs:attribute name="distributedsimulants" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="proctype">
+		<xs:attribute name="id" type="xs:int" use="required"/>
+		<xs:attribute name="hostname" type="xs:string" use="optional" default="localhost"/>
+		<xs:attribute name="simulantid" type="xs:int" use="required"/>
+		<xs:attribute name="simulantmap" type="xs:string"/>
+	</xs:complexType>
+</xs:schema>
