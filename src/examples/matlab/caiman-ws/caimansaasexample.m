@@ -29,8 +29,8 @@ try
    %readsimulation('simfile.xml',elist);
 
    setpref('Internet','SMTP_Server','mailhost.shef.ac.uk');
-   setpref('Internet','E_mail','m.griffiths@sheffield.ac.uk');
-   %setpref('Internet','E_mail','c.reyes@sheffield.ac.uk');
+   %setpref('Internet','E_mail','m.griffiths@sheffield.ac.uk');
+   setpref('Internet','E_mail','c.reyes@sheffield.ac.uk');
 catch
     outputCode                          = 'E2a';
 end
@@ -67,8 +67,7 @@ try
     %delete(myftp, imageFile);
     %close(myftp);
     %testData = ulrwrite(imageLocation2,'testData.jpg');
-    %[dataIn]                            = imread(strcat('http://carlos-reyes.staff.shef.ac.uk/caiman/imageUploads/',imageFile));
-    [dataIn]                            = imread(strcat('http://wrgrid.group.shef.ac.uk/iometest/uploads/',imageFile));
+    [dataIn]                            = imread(strcat('http://carlos-reyes.staff.shef.ac.uk/caiman/imageUploads/',imageFile));
     %[dataIn]                            = imread(strcat(imageFile));
     [rows,cols,levs]                    = size(dataIn); %#ok<NASGU>
     ImageName                           = imageFile;
@@ -198,7 +197,7 @@ if ~strcmp(outputCode(1),'E')
             %end
 
         end
-        %[q1,q2]=urlread('http://carlos-reyes.staff.shef.ac.uk/caiman/clearOldFiles.php?idTimeTC=10');
+        [q1,q2]=urlread('http://carlos-reyes.staff.shef.ac.uk/caiman/clearOldFiles.php?idTimeTC=10');
 end
 
 %email output to user

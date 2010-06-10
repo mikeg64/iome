@@ -48,14 +48,14 @@ mikeg@photon0.freeserve.co.uk
 CIoSimDOMBuilder::CIoSimDOMBuilder(void)
 {
 	ResetDepthArray();
-	m_pCurrentModel=NULL;
-	m_pCurrentSimulator=NULL;
+//	m_pCurrentModel=NULL;
+//	m_pCurrentSimulator=NULL;
 	m_pCurrentParamArray=NULL;
-	m_pCurrentEntitySet=NULL;
-	m_pCurrentEntityTypeSet=NULL;
-	m_pCurrentEntityType=NULL;
+//	m_pCurrentEntitySet=NULL;
+//	m_pCurrentEntityTypeSet=NULL;
+//	m_pCurrentEntityType=NULL;
 	m_SimElementStack.push(0);
-	m_SimulantStack.push(NULL);
+//	m_SimulantStack.push(NULL);
 	
 	m_iCurrentIndex = 0;
 	// Initialize the XML4C2 system.
@@ -149,9 +149,9 @@ int CIoSimDOMBuilder::CreateSimDOM(char *m_pDOMDocname, CIoXMLSimulation *pSimul
 		//rootElem->setAttribute(X("version"), X(sver));
 		rootElem->setAttribute(X("filename"), X(m_pDOMDocname));
 
-		iCreateMethod = pSimulation->GetCreateMethod();
-		sprintf(sCreateMethod, "%d", iCreateMethod);
-		sprintf(sSimulantType, "%d", pSimulation->GetSimulantType());
+		//iCreateMethod = pSimulation->GetCreateMethod();
+		//sprintf(sCreateMethod, "%d", iCreateMethod);
+		//sprintf(sSimulantType, "%d", pSimulation->GetSimulantType());
 
 
 
@@ -159,31 +159,31 @@ int CIoSimDOMBuilder::CreateSimDOM(char *m_pDOMDocname, CIoXMLSimulation *pSimul
         DOMElement*  SimulationElem = m_pDOMDoc->createElement(X("simulation"));
         rootElem->appendChild(SimulationElem);
         SimulationElem->setAttribute(X("name"), X(pSimulation->GetSimName()));
-        SimulationElem->setAttribute(X("class"), X(pSimulation->GetSimClass()));
-		SimulationElem->setAttribute(X("simulanttype"), X(sSimulantType));
-        SimulationElem->setAttribute(X("simulantclass"), X(pSimulation->GetSimulantClass()));
+        //SimulationElem->setAttribute(X("class"), X(pSimulation->GetSimClass()));
+		//SimulationElem->setAttribute(X("simulanttype"), X(sSimulantType));
+        //SimulationElem->setAttribute(X("simulantclass"), X(pSimulation->GetSimulantClass()));
          //SimulationElem->setAttribute(X("configfilename"), X(pSimulation->GetConfigFileName()));
 		//if((strlen(pSimulation->GetConfigXSLFileName()))>0)
 		//	SimulationElem->setAttribute(X("configxslfile"), X(pSimulation->GetStateXSLFileName()));
 
-        SimulationElem->setAttribute(X("createmethod"), X(sCreateMethod));
+        //SimulationElem->setAttribute(X("createmethod"), X(sCreateMethod));
 		//if((strlen(pSimulation->GetStateFileName()))>0)
 		//	SimulationElem->setAttribute(X("statefilename"), X(pSimulation->GetStateFileName()));
 		//if((strlen(pSimulation->GetStateXSLFileName()))>0)
 		//	SimulationElem->setAttribute(X("statexslfile"), X(pSimulation->GetStateXSLFileName()));
 
         
-        if((pSimulation->GetNumProcs())>0)
-        {
-        	sprintf(snprocs,"%d",pSimulation->GetNumProcs());
-        	SimulationElem->setAttribute(X("nprocs"), X(snprocs));
-        }
+        //if((pSimulation->GetNumProcs())>0)
+        //{
+        //	sprintf(snprocs,"%d",pSimulation->GetNumProcs());
+        //	SimulationElem->setAttribute(X("nprocs"), X(snprocs));
+        //}
         
-        if((pSimulation->GetDistributeMethod())>0)
-         {
-        	sprintf(sdistributemethod,"%d",pSimulation->GetDistributeMethod());
-	        SimulationElem->setAttribute(X("distributemethod"), X(sdistributemethod));
-        }
+        //if((pSimulation->GetDistributeMethod())>0)
+        // {
+        //	sprintf(sdistributemethod,"%d",pSimulation->GetDistributeMethod());
+	    //    SimulationElem->setAttribute(X("distributemethod"), X(sdistributemethod));
+        //}
 
 
 		m_SimElementStack.push(IO_XMLP_STACK_ELEMENT_SIMULATION);
@@ -217,20 +217,15 @@ int CIoSimDOMBuilder::CreateSimDOM(char *m_pDOMDocname, CIoXMLSimulation *pSimul
 
 
 
-        DOMElement *StepsElem = CreateStepsElement(m_pSimulation, SimulationElem);
-		DOMElement *filepropsElem = CreatefilepropsElement(m_pSimulation, SimulationElem);
+        //DOMElement *StepsElem = CreateStepsElement(m_pSimulation, SimulationElem);
+		//DOMElement *filepropsElem = CreatefilepropsElement(m_pSimulation, SimulationElem);
 		DOMElement *metadataElem = CreateMetadatalistElement(m_pSimulation, SimulationElem);
 
-		SimulationElem->appendChild(StepsElem);
-		SimulationElem->appendChild(filepropsElem);
+		//SimulationElem->appendChild(StepsElem);
+		//SimulationElem->appendChild(filepropsElem);
 		if(metadataElem != NULL)
 			SimulationElem->appendChild(metadataElem);
-        DOMElement * SimulantElem = CreateSimulantElement(pSimulation, SimulationElem);
-		if(SimulantElem)
-		{
-			SimulationElem->appendChild(SimulantElem);
-		//	status = 1;
-		}
+        
 		//else
 		//	status = 0;
 		if((strlen(pSimulation->GetSimXSLFileName())>0) && (strcmp(pSimulation->GetSimXSLFileName(),"null")!=0)&& (strcmp(pSimulation->GetSimXSLFileName(),"NULL")!=0))
@@ -350,138 +345,6 @@ DOMElement *CIoSimDOMBuilder::CreateMetadatalistElement(CIoXMLSimulation *psim, 
 
 }
 
-DOMElement *CIoSimDOMBuilder::CreateLinksElement(CIoSimulator *psim, DOMElement *parentsim)
-{
-
-	DOMElement *plinksElem = NULL;
-	DOMElement *plinkElem = NULL;
-	DOMElement *pfromElem = NULL;
-	DOMElement *ptoElem = NULL;
-	CIoSimulantLink *plink=NULL;
-    int i;
-
-	if(m_pDOMDoc && psim )
-	{
-		int lsize=((psim->m_pLinks).size());
-		if(lsize>0)
-		{
-			plinksElem = m_pDOMDoc->createElement(X("links"));
-			for(i=0; i<lsize; i++)
-			{
-				plink=psim->GetLink(i);
-				
-				
-				plinkElem = m_pDOMDoc->createElement(X("link"));
-				pfromElem=CreateFromElement(plink->GetFromPort(),plinkElem);
-				ptoElem=CreateToElement(plink->GetToPort(),plinkElem);
-				plinkElem->appendChild(pfromElem);
-				plinkElem->appendChild(ptoElem);
-				
-				plinksElem->appendChild(plinkElem);
-			}
-
-		}
-
-	}
-
-
-	return plinksElem;
-
-}
-
-DOMElement *CIoSimDOMBuilder::CreateFromElement(CIoSimulantPort *pport, DOMElement *linkelem)
-{
-		DOMElement *pfromelement = NULL;
-		DOMElement *ptoelement = NULL;
-
-	    int i;
-
-		char sientitysetid[1000];
-		char siparamid[1000];
-		char sisimulantid[1000];
-
-		string sparammap;
-		string ssimulantmap;
-		int iparamid;
-		int isimulantid;
-		int ientitysetid;
-			
-		if(pport !=NULL)
-		{
-		    sparammap=pport->GetParammap();
-		    ssimulantmap=pport->GetSimulantmap();
-		    iparamid=pport->GetParamID();
-		    isimulantid=pport->GetSimulantID();
-		    ientitysetid=pport->GetEntitySetID();
-		
-			pfromelement = m_pDOMDoc->createElement(X("from"));
-			
-			if(sparammap.length() >0)
-				pfromelement->setAttribute(X("parammap"), X(sparammap.c_str()));
-			   
-			if(ssimulantmap.length()>0)
-				pfromelement->setAttribute(X("simulantmap"), X(ssimulantmap.c_str()));
-			  
-			sprintf(siparamid,"%d",iparamid);
-			sprintf(sisimulantid,"%d",isimulantid);			   
-			sprintf(sientitysetid,"%d",ientitysetid);			   
-						   
-			if(iparamid>=0)
-						   pfromelement->setAttribute(X("paramid"), X(siparamid));
-			if(isimulantid>=0)
-						   pfromelement->setAttribute(X("simulantid"), X(sisimulantid));
-			if(ientitysetid>=0)
-						   pfromelement->setAttribute(X("entitysetid"), X(sientitysetid));
-			
-			
-		}
-	    return pfromelement;
-}
-
-DOMElement *CIoSimDOMBuilder::CreateToElement(CIoSimulantPort *pport, DOMElement *linkelem)
-{
-		DOMElement *ptoelement = NULL;
-	    int i;
-		string sparammap;
-		string ssimulantmap;
-		int iparamid;
-		int isimulantid;
-		int ientitysetid;
-		char siparamid [1000];
-		char sisimulantid [1000];
-		char sientitysetid [1000];
-		
-		if(pport !=NULL)
-		{
-		    sparammap=pport->GetParammap();
-		    ssimulantmap=pport->GetSimulantmap();
-		    iparamid=pport->GetParamID();
-		    isimulantid=pport->GetSimulantID();
-		    ientitysetid=pport->GetEntitySetID();
-		
-			ptoelement = m_pDOMDoc->createElement(X("to"));
-			
-			if(sparammap.length()>0)
-				ptoelement->setAttribute(X("parammap"), X(sparammap.c_str()));
-			   
-			if(ssimulantmap.length()>0)
-			   ptoelement->setAttribute(X("simulantmap"), X(ssimulantmap.c_str()));
-			  
-			sprintf(siparamid,"%d",iparamid);
-			sprintf(sisimulantid,"%d",isimulantid);			   
-			sprintf(sientitysetid,"%d",ientitysetid);			   
-						   
-			if(iparamid>=0)
-						   ptoelement->setAttribute(X("paramid"), X(siparamid));
-			if(isimulantid>=0)
-						   ptoelement->setAttribute(X("simulantid"), X(sisimulantid));
-			if(ientitysetid>=0)
-						   ptoelement->setAttribute(X("entitysetid"), X(sientitysetid));
-			
-			
-		}
-	    return ptoelement;
-}
 
 
 DOMElement *CIoSimDOMBuilder::CreatefilepropsElement(CIoXMLSimulation *pSimulation, DOMElement *ParentSim)
@@ -572,709 +435,6 @@ void CIoSimDOMBuilder::ResetDepthArray()
 
 }
 
-DOMElement *CIoSimDOMBuilder::CreateSimulantElement(CIoXMLSimulation *pSimulation, DOMElement *SimulationElem)
-{
-
-	DOMElement *pSimulantElem = NULL;
-	CIoSimulant *pSimulant = NULL;
-	DOMElement *pSimulatorElem = NULL;
-	DOMElement *pModelElem = NULL;
-	if(m_pDOMDoc && pSimulation && (pSimulant = pSimulation->GetSimulant()))
-	{
-		/*if(pSimulantElem = m_pDOMDoc->createElement(X("Simulant")))
-		{*/
-			if(pSimulant->GetSimulantType()== IO_SIMULANT_TYPE_SIMULATOR)
-			{
-			pSimulatorElem = CreateSimulatorElement(pSimulant, pSimulantElem);
-			if(pSimulatorElem)
-				/*pSimulantElem->appendChild(pSimulatorElem);*/
-				pSimulantElem = pSimulatorElem;
-			}
-			else if(pSimulant->GetSimulantType()== IO_SIMULANT_TYPE_MODEL)
-			{
-			pModelElem = CreateModelElement(pSimulant, pSimulantElem);
-			if(pModelElem)
-				pSimulantElem = pModelElem;
-				/*pSimulantElem->appendChild(pModelElem);*/
-			}
-		/*}*/
-
-
-
-	}
-
-
-	return pSimulantElem;
-
-
-}
-
-DOMElement *CIoSimDOMBuilder::CreateSimulatorChildElement(CIoSimulant *pSimulant, DOMElement *SimulatorElem, int iIndex)
-{
-
-	DOMElement *pChildSimulantElem = NULL;
-
-	CIoSimulant *pChildSimulant = NULL;
-	DOMElement *pChildSimulatorElem = NULL;
-	DOMElement *pChildModelElem = NULL;
-	if(m_pDOMDoc && pSimulant && SimulatorElem)
-	{
-
-		//if(pChildSimulantElem)
-		//{
-			if(pSimulant->GetSimulantType()== IO_SIMULANT_TYPE_SIMULATOR)
-			{
-			pChildSimulantElem = CreateSimulatorElement(pSimulant, pChildSimulantElem);
-			//if(pChildSimulatorElem)
-			//	pChildSimulantElem->appendChild(pChildSimulatorElem);
-			}
-			else if(pSimulant->GetSimulantType()== IO_SIMULANT_TYPE_MODEL)
-			{
-			pChildSimulantElem = CreateModelElement(pSimulant, pChildSimulantElem);
-			//if(pChildModelElem)
-			//	pChildSimulantElem->appendChild(pChildModelElem);
-			}
-		//}
-
-
-
-	}
-
-
-	return pChildSimulantElem;
-
-
-}
-
-
-
-DOMElement *CIoSimDOMBuilder::CreateSimulatorElement(CIoSimulant *pSimulant, DOMElement *SimulantElem, int iIndex)
-{
-	char sNumProps [10];
-	char sIndex [10];
-	char sprocid [10];
-	int index = 0;
-	char sCreateMethod[10];
-
-	int iCurrentIndex;
-	sprintf(sIndex, "%d", iIndex);
-	int iNumParams=0;
-
-	DOMElement *pEntitySetElem;
-	DOMElement *pSimulatorElem = NULL;
-	DOMElement *pLinksElem = NULL;
-	DOMElement *pModelElem = NULL;
-	DOMElement *pPropsElem = NULL;
-	DOMElement *pPropElem = NULL;
-	DOMElement *pChildSimulantElem = NULL;
-
-	CIoSimulator *pSimulator = (CIoSimulator *)pSimulant;
-	CIoSimulant *pCurrentSimulant = NULL;
-	CIoEntitySet *pEntitySet=NULL;
-	CIoParam *pParam = NULL;
-	sprintf(sIndex, "%d", iIndex);
-
-	if(m_pDOMDoc && pSimulator)
-	{
-		m_SimElementStack.push(IO_XMLP_STACK_ELEMENT_SIMULATOR);
-		m_SimulantStack.push(pSimulator);
-		if(pSimulatorElem = m_pDOMDoc->createElement(X("simulator")))
-		{
-			sprintf(sCreateMethod, "%d", pSimulator->GetCreateMethod());
-
-			//Set the simulator attributes
-			pSimulatorElem->setAttribute(X("name"), X(pSimulator->GetSimulatorName()));
-			pSimulatorElem->setAttribute(X("class"), X(pSimulator->GetSimulatorClass()));
-			pSimulatorElem->setAttribute(X("index"), X(sIndex));
-			
-			if((pSimulator->GetProcID())>=0)
-			{
-				sprintf(sprocid, "%d", pSimulator->GetProcID());
-				pSimulatorElem->setAttribute(X("procid"), X(sprocid));
-			}
-
-
-			pSimulatorElem->setAttribute(X("createmethod"), X(sCreateMethod));
-
-			if(pParam = pSimulator->GetParams())
-			{
-				m_pCurrentSimulator = pSimulator;
-				iNumParams = pParam->GetNumParams();
-				//pSimulator->CreatePropArrayNames();
-				//pSimulator->CreatePropNames();
-				//pSimulator->CreatePropArrayFlags();
-				//pSimulator->CreatePropFlags();
-				if(iNumParams>0)
-				{
-					pPropsElem = CreatePropsElement(pSimulator->GetName(),pSimulator->GetArrayFlag(0), iNumParams, pSimulatorElem);
-					pParam = pSimulator->GetProperty(0);
-					while(pParam)
-					{
-						ResetDepthArray();
-						m_iCurrentIndex = index;
-						pPropElem = CreatePropElement(pParam, pPropsElem);
-						if(pPropElem && pPropsElem)
-							pPropsElem->appendChild(pPropElem);
-
-						pParam = pParam->GetNextParam();
-						index ++;					
-					}
-					if(pPropsElem)
-						pSimulatorElem->appendChild(pPropsElem);
-				}
-
-/*								m_pCurrentEntitySet=pSimulator->GetEntitySet();
-				if(m_pCurrentEntitySet)
-				{
-					pEntitySetElem = CreateEntitySetElement(m_pCurrentEntitySet, pModelElem);
-
-					if(pEntitySetElem)
-							pSimulatorElem->appendChild(pEntitySetElem);
-					CIoEntitySet *pNextEntitySet=NULL;
-					while((pNextEntitySet = m_pCurrentEntitySet->GetNextEntitySet())!=NULL)
-					{
-
-						//pNextEntitySet=(pEntitySet->m_pNextEntitySet);
-						m_pCurrentEntitySet = pNextEntitySet;
-						//if(m_pCurrentEntitySet=pModel->GetEntitySet())
-							pEntitySetElem = CreateEntitySetElement(m_pCurrentEntitySet, pModelElem);
-
-					if(pEntitySetElem)
-							pSimulatorElem->appendChild(pEntitySetElem);
-
-					}
-				}*/
-
-			}
-
-			//Now go through each simulant of this simulator
-			//and create each simulant
-			iCurrentIndex = 0;
-			pCurrentSimulant = pSimulator->GetSimulant();
-			while(pCurrentSimulant)
-			{
-				pChildSimulantElem = CreateSimulatorChildElement(pCurrentSimulant, pSimulatorElem, iCurrentIndex);
-				if(pChildSimulantElem)
-					pSimulatorElem->appendChild(pChildSimulantElem);
-
-				iCurrentIndex ++;
-				pCurrentSimulant = pCurrentSimulant->GetNextSimulant();
-
-			}
-			
-			//add the links element
-			if(pSimulator->GetNumLinks())
-			{
-			   	if(pLinksElem=CreateLinksElement(pSimulator,pSimulatorElem))
-			   	    pSimulatorElem->appendChild(pLinksElem);
-			}
-		}
-		m_SimElementStack.pop();
-		m_SimulantStack.pop();
-	}
-	return pSimulatorElem;
-}
-
-DOMElement *CIoSimDOMBuilder::CreateModelElement(CIoSimulant *pSimulant, DOMElement *SimulantEleme, int iIndex)
-{
-	DOMElement *pModelElem = NULL;
-	char sCreateMethod[10];
-	char sIndex [10];
-
-	/*v11 23/07/2003*/
-	int iNumParams = 0;
-	char sNumProps [10];
-	char sprocid [10];
-	//CIoParam *pParam = NULL;
-	int index = 0;
-	DOMElement *pPropElem = NULL;
-	/*v11 23/07/2003*/
-
-	sprintf(sIndex, "%d", iIndex);
-	DOMElement *pPropsElem = NULL;
-	DOMElement *pModelPropsElem = NULL;
-	DOMElement *pEntitySetElem = NULL;
-
-	CIoEntitySet *pEntitySet = NULL;
-	CIoModel *pModel = (CIoModel *)pSimulant;
-	ResetDepthArray();
-	CIoParam *pParam = NULL;
-	if(m_pDOMDoc && pModel)
-	{
-		m_SimElementStack.push(IO_XMLP_STACK_ELEMENT_MODEL);
-		m_SimulantStack.push(pModel);
-
-		if(pModelElem = m_pDOMDoc->createElement(X("model")))
-		{
-			//Set the model attributes
-			pModelElem->setAttribute(X("name"), X(pModel->GetModelName()));
-			pModelElem->setAttribute(X("class"), X(pModel->GetModelClass()));
-			pModelElem->setAttribute(X("index"), X(sIndex));
-
-			sprintf(sCreateMethod, "%d", pModel->GetCreateMethod());
-			pModelElem->setAttribute(X("createmethod"), X(sCreateMethod));
-
-			if((pModel->GetProcID())>=0)
-			{
-				sprintf(sprocid, "%d", pModel->GetProcID());
-				pModelElem->setAttribute(X("procid"), X(sprocid));
-			}
-
-
-			if(pParam = pModel->m_pProperties)
-			{
-			m_pCurrentModel = pModel;
-			//pModelPropsElem = CreateModelCreatorElement(pModel, pModelElem);
-			//if(pModelPropsElem)
-			//	pModelElem->appendChild(pModelPropsElem);
-
-			/*v11 23/07/2003 Removal of model creator element*/
-			/*CreateModelCreatorElement*/
-			//Set the model attributes
-			//if(pParam = pModel->m_pProperties)
-				iNumParams = pParam->GetNumParams();
-
-			if(iNumParams>0)
-			{
-
-				//pModel->CreatePropArrayNames();
-				//pModel->CreatePropNames();
-				//pModel->CreatePropArrayFlags();
-				//pModel->CreatePropFlags();
-				pPropsElem = CreatePropsElement(pModel->GetArrayName(0), pModel->GetArrayFlag(0),iNumParams, pModelElem);
-				pParam = pModel->GetProperty(0);
-
-				while(pParam)
-				{
-					ResetDepthArray();
-					m_iCurrentIndex = index;
-					pPropElem = CreatePropElement(pParam, pPropsElem);
-					if(pPropElem && pPropsElem /*&& GetPropFlag()==0*/)
-						pPropsElem->appendChild(pPropElem);
-
-					pParam = pParam->GetNextParam();
-					index ++;					
-				}
-				if(pPropsElem)
-					pModelElem->appendChild(pPropsElem);
-
-				m_pCurrentEntitySet=pModel->GetEntitySet();
-				if(m_pCurrentEntitySet)
-				{
-					pEntitySetElem = CreateEntitySetElement(m_pCurrentEntitySet, pModelElem);
-
-					if(pEntitySetElem)
-							pModelElem->appendChild(pEntitySetElem);
-					CIoEntitySet *pNextEntitySet=NULL;
-					while((pNextEntitySet = m_pCurrentEntitySet->GetNextEntitySet())!=NULL)
-					{
-
-						//pNextEntitySet=(pEntitySet->m_pNextEntitySet);
-						m_pCurrentEntitySet = pNextEntitySet;
-						//if(m_pCurrentEntitySet=pModel->GetEntitySet())
-							pEntitySetElem = CreateEntitySetElement(m_pCurrentEntitySet, pModelElem);
-
-					if(pEntitySetElem)
-							pModelElem->appendChild(pEntitySetElem);
-
-					}
-				}
-			}
-
-
-
-
-			}
-		}
-		m_SimElementStack.pop();
-		m_SimulantStack.pop();
-
-	}
-
-
-
-	return pModelElem;
-
-
-
-}
-
-DOMElement *CIoSimDOMBuilder::CreateEntitySetElement(CIoEntitySet *pEntitySet, DOMElement *ModelElem)
-{
-
-	DOMElement *pEntitySetElem = NULL;
-	char snEntities [10];
-	int nEntities=0;
-
-	CIoEntityTypeSet *pEntityTypeSet = NULL;
-	int iNumParams = 0;
-	int iNumEParams = 0;
-	char sNumProps [10];
-	//CIoParam *pParam = NULL;
-	int index = 0;
-	DOMElement *pPropElem = NULL;
-	if(pEntitySet) nEntities=pEntitySet->GetNum();
-	sprintf(snEntities, "%d", nEntities);
-	DOMElement *pPropsElem = NULL;
-	DOMElement *pEPropsElem = NULL;
-	DOMElement *pESPropsElem = NULL;
-	DOMElement *pEntityTypeSetElem = NULL;
-
-	ResetDepthArray();
-	CIoParam *pParam = NULL;
-	CIoParam *pEParam = NULL;
-	if(m_pDOMDoc && pEntitySet)
-	{
-		m_SimElementStack.push(IO_XMLP_STACK_ELEMENT_ENTITYSET);
-
-		if(pEntitySetElem = m_pDOMDoc->createElement(X("entityset")))
-		{
-			//Set the model attributes
-			pEntitySetElem->setAttribute(X("name"), X(pEntitySet->GetEntitySetName()));
-			pEntitySetElem->setAttribute(X("class"), X(pEntitySet->GetEntitySetClass()));
-			pEntitySetElem->setAttribute(X("numentities"), X(snEntities));
-
-
-			if(pParam = pEntitySet->m_pProperties)
-			{
-			m_pCurrentEntitySet = pEntitySet;
-			//pModelPropsElem = CreateModelCreatorElement(pModel, pModelElem);
-			//if(pModelPropsElem)
-			//	pModelElem->appendChild(pModelPropsElem);
-
-			/*v11 23/07/2003 Removal of model creator element*/
-			/*CreateModelCreatorElement*/
-			//Set the model attributes
-			//if(pParam = pModel->m_pProperties)
-				iNumParams = pParam->GetNumParams();
-	
-			if(iNumParams>0)
-			{
-
-				//pEntitySet->CreatePropArrayNames();
-				//pEntitySet->CreatePropNames();
-				//pEntitySet->CreatePropArrayFlags();
-				//pEntitySet->CreatePropFlags();
-
-				pPropsElem = CreatePropsElement(pEntitySet->GetEntitySetName(),pEntitySet->GetArrayFlag(0), iNumParams, pEntitySetElem);
-				pParam = pEntitySet->GetProperty(0);
-
-				while(pParam)
-				{
-					ResetDepthArray();
-					m_iCurrentIndex = index;
-					pPropElem = CreatePropElement(pParam, pPropsElem);
-					if(pPropElem && pPropsElem /*&& GetPropFlag()==0*/)
-						pPropsElem->appendChild(pPropElem);
-
-					pParam = pParam->GetNextParam();
-					index ++;					
-				}
-				
-				if(pPropsElem)
-					pEntitySetElem->appendChild(pPropsElem);
-
-				if(pEntityTypeSet=pEntitySet->GetEntityTypeSet())
-					if(pEntityTypeSetElem = CreateEntityTypeSetElement(pEntityTypeSet, pEntitySetElem))
-						pEntitySetElem->appendChild(pEntityTypeSetElem);
-
-
-				//pEntitySet->DeleteNames();
-				//pEntitySet->DeleteFlags();
-			}
-
-
-
-
-			}
-
-			//entity params
-			
-			if(pEParam = pEntitySet->GetEDefaultParams())
-			{
-				iNumEParams = pEParam->GetNumParams();
-			int index=0;
-			if(iNumEParams>0)
-			{
-
-				//pEntitySet->CreatePropArrayNames();
-				//pEntitySet->CreatePropNames();
-				//pEntitySet->CreatePropArrayFlags();
-				//pEntitySet->CreatePropFlags();
-				m_SimElementStack.push(IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE);
-				pEPropsElem = CreateEntityPropsElement(pEntitySet->GetEArrayName(0),pEntitySet->GetEArrayFlag(0), iNumEParams, pEntitySetElem);
-				pEParam = pEParam->GetParam(0);
-
-				while(pEParam)
-				{
-					ResetDepthArray();
-					m_iCurrentIndex = index;
-					pPropElem = CreatePropElement(pEParam, pPropsElem);
-					if(pPropElem && pEPropsElem /*&& GetPropFlag()==0*/)
-						pEPropsElem->appendChild(pPropElem);
-
-					pEParam = pEParam->GetNextParam();
-					index ++;					
-				}
-				
-				if(pEPropsElem)
-					pEntitySetElem->appendChild(pEPropsElem);
-
-				m_SimElementStack.pop();
-			}
-			
-			}//End of entity params
-
-		}//end of create entity set element check
-		m_SimElementStack.pop();
-
-		}
-
-
-
-	return pEntitySetElem;
-
-
-}
-
-DOMElement *CIoSimDOMBuilder::CreateEntityTypeSetElement(CIoEntityTypeSet *pEntityTypeSet, DOMElement *pEntitySetElem)
-{
-
-	DOMElement *pEntityTypeSetElem = NULL;
-	DOMElement *pEntityTypeElem = NULL;
-
-	char snEntityTypes [10];
-	int nEntityTypes=0;
-	CIoEntityType *pEntityType=NULL;
-	
-	int iNumParams = 0;
-	char sNumProps [10];
-	//CIoParam *pParam = NULL;
-	int i, index = 0;
-	DOMElement *pPropElem = NULL;
-	if(pEntityTypeSet) nEntityTypes=pEntityTypeSet->GetNumEntityTypes();
-	sprintf(snEntityTypes, "%d", nEntityTypes);
-	DOMElement *pPropsElem = NULL;
-	DOMElement *pESPropsElem = NULL;
-
-	ResetDepthArray();
-	CIoParam *pParam = NULL;
-	if(m_pDOMDoc && pEntityTypeSet)
-	{
-		m_SimElementStack.push(IO_XMLP_STACK_ELEMENT_ENTITYTYPESET);
-
-		if(pEntityTypeSetElem = m_pDOMDoc->createElement(X("entitytypeset")))
-		{
-			//Set the model attributes
-			if( (pEntityTypeSet->GetEntityTypeSetName()) && (strlen(pEntityTypeSet->GetEntityTypeSetName())>0))
-				pEntityTypeSetElem->setAttribute(X("name"), X(pEntityTypeSet->GetEntityTypeSetName()));
-			pEntityTypeSetElem->setAttribute(X("class"), X(pEntityTypeSet->GetEntityTypeSetClass()));
-			pEntityTypeSetElem->setAttribute(X("numentitytypes"), X(snEntityTypes));
-
-
-			if((pParam = pEntityTypeSet->m_pProperties) )
-			{
-			m_pCurrentEntityTypeSet = pEntityTypeSet;
-			//pModelPropsElem = CreateModelCreatorElement(pModel, pModelElem);
-			//if(pModelPropsElem)
-			//	pModelElem->appendChild(pModelPropsElem);
-
-			/*v11 23/07/2003 Removal of model creator element*/
-			/*CreateModelCreatorElement*/
-			//Set the model attributes
-			//if(pParam = pModel->m_pProperties)
-				iNumParams = pParam->GetNumParams();
-	
-			if(iNumParams>0)
-			{
-
-				//pEntityTypeSet->CreatePropArrayNames();
-				//pEntityTypeSet->CreatePropNames();
-				//pEntityTypeSet->CreatePropArrayFlags();
-				//pEntityTypeSet->CreatePropFlags();
-				pPropsElem = CreatePropsElement(pEntityTypeSet->GetEntityTypeSetName(), pEntityTypeSet->GetArrayFlag(0), iNumParams, pEntityTypeSetElem);
-				pParam = pEntityTypeSet->GetProperty(0);
-
-				while(pParam)
-				{
-					ResetDepthArray();
-					m_iCurrentIndex = index;
-					pPropElem = CreatePropElement(pParam, pPropsElem);
-					if(pPropElem && pPropsElem /*&& GetPropFlag()==0*/)
-						pPropsElem->appendChild(pPropElem);
-
-					pParam = pParam->GetNextParam();
-					index ++;					
-				}
-				if(pPropsElem)
-					pEntityTypeSetElem->appendChild(pPropsElem);
-
-
-
-
-			}
-
-		
-
-			}
-				nEntityTypes=pEntityTypeSet->GetNumEntityTypes();
-				for(i=0; i<nEntityTypes; i++)
-					if(pEntityType = pEntityTypeSet->GetEntityType(i))
-						if(pEntityTypeElem=CreateEntityTypeElement(pEntityType, pEntityTypeSetElem))
-												pEntityTypeSetElem->appendChild(pEntityTypeElem);
-
-		}
-		m_SimElementStack.pop();
-		
-
-	}
-
-
-
-	return pEntityTypeSetElem;
-
-
-
-
-}
-
-DOMElement *CIoSimDOMBuilder::CreateEntityTypeElement(CIoEntityType *pEntityType, DOMElement *pEntityTypeSetElem)
-{
-	char snetindex[10];
-	int netindex;
-
-	DOMElement *pEntityTypeElem = NULL;
-	
-	char snEntityTypeProps [10];
-	int nEntityTypeProps=0;
-//	CIoEntityType *pEntityType=NULL;
-	int iNumParams = 0;
-	char sNumProps [10];
-	//CIoParam *pParam = NULL;
-	int i, index = 0;
-	DOMElement *pPropElem = NULL;
-	DOMElement *pPropsElem = NULL;
-	DOMElement *pESPropsElem = NULL;
-
-	if(pEntityType) netindex=pEntityType->GetID();
-	sprintf(snetindex, "%d", netindex);
-
-	ResetDepthArray();
-	CIoParam *pParam = NULL;
-	if(m_pDOMDoc && pEntityType)
-	{
-		m_SimElementStack.push(IO_XMLP_STACK_ELEMENT_ENTITYTYPE);
-
-		if(pEntityTypeElem = m_pDOMDoc->createElement(X("entitytype")))
-		{
-			//Set the model attributes
-			if( (pEntityType->GetEntityTypeName()) && (strlen(pEntityType->GetEntityTypeName())>0))
-				pEntityTypeElem->setAttribute(X("name"), X(pEntityType->GetEntityTypeName()));
-			pEntityTypeElem->setAttribute(X("class"), X(pEntityType->GetEntityTypeClass()));
-			pEntityTypeElem->setAttribute(X("index"), X(snetindex));
-
-
-			if((pParam = pEntityType->m_pProperties) )
-			{
-			m_pCurrentEntityType = pEntityType;
-			//pModelPropsElem = CreateModelCreatorElement(pModel, pModelElem);
-			//if(pModelPropsElem)
-			//	pModelElem->appendChild(pModelPropsElem);
-
-			/*v11 23/07/2003 Removal of model creator element*/
-			/*CreateModelCreatorElement*/
-			//Set the model attributes
-			//if(pParam = pModel->m_pProperties)
-				iNumParams = pParam->GetNumParams();
-	
-			if(iNumParams>0)
-			{
-
-				//pEntityType->CreatePropArrayNames();
-				//pEntityType->CreatePropNames();
-				//pEntityType->CreatePropArrayFlags();
-				//pEntityType->CreatePropFlags();
-				pPropsElem = CreatePropsElement(pEntityType->GetEntityTypeName(), pEntityType->GetArrayFlag(0), iNumParams, pEntityTypeElem);
-				pParam = pEntityType->GetProperty(0);
-
-				while(pParam)
-				{
-					ResetDepthArray();
-					m_iCurrentIndex = index;
-					pPropElem = CreatePropElement(pParam, pPropsElem);
-					if(pPropElem && pPropsElem /*&& GetPropFlag()==0*/)
-						pPropsElem->appendChild(pPropElem);
-
-					pParam = pParam->GetNextParam();
-					index ++;					
-				}
-				if(pPropsElem)
-					pEntityTypeElem->appendChild(pPropsElem);
-
-
-
-			}
-
-
-
-
-			}
-		}
-		m_SimElementStack.pop();
-		
-
-
-	}
-		return pEntityTypeElem;
-}
-
-
-DOMElement *CIoSimDOMBuilder::CreateModelCreatorElement(CIoModel *pModel, DOMElement *ModelElem)
-{
-	/*v11 23/07/2003*/
-	/*Function no longer used*/
-	DOMElement *pModelParamsElem=NULL;
-	DOMElement *pPropsElem = NULL;
-	DOMElement *pPropElem = NULL;
-	int iNumParams = 0;
-	char sNumProps [10];
-	CIoParam *pParam = NULL;
-	int index = 0;
-
-	if(m_pDOMDoc && pModel)
-	{
-		if(pModelParamsElem = m_pDOMDoc->createElement(X("modelcreator")))
-		{
-			//Set the model attributes
-			if(pParam = pModel->m_pProperties)
-				iNumParams = pParam->GetNumParams();
-	
-			if(iNumParams>0)
-			{
-
-				pModel->CreatePropArrayNames();
-				pModel->CreatePropNames();
-				pPropsElem = CreatePropsElement(pModel->GetName(), pModel->GetArrayFlag(0), iNumParams, pModelParamsElem);
-				pParam = pModel->GetProperty(0);
-
-				while(pParam)
-				{
-					ResetDepthArray();
-					m_iCurrentIndex = index;
-					pPropElem = CreatePropElement(pParam, pPropsElem);
-					if(pPropElem && pPropsElem)
-						pPropsElem->appendChild(pPropElem);
-
-					pParam = pParam->GetNextParam();
-					index ++;					
-				}
-				if(pPropsElem)
-					pModelParamsElem->appendChild(pPropsElem);
-			}
-		}
-	}
-	return pModelParamsElem;
-}
 
 DOMElement *CIoSimDOMBuilder::CreatePropsElement(string sName, int iFlag, int iNumProps, DOMElement *ParentEleme)//parent could be simulant, modelparams or prop
 {
@@ -1363,23 +523,6 @@ DOMElement *CIoSimDOMBuilder::CreateArrayElement(CIoParam *pParams, DOMElement *
 }
 
 
-DOMElement *CIoSimDOMBuilder::CreateEntityPropsElement(string sName, int iFlag, int iNumProps, DOMElement *ParentEleme)//parent could be simulant, modelparams or prop
-{
-	char sNumProps [10];
-	char sFlag [10];
-	DOMElement *pPropsElement=NULL;
- 	sprintf(sNumProps, "%d", iNumProps);
-	sprintf(sFlag, "%d", iFlag);
-		if(m_pDOMDoc && (pPropsElement = m_pDOMDoc->createElement(X("entityprops"))))
-		{
-
-			//Set the model attributes
-			pPropsElement->setAttribute(X("name"), X(sName.c_str()));
-			pPropsElement->setAttribute(X("numprops"), X(sNumProps));
-			pPropsElement->setAttribute(X("flag"), X(sFlag));
-		}
-	return pPropsElement;
-}
 
 
 DOMElement *CIoSimDOMBuilder::CreatePropElement(CIoParam *pParams, DOMElement *ParentProps)
@@ -1920,65 +1063,18 @@ string CIoSimDOMBuilder::GetPropName()
 {
 	string sPropName;
 	string strprop;
-	CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
 
-	if(m_iArrayDepth>0)
-	{
-		//Using current array of array indices
-		CreateArrayMap();
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			sPropName = pSimulant->GetChildPropertyName(m_iCurrentIndex, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_SIMULATION :
-			sPropName = m_pSimulation->GetChildPropertyName(m_iCurrentIndex, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			sPropName = m_pCurrentEntitySet->GetChildPropertyName(m_iCurrentIndex, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			sPropName = m_pCurrentEntitySet->GetEArrayName(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-			sPropName = m_pCurrentEntityTypeSet->GetChildPropertyName(m_iCurrentIndex, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-			sPropName = m_pCurrentEntityType->GetChildPropertyName(m_iCurrentIndex, m_sArrayMap);
-			break;
 
-
-		}
-	}
-	else
-	{
-		switch((int)m_SimElementStack.top())
-		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			strprop = pSimulant->GetPropertyName(m_iCurrentIndex);
-			//strcpy(spropname,(char *)strprop.c_str();
-			break;
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			strprop = m_pSimulation->GetPropertyName(m_iCurrentIndex);
 			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			strprop = m_pCurrentEntitySet->GetPropertyName(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			strprop = m_pCurrentEntitySet->GetEPropertyName(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-			strprop = m_pCurrentEntityTypeSet->GetPropertyName(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-			strprop = m_pCurrentEntityType->GetPropertyName(m_iCurrentIndex);
-			break;
+
 
 
 		}
-	}
+	
 
 	//return sPropName;
 	return strprop;
@@ -1988,7 +1084,6 @@ string CIoSimDOMBuilder::GetPropInfilename()
 {
 	string sPropInfilename;
 	string strprop;
-	CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
 
 	if(m_iArrayDepth>0)
 	{
@@ -1996,25 +1091,11 @@ string CIoSimDOMBuilder::GetPropInfilename()
 		CreateArrayMap();
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			sPropInfilename = pSimulant->GetChildPropInfilename(m_iCurrentIndex, m_sArrayMap);
-			break;
+
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			sPropInfilename = m_pSimulation->GetChildPropInfilename(m_iCurrentIndex, m_sArrayMap);
 			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			sPropInfilename = m_pCurrentEntitySet->GetChildPropInfilename(m_iCurrentIndex, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			sPropInfilename = m_pCurrentEntitySet->GetEArrayInfilename(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-			sPropInfilename = m_pCurrentEntityTypeSet->GetChildPropInfilename(m_iCurrentIndex, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-			sPropInfilename = m_pCurrentEntityType->GetChildPropInfilename(m_iCurrentIndex, m_sArrayMap);
-			break;
+
 
 
 		}
@@ -2023,26 +1104,11 @@ string CIoSimDOMBuilder::GetPropInfilename()
 	{
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			strprop = pSimulant->GetPropInfilename(m_iCurrentIndex);
-			//strcpy(spropname,(char *)strprop.c_str();
-			break;
+
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			strprop = m_pSimulation->GetPropInfilename(m_iCurrentIndex);
 			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			strprop = m_pCurrentEntitySet->GetPropInfilename(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			strprop = m_pCurrentEntitySet->GetEPropertyName(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-			strprop = m_pCurrentEntityTypeSet->GetPropInfilename(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-			strprop = m_pCurrentEntityType->GetPropInfilename(m_iCurrentIndex);
-			break;
+	
 
 
 		}
@@ -2056,7 +1122,7 @@ string CIoSimDOMBuilder::GetPropOutfilename()
 {
 	string sPropOutfilename;
 	string strprop;
-	CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
+//	CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
 
 	if(m_iArrayDepth>0)
 	{
@@ -2064,24 +1130,9 @@ string CIoSimDOMBuilder::GetPropOutfilename()
 		CreateArrayMap();
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			sPropOutfilename = pSimulant->GetChildPropOutfilename(m_iCurrentIndex, m_sArrayMap);
-			break;
+
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			sPropOutfilename = m_pSimulation->GetChildPropOutfilename(m_iCurrentIndex, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			sPropOutfilename = m_pCurrentEntitySet->GetChildPropOutfilename(m_iCurrentIndex, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			sPropOutfilename = m_pCurrentEntitySet->GetEArrayOutfilename(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-			sPropOutfilename = m_pCurrentEntityTypeSet->GetChildPropOutfilename(m_iCurrentIndex, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-			sPropOutfilename = m_pCurrentEntityType->GetChildPropOutfilename(m_iCurrentIndex, m_sArrayMap);
 			break;
 
 
@@ -2091,26 +1142,11 @@ string CIoSimDOMBuilder::GetPropOutfilename()
 	{
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			strprop = pSimulant->GetPropOutfilename(m_iCurrentIndex);
-			//strcpy(spropname,(char *)strprop.c_str();
-			break;
+
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			strprop = m_pSimulation->GetPropOutfilename(m_iCurrentIndex);
 			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			strprop = m_pCurrentEntitySet->GetPropOutfilename(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			strprop = m_pCurrentEntitySet->GetEPropertyName(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-			strprop = m_pCurrentEntityTypeSet->GetPropOutfilename(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-			strprop = m_pCurrentEntityType->GetPropOutfilename(m_iCurrentIndex);
-			break;
+
 
 
 		}
@@ -2125,7 +1161,7 @@ string CIoSimDOMBuilder::GetPropOutfilename()
 string CIoSimDOMBuilder::GetPropArrayName()
 {
 	string sPropArrayName;
-	CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
+	//CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
 
 	if(m_iArrayDepth>0)
 	{
@@ -2133,51 +1169,22 @@ string CIoSimDOMBuilder::GetPropArrayName()
 		CreateArrayMap();
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			sPropArrayName = pSimulant->GetChildArrayName(m_iCurrentProp, m_sArrayMap);
-			break;
+
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			sPropArrayName = m_pSimulation->GetChildArrayName(m_iCurrentProp, m_sArrayMap);
 			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			sPropArrayName = m_pCurrentEntitySet->GetChildArrayName(m_iCurrentProp, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			//sPropArrayName = NULL;
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-			sPropArrayName = m_pCurrentEntityTypeSet->GetChildArrayName(m_iCurrentProp, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-			sPropArrayName = m_pCurrentEntityType->GetChildArrayName(m_iCurrentProp, m_sArrayMap);
-			break;
-
+	
 		}
 	}
 	else
 	{
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			sPropArrayName = pSimulant->GetArrayName(m_iCurrentProp);
-			break;
+
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			sPropArrayName = m_pSimulation->GetArrayName(m_iCurrentProp);
 			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			sPropArrayName = m_pCurrentEntitySet->GetArrayName(m_iCurrentProp);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			sPropArrayName = m_pCurrentEntitySet->GetEArrayName(m_iCurrentProp);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-			sPropArrayName = m_pCurrentEntityTypeSet->GetArrayName(m_iCurrentProp);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-			sPropArrayName = m_pCurrentEntityType->GetArrayName(m_iCurrentProp);
-			break;
+
 
 		}
 	}
@@ -2188,7 +1195,7 @@ string CIoSimDOMBuilder::GetPropArrayName()
 string CIoSimDOMBuilder::GetPropArrayInfilename()
 {
 	string sPropArrayInfilename;
-	CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
+	//CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
 
 	if(m_iArrayDepth>0)
 	{
@@ -2196,24 +1203,9 @@ string CIoSimDOMBuilder::GetPropArrayInfilename()
 		CreateArrayMap();
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			sPropArrayInfilename = pSimulant->GetChildArrayInfilename(m_iCurrentProp, m_sArrayMap);
-			break;
+
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			sPropArrayInfilename = m_pSimulation->GetChildArrayInfilename(m_iCurrentProp, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			sPropArrayInfilename = m_pCurrentEntitySet->GetChildArrayInfilename(m_iCurrentProp, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			//sPropArrayInfilename = NULL;
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-			sPropArrayInfilename = m_pCurrentEntityTypeSet->GetChildArrayInfilename(m_iCurrentProp, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-			sPropArrayInfilename = m_pCurrentEntityType->GetChildArrayInfilename(m_iCurrentProp, m_sArrayMap);
 			break;
 
 		}
@@ -2222,25 +1214,11 @@ string CIoSimDOMBuilder::GetPropArrayInfilename()
 	{
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			sPropArrayInfilename = pSimulant->GetArrayInfilename(m_iCurrentProp);
-			break;
+
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			sPropArrayInfilename = m_pSimulation->GetArrayInfilename(m_iCurrentProp);
 			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			sPropArrayInfilename = m_pCurrentEntitySet->GetArrayInfilename(m_iCurrentProp);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			sPropArrayInfilename = m_pCurrentEntitySet->GetEArrayInfilename(m_iCurrentProp);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-			sPropArrayInfilename = m_pCurrentEntityTypeSet->GetArrayInfilename(m_iCurrentProp);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-			sPropArrayInfilename = m_pCurrentEntityType->GetArrayInfilename(m_iCurrentProp);
-			break;
+
 
 		}
 	}
@@ -2252,7 +1230,7 @@ string CIoSimDOMBuilder::GetPropArrayInfilename()
 string CIoSimDOMBuilder::GetPropArrayOutfilename()
 {
 	string sPropArrayOutfilename;
-	CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
+	//CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
 
 	if(m_iArrayDepth>0)
 	{
@@ -2260,51 +1238,22 @@ string CIoSimDOMBuilder::GetPropArrayOutfilename()
 		CreateArrayMap();
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			sPropArrayOutfilename = pSimulant->GetChildArrayOutfilename(m_iCurrentProp, m_sArrayMap);
-			break;
+
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			sPropArrayOutfilename = m_pSimulation->GetChildArrayOutfilename(m_iCurrentProp, m_sArrayMap);
 			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			sPropArrayOutfilename = m_pCurrentEntitySet->GetChildArrayOutfilename(m_iCurrentProp, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			//sPropArrayOutfilename = NULL;
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-			sPropArrayOutfilename = m_pCurrentEntityTypeSet->GetChildArrayOutfilename(m_iCurrentProp, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-			sPropArrayOutfilename = m_pCurrentEntityType->GetChildArrayOutfilename(m_iCurrentProp, m_sArrayMap);
-			break;
-
+	
 		}
 	}
 	else
 	{
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			sPropArrayOutfilename = pSimulant->GetArrayOutfilename(m_iCurrentProp);
-			break;
+
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			sPropArrayOutfilename = m_pSimulation->GetArrayOutfilename(m_iCurrentProp);
 			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			sPropArrayOutfilename = m_pCurrentEntitySet->GetArrayOutfilename(m_iCurrentProp);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			sPropArrayOutfilename = m_pCurrentEntitySet->GetEArrayOutfilename(m_iCurrentProp);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-			sPropArrayOutfilename = m_pCurrentEntityTypeSet->GetArrayOutfilename(m_iCurrentProp);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-			sPropArrayOutfilename = m_pCurrentEntityType->GetArrayOutfilename(m_iCurrentProp);
-			break;
+	
 
 		}
 	}
@@ -2318,7 +1267,7 @@ int CIoSimDOMBuilder::GetPropFlag()
 {
 
 	int iPropFlag = 0;  //Default is write the property
- 	CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
+ 	//CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
     //Not implemennted by property manager yet
 	if(m_iArrayDepth>0)
 	{
@@ -2326,19 +1275,11 @@ int CIoSimDOMBuilder::GetPropFlag()
 		CreateArrayMap();
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			iPropFlag = pSimulant->GetChildPropertyFlag(m_iCurrentIndex, m_sArrayMap);
-			break;
+
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			iPropFlag =m_pSimulation->GetChildPropertyFlag(m_iCurrentIndex, m_sArrayMap);
 			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			iPropFlag =m_pCurrentEntitySet->GetChildPropertyFlag(m_iCurrentIndex, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			iPropFlag =m_pCurrentEntitySet->GetEArrayFlag(m_iCurrentIndex);//?????
-			break;
+	
 
 
 		}
@@ -2347,24 +1288,9 @@ int CIoSimDOMBuilder::GetPropFlag()
 	{
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			iPropFlag = pSimulant->GetPropertyFlag(m_iCurrentIndex);
-			break;
+
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			iPropFlag =m_pSimulation->GetPropertyFlag(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			iPropFlag =m_pCurrentEntitySet->GetPropertyFlag(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			iPropFlag =m_pCurrentEntitySet->GetEPropertyFlag(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-			iPropFlag =m_pCurrentEntityTypeSet->GetPropertyFlag(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-			iPropFlag =m_pCurrentEntityType->GetPropertyFlag(m_iCurrentIndex);
 			break;
 
 
@@ -2416,7 +1342,7 @@ int CIoSimDOMBuilder::GetPropsFlag()
 {
 
 	int iPropsFlag = 0;  //Default is write the property
- 	CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
+ 	//CIoSimulant *pSimulant = (CIoSimulant *)m_SimulantStack.top();
     //Not implemennted by property manager yet
 	if(m_iArrayDepth>0)
 	{
@@ -2424,38 +1350,22 @@ int CIoSimDOMBuilder::GetPropsFlag()
 		CreateArrayMap();
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			iPropsFlag = pSimulant->GetChildArrayFlag(m_iCurrentIndex, m_sArrayMap);
-			break;
+	
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			iPropsFlag =m_pSimulation->GetChildArrayFlag(m_iCurrentIndex, m_sArrayMap);
 			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			iPropsFlag =m_pCurrentEntitySet->GetChildArrayFlag(m_iCurrentIndex, m_sArrayMap);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			iPropsFlag =7;
-			break;
+	
 		}
 	}
 	else
 	{
 		switch((int)m_SimElementStack.top())
 		{
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-		case IO_XMLP_STACK_ELEMENT_MODEL :
-			iPropsFlag = pSimulant->GetArrayFlag(m_iCurrentIndex);
-			break;
+	
 		case IO_XMLP_STACK_ELEMENT_SIMULATION :
 			iPropsFlag =m_pSimulation->GetArrayFlag(m_iCurrentIndex);
 			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			iPropsFlag =m_pCurrentEntitySet->GetArrayFlag(m_iCurrentIndex);
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYPROPSTYPE :
-			iPropsFlag =m_pCurrentEntitySet->GetEArrayFlag(m_iCurrentIndex);
-			break;
+	
 		}
 	}
 

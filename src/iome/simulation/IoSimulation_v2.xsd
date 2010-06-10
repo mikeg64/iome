@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Michael Kenneth Griffiths (Self Employed) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="iosim">
+		<xs:annotation>
+			<xs:appinfo>A simulation file containing definitions for creating a simulation</xs:appinfo>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="simulation" type="simulation"/>
+			</xs:sequence>
+			<xs:attribute name="filename" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="comments" type="xs:string"/>
+	<xs:simpleType name="intval">
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
+	<xs:complexType name="metadatalisttype"/>
+	<xs:simpleType name="doubleval">
+		<xs:restriction base="xs:double"/>
+	</xs:simpleType>
+	<xs:simpleType name="floatval">
+		<xs:restriction base="xs:float"/>
+	</xs:simpleType>
+	<xs:complexType name="arrayval">
+		<xs:attribute name="numprops" type="xs:integer" default="1"/>
+	</xs:complexType>
+	<xs:complexType name="propstype">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="prop" type="property"/>
+		</xs:sequence>
+		<xs:attribute name="flag" type="xs:int"/>
+		<xs:attribute name="numprops" type="xs:int"/>
+		<xs:attribute name="name" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="property">
+		<xs:choice>
+			<xs:element name="int" type="intval"/>
+			<xs:element name="float" type="floatval" default="0"/>
+			<xs:element name="array" type="arrayval"/>
+			<xs:element name="string" type="stringval"/>
+			<xs:element name="mat">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="cols" type="xs:int" use="required"/>
+							<xs:attribute name="rows" type="xs:int" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="vec">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="size" type="xs:int" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="fmat3d">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="dep" type="xs:int"/>
+							<xs:attribute name="col" type="xs:int"/>
+							<xs:attribute name="row" type="xs:int"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="vmat3d">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="row" type="xs:int" use="required"/>
+							<xs:attribute name="col" type="xs:int" use="required"/>
+							<xs:attribute name="dep" type="xs:int" use="required"/>
+							<xs:attribute name="vsize" type="xs:int" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="mmat3d">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="row" type="xs:int" use="required"/>
+							<xs:attribute name="col" type="xs:int" use="required"/>
+							<xs:attribute name="dep" type="xs:int" use="required"/>
+							<xs:attribute name="mrow" type="xs:int" use="required"/>
+							<xs:attribute name="mcol" type="xs:int" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="double" type="doubleval"/>
+		</xs:choice>
+		<xs:attribute name="outfile" type="xs:string" use="optional"/>
+		<xs:attribute name="infile" type="xs:string" use="optional"/>
+		<xs:attribute name="flag" type="xs:int"/>
+		<xs:attribute name="index" type="xs:integer" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="optional" default="name"/>
+	</xs:complexType>
+	<xs:complexType name="simulation">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:sequence>
+					<xs:element name="steps" type="xs:int"/>
+					<xs:element name="props" type="propstype"/>
+					<xs:element name="metadatlist">
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:extension base="metadatalisttype">
+									<xs:sequence maxOccurs="unbounded">
+										<xs:element name="metadata">
+											<xs:complexType>
+												<xs:attribute name="property" type="xs:string" use="required"/>
+												<xs:attribute name="value" type="xs:string" use="required"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:extension>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="class" type="xs:string" use="required"/>
+				<xs:attribute name="name" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="stringval">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="listype">
+		<xs:list itemType="xs:float"/>
+	</xs:simpleType>
+	<xs:simpleType name="intlistype">
+		<xs:list itemType="xs:int"/>
+	</xs:simpleType>
+</xs:schema>

@@ -86,14 +86,14 @@ int CIoSimulationSAXHandler::m_mm3c=0;
 int CIoSimulationSAXHandler::m_mm3d=0;
 
 int CIoSimulationSAXHandler::m_matcurrentrow=0;
-CIoEntitySet *CIoSimulationSAXHandler::m_pEntitySet = NULL;
-CIoSimulantLink *CIoSimulationSAXHandler::m_psimulantlink;
-CIoSimulantPort *CIoSimulationSAXHandler::m_pport;
+//CIoEntitySet *CIoSimulationSAXHandler::m_pEntitySet = NULL;
+//CIoSimulantLink *CIoSimulationSAXHandler::m_psimulantlink;
+//CIoSimulantPort *CIoSimulationSAXHandler::m_pport;
 
-int CIoSimulationSAXHandler::m_inumentities=0;
-CIoEntityType *CIoSimulationSAXHandler::m_pEntityType=NULL;
-CIoEntityTypeSet *CIoSimulationSAXHandler::m_pEntityTypeSet=NULL;
-int CIoSimulationSAXHandler::m_inumentitytypes=0;
+//int CIoSimulationSAXHandler::m_inumentities=0;
+//CIoEntityType *CIoSimulationSAXHandler::m_pEntityType=NULL;
+//CIoEntityTypeSet *CIoSimulationSAXHandler::m_pEntityTypeSet=NULL;
+//int CIoSimulationSAXHandler::m_inumentitytypes=0;
 
 
 
@@ -108,8 +108,8 @@ CIoSimulationSAXHandler::CIoSimulationSAXHandler()
 		m_ArrayStack.push(NULL);
 		m_ArraySizeStack.push(0);
 		m_SimElementStack.push(0);
-		m_SimulantStack.push(NULL);
-		m_pSimulant = NULL;
+		//m_SimulantStack.push(NULL);
+		//m_pSimulant = NULL;
 		m_sb.str("");
 
 		m_ParamIndexStack.push(-1);
@@ -130,7 +130,7 @@ CIoSimulationSAXHandler::CIoSimulationSAXHandler(CIoXMLSimulation *pSimulation):
 	m_ElementStack.push(0);
 	m_ParamStack.push(NULL);
 	m_SimElementStack.push(0);
-	m_SimulantStack.push(NULL);
+	//m_SimulantStack.push(NULL);
 	m_ParamArrayStack.push(NULL);
 	m_ArrayStack.push(NULL);
 	m_ArraySizeStack.push(0);
@@ -174,12 +174,6 @@ void CIoSimulationSAXHandler::startElement(const XMLCh* const uri
 	
 	if ((XMLString::compareIString(XLO(localname), "simulation")) == 0)
 						StartSimulationElement(uri, localname, qname, attrs);
-	else if((XMLString::compareIString(XLO(localname), "simulant")) == 0);
-								
-	else if((XMLString::compareIString(XLO(localname), "simulator")) == 0)
-							StartSimulatorElement(uri, localname, qname, attrs);
-	else if((XMLString::compareIString(XLO(localname), "model")) == 0)
-							StartModelElement(uri, localname, qname, attrs);
 	else if((XMLString::compareIString(XLO(localname), "props")) == 0)
 							StartParamArrayElement(uri, localname, qname, attrs);
 	else if((XMLString::compareIString(XLO(localname), "prop")) == 0)
@@ -202,32 +196,15 @@ void CIoSimulationSAXHandler::startElement(const XMLCh* const uri
 							StartMatrixElement(uri, localname, qname, attrs);
 	else if((XMLString::compareIString(XLO(localname), "mmat3d")) == 0)
 							Startmmat3dElement(uri, localname, qname, attrs);
-
-	else if((XMLString::compareIString(XLO(localname), "entityset")) == 0)
-							StartEntitySetElement(uri, localname, qname, attrs);
-	else if((XMLString::compareIString(XLO(localname), "entitytypeset")) == 0)
-							StartEntityTypeSetElement(uri, localname, qname, attrs);
-	else if((XMLString::compareIString(XLO(localname), "entitytype")) == 0)
-							StartEntityTypeElement(uri, localname, qname, attrs);
-
 	else if((XMLString::compareIString(XLO(localname), "steps")) == 0)
 							StartStepsElement(uri, localname, qname, attrs);
 	else if((XMLString::compareIString(XLO(localname), "fileprops")) == 0)
 							StartfilepropsElement(uri, localname, qname, attrs);
-	else if((XMLString::compareIString(XLO(localname), "entityprops")) == 0)
-							StartEntitypropsElement(uri, localname, qname, attrs);
 	else if((XMLString::compareIString(XLO(localname), "metadatalist")) == 0)
 							StartMetadatalistElement(uri, localname, qname, attrs);
 	else if((XMLString::compareIString(XLO(localname), "metadata")) == 0)
 							StartMetadataElement(uri, localname, qname, attrs);
-	else if((XMLString::compareIString(XLO(localname), "links")) == 0)
-							StartLinksElement(uri, localname, qname, attrs);
-	else if((XMLString::compareIString(XLO(localname), "link")) == 0)
-							StartLinkElement(uri, localname, qname, attrs);
-	else if((XMLString::compareIString(XLO(localname), "from")) == 0)
-							StartFromElement(uri, localname, qname, attrs);
-	else if((XMLString::compareIString(XLO(localname), "to")) == 0)
-							StartToElement(uri, localname, qname, attrs);
+
 							
 							
 
@@ -782,445 +759,8 @@ void CIoSimulationSAXHandler::StartSimulationElement(const XMLCh* const uri, con
 
 }
 
-void CIoSimulationSAXHandler::StartSimulantElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs)
-{
 
 
-
-
-
-}
-
-void CIoSimulationSAXHandler::StartSimulatorElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs)
-{
-	int len;
-	char sname [100];
-	char classname [100];
-	int createmethod=0;
-
-	CIoSimulator *pSimulator = NULL;
-  //compare class name from sim file
-	                        //with class name froom simulation object
-	                        //checks that we are working with
-	                        //the correct object
-	const XMLCh * ln, * vl; 
-	int lnl, vll;
-
-	char *temp;
-	//push simulation element on element stack
-
-	//Get the attributes and set these to the simulation
-	int j,l;
-
-	l=attrs.getLength();
-	if(m_pSimulation )
-		{		
-		for ( int i=0; i<l; i++ ) {
-	
-			ln = attrs.getLocalName(i); 
-			vl = attrs.getValue(i);
-			vll = XMLString::stringLen(vl);
-			lnl = XMLString::stringLen(ln);
-
-
-				if( XMLString::compareNString(ln,XStr("name").unicodeForm(), lnl) == 0 )
-				{
-							strcpy(sname, XLO(vl));
-							if(pSimulator) pSimulator->SetSimulatorName(sname);
-				}
-				else if( XMLString::compareNString(ln,XStr("class").unicodeForm(), lnl) == 0 )
-				{
-							strcpy(classname, XLO(vl));
-							pSimulator = m_pSimulation->newSimulator(classname);
-							pSimulator->SetSimulatorClass(classname);
-				}
-				else if( XMLString::compareNString(ln,XStr("createmethod").unicodeForm(), lnl) == 0 )
-				{
-					createmethod = atoi(XLO(vl));
-					if(pSimulator) pSimulator->SetCreateMethod(createmethod);
-				}
-
-
-			} //end of loop over attributes
-			//if(pSimulator)
-			//	pSimulator->CreateDefaultParams();
-		}
-
-		if(m_SimulantStack.top()==NULL) m_pSimulant = pSimulator;
-		m_ElementStack.push(IO_XMLP_STACK_ELEMENT_SIMULATOR);
-		m_SimulantStack.push(pSimulator);
-		m_SimElementStack.push(IO_XMLP_STACK_ELEMENT_SIMULATOR);
-
-		//At end of creation if simulation exists create default 
-		//configuration?
-
-
-}
-
-void CIoSimulationSAXHandler::StartModelElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs)
-{
-
-	int len;
-	char sname [100];
-	char classname [100];
-	CIoModel *pModel = NULL;
- //compare class name from sim file
-	                        //with class name froom simulation object
-	                        //checks that we are working with
-	                        //the correct object
-	const XMLCh * ln, * vl; 
-	int lnl, vll;
-    int createmethod=0;
-	char *temp;
-	//push simulation element on element stack
-
-	//Get the attributes and set these to the simulation
-	int j,l;
-
-	l=attrs.getLength();
-	if(m_pSimulation)
-		{		
-		for ( int i=0; i<l; i++ ) {
-	
-			ln = attrs.getLocalName(i); 
-			vl = attrs.getValue(i);
-			vll = XMLString::stringLen(vl);
-			lnl = XMLString::stringLen(ln);
-
-
-				if( XMLString::compareNString(ln,XStr("name").unicodeForm(), lnl) == 0 )
-				{
-					strcpy(sname, XLO(vl));
-					if(pModel) pModel->SetModelName(sname);
-				}
-				else if( XMLString::compareNString(ln,XStr("class").unicodeForm(), lnl) == 0 )
-				{
-					strcpy(classname, XLO(vl));
-					if(pModel = m_pSimulation->newModel(classname))
-					{
-						            pModel->Create();
-									pModel->SetModelClass(classname);
-					}
-				}
-				else if( XMLString::compareNString(ln,XStr("createmethod").unicodeForm(), lnl) == 0 )
-				{
-					createmethod = atoi(XLO(vl));
-					if(pModel) pModel->SetCreateMethod(createmethod);
-				}
-			}//end loop over attribs
-		    //if(pModel) pModel->CreateDefaultParams();
-		} //end of simulation check
-
-		if(m_SimulantStack.top()==NULL) m_pSimulant = (CIoSimulant *)pModel;
-		m_ElementStack.push(IO_XMLP_STACK_ELEMENT_MODEL);
-		m_SimulantStack.push(pModel);
-		m_SimElementStack.push(IO_XMLP_STACK_ELEMENT_MODEL);
-
-		//At end of creation if simulation exists create default 
-		//configuration?
-
-}
-
-void CIoSimulationSAXHandler::StartEntitySetElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs)
-{
-
-	int len;
-	char sname [100];
-	char classname [100];
-	CIoModel *pModel = NULL;
-	CIoSimulator *pSimulator=NULL;
-	CIoEntitySet *pEntitySet=NULL;
- //compare class name from sim file
-	                        //with class name froom simulation object
-	                        //checks that we are working with
-	                        //the correct object
-	const XMLCh * ln, * vl; 
-	int lnl, vll;
- 	char *temp;
-	//push simulation element on element stack
-
-	//Get the attributes and set these to the simulation
-	int j,l;
-	CIoSimulant *pSimulant = m_SimulantStack.top();
-	if(pSimulant && (pSimulant->GetSimulantType()==IO_SIMULANT_TYPE_MODEL))
-								pModel = (CIoModel *)pSimulant;
-	else if(pSimulant && (pSimulant->GetSimulantType()==IO_SIMULANT_TYPE_SIMULATOR))
-								pSimulator = (CIoSimulator *)pSimulant;
-
-	m_pCPropArray = NULL;
-	l=attrs.getLength();
-	if(m_pSimulation && (pModel || pSimulator))
-		{		
-		for ( int i=0; i<l; i++ ) {
-	
-			ln = attrs.getLocalName(i); 
-			vl = attrs.getValue(i);
-			vll = XMLString::stringLen(vl);
-			lnl = XMLString::stringLen(ln);
-
-
-				if( XMLString::compareNString(ln,XStr("name").unicodeForm(), lnl) == 0 )
-				{
-					strcpy(sname, XLO(vl));
-					if(pEntitySet) pEntitySet->SetEntitySetName(sname);
-				}
-				else if( XMLString::compareNString(ln,XStr("class").unicodeForm(), lnl) == 0 )
-				{
-					strcpy(classname, XLO(vl));
-					if(pModel )
-					{
-						if(pEntitySet = pModel->newEntitySet(classname))
-						{
-							pModel->AddEntitySet(pEntitySet);
-							//pEntitySet->Create();
-							m_pEntitySet=pEntitySet;
-						}
-					}
-					//else if(pSimulator)
-					//	pEntitySet = pSimulator->newEntitySet(classname);
-
-					if(pEntitySet)
-							pEntitySet->SetEntitySetClass(classname);
-				}
-
-			}//end loop over attribs
-		    if(pEntitySet) 
-			{
-				m_pEntitySet = pEntitySet;
-				pEntitySet->CreateDefaultParams();
-				m_pCPropArray = pEntitySet->m_pProperties;
-			}
-
-		} //end of simulation check
-
-		m_ElementStack.push(IO_XMLP_STACK_ELEMENT_ENTITYSET);
-		m_SimElementStack.push(IO_XMLP_STACK_ELEMENT_ENTITYSET);
-
-
-
-
-}
-
-void CIoSimulationSAXHandler::StartEntitypropsElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs)
-{
-    int iSimElem;
-	CIoSimulant *pSimulant = NULL;
-
-    iSimElem = (int)m_SimElementStack.top();
-	m_pCPropArray = (CIoParam *)m_ParamArrayStack.top();
-
-    int iNumProps = 0;
-	int len;
-	char spropsname [100];
-	char snumprops [100];
-	int iFlag;
-
-  //compare class name from sim file
-	                        //with class name froom simulation object
-	                        //checks that we are working with
-	                        //the correct object
-	const XMLCh * ln, * vl; 
-	int lnl, vll;
-
-	char *temp;
-	//push simulation element on element stack
-
-	//Get the attributes and set these to the simulation
-	int j,l;
-
-	l=attrs.getLength();
-
-		for ( int i=0; i<l; i++ ) {
-	
-			ln = attrs.getLocalName(i); 
-			vl = attrs.getValue(i);
-			vll = XMLString::stringLen(vl);
-			lnl = XMLString::stringLen(ln);
-
-				if( XMLString::compareNString(ln,XStr("name").unicodeForm(), lnl) == 0 )
-				{
-					strcpy(spropsname, XLO(vl));
-				}
-				else if( XMLString::compareNString(ln,XStr("numprops").unicodeForm(), lnl) == 0 )
-				{
-					strcpy(snumprops, XLO(vl));
-					iNumProps = atoi(snumprops);
-				}
-				else if( XMLString::compareNString(ln,XStr("flag").unicodeForm(), lnl) == 0 )
-				{
-					//strcpy(sflags, XLO(vl));
-					iFlag = atoi(XLO(vl));
-					SetPropArrayFlag(0,iFlag);
-				}			
-
-		}
-
-
-
-
-
-	if(m_pCPropArray)
-	{
-		CIoParam *pParam = NULL;
-		int iParamIndex = (int)m_ParamIndexStack.top();
-		if((pParam = m_pCPropArray->GetParam(iParamIndex)) && (pParam->GetType()==IO_PARAM_ARRAY))
-			m_pCPropArray = pParam;
-		else
-			m_pCPropArray = NULL;
-	}
-	else
-	{
-		switch(iSimElem)
-		{
-			case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-			case IO_XMLP_STACK_ELEMENT_ENTITYPROPS :
-					if(m_pEntitySet)
-						m_pCPropArray = m_pEntitySet->GetEDefaultParams();
-				break;
-		}//end of simulant case check
-	}//end of prop array check
-	m_ParamArrayStack.push(m_pCPropArray);
-	//m_SimElementStack.push(IO_XMLP_STACK_ELEMENT_PROPS);
-	m_ElementStack.push(IO_XMLP_STACK_ELEMENT_ENTITYPROPS);
-
-
-
-}
-
-
-
-void CIoSimulationSAXHandler::StartEntityTypeSetElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs)
-{
-	int len;
-	char sname [100];
-	char classname [100];
-	CIoModel *pModel = NULL;
-	CIoEntityTypeSet *pEntityTypeSet=NULL;
- //compare class name from sim file
-	                        //with class name froom simulation object
-	                        //checks that we are working with
-	                        //the correct object
-	const XMLCh * ln, * vl; 
-	int lnl, vll;
- 	char *temp;
-	//push simulation element on element stack
-
-	//Get the attributes and set these to the simulation
-	int j,l;
-
-	if(m_pSimulation && (m_ElementStack.top()== IO_XMLP_STACK_ELEMENT_ENTITYSET) && m_pEntitySet)
-	{
-	l=attrs.getLength();
-		
-		for ( int i=0; i<l; i++ ) {
-	
-			ln = attrs.getLocalName(i); 
-			vl = attrs.getValue(i);
-			vll = XMLString::stringLen(vl);
-			lnl = XMLString::stringLen(ln);
-
-
-				if( XMLString::compareNString(ln,XStr("name").unicodeForm(), lnl) == 0 )
-				{
-					strcpy(sname, XLO(vl));
-					if(pEntityTypeSet) pEntityTypeSet->SetEntityTypeSetName(sname);
-				}
-				else if( XMLString::compareNString(ln,XStr("class").unicodeForm(), lnl) == 0 )
-				{
-					strcpy(classname, XLO(vl));
-					if(m_pEntitySet )
-					{
-						pEntityTypeSet = m_pEntitySet->newEntityTypeSet(classname);
-						m_pEntitySet->SetEntityTypeSet(pEntityTypeSet);
-						pEntityTypeSet->CreateEntityTypeSet();
-					}
-					if(pEntityTypeSet)
-					{
-							m_pEntityTypeSet = pEntityTypeSet;
-							pEntityTypeSet->SetEntityTypeSetClass(classname);
-					}
-				}
-
-
-			}//end loop over attribs
-
-		    if(pEntityTypeSet) pEntityTypeSet->CreateDefaultParams();
-		} //end of simulation check
-
-		m_ElementStack.push(IO_XMLP_STACK_ELEMENT_ENTITYTYPESET);
-
-
-
-
-}
-
-void CIoSimulationSAXHandler::StartEntityTypeElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs)
-{
-
-	int len;
-	char sname [100];
-	char classname [100];
-	CIoModel *pModel = NULL;
-	CIoEntityType *pEntityType=NULL;
- //compare class name from sim file
-	                        //with class name froom simulation object
-	                        //checks that we are working with
-	                        //the correct object
-	const XMLCh * ln, * vl; 
-	int lnl, vll;
- 	char *temp;
-	//push simulation element on element stack
-
-	//Get the attributes and set these to the simulation
-	int j,l;
-
-	if(m_pSimulation && (m_ElementStack.top()== IO_XMLP_STACK_ELEMENT_ENTITYTYPESET) && m_pEntityTypeSet && m_pEntitySet)
-	{
-	l=attrs.getLength();
-		
-		for ( int i=0; i<l; i++ ) {
-	
-			ln = attrs.getLocalName(i); 
-			vl = attrs.getValue(i);
-			vll = XMLString::stringLen(vl);
-			lnl = XMLString::stringLen(ln);
-
-
-				if( XMLString::compareNString(ln,XStr("name").unicodeForm(), lnl) == 0 )
-				{
-					strcpy(sname, XLO(vl));
-					if(pEntityType) pEntityType->SetEntityTypeName(sname);
-				}
-				else if( XMLString::compareNString(ln,XStr("class").unicodeForm(), lnl) == 0 )
-				{
-					strcpy(classname, XLO(vl));
-					if(m_pEntitySet )
-					{
-						if(pEntityType = m_pEntitySet->newEntityType(classname))
-						{
-							m_pEntitySet->AddEntityType(pEntityType);
-							pEntityType->CreateEntityType();
-						}
-					}
-					if(pEntityType)
-					{
-							m_pEntityType = pEntityType;
-							pEntityType->SetEntityTypeClass(classname);
-					}
-				}
-
-
-			}//end loop over attribs
-		    if(pEntityType) pEntityType->CreateDefaultParams();
-		} //end of simulation check
-
-		m_ElementStack.push(IO_XMLP_STACK_ELEMENT_ENTITYTYPE);
-
-
-
-
-
-}
 
 void CIoSimulationSAXHandler::StartMetadatalistElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs)
 {
@@ -1277,7 +817,7 @@ void CIoSimulationSAXHandler::StartMetadataElement(const XMLCh* const uri, const
 void CIoSimulationSAXHandler::StartParamArrayElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs)
 {
     int iSimElem;
-	CIoSimulant *pSimulant = NULL;
+	//CIoSimulant *pSimulant = NULL;
 	CIoPropertyManager *pman=NULL;
     iSimElem = (int)m_SimElementStack.top();
 	m_pCPropArray = (CIoParam *)m_ParamArrayStack.top();
@@ -1353,40 +893,6 @@ void CIoSimulationSAXHandler::StartParamArrayElement(const XMLCh* const uri, con
 					if(pman=(CIoPropertyManager *)m_pSimulation)
 						m_pCPropArray = m_pSimulation->GetSimProperties();
 				break;
-			case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-					pSimulant = (CIoSimulant *)m_SimulantStack.top();
-					if((pman=(CIoPropertyManager *)pSimulant) && pSimulant->GetSimulantType()==IO_SIMULANT_TYPE_SIMULATOR )
-						m_pCPropArray = pSimulant->GetParams();
-
-				break;
-			case IO_XMLP_STACK_ELEMENT_MODEL :
-					pSimulant = (CIoSimulant *)m_SimulantStack.top();
-					if((pman=(CIoPropertyManager *)pSimulant) && pSimulant->GetSimulantType()==IO_SIMULANT_TYPE_MODEL )
-					{
-						m_pCPropArray = pSimulant->GetParams();
-					}
-				break;
-			case IO_XMLP_STACK_ELEMENT_MODELCREATOR :
-					pSimulant = (CIoSimulant *)m_SimulantStack.top();
-					if((pman=(CIoPropertyManager *)pSimulant) && pSimulant->GetSimulantType()==IO_SIMULANT_TYPE_MODEL )
-						m_pCPropArray = pSimulant->GetParams();
-				break;
-			case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-					if(pman=(CIoPropertyManager *)m_pEntitySet)
-						m_pCPropArray = m_pEntitySet->m_pProperties;
-				break;
-			case IO_XMLP_STACK_ELEMENT_ENTITYPROPS :
-					if(pman=(CIoPropertyManager *)m_pEntitySet)
-						m_pCPropArray = m_pEntitySet->GetEDefaultParams();
-				break;
-			case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-					if(pman=(CIoPropertyManager *)m_pEntityTypeSet)
-						m_pCPropArray = m_pEntityTypeSet->m_pProperties;
-				break;
-			case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-					if(pman=(CIoPropertyManager *)m_pEntityType)
-						m_pCPropArray = m_pEntityType->m_pProperties;
-				break;
 		}//end of simulant case check
 		if((strlen(spropsname)>0))
 			SetPropArrayName(0,spropsname);
@@ -1419,7 +925,7 @@ void CIoSimulationSAXHandler::StartParamArrayElement(const XMLCh* const uri, con
 void CIoSimulationSAXHandler::SetPropArrayFlag(int index,int iflag)
 {
 	int iSimElem;
-	CIoSimulant *pSimulant = NULL;
+//	CIoSimulant *pSimulant = NULL;
 
     iSimElem = (int)m_SimElementStack.top();
 	
@@ -1434,49 +940,6 @@ void CIoSimulationSAXHandler::SetPropArrayFlag(int index,int iflag)
 						m_pSimulation->SetArrayFlag(index, iflag);													
 					}
 				break;
-			case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-					if(pSimulant = (CIoSimulant *)m_SimulantStack.top())
-					{
-						while(pSimulant->GetNumArrayFlags()>index)
-									pSimulant->AddArrayFlag(7);
-						pSimulant->SetArrayFlag(index, iflag);
-					}
-				break;
-			case IO_XMLP_STACK_ELEMENT_MODEL :
-					if(pSimulant = (CIoSimulant *)m_SimulantStack.top())
-					{
-						while(pSimulant->GetNumArrayFlags()>index)
-									pSimulant->AddArrayFlag(7);
-						pSimulant->SetArrayFlag(index, iflag);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-					if(m_pEntitySet)
-					{
-						while(m_pEntitySet->GetNumArrayFlags()>index)
-									m_pEntitySet->AddArrayFlag(7);
-						m_pEntitySet->SetArrayFlag(index, iflag);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYPROPS :
-					if(m_pEntitySet)
-					{
-						while(m_pEntitySet->GetNumEArrayFlags()>index)
-									m_pEntitySet->AddEArrayFlag(7);
-						m_pEntitySet->SetEArrayFlag(index, iflag);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-					if(m_pEntityTypeSet)
-					{
-						while(m_pEntityTypeSet->GetNumArrayFlags()>index)
-									m_pEntityTypeSet->AddArrayFlag(7);
-						m_pEntityTypeSet->SetArrayFlag(index, iflag);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-					{
-						while(m_pEntityType->GetNumArrayFlags()>index)
-									m_pEntityType->AddArrayFlag(7);
-						m_pEntityType->SetArrayFlag(index, iflag);
-					}
-				break;
 		}//end of simulant case check
 
 
@@ -1485,7 +948,7 @@ void CIoSimulationSAXHandler::SetPropArrayFlag(int index,int iflag)
 void CIoSimulationSAXHandler::SetPropFlag(int index,int iflag)
 {
 	int iSimElem;
-	CIoSimulant *pSimulant = NULL;
+//	CIoSimulant *pSimulant = NULL;
 
     iSimElem = (int)m_SimElementStack.top();
 	
@@ -1498,49 +961,6 @@ void CIoSimulationSAXHandler::SetPropFlag(int index,int iflag)
 						while(m_pSimulation->GetNumPropFlags()<index)
 									m_pSimulation->AddPropFlag(7);
 						m_pSimulation->SetPropertyFlag(index, iflag);													
-					}
-				break;
-			case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-					if(pSimulant = (CIoSimulant *)m_SimulantStack.top())
-					{
-						while(pSimulant->GetNumPropFlags()>index)
-									pSimulant->AddPropFlag(7);
-						pSimulant->SetPropertyFlag(index, iflag);
-					}
-				break;
-			case IO_XMLP_STACK_ELEMENT_MODEL :
-					if(pSimulant = (CIoSimulant *)m_SimulantStack.top())
-					{
-						while(pSimulant->GetNumPropFlags()>index)
-									pSimulant->AddPropFlag(7);
-						pSimulant->SetPropertyFlag(index, iflag);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-					if(m_pEntitySet)
-					{
-						while(m_pEntitySet->GetNumPropFlags()>index)
-									m_pEntitySet->AddPropFlag(7);
-						m_pEntitySet->SetPropertyFlag(index, iflag);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYPROPS :
-					if(m_pEntitySet)
-					{
-						while(m_pEntitySet->GetNumEPropFlags()>index)
-									m_pEntitySet->AddEPropFlag(7);
-						m_pEntitySet->SetEPropertyFlag(index, iflag);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-					if(m_pEntityTypeSet)
-					{
-						while(m_pEntityTypeSet->GetNumPropFlags()>index)
-									m_pEntityTypeSet->AddPropFlag(7);
-						m_pEntityTypeSet->SetPropertyFlag(index, iflag);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-					{
-						while(m_pEntityType->GetNumPropFlags()>index)
-									m_pEntityType->AddPropFlag(7);
-						m_pEntityType->SetPropertyFlag(index, iflag);
 					}
 				break;
 		}//end of simulant case check
@@ -1556,7 +976,7 @@ void CIoSimulationSAXHandler::SetPropFlag(int index,int iflag)
 void CIoSimulationSAXHandler::SetPropName(int index, char *sname)
 {
 	int iSimElem;
-	CIoSimulant *pSimulant = NULL;
+	//CIoSimulant *pSimulant = NULL;
 	
     iSimElem = (int)m_SimElementStack.top();
 	
@@ -1571,49 +991,6 @@ void CIoSimulationSAXHandler::SetPropName(int index, char *sname)
 						m_pSimulation->SetPropertyName(index, sname);													
 					}
 					break;
-			case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-					if(pSimulant = (CIoSimulant *)m_SimulantStack.top())
-					{
-						while(pSimulant->GetNumPropNames()>index)
-									pSimulant->AddPropName(sname);
-						pSimulant->SetPropertyName(index, sname);
-					}
-					break;
-			case IO_XMLP_STACK_ELEMENT_MODEL :
-					if(pSimulant = (CIoSimulant *)m_SimulantStack.top())
-					{
-						while(pSimulant->GetNumPropNames()>index)
-									pSimulant->AddPropName(sname);
-						pSimulant->SetPropertyName(index, sname);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-					if(m_pEntitySet)
-					{
-						while(m_pEntitySet->GetNumPropNames()>index)
-									m_pEntitySet->AddPropName(sname);
-						m_pEntitySet->SetPropertyName(index, sname);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYPROPS :
-					if(m_pEntitySet)
-					{
-						while(m_pEntitySet->GetNumEPropNames()>index)
-									m_pEntitySet->AddEPropName(sname);
-						m_pEntitySet->SetEPropertyName(index, sname);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-					if(m_pEntityTypeSet)
-					{
-						while(m_pEntityTypeSet->GetNumPropNames()>index)
-									m_pEntityTypeSet->AddPropName(sname);
-						m_pEntityTypeSet->SetPropertyName(index, sname);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-					{
-						while(m_pEntityType->GetNumPropNames()>index)
-									m_pEntityType->AddPropName(sname);
-						m_pEntityType->SetPropertyName(index, sname);
-					}
-				break;
 		}//end of simulant case check
 
 
@@ -1623,7 +1000,7 @@ void CIoSimulationSAXHandler::SetPropName(int index, char *sname)
 void CIoSimulationSAXHandler::SetPropArrayName(int index, char *sname)
 {
 	int iSimElem;
-	CIoSimulant *pSimulant = NULL;
+	//CIoSimulant *pSimulant = NULL;
 	
     iSimElem = (int)m_SimElementStack.top();
 	
@@ -1638,49 +1015,6 @@ void CIoSimulationSAXHandler::SetPropArrayName(int index, char *sname)
 						m_pSimulation->SetArrayName(index, sname);													
 					}
 					break;
-			case IO_XMLP_STACK_ELEMENT_SIMULATOR :
-					if(pSimulant = (CIoSimulant *)m_SimulantStack.top())
-					{
-						while(pSimulant->GetNumArrayNames()>index)
-									pSimulant->AddArrayName(sname);
-						pSimulant->SetArrayName(index, sname);
-					}
-					break;
-			case IO_XMLP_STACK_ELEMENT_MODEL :
-					if(pSimulant = (CIoSimulant *)m_SimulantStack.top())
-					{
-						while(pSimulant->GetNumArrayNames()>index)
-									pSimulant->AddArrayName(sname);
-						pSimulant->SetArrayName(index, sname);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYSET :
-					if(m_pEntitySet)
-					{
-						while(m_pEntitySet->GetNumArrayNames()>index)
-									m_pEntitySet->AddArrayName(sname);
-						m_pEntitySet->SetArrayName(index, sname);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYPROPS :
-					if(m_pEntitySet)
-					{
-						while(m_pEntitySet->GetNumEArrayNames()>index)
-									m_pEntitySet->AddEArrayName(sname);
-						m_pEntitySet->SetEArrayName(index, sname);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET :
-					if(m_pEntityTypeSet)
-					{
-						while(m_pEntityTypeSet->GetNumArrayNames()>index)
-									m_pEntityTypeSet->AddArrayName(sname);
-						m_pEntityTypeSet->SetArrayName(index, sname);
-					}
-			case IO_XMLP_STACK_ELEMENT_ENTITYTYPE :
-					{
-						while(m_pEntityType->GetNumArrayNames()>index)
-									m_pEntityType->AddArrayName(sname);
-						m_pEntityType->SetArrayName(index, sname);
-					}
-				break;
 		}//end of simulant case check
 
 
@@ -1711,18 +1045,6 @@ void CIoSimulationSAXHandler::StartParamElement(const XMLCh* const uri, const XM
 		{
 		case IO_XMLP_STACK_ELEMENT_SIMULATION:
 				pPropMan = (CIoPropertyManager *)m_pSimulation;
-			break;
-		case IO_XMLP_STACK_ELEMENT_SIMULANT:
-		case IO_XMLP_STACK_ELEMENT_MODEL:
-		case IO_XMLP_STACK_ELEMENT_SIMULATOR:
-				pPropMan = (CIoPropertyManager *)m_pSimulant;
-
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYSET:
-				pPropMan = (CIoPropertyManager *)m_pEntitySet;
-			break;
-		case IO_XMLP_STACK_ELEMENT_ENTITYTYPESET:
-				pPropMan = (CIoPropertyManager *)m_pEntityTypeSet;
 			break;
 
 
@@ -2084,157 +1406,6 @@ void CIoSimulationSAXHandler::Startmmat3dElement(const XMLCh* const uri, const X
 }
 
 
-void CIoSimulationSAXHandler::StartLinksElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs)
-{
-	
-	
-}
-
-void CIoSimulationSAXHandler::StartLinkElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs)
-{
-	int iSimElem;
-	CIoSimulator *psimulator=NULL;
-
-    iSimElem = (int)m_SimElementStack.top();
-	if(iSimElem==IO_XMLP_STACK_ELEMENT_SIMULATOR)
-	{			
-		psimulator = (CIoSimulator *)m_SimulantStack.top();
-		m_psimulantlink=new CIoSimulantLink();
-
-
-
-					
-	}
-	
-	
-}
-
-void CIoSimulationSAXHandler::StartFromElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs)
-{
-	int iSimElem;
-
-	const XMLCh * ln, * vl; 
-	int l, lnl, vll;
-
-	CIoSimulator *psimulator=NULL;
-
-	int iparamid;
-	string sparammap;
-	int ientitysetid;
-	int ientityid;	
-	int isimulantid;
-	string ssimulantmap;
-
-    iSimElem = (int)m_SimElementStack.top();
-	if((iSimElem==IO_XMLP_STACK_ELEMENT_SIMULATOR) &&  (m_psimulantlink !=NULL))
-	{			
-		psimulator = (CIoSimulator *)m_SimulantStack.top();
-		m_pport=(CIoSimulantPort *)new CIoSimulantPort();
-        
-			l=attrs.getLength();
-
-
-		for ( int i=0; i<l; i++ ) {
-	
-			ln = attrs.getLocalName(i); 
-			vl = attrs.getValue(i);
-			vll = XMLString::stringLen(vl);
-			lnl = XMLString::stringLen(ln);
-
-				if( XMLString::compareNString(ln,XStr("simulantmap").unicodeForm(), lnl) == 0 )
-							ssimulantmap=(XLO(vl));
-				if( XMLString::compareNString(ln,XStr("simulantid").unicodeForm(), lnl) == 0 )
-							isimulantid = atoi(XLO(vl));
-				if( XMLString::compareNString(ln,XStr("parammap").unicodeForm(), lnl) == 0 )
-							sparammap=(XLO(vl));
-				if( XMLString::compareNString(ln,XStr("paramid").unicodeForm(), lnl) == 0 )
-							iparamid = atoi(XLO(vl));
-				if( XMLString::compareNString(ln,XStr("entitysetid").unicodeForm(), lnl) == 0 )
-							ientitysetid = atoi(XLO(vl));
-
-					
-		}
-
-		m_pport->SetParamID(iparamid);
-		m_pport->SetParammap(sparammap);
-		m_pport->SetSimulantID(isimulantid);
-		m_pport->SetSimulantmap(ssimulantmap);
-		m_pport->SetEntitySetID(ientitysetid);
-		
-
-		m_psimulantlink->SetFromPort(m_pport);
-		m_pport->m_simulant=psimulator->GetChildSimulant(isimulantid,(char *)ssimulantmap.c_str());
-
-
-					
-	}	
-	
-	
-}
-
-void CIoSimulationSAXHandler::StartToElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const Attributes& attrs)
-{
-	int iSimElem;
-
-	const XMLCh * ln, * vl; 
-	int l,lnl, vll;
-
-	CIoSimulator *psimulator=NULL;
-
-	int iparamid;
-	string sparammap;
-	int ientitysetid;
-	int ientityid;	
-	int isimulantid;
-	string ssimulantmap;
-
-    iSimElem = (int)m_SimElementStack.top();
-	if((iSimElem==IO_XMLP_STACK_ELEMENT_SIMULATOR) &&  (m_psimulantlink !=NULL))
-	{			
-		psimulator = (CIoSimulator *)m_SimulantStack.top();
-		m_pport=(CIoSimulantPort *)new CIoSimulantPort();
-        
-			l=attrs.getLength();
-
-
-		for ( int i=0; i<l; i++ ) {
-	
-			ln = attrs.getLocalName(i); 
-			vl = attrs.getValue(i);
-			vll = XMLString::stringLen(vl);
-			lnl = XMLString::stringLen(ln);
-
-				if( XMLString::compareNString(ln,XStr("simulantmap").unicodeForm(), lnl) == 0 )
-							ssimulantmap= (XLO(vl));
-				if( XMLString::compareNString(ln,XStr("simulantid").unicodeForm(), lnl) == 0 )
-							isimulantid = atoi(XLO(vl));
-				if( XMLString::compareNString(ln,XStr("parammap").unicodeForm(), lnl) == 0 )
-							sparammap=(XLO(vl));
-				if( XMLString::compareNString(ln,XStr("paramid").unicodeForm(), lnl) == 0 )
-							iparamid = atoi(XLO(vl));
-				if( XMLString::compareNString(ln,XStr("entitysetid").unicodeForm(), lnl) == 0 )
-							ientitysetid = atoi(XLO(vl));
-
-					
-		}
-
-		m_pport->SetParamID(iparamid);
-		m_pport->SetParammap(sparammap);
-		m_pport->SetSimulantID(isimulantid);
-		m_pport->SetSimulantmap(ssimulantmap);
-		m_pport->SetEntitySetID(ientitysetid);
-		m_pport->m_simulant=psimulator->GetChildSimulant(isimulantid,(char *)ssimulantmap.c_str());
-
-		m_psimulantlink->SetToPort(m_pport);
-
-
-					
-	}	
-	
-	
-	
-	
-}
 
 
 
@@ -2258,100 +1429,14 @@ void CIoSimulationSAXHandler::endElement(const XMLCh* const uri, const XMLCh* co
 		Endmmat3dElement(uri, localname, qname);
 	else if ((XMLString::compareIString(XLO(localname), "vector")) == 0)
 		EndVectorElement(uri, localname, qname);
-	else if((XMLString::compareIString(XLO(localname), "model")) == 0)
-		EndModelElement(uri, localname, qname);
 	else if ((XMLString::compareIString(XLO(localname), "prop")) == 0)
 		endParamElement(uri, localname, qname);
 	else if ((XMLString::compareIString(XLO(localname), "metadatalist")) == 0)
 		EndMetadatalistElement(uri, localname, qname);
 	else if ((XMLString::compareIString(XLO(localname), "metadata")) == 0)
 		EndMetadataElement(uri, localname, qname);
-	else if ((XMLString::compareIString(XLO(localname), "links")) == 0)
-		EndLinksElement(uri, localname, qname);
-	else if ((XMLString::compareIString(XLO(localname), "link")) == 0)
-		EndLinkElement(uri, localname, qname);
-	else if ((XMLString::compareIString(XLO(localname), "from")) == 0)
-		EndFromElement(uri, localname, qname);
-	else if ((XMLString::compareIString(XLO(localname), "to")) == 0)
-		EndToElement(uri, localname, qname);
-		
 	else if ((XMLString::compareIString(XLO(localname), "props")) == 0)
 		endParamArrayElement(uri, localname, qname);
-		else if((XMLString::compareIString(XLO(localname), "simulator")) == 0)
-	{
-		CIoSimulant *pSimulant=NULL, *pParentSimulant=NULL;
-		//Determine parent of simulator
-		if(m_pSimulant == m_SimulantStack.top())
-		{
-			m_pSimulant = (CIoSimulant *)m_SimulantStack.top();
-			//pop the stack 
-			m_SimulantStack.pop();
-		}
-		else
-		{
-			//Determine the parent of the simulator
-			//current has to be top simulant in stack
-			//add simulant to parent set its parent
-			//finally pop the stack
-			if(!m_SimulantStack.empty())
-			{
-				pSimulant = (CIoSimulant *)m_SimulantStack.top();
-				m_SimulantStack.pop();
-				if(!m_SimulantStack.empty())
-					pParentSimulant = (CIoSimulant *)m_SimulantStack.top();
-				if(pParentSimulant && pSimulant)
-				{
-					pParentSimulant->Add(pSimulant);
-					pSimulant->SetParentSimulant(pParentSimulant);
-				}
-			}
-		}//end of adding simulant to parent and setting parent
-			
-
-		//This must always be the first element pushed onto stack
-		//there will normally be only 1!!!!
-		if(!m_ElementStack.empty() && ((int)(m_ElementStack.top())==IO_XMLP_STACK_ELEMENT_SIMULATOR))	m_ElementStack.pop();
-		if(!m_SimElementStack.empty() && ((int)(m_SimElementStack.top())==IO_XMLP_STACK_ELEMENT_SIMULATOR))	m_SimElementStack.pop();
-		if(!m_SimulantStack.empty() && ((CIoSimulant *)(m_SimulantStack.top())!= NULL))	m_SimulantStack.pop();
-
-	}//if end element is simulator
-	else if((XMLString::compareIString(XLO(localname), "modelcreator")) == 0)
-	{
-		CIoSimulant *pSimulant=NULL, *pParentSimulant=NULL;
-		//Determine parent of simulator
-		if(m_pSimulant == m_SimulantStack.top())
-		{
-			//m_pSimulant = (CIoSimulant *)m_SimulantStack.top();
-			//pop the stack 
-			m_SimulantStack.pop();
-		}
-		else
-		{
-			//Determine the parent of the simulator
-			//current has to be top simulant in stack
-			//add simulant to parent set its parent
-			//finally pop the stack
-			if(!m_SimulantStack.empty())
-			{
-				pSimulant = (CIoSimulant *)m_SimulantStack.top();
-				m_SimulantStack.pop();
-				if(!m_SimulantStack.empty())
-					pParentSimulant = (CIoSimulant *)m_SimulantStack.top();
-				if(pParentSimulant && pSimulant)
-				{
-					pParentSimulant->Add(pSimulant);
-					pSimulant->SetParentSimulant(pParentSimulant);
-				}
-			}
-		}//end of adding simulant to parent and setting parent
-			
-
-		//This must always be the first element pushed onto stack
-		//there will normally be only 1!!!!
-		if(!m_ElementStack.empty() && ((int)(m_ElementStack.top())==IO_XMLP_STACK_ELEMENT_MODELCREATOR))	m_ElementStack.pop();
-		if(!m_SimElementStack.empty() && ((int)(m_SimElementStack.top())==IO_XMLP_STACK_ELEMENT_MODELCREATOR))	m_SimElementStack.pop();
-		if(!m_SimulantStack.empty() && ((CIoSimulant *)(m_SimulantStack.top())!= NULL))	m_SimulantStack.pop();
-	}//if end element is modelcreator
 	else if ((XMLString::compareIString(XLO(localname), "simulation")) == 0)
 	{
 		//This must always be the first element pushed onto stack
@@ -2359,13 +1444,7 @@ void CIoSimulationSAXHandler::endElement(const XMLCh* const uri, const XMLCh* co
 		if(!m_ElementStack.empty() && ((int)(m_ElementStack.top())==IO_XMLP_STACK_ELEMENT_SIMULATION))	m_ElementStack.pop();
 		if(!m_SimElementStack.empty() && ((int)(m_SimElementStack.top())==IO_XMLP_STACK_ELEMENT_SIMULATION))	m_SimElementStack.pop();
 
-		//At this point there had only better be one simulant left on the stack
-		//so set this simulant to the simulation
-        if(m_pSimulation && m_pSimulant)
-		{
-			m_pSimulation->SetSimulant(m_pSimulant);
-			//m_pSimulation->CreateDefaultConfig();
-		}
+
 	}
 	else if((XMLString::compareIString(XLO(localname), "steps")) == 0)
 	{
@@ -2378,44 +1457,6 @@ void CIoSimulationSAXHandler::endElement(const XMLCh* const uri, const XMLCh* co
 		//This must always be the first element pushed onto stack
 		//there will normally be only 1!!!!
 		if(!m_ElementStack.empty() && ((int)(m_ElementStack.top())==IO_XMLP_STACK_ELEMENT_FILEPROPS))	m_ElementStack.pop();
-	}
-	else if((XMLString::compareIString(XLO(localname), "entityprops")) == 0)
-	{
-		//This must always be the first element pushed onto stack
-		//there will normally be only 1!!!!
-		if(!m_ElementStack.empty() && ((int)(m_ElementStack.top())==IO_XMLP_STACK_ELEMENT_ENTITYPROPS))	m_ElementStack.pop();
-		if(!m_ParamArrayStack.empty()) m_ParamArrayStack.pop();
-	}
-	else if ((XMLString::compareIString(XLO(localname), "entityset")) == 0)
-	{
-		if(!m_SimElementStack.empty() && ((int)(m_SimElementStack.top())==IO_XMLP_STACK_ELEMENT_ENTITYSET))	
-						m_SimElementStack.pop();
-		if(!m_ElementStack.empty() && ((int)(m_ElementStack.top())==IO_XMLP_STACK_ELEMENT_ENTITYSET))	
-		{
-			m_ElementStack.pop();
-			m_pEntitySet->Create();
-			m_pEntitySet=NULL;
-			m_inumentities=0;
-		}
-	}
-	else if ((XMLString::compareIString(XLO(localname), "entitytypeset")) == 0)
-	{
-	if(!m_ElementStack.empty() && ((int)(m_ElementStack.top())==IO_XMLP_STACK_ELEMENT_ENTITYTYPESET))	
-		{
-			m_ElementStack.pop();
-			m_pEntityTypeSet=NULL;
-			m_inumentitytypes=0;
-		}
-	}
-	else if ((XMLString::compareIString(XLO(localname), "entitytype")) == 0)
-	{
-	if(!m_ElementStack.empty() && ((int)(m_ElementStack.top())==IO_XMLP_STACK_ELEMENT_ENTITYTYPE))	
-		{
-			m_ElementStack.pop();
-			//if(m_pEntityTypeSet)
-			//	m_pEntityTypeSet->AddEntityType(m_pEntityType);
-			m_pEntityType=NULL;
-		}
 	}
 	//else if((XMLString::compareIString(XLO(localname), "simulant")) == 0);
 
@@ -2721,46 +1762,7 @@ void CIoSimulationSAXHandler::Endmmat3dElement(const XMLCh* const uri, const XML
 
 
 
-void CIoSimulationSAXHandler::EndModelElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname)
-{
 
-		CIoSimulant *pSimulant=NULL, *pParentSimulant=NULL;
-
-		//Determine parent of simulator
-		if(m_pSimulant == m_SimulantStack.top())
-		{
-			m_pSimulant = (CIoSimulant *)m_SimulantStack.top();
-			//pop the stack 
-			m_SimulantStack.pop();
-		}
-		else
-		{
-			//Determine the parent of the simulator
-			//current has to be top simulant in stack
-			//add simulant to parent set its parent
-			//finally pop the stack
-			if(!m_SimulantStack.empty())
-			{
-				pSimulant = (CIoSimulant *)m_SimulantStack.top();
-				m_SimulantStack.pop();
-				if(!m_SimulantStack.empty())
-					pParentSimulant = (CIoSimulant *)m_SimulantStack.top();
-				if(pParentSimulant && pSimulant)
-				{
-					pParentSimulant->Add(pSimulant);
-					pSimulant->SetParentSimulant(pParentSimulant);
-				}
-			}
-		}//end of adding simulant to parent and setting parent
-			
-
-		//This must always be the first element pushed onto stack
-		//there will normally be only 1!!!!
-		if(!m_ElementStack.empty() && ((int)(m_ElementStack.top())==IO_XMLP_STACK_ELEMENT_MODEL))	m_ElementStack.pop();
-		if(!m_SimElementStack.empty() && ((int)(m_SimElementStack.top())==IO_XMLP_STACK_ELEMENT_MODEL))	m_SimElementStack.pop();
-		if(!m_SimulantStack.empty() && ((CIoSimulant *)(m_SimulantStack.top())!= NULL))	m_SimulantStack.pop();
-
-}
 
 void CIoSimulationSAXHandler::EndMetadatalistElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname)
 {
@@ -2778,37 +1780,4 @@ void CIoSimulationSAXHandler::EndMetadataElement(const XMLCh* const uri, const X
 	
 }
 
-void CIoSimulationSAXHandler::EndLinksElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname)
-{
 
-
-}
-
-void CIoSimulationSAXHandler::EndLinkElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname)
-{
-	if(m_psimulantlink!=NULL)
-	{
-		delete m_psimulantlink;
-		m_psimulantlink=NULL;
-	}
-
-}
-
-void CIoSimulationSAXHandler::EndFromElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname)
-{
-	if(m_pport!=NULL)
-	{
-		delete m_pport;
-		m_pport=NULL;
-	}
-}
-
-void CIoSimulationSAXHandler::EndToElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname)
-{
-	if(m_pport!=NULL)
-	{
-		delete m_pport;
-		m_pport=NULL;
-	}
-
-}

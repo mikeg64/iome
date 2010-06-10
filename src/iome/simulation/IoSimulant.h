@@ -61,7 +61,7 @@ mikeg@photon0.freeserve.co.uk
 	#include <iome/utils/IoParams.h>
 #endif
 #include <iome/simulation/CIoSimulantPort.h>
-#include <iome/simulation/IoWFExecutable.h>
+//#include <iome/simulation/IoWFExecutable.h>
 
 
 using std::istream;
@@ -94,7 +94,7 @@ public:
 	int m_iStepNum;
 	int m_iRunState; //OK ready,  1 running, 2 qwaiting, 3 waitingforinputport, 4 waitingforoutput, 5 finished
     int m_iprocid;
-	IoWFExecutable m_wfexecutable;
+//	IoWFExecutable m_wfexecutable;
 	int m_idistributemethod;
 	int m_inumprocs;
 	
@@ -108,8 +108,8 @@ public:
 	
 	
 	
-	char *GetHost(){return m_wfexecutable.GetHost();}
-	char *GetJobmanager(){return m_wfexecutable.GetJobmanager();}
+//	char *GetHost(){return m_wfexecutable.GetHost();}
+//	char *GetJobmanager(){return m_wfexecutable.GetJobmanager();}
 	
 	
 	

@@ -70,7 +70,7 @@ CIoXMLSimulation::CIoXMLSimulation()
 	m_istatereadmethod=1;
 	m_iconfigwritemethod=1;
 	m_iconfigreadmethod=1;
-	m_pDOMState=NULL;
+//	m_pDOMState=NULL;
 
 	
 
@@ -83,11 +83,7 @@ CIoXMLSimulation::~CIoXMLSimulation()
 	delete [] m_sStateXSLFileName;
 	delete [] m_sConfigXSLFilePrefix;
 	delete [] m_sStateXSLFilePrefix;
-	if(m_pDOMState)
-	{
-				//delete m_pDOMState;
-				m_pDOMState=NULL;
-	}
+
 
 	//XalanTransformer::terminate();
 	//XMLPlatformUtils::Terminate();
@@ -160,11 +156,7 @@ int CIoXMLSimulation::ReadSimulation(char *sSimFilename)
 		{
 			CIoSimulationReader SimReader;
 			status = SimReader.ParseSimulationFile(sSimFilename, this);
-			if(m_pSimulant)
-			{
-		 		//m_pSimulant->CreateConfig();
-		 		m_pSimulant->SetCreateMethod(m_iCreateMethod);
-			}		
+		
 		}
 		else
 		{
@@ -172,10 +164,7 @@ int CIoXMLSimulation::ReadSimulation(char *sSimFilename)
 		}
 		
 
-	if(m_pSimulant)
-	{
-		 m_pSimulant->SetCreateMethod(m_iCreateMethod);
-	}
+
 			}
 			catch(int j)
 			{
@@ -199,180 +188,6 @@ int CIoXMLSimulation::ReadSimulation(char *sSimFilename)
 	return status;
 }
 
-int CIoXMLSimulation::ReadConfig(char *sConfigFilename, int format)
-{
-	char sconfigname [100];
-	int i;
-	int status = 1;
-
-try
-{
-	if(m_iconfigreadmethod==1)
-	{
-		i=0;
-		while((i <99) && (m_sConfigFileName[i] !='.') && (m_sConfigFileName[i]!='\0'))
-				sconfigname[i++]=m_sConfigFileName[i];
-		sconfigname[i]='\0';
-
-		#ifdef USEMPI
-			sprintf(sconfigname, "%s_p%d.xml",sconfigname,m_irank);
-		#else
-
-			sprintf(sconfigname, "%s.xml",sconfigname);
-		#endif
-
-		CIoConfigReader ConfigReader;
-		status = ConfigReader.ParseConfigFile(sConfigFilename, this);
-	}
-	else
-		CIoSimulation::ReadConfig(sConfigFilename, format);
-}
-catch(int j)
-{
-	printf("IoXMLSimulation failed to read config\n");
-	
-}
-
-	return status;
-}
-
-int CIoXMLSimulation::ReadState(char *sStateFilename, int format)
-{
-	int status=0;
-	int i=0;
-	int iNoEntities=1; //Tell config DOM writer 
-	                   //not to output any entities to
-	                   //the state file
-	                   
-	try
-	{
-	#ifdef USEMPI
-		if(m_irank !=0)
-		{
-	#endif
-	if(m_istatereadmethod==1)
-	{
-		CIoConfigReader ConfigReader;
-		status = ConfigReader.ParseConfigFile(sStateFilename, this, iNoEntities);
-	}
-	else
-		CIoSimulation::ReadState(sStateFilename, format);
-	
-	#ifdef USEMPI
-		}//end read only if m_irank=0
-	#endif
-	}
-	catch(int j)
-	{
-		printf("IoXMLSimulation failed to read state\n");
-		
-	}
-	return status;
-}
-
-int CIoXMLSimulation::ReadStateInfo(char *sStateFilename, int format)
-{
-	int status=0;
-	int i=0;
-	int iNoEntities=1; //Tell config DOM writer 
-	                   //not to output any entities to
-	                   //the state file
-    try
-    {
-	#ifdef USEMPI
-		if(m_irank !=0)
-		{
-	#endif
-
-	if(m_istatereadmethod==1)
-	{
-		CIoConfigReader ConfigReader;
-		status = ConfigReader.ParseConfigFile(sStateFilename, this, iNoEntities);
-	}
-	else
-		CIoSimulation::ReadStateInfo(sStateFilename, format);
-	
-	#ifdef USEMPI
-		}
-	#endif
-    }
-    catch(int j)
-	{
-		printf("XMLSimulation  failed to read state info.\n");
-		
-	}
-	return status;
-}
-
-
-int CIoXMLSimulation::WriteConfig(char *sConfigFilename, int format, char *sXSLFilename, int iStepNum)
-{
-	int status=1;
-	int i=0;
-	char soutname [100];
-	char slisname [100];
-
-	char stxtoutname [100];
-	char c;
-
-	CIoConfigDOMBuilder DOMConfig;
-	if(m_iconfigwritemethod==1)
-	{
-
-
-		DOMConfig.CreateConfigDOM(sConfigFilename, this, iStepNum);
-		DOMConfig.WriteConfigDOM(sConfigFilename);
-
-		//If the file was written OK then append its
-		//name to the list of config files
-		//i.e. the .lis file for this simulation
-		strcpy(slisname, m_sSimName);
-		strcat(slisname, "_cfg.lis");
-
-		CIoFileUtils cCfgFileList(slisname, 'a');
-		cCfgFileList.WriteLine(sConfigFilename);
-		//CIoFileUtils cOutFileList(GetOutputFiles(), 'a');
-		//cOutFileList.WriteLine(sConfigFilename);
-
-		if(sXSLFilename)
-		{
-					while(((c=sConfigFilename[i])!='.') && (i < strlen(sConfigFilename)))
-						soutname[i++]=c;
-
-					if(i<100)
-						soutname [i] = '\0';
-
-						strcpy(stxtoutname, soutname);
-
-					if(m_sConfigXSLFilePrefix)
-					{
-						strcat(soutname, ".");
-						strcat( soutname,m_sConfigXSLFilePrefix);
-					}
-					else
-						strcat( soutname,"_xslt.iotr");
-					strcat(stxtoutname, "_xslt.dat");
-
-					XSLTransform(sConfigFilename, sXSLFilename, soutname);
-					CIoFileUtils fCfgUtil(soutname, 'r');
-					fCfgUtil.SetFileName(soutname);
-					fCfgUtil.ReplaceXMLBreakString(stxtoutname);
-
-		
-					//cOutFileList.WriteLine(soutname);
-					//cOutFileList.WriteLine(stxtoutname);
-		}
-		//cOutFileList.CloseFile();
-		//cCfgFileList.CloseFile();
-	}
-	else
-		CIoSimulation::WriteConfig(sConfigFilename, format);
-
-
-
-
-	return status;
-}
 
 int CIoXMLSimulation::WriteSimulation(char *sSimFilename, char *sXSLFilename)
 {
@@ -404,159 +219,6 @@ int CIoXMLSimulation::WriteSimulation(char *sSimFilename, char *sXSLFilename)
 	//if(sTempFilename) delete [] sTempFilename;
 	return status;
 
-}
-
-int CIoXMLSimulation::WriteState(char *sStateFilename, int format, char *sXSLFilename, int iStepNum)
-{
-	int status=1;
-	int i=0;
-	int iNoEntities=1; //Tell config DOM writer 
-	                   //not to output any entities to
-	                   //the state file
-	int isteptest, icycletest;
-
-	char soutname [100];
-	char c;
-	char stxtoutname [100];
-	#ifdef USEMPI
-				if(m_irank==0)//only the root processor writes the simulation
-				{
-	#endif
-
-	CIoConfigDOMBuilder *DOMConfig;
-	DOMConfig = m_pDOMState;
-
-
-	if(m_istatewritemethod==1)
-	{
-	CIoFileUtils cOutFileList(GetOutputFiles(), 'a');
-	cOutFileList.WriteLine(sStateFilename);
-	if(DOMConfig)
-	{
-		
-		DOMConfig->m_pRootElem->appendChild(DOMConfig->CreateSimulationElement(this, iStepNum, iNoEntities));
-	}
-	else
-	{
-		m_pDOMState=(CIoConfigDOMBuilder *)new CIoConfigDOMBuilder;
-		DOMConfig = m_pDOMState;
-		DOMConfig->CreateConfigDOM(sStateFilename, this, iStepNum, iNoEntities );
-	}
-
-	isteptest=(GetNumSteps()-iStepNum-1)/m_iStateStepFreq;
-	
-
-	if(isteptest==0 )
-		DOMConfig->WriteConfigDOM(sStateFilename, iNoEntities);
-
-	if((iStepNum>=(GetNumSteps()-1)))
-		if(m_pDOMState)
-		{
-
-
-				while(((c=sStateFilename[i])!='.') && (i < strlen(sStateFilename)))
-					soutname[i++]=c;
-
-				if(i<100)
-					soutname [i] = '\0';
-
-				//strcpy(stxtoutname, soutname);
-				/*if(m_sStateXSLFilePrefix)
-					strcat( soutname,m_sStateXSLFilePrefix);
-				else
-					strcat( soutname,"_xslt.iotr");
-				strcat(stxtoutname, "_xslt.dat");*/
-
-				delete m_pDOMState;
-				m_pDOMState=NULL;
-				/*if(m_sStateXSLFileName)
-				{
-					XSLTransform(sStateFilename, m_sStateXSLFileName, soutname);
-					CIoFileUtils fStateUtil(soutname);
-					fStateUtil.ReplaceXMLBreakString(stxtoutname);
-					cOutFileList.WriteLine(soutname);
-					cOutFileList.WriteLine(stxtoutname);
-				}*/
-
-
-	
-		}
-		//cOutFileList.CloseFile();
-	}
-	else
-		CIoSimulation::WriteState(sStateFilename,format,NULL);
-
-	#ifdef USEMPI
-				}//end only proc 0 writes state
-	#endif
-	return status;
-}
-
-int CIoXMLSimulation::WriteStateInfo(char *sStateFilename, int format, char *sXSLFilename, int iStepNum)
-{
-	int status=1;
-	int i=0;
-	int iNoEntities=1; //Tell config DOM writer 
-	                   //not to output any entities to
-	                   //the state file
-	int isteptest, icycletest;
-
-	char soutname [100];
-	char c;
-	char stxtoutname [100];
-
-	#ifdef USEMPI
-				if(m_irank==0)//only the root processor writes the simulation
-				{
-	#endif
-
-	CIoSimulant *pSim, *pOldSim=GetSimulant();
-
-	CIoConfigDOMBuilder *DOMConfig;
-	DOMConfig = m_pDOMState;
-	//int ioldcycle=GetCurrentCycle();
-	int ioldstep=GetCurrentStep();
-
-
-	if(m_istatewritemethod==1)
-	{
-
-		for(m_lSimStateIterator=m_lSimStateList.begin(); m_lSimStateIterator != m_lSimStateList.end();m_lSimStateIterator++)
-		{
-			if(pSim=(CIoSimulant *)(*m_lSimStateIterator))
-			{
-				SetSimulant(pSim);
-				//SetCurrentCycle(pSim->GetCurrentCycle());
-				SetCurrentStep(pSim->GetCurrentStep());
-				if(DOMConfig)
-				{
-					
-					DOMConfig->m_pRootElem->appendChild(DOMConfig->CreateSimulationElement(this, iStepNum, iNoEntities));
-				}
-				else
-				{
-					m_pDOMState=(CIoConfigDOMBuilder *)new CIoConfigDOMBuilder;
-					DOMConfig = m_pDOMState;
-					DOMConfig->CreateConfigDOM(sStateFilename, this, iStepNum, iNoEntities );
-				}
-
-				//if last simulant in list
-				if(m_lSimStateIterator == m_lSimStateList.end())
-					DOMConfig->WriteConfigDOM(sStateFilename, iNoEntities);
-			}
-		}
-		SetSimulant(pOldSim);
-		SetCurrentStep(ioldstep);
-		//SetCurrentCycle(ioldcycle);
-	}
-	else
-		CIoSimulation::WriteStateInfo(sStateFilename,format,NULL);
-
-	#ifdef USEMPI
-				}//end writing state info
-	#endif
-
-	return status;
 }
 
 
@@ -602,62 +264,6 @@ int CIoXMLSimulation::SimTransAscFormat2XML(char *ssimfile, char *ssimoutfile)
 	return status;
 }
 
-int CIoXMLSimulation::StateTrans2AscFormat(char *sstatefile, char *sstateoutfile, int method)
-{
-	int status=0;
-	ReadStateInfo(sstatefile);
-	int iOldWriteMethod=GetStateWriteMethod();
-	SetStateWriteMethod(method);
-	CIoSimulation::WriteStateInfo(sstateoutfile);
-	SetStateWriteMethod(iOldWriteMethod);
-
-	return status;
-}
-
-int CIoXMLSimulation::StateTransAscFormat2XML(char *sstatefile, char *sstateoutfile, int method)
-{
-	int status=0;
-	int iOldReadMethod=GetStateReadMethod();
-	int iOldWriteMethod=GetStateWriteMethod();
-	SetStateReadMethod(0);
-
-	CIoSimulation::ReadStateInfo(sstatefile);
-	SetStateWriteMethod(1);
-	WriteStateInfo(sstateoutfile);
-	SetStateWriteMethod(iOldWriteMethod);
-	return status;
-}
-
-
-
-int CIoXMLSimulation::CfgTrans2AscFormat(char *scfgfile, char *scfgoutfile, int method)
-{
-	int status=0;
-	ReadConfig(scfgfile);
-	int iOldWriteMethod=GetConfigWriteMethod();
-	SetConfigWriteMethod(method);
-	CIoSimulation::WriteConfig(scfgoutfile, method);
-	SetConfigWriteMethod(iOldWriteMethod);
-	return status;
-}
-
-int CIoXMLSimulation::CfgTransAscFormat2XML(char *scfgfile, char *scfgoutfile, int method)
-{
-	int status=0;
-	int iOldReadMethod=GetConfigReadMethod();
-	int iOldWriteMethod=GetConfigWriteMethod();
-	
-	if(GetConfigReadMethod()==1)
-			SetConfigReadMethod(0);
-
-	this->ReadConfig(scfgfile,method);
-	SetConfigWriteMethod(1);
-	this->WriteConfig(scfgoutfile);
-	SetConfigWriteMethod(iOldWriteMethod);
-	return status;
-}
-
-
 
 XalanCompiledStylesheet *CIoXMLSimulation::CreateCompiledStyleSheet()
 {
@@ -671,50 +277,6 @@ void CIoXMLSimulation::DeleteCompiledStyleSheet()
 
 
 }
-
-
-int CIoXMLSimulation::CreateTransformedConfigDOM()
-{
-	int status=0;
-
-	return status;
-
-}
-
-
-void CIoXMLSimulation::DeleteTransformedConfigDOM()
-{
-
-
-}
-
-int CIoXMLSimulation::CreateConfig()
-{
-	int status=0;
-	if(GetCreateMethod()>0)
-		status=m_pSimulant->CreateConfig();
-	else
-		status=ReadConfig(GetConfigFileName(), GetConfigReadMethod());
-
-	return status;
-}
-
-int CIoXMLSimulation::CreateConfigDOM()
-{
-	int status=0;
-
-	return status;
-
-}
-
-void CIoXMLSimulation::DeleteConfigDOM()
-{
-
-
-}
-
-
-
 
 
 

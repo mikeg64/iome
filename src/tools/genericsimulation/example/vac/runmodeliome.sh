@@ -36,19 +36,19 @@
 #newsimnewmod creates sim and mod form default par file
 #newsim       creates new sim using default simfile mod read from iomodel.xml file
 #newmod	      creates new mod using default modfile sim read from iosim.xml file this is the case that is used most often
-if [ $# -gt "1" ]
+if [ $# -gt "0" ]
 then
 	usecase=0
 	case $1 in
-	"newsimnewmod")
+	"simmod")
          usecase="2"
          shift
 	;;
-	"newsim")
+	"sim")
          usecase="3"
          shift
 	;;
-	"newmod")
+	"mod")
          usecase="1"
          shift
 	;;
@@ -58,22 +58,47 @@ then
 else
 	exit 1
 fi
-
-simulationparams="simulationparams.sh"
-if [ $usecase -eq "2"  || $usecase -eq "3" ]
+echo $usecase
+simulationparams="iome/simulationparams.sh"
+if [ $usecase -eq "2"  -o $usecase -eq "3" ]
 then
 	if [ $# -gt "1" ]
 	then
 		simulationparams=$1
 		shift
 	fi
-fi
+
 
 #load the default simulation params
 source $simulationparams
+fi
 
 
 
+#load the default model params
+modelparams="iome/modelparams.sh"
+if [ $usecase -eq "2"  -o $usecase -eq "1" ]
+then
+	if [ $# -gt "0" ]
+	then
+		modelparams=$1
+		shift
+	fi
+
+#load the default simulation params
+source $modelparams
+omodelparams=$modelparams
+fi
+
+
+
+if [ $usecase -eq "0" ]
+then
+  simfile=$1".xml"
+  simulationname=$1
+
+
+fi
 
 
 
@@ -84,28 +109,43 @@ source $simulationparams
 
 
 #start the iome server (as a background job)
-iogs initiome $simulationname
+iogs initiome null $simulationname null &
 
-if [ $usecase -eq "1"  || $usecase -eq "0" ]
+if [ $usecase -eq "1"  -o $usecase -eq "0" ]
 then
  testusecase=0
 else
  testusecase=1
 fi
 
+portfile=$simulationname"0_port.txt"
+sport=`cat $portfile`
+port=${sport:0:4}
+echo "port is "$port
+
 
 #if the user provided an input file
-if [ $# -gt "1"  &&  $testusecase -eq "0" ]
+if [ $# -gt "0"  -a  $testusecase -eq "0" ]
 then
  #read the simulation file
- iogs readsimulation $1
+ iogs readsimulation $simfile
  shift
 
-dpar=`iogs getparam double dpar`
+ simulationparams=`iogs getmetadata simulationparams`
+ modelparams=`iogs getmetadata modelparams`
+
+
+#load the default simulation params
+source $simulationparams
+#load the default model params
+source $modelparams
+
+
+dpar=`iogs getparam int dpar`
 phipar=`iogs getparam double phipar`
 zpar=`iogs getparam double zpar`
-gpar=`iogs getparam vec gpar`
-gparvacini=`iogs getparam vec gparvacini`
+gpar=`iogs getparam string gpar`
+gparvacini=`iogs getparam string gparvacini`
 ppar=`iogs getparam string ppar`
 upar=`iogs getparam string upar`
 onpar=`iogs getparam string onpar`
@@ -124,24 +164,26 @@ runvac=`iogs getparam int runvac`
  vacparfile=`iogs getmetadata vacparfile`
  templatevaciniparfile=`iogs getmetadata templatevaciniparfile`
  templatevacparfile=`iogs getmetadata templatevacparfile`
- modelparams=`iogs getmetadata modelparams`
  simulationname=`iogs getmetadata simulationname`
  simulationnotes=`iogs getmetadata simulationnotes`
  author=`iogs getmetadata author`
  vacversion=`iogs getmetadata vacversion`
  creationdate=`iogs getmetadata creationdate`
  computeresource=`iogs getmetadata computeresource`
+ projectname=`iogs getmetadata projectname`
 
 
 
 else
 
 #addparam
-iogs addparam double dpar $dpar 7
+echo "$gpar="$gpar
+echo "$gparvacini="$gparvacini
+iogs addparam int dpar $dpar 7
 iogs addparam double phipar $phipar 7
 iogs addparam double zpar $zpar 7
-iogs addparam vec gpar $gpar 7
-iogs addparam vec gparvacini $gparvacini 7
+iogs addparam string gpar $gpar 7
+iogs addparam string gparvacini $gparvacini 7
 iogs addparam string ppar $ppar 7
 iogs addparam string upar $upar 7
 iogs addparam string onpar $onpar 7
@@ -171,6 +213,7 @@ iogs addmetadata vacparfile $vacparfile
 iogs addmetadata templatevaciniparfile $templatevaciniparfile
 iogs addmetadata templatevacparfile $templatevacparfile
 iogs addmetadata modelparams $modelparams
+iogs addmetadata simulationparams $simulationparams
 iogs addmetadata simulationname $simulationname
 iogs addmetadata simulationnotes $simulationnotes
 
@@ -178,7 +221,7 @@ iogs addmetadata author $author
 iogs addmetadata vacversion $vacversion
 iogs addmetadata creationdate $creationdate
 iogs addmetadata computeresource $computeresource
-
+iogs addmetadata projectname $projectname
 
 simfile=$simulationname".xml"
 iogs writesimulation $simfile
@@ -186,76 +229,76 @@ fi
 
 
 
-
-#load the default model params
-modelparams="modelparams.sh"
-if [ $usecase -eq "2"  || $usecase -eq "1" ]
+if [ $usecase -eq "1" ]
 then
-	if [ $# -gt "1" ]
-	then
-		modelparams=$1
-		shift
-	fi
+ #load the default model params
+ source $omodelparams
 fi
 
-#load the default simulation params
-source $modelparams
 
-iogs newsimulation $modelname
+
+
+
+#iogs newsimulation $modelname
 
 
 #  parameter names must start with d, i or s
 #  double, integer, string
 
 #get array of vacpar names
-sizvacpararray=0
+sizevacpararray=0
 res=`grep %vacparlist% $modelparams`
 nres=${res:14}
 index=0
 for vacparname in $nres
 do
-  vacpararray[index]= $vacparname
+  vacpararray[index]=$vacparname
+#  echo "in loop "$vacparname " index "$index" "${vacpararray[$index]}
+
   index=$[$index + 1]
+
 done
-sizevacpararray = $index
+sizevacpararray=$index
 
 #get array of vaciniparnames
-sizvacpariniarray=0
+sizevacpariniarray=0
 res=`grep %vaciniparlist% $modelparams`
 nres=${res:17}
-vacpariniarray[index]
+#vacpariniarray[index]
 index=0
 for vaciniparname in $nres
 do
-  vacinipararray[index]= $vaciniparname
+  vacinipararray[index]=$vaciniparname
   index=$[$index + 1]
 done
-sizevacinipararray = $index
+sizevacinipararray=$index
 
 
 
 #create a new simulation and read the parameters for the model
 
 #if the user provided an input file
-if [ $# -gt "1" ]
+if [ $usecase -eq "0" ]
 then
-#read the model file
- modelfile=$1
-iogs readsimulation $1
 
+#echo "user provided model file is"$modelfile
+#read the model file
+# modelfile=$1
+#iogs readsimulation $1
+modelfile=$modelname".xml"
 
 #vacpar parameters
 #par1=`iogs getparam double par1`
 #par2=`iogs getparam double par2`
 #par3=`iogs getparam double par3`
 i="0"
-while [ $i -lt  $sizvacpararray ]
+while [ $i -lt  $sizevacpararray ]
 do 
         parname=${vacpararray[i]}
         #get the first character from the name which is the type
         partype=${parname:0:1}
 	apartype="double"
-	aparname=${parname:1}
+	aparname=${parname}
 	case $partype in
 	d)
          apartype="double"
@@ -265,13 +308,14 @@ do
 	;;
 	v)
          apartype="vec"
-	aparname=${parname:1}+ " 3"
+	aparname=${parname}+ " 3"
 	;;
 	s)
          apartype="string"
 	;;
 	esac
 	par[i]=`iogs getparam $apartype $aparname`
+        echo "parameter i "$i" is " ${par[$i]} $apartype $aparname
 	i=$[$i+1]
 done
 
@@ -279,13 +323,13 @@ done
 #ipar1=`iogs getparam double ipar1`
 #ipar2=`iogs getparam double ipar2`
 #ipar3=`iogs getparam double ipar3`
-while [ $i -lt  $sizvacpararray ]
+while [ $i -lt  $sizevacpararray ]
 do 
         iparname=vacinipararray[i]
         #get the first character from the name which is the type
         ipartype=${iparname:0:1}
 	aipartype="double"
-	aiparname=${iparname:1}
+	aiparname=${iparname}
 	case $ipartype in
 	d)
          aipartype="double"
@@ -295,7 +339,7 @@ do
 	;;
 	v)
          aipartype="vec"
-	aiparname=${iparname:1}+ " 3"
+	aiparname=${iparname}+ " 3"
 	;;
 	s)
          aipartype="string"
@@ -323,14 +367,13 @@ vacparfile=`iogs getmetadata vacparfile`
  distribinifile=`iogs getmetadata distribinifile`
 else
 
-	iogs addmetadata simulationparams $simulationparams
+#	iogs addmetadata simulationparams $simulationparams
 	iogs addmetadata simulationfile $simulationfile
         iogs addmetadata rundate $rundate
+#	iogs addmetadata modelparams $modelparams
 
 	iogs addmetadata modelname $modelname
 	iogs addmetadata modelnotes $modelnotes
-	iogs addmetadata vacparinifile $vacparinifile
-	iogs addmetadata vacparfile $vacparfile
 
 	#distributed ini file configured for 10 processor
 	iogs addmetadata inifile $inifile
@@ -339,14 +382,18 @@ else
 	#iogs addparam double par1 $par1 7
 	#iogs addparam double par2 $par2 7
 	#iogs addparam double par3 $par3 7
+
+
+
+
 i="0"
-while [ $i -lt  $sizvacpararray ]
+while [ $i -lt  $sizevacpararray ]
 do 
         parname=${vacpararray[i]}
         #get the first character from the name which is the type
         partype=${parname:0:1}
 	apartype="double"
-	aparname=${parname:1}
+	aparname=${parname}
 	case $partype in
 	d)
          apartype="double"
@@ -356,16 +403,16 @@ do
 	;;
 	v)
          apartype="vec"
-	aparname=${parname:1}+ " 3"
+	aparname=${parname}+ " 3"
 	;;
 	s)
          apartype="string"
 	;;
 	esac
-	iogs addparam $apartype $aparname ${par[i]} 7
+        echo "adding params "$apartype $aparname ${par[$i]}
+	iogs addparam $apartype $aparname ${par[$i]} 7
 	i=$[$i+1]
 done
-
 
 
 
@@ -374,13 +421,13 @@ done
 #iogs addparam double ipar1 $ipar1 7
 #iogs addparam double ipar2 $ipar2 7
 #iogs addparam double ipar3 $ipar3 7
-while [ $i -lt  $sizvacpararray ]
+while [ $i -lt  $sizevacpararray ]
 do 
         iparname=vacinipararray[i]
         #get the first character from the name which is the type
         ipartype=${iparname:0:1}
 	aipartype="double"
-	aiparname=${iparname:1}
+	aiparname=${iparname}
 	case $ipartype in
 	d)
          aipartype="double"
@@ -390,18 +437,19 @@ do
 	;;
 	v)
          aipartype="vec"
-	aiparname=${iparname:1}+ " 3"
+	aiparname=${iparname}+ " 3"
 	;;
 	s)
          aipartype="string"
 	;;
 	esac
-	iogs addparam $aipartype $aiparname ipar[i] 7
+	iogs addparam $aipartype $aiparname ${ipar[i]} 7
 	i=$[$i+1]
 done
 
 
 	modelfile=$modelname".xml"
+        echo "writing "$modelfile
 	iogs writesimulation $modelfile
 
 
@@ -419,14 +467,19 @@ fi
 #mv tmp.txt > $vaciniparfile
 #rm tmp1.txt
 
-cp $templatevaciniparfile > tmp1.txt
-while [ $i -lt  $sizvacinipararray ]
+echo "template vacinipar file is"$templatevaciniparfile
+cp $templatevaciniparfile tmp1.txt
+i="0"
+while [ $i -lt  $sizevacinipararray ]
 do 
-        iparname=vacinipararray[i]
+        iparname=${vacinipararray[i]}
         #get the first character from the name which is the type
 	aiparname=${iparname:1}
         val=${ipar[i]}
-	sed -e "s/%$aiparname%/"$val"/g" tmp1.txt > tmp2.txt
+        echo "s/%"$aiparname"%/"$val"/g">sed.in
+
+#	sed -e "s/%$aiparname%/"$val"/g" tmp1.txt > tmp2.txt
+	sed -f sed.in tmp1.txt > tmp2.txt
         mv tmp2.txt tmp1.txt
 	i=$[$i+1]
 done
@@ -441,15 +494,20 @@ mv tmp1.txt $vaciniparfile
 #sed -e "s/%par3%/"$par1"/g" tmp1.txt > tmp.txt
 #mv tmp.txt > $vacparfile
 #rm tmp1.txt
-
-cp $templatevacparfile > tmp1.txt
-while [ $i -lt  $sizvacpararray ]
+echo "template vacpar file is"$templatevacparfile
+i="0"
+cp $templatevacparfile tmp1.txt
+while [ $i -lt  $sizevacpararray ]
 do 
-        parname=vacpararray[i]
+        parname=${vacpararray[$i]}
         #get the first character from the name which is the type
-	aparname=${parname:1}
-        val=${par[i]}
-	sed -e "s/%$aparname%/"$val"/g" tmp1.txt > tmp2.txt
+	#aparname=${parname:1}
+        aparname=$parname
+        val=${par[$i]}
+        echo $aparname $val
+        echo "s/%"$aparname"%/"$val"/g">sed.in
+	#sed -e "s/%$aparname%/"$val"/g" tmp1.txt > tmp2.txt
+	sed -f sed.in tmp1.txt > tmp2.txt
         mv tmp2.txt tmp1.txt
 	i=$[$i+1]
 done
@@ -511,8 +569,8 @@ then
 	
 	make vacini -f $vacinimakefile
 
-	cp vac ../vac
-	cp vacini ../vacini
+#	cp vac ../vac
+#	cp vacini ../vacini
 
 	cd ..
 
@@ -547,6 +605,10 @@ then
 	#./vacini < vacini/vacini.par
 	./vac < $vacparfile
 fi
+
+
+iogs exitiome $port
+#iogs exitiome $port
 
 
 

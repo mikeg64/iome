@@ -74,9 +74,9 @@ mikeg@photon0.freeserve.co.uk
 //using namespace std ;
 using namespace xercesc;
 
-typedef CIoSimulant * SIMULANTPTR;
+//typedef CIoSimulant * SIMULANTPTR;
 typedef std::stack<int> ELEMENT_STACK;
-typedef std::stack<SIMULANTPTR> SIMULANT_STACK;
+//typedef std::stack<SIMULANTPTR> SIMULANT_STACK;
 
 
 
@@ -126,7 +126,7 @@ public:
 	DOMImplementation *m_pDOMImpl;
 	xercesc::DOMDocument *m_pDOMDoc;
 	ELEMENT_STACK m_SimElementStack;  //For parser control to indicate current simulation object
-	SIMULANT_STACK m_SimulantStack;  //For parsing models and simulators in particular 
+	//SIMULANT_STACK m_SimulantStack;  //For parsing models and simulators in particular 
 
 	//Variable for controlling and mappin position in array
 	int m_iArrayDepth;
@@ -136,11 +136,11 @@ public:
 	int m_iflagtype; 
 	int m_iMapArray [IO_MAXDEPTH];
 
-	CIoModel *m_pCurrentModel;
-	CIoEntitySet *m_pCurrentEntitySet;
-	CIoEntityTypeSet *m_pCurrentEntityTypeSet;
-	CIoEntityType *m_pCurrentEntityType;
-	CIoSimulator *m_pCurrentSimulator;
+	//CIoModel *m_pCurrentModel;
+	//CIoEntitySet *m_pCurrentEntitySet;
+	//CIoEntityTypeSet *m_pCurrentEntityTypeSet;
+	//CIoEntityType *m_pCurrentEntityType;
+	//CIoSimulator *m_pCurrentSimulator;
 	CIoParam *m_pCurrentParamArray;
 	CIoXMLSimulation *m_pSimulation;
 
@@ -160,15 +160,9 @@ public:
 	int CreateSimDOM(char *docname, CIoXMLSimulation *pSimulation);
     int WriteSimDOM(char *docname);
 	char *WriteMemSimDOM();
-	DOMElement *CreateSimulantElement(CIoXMLSimulation *pSimulation, DOMElement *SimulationElem);
-	DOMElement *CreateSimulatorChildElement(CIoSimulant *pSimulant, DOMElement *SimulatorElem, int iIndex=0);
-	DOMElement *CreateSimulatorElement(CIoSimulant *pSimulant, DOMElement *SimulantElem, int iIndex=0);
-	DOMElement *CreateModelElement(CIoSimulant *pSimulant, DOMElement *SimulantEleme, int iIndex=0);
-	DOMElement *CreateModelCreatorElement(CIoModel *pModel, DOMElement *ModelElem);
 	DOMElement *CreatePropsElement(string sName, int iFlag, int inumprops, DOMElement *ParentEleme);//parent could be simulant, modelparams or prop
 	DOMElement *CreateArrayElement(CIoParam *pParams, DOMElement *ParentProps);//parent could be simulant, modelparams or prop
 	
-	DOMElement *CreateEntityPropsElement(string sName, int iFlag, int inumprops, DOMElement *ParentEleme);
 	DOMElement *CreatePropElement(CIoParam *pParams, DOMElement *ParentProps);
 	DOMElement *CreateIntElement(CIoParam *pParams, DOMElement *ParentProps);
 	DOMElement *CreateFloatElement(CIoParam *pParams, DOMElement *ParentProps);
@@ -180,17 +174,11 @@ public:
 	DOMElement *CreateStringArrayElement(CIoParam *pParams, DOMElement *ParentProps);
 
 	DOMElement *CreateMetadatalistElement(CIoXMLSimulation *psim, DOMElement *parentsim);
-	DOMElement *CreateLinksElement(CIoSimulator *psim, DOMElement *parentsim);
-	DOMElement *CreateFromElement(CIoSimulantPort *pport, DOMElement *linkelem);
-	DOMElement *CreateToElement(CIoSimulantPort *pport, DOMElement *linkeem);
 
 
 	DOMElement *CreateVecElement(CIoParam *pParams, DOMElement *ParentProps);
     DOMElement *CreateStepsElement(CIoXMLSimulation *pSimulation, DOMElement *ParentSim);
 	DOMElement *CreatefilepropsElement(CIoXMLSimulation *pSimulation, DOMElement *ParentSim);
-	DOMElement *CreateEntitySetElement(CIoEntitySet *pEntitySet, DOMElement *ModelElem);
-	DOMElement *CreateEntityTypeSetElement(CIoEntityTypeSet *pTypeEntitySet, DOMElement *EntitySetElem);
-	DOMElement *CreateEntityTypeElement(CIoEntityType *pTypeEntity, DOMElement *EntityTypeSetElem);
 
 };
 

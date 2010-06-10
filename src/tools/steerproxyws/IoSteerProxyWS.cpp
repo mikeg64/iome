@@ -201,34 +201,6 @@ int ns__add(struct soap *soap, double a, double b, double *result)
 
 
 
-int ns__getstep(struct soap *soap, int id, int *step)
-{
-	soap_call_ns__getstep(&m_soap, m_server, "", id,step);
-
-	return SOAP_OK;
-}
-
-int ns__setstep(struct soap *soap, int id, int newstep, int *step)
-{
-	soap_call_ns__setstep(&m_soap, m_server, "", id,newstep,step);
-
-	return SOAP_OK;
-}
-
-
-int ns__getnsteps(struct soap *soap, int id, int *nsstep)
-{
-	soap_call_ns__getnsteps(&m_soap, m_server, "", id,nsstep);
-
-	return SOAP_OK;
-}
-
-int ns__setnsteps(struct soap *soap, int id, int newnsteps, int *nsteps)
-{
-	soap_call_ns__setnsteps(&m_soap, m_server, "", id,newnsteps,nsteps);
-
-	return SOAP_OK;
-}
 
 
 /*int ns__getsimulationstate(struct soap *soap, int id, int *istate)
@@ -385,20 +357,6 @@ int ns__createsimulation(struct soap *soap,int id,char *filename, int *status)
 	return SOAP_OK;
 }
 
-int ns__runsimulationstep(struct soap *soap, int id,int istepnum, int *status)
-{
-	try
-	{
-	soap_call_ns__runsimulationstep(&m_soap, m_server, "", id,istepnum,status);
-	}
-	catch(int j)
-	{
-		*status=-1;
-	}
-
-	return SOAP_OK;
-
-}
 
 
 int ns__runsimulation(struct soap *soap, int id,char *simfilecontent, char **result)
@@ -993,19 +951,7 @@ int ns__getobjnum(struct soap *soap,int id, int *objnum)
 }
 
 
-int ns__testgroupbarrier(struct soap *soap,int id, int *state)
-{
-	soap_call_ns__testgroupbarrier(&m_soap, m_server, "", id,state);
-	return SOAP_OK;
-}
 
-int ns__setgroupbarrier(struct soap *soap,int id, int state, int *newstate)
-{
-
-	soap_call_ns__setgroupbarrier(&m_soap, m_server, "", id,state,newstate);
-
-	return SOAP_OK;
-}
 
 
 

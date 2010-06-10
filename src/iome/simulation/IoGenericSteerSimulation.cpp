@@ -150,18 +150,7 @@ int CIoGenericSteerSimulation::CheckParamFormat(CIoParam *pSimData)
 	return status;
 }
 
-CIoModel *CIoGenericSteerSimulation::newModel(char *sModelClass)
-{
-	CIoModel *pmod=NULL;
-	//CIoAgentModel *pAgentModel= new CIoAgentModel(this,NULL,NULL);
 
-	/*! Unnecsssary the create method does this*/
-	//pAgentModel->CreateDefaultParams();
-	//return NULL;
-	//return pAgentModel;
-	
-	return pmod;
-}
 
 /*CIoSimulator *CIoGenericSteerSimulation::newSimulator(char *sSimulatorClass)
 {
@@ -171,20 +160,6 @@ CIoModel *CIoGenericSteerSimulation::newModel(char *sModelClass)
 	return pAgentSimulator;
 }*/
 
-
-
-
-int  CIoGenericSteerSimulation::WriteConfig(char *sConfigFilename, int format, char *sXSLFilename, int iStepNum)
-{
-	int status=0;
-		status = CIoXMLSimulation::WriteConfig(sConfigFilename, format);
-    
-    
-
-	//We have stored all cell positions and energies
-	//not always necessary so delete them again????
-	return status;
-}
 
 
 
@@ -621,8 +596,8 @@ int CIoGenericSteerSimulation::CreateSimulation(char *sFilename)
 	int status = 1;
 	//CIoAgentSimulator *pSimulator=NULL;
 	//CIoAgentModel *pModel = NULL;
-	DeleteSimulant();
-	DeleteSimulantStates();
+	//DeleteSimulant();
+	//DeleteSimulantStates();
 	DeleteNames();
 	DeleteFlags();
 	DeleteAllMetadata();

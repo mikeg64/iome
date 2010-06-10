@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Michael Kenneth Griffiths (Self Employed) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="ioconfig">
+		<xs:annotation>
+			<xs:documentation>Configuration file for a simulation</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="simulation" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="simulation">
+								<xs:attribute name="step" type="xs:int"/>
+								<xs:attribute name="cycle" type="xs:int"/>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="filename" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="comments" type="xs:string"/>
+	<xs:simpleType name="intval">
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="floatval">
+		<xs:restriction base="xs:float"/>
+	</xs:simpleType>
+	<xs:complexType name="arrayval">
+		<xs:attribute name="numprops" type="xs:integer" default="1"/>
+	</xs:complexType>
+	<xs:complexType name="property">
+		<xs:choice>
+			<xs:element name="int" type="intval"/>
+			<xs:element name="float" type="floatval" default="0"/>
+			<xs:element name="array" type="arrayval"/>
+			<xs:element name="string" type="stringval"/>
+			<xs:element name="mat">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="cols" type="xs:int" use="required"/>
+							<xs:attribute name="rows" type="xs:int" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="vec">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="size" type="xs:int" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="fmat3d">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="dep" type="xs:int"/>
+							<xs:attribute name="col" type="xs:int"/>
+							<xs:attribute name="row" type="xs:int"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="vmat3d">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="row" type="xs:int" use="required"/>
+							<xs:attribute name="col" type="xs:int" use="required"/>
+							<xs:attribute name="dep" type="xs:int" use="required"/>
+							<xs:attribute name="vsize" type="xs:int" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="mmat3d">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="listype">
+							<xs:attribute name="row" type="xs:int" use="required"/>
+							<xs:attribute name="col" type="xs:int" use="required"/>
+							<xs:attribute name="dep" type="xs:int" use="required"/>
+							<xs:attribute name="mrow" type="xs:int" use="required"/>
+							<xs:attribute name="mcol" type="xs:int" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="index" type="xs:integer" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="optional" default="name"/>
+		<xs:attribute name="outfile" type="xs:string" use="optional"/>
+		<xs:attribute name="infile" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<!--Currently behaviours are assumed fixed and are determined by the simulation file-->
+	<xs:complexType name="entitytypetype">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:sequence>
+					<xs:element name="props" type="property"/>
+				</xs:sequence>
+				<xs:attribute name="class" type="xs:string"/>
+				<xs:attribute name="name" type="xs:string"/>
+				<xs:attribute name="index" type="xs:integer"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--Currently entity types are assumed to be fixed and are determined by the simulation file-->
+	<xs:complexType name="entitytypesettype">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:sequence minOccurs="0">
+					<xs:element name="props">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="prop" type="property"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="class" type="xs:string"/>
+				<xs:attribute name="numentitytypes" type="xs:integer"/>
+				<xs:attribute name="name" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+		<!--The entity type set type can belong to either an entity set, a simulator or a model. It has a create attribute if create is 0 the entity set is inherited from a parent simulant-->
+	</xs:complexType>
+	<xs:complexType name="propstype">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="prop" type="property"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="numprops" type="xs:int"/>
+	</xs:complexType>
+	<xs:complexType name="entitysettype">
+		<xs:sequence>
+			<xs:element name="entitytypeset" type="entitytypesettype" minOccurs="0"/>
+			<xs:sequence>
+				<xs:element name="props">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="prop" type="property"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="entity">
+					<xs:complexType>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:choice>
+								<xs:element name="int" type="intval"/>
+								<xs:element name="float" type="floatval" default="0"/>
+								<xs:element name="array" type="arrayval"/>
+								<xs:element name="string" type="stringval"/>
+								<xs:element name="matrix">
+									<xs:complexType>
+										<xs:sequence maxOccurs="unbounded">
+											<xs:element name="vec" type="listype"/>
+										</xs:sequence>
+										<xs:attribute name="cols" type="xs:integer" default="3"/>
+										<xs:attribute name="rows" type="xs:integer" default="3"/>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="vector">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="vec" type="listype"/>
+										</xs:sequence>
+										<xs:attribute name="size" type="xs:integer" default="3"/>
+									</xs:complexType>
+								</xs:element>
+							</xs:choice>
+						</xs:sequence>
+						<xs:attribute name="type" type="xs:integer" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:element name="entityprops">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="propstype">
+							<xs:attribute name="name" type="xs:string"/>
+							<xs:attribute name="numprops" type="xs:int"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="class" type="xs:string"/>
+		<xs:attribute name="name" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="modeltype">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:sequence minOccurs="0">
+					<xs:choice>
+						<xs:element name="props" type="property"/>
+						<xs:sequence minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="entityset" type="entitysettype"/>
+						</xs:sequence>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="simulatortype">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:sequence minOccurs="0">
+					<xs:element name="props">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="prop" type="property"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="class" type="xs:string"/>
+				<xs:attribute name="name" type="xs:string"/>
+				<xs:attribute name="index" type="xs:string" default="0"/>
+				<xs:attribute name="createmethod" type="xs:integer" default="0"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="stringval">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="entitytype">
+		<xs:complexContent>
+			<xs:extension base="arrayval">
+				<xs:attribute name="name" type="xs:string" use="optional"/>
+				<xs:attribute name="type" type="xs:integer" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="listype">
+		<xs:list itemType="xs:float"/>
+	</xs:simpleType>
+	<xs:complexType name="simulation">
+		<xs:sequence minOccurs="2" maxOccurs="2">
+			<xs:choice>
+				<xs:choice>
+					<xs:element name="model" type="modeltype"/>
+					<xs:element name="simulator" type="simulatortype"/>
+				</xs:choice>
+			</xs:choice>
+			<xs:element name="props" type="propstype"/>
+		</xs:sequence>
+		<xs:attribute name="step" type="xs:int"/>
+		<xs:attribute name="cycle" type="xs:int"/>
+		<xs:attribute name="configfilename" type="xs:string"/>
+		<xs:attribute name="class" type="xs:string" use="required"/>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="version" type="xs:string"/>
+	</xs:complexType>
+</xs:schema>

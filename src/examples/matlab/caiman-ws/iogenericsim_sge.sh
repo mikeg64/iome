@@ -1,6 +1,8 @@
 #!/bin/sh
 #$ -q short.q
 
+
+
 IOME_SIMNAME="mysim"
 iogs initiome null $IOME_SIMNAME null  &
 sleep 10
@@ -12,5 +14,5 @@ IMFILE=`iogs getparam string imagefile 0 $IOME_WSPORT localhost`
 #echo "s/%imagefile%/$IMFILE/" > sed.in
 echo "Processing file $IMFILE at `date`" > imfile.log
 
-
-matlab -nosplash -nodisplay -r caimansaasexample
+#matlab -nosplash -nodisplay  < caimansaasexample.m 
+matlab -nosplash -nodisplay  -r caimansaasexample 
