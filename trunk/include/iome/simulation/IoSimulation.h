@@ -71,8 +71,8 @@ mikeg@photon0.freeserve.co.uk
 //#include <io.h>
 
 
-#include <iome/simulation/IoSimulator.h>
-#include <iome/simulation/IoModel.h>
+//#include <iome/simulation/IoSimulator.h>
+//#include <iome/simulation/IoModel.h>
 #include <iome/simulation/IoMetadata.h>
 
 
@@ -84,8 +84,8 @@ mikeg@photon0.freeserve.co.uk
 
 
 
-typedef CIoSimulant * SIMULANTPTR;
-typedef std::list<SIMULANTPTR> SIMULANT_LIST;
+//typedef CIoSimulant * SIMULANTPTR;
+//typedef std::list<SIMULANTPTR> SIMULANT_LIST;
 
 typedef CIoMetadata * METADATAPTR;
 typedef std::list<METADATAPTR> METADATA_LIST;
@@ -111,9 +111,9 @@ public:
 
 	//Used to store state information
 	//used when undertaking analysis and when transforming stet output information
-	SIMULANT_LIST m_lSimStateList;
-	SIMULANT_LIST::iterator m_lSimStateIterator;
-	SIMULANT_LIST::size_type m_size;
+	//SIMULANT_LIST m_lSimStateList;
+	//SIMULANT_LIST::iterator m_lSimStateIterator;
+	//SIMULANT_LIST::size_type m_size;
 
 	METADATA_LIST m_lMetadataList;
 	METADATA_LIST::iterator m_lMetadataIterator;
@@ -155,7 +155,7 @@ public:
 
 	
 
-	CIoSimulant *m_pSimulant;
+	//CIoSimulant *m_pSimulant;
 	float m_fVersion;
 
 	//This parameter array always has the following 
@@ -184,10 +184,8 @@ public:
 	int m_idistributemethod;
 	int m_inumprocs;
 
-
-	void DeleteMetadata(string sname);
-	void DeleteAllMetadata();	
-		
+	void DeleteAllMetadata();
+	void DeleteMetadata(string sname);	
 	void AddMetadata(string sname, string scontent);
 	void SetMetadata(string sname, string scontent);
 	string GetMetadata(string sname);
@@ -195,9 +193,9 @@ public:
 
 	CIoMetadata *GetMetadata(int index);
 	string GetMetadataContent(string sname);
-	void AddSimulantState(CIoSimulant *pSim);
-	CIoSimulant *GetSimulantState(int index);
-	void DeleteSimulantStates();
+	//void AddSimulantState(CIoSimulant *pSim);
+	//CIoSimulant *GetSimulantState(int index);
+	//void DeleteSimulantStates();
 	//Follwoing must be overridden
 	//Property Manager methods
 	virtual void CreatePropNames();
@@ -214,14 +212,14 @@ public:
 	//virtual void CreatePropArrayFlags();
 	//virtual void CreatePropArrayNames(){;}
 	*/	
-	void SetDistributeMethod(int imethod){if(((m_idistributemethod = imethod)>=0) && m_pSimulant)m_pSimulant->SetDistributeMethod(imethod);}
+	void SetDistributeMethod(int imethod){m_idistributemethod = imethod;}
 	int GetDistributeMethod(){return m_idistributemethod;}
 
-	void SetNumProcs(int inumprocs){if(((m_inumprocs = inumprocs)>0) && m_pSimulant)m_pSimulant->SetNumProcs(inumprocs);}
+	void SetNumProcs(int inumprocs){m_inumprocs = inumprocs;}
 	int GetNumProcs(){return m_inumprocs;}
 
 
-	void SetCreateMethod(int imethod){if(((m_iCreateMethod = imethod)>=0) && m_pSimulant)m_pSimulant->SetCreateMethod(imethod);}
+	void SetCreateMethod(int imethod){m_iCreateMethod = imethod;}
 	int GetCreateMethod(){return m_iCreateMethod;}
 	
 	void SetSimWriteMethod(int imethod){m_isimwritemethod = imethod;}
@@ -290,43 +288,11 @@ public:
 	char *GetOutputFiles(){return m_sOutputFiles;}
 
 
-	CIoSimulant *GetSimulant(){return m_pSimulant;}
-	void SetSimulant(CIoSimulant *pSimulant){m_pSimulant=pSimulant;}
 
-    //If unsucceessfull these routines will always return NULL
-	//Get the ith model
-	CIoModel *GetModel(int i=0);
-
-	//Get the ith simulator
-	CIoSimulator *GetSimulator(int i=0);
-
-	//Method to read parameters from child, grand child, great grand child simulants....
-	//See IoUtils
-	//These will normally be passed on to the simulant
-	//Do we need set methods?
-	CIoModel *GetChildModel(int i, char *cSimulantMap=NULL);
-	CIoSimulator *GetChildSimulator(int i, char *cSimulantMap=NULL);
-	CIoSimulant *GetChildSimulant(int i, char *cSimulantMap=NULL);
-
-	//Get the following objects from the i'th simulant (which must be a model)
-	//of the simulant hierarchy 
-	//Do we need set methods?
-	CIoEntitySet *GetEntitySet(int i, char *csimulantmap=NULL);
-	CIoEntity *GetEntity(int i, int iEntityIndex, char *csimulantmap=NULL);
-	CIoEntityTypeSet *GetEntityTypeSet(int i, char *csimulantmap=NULL);
-	CIoEntityType *GetEntityType(int i, int iEntityType, char *csimulantmap=NULL);
-
-
-
-	virtual CIoModel *newModel(char *sModelClass){return NULL;}
-	virtual void DeleteSimulant(){if(m_pSimulant) delete m_pSimulant;}
-	virtual CIoSimulator *newSimulator(char *sSimulatorClass){return NULL;}
 	virtual CIoSimulation *newSimulation(){return NULL;}
-
+	virtual void RunSimulation(){;}
 	virtual void SetSimProperties(CIoParam *pSimProperties);
 	
-	virtual void RunSimulationStep(int iStepNum);
-	virtual void RunSimulation();
 
 	//Checks that parameter is an array of two parameters
 	//each parameter is itself a parameter array
@@ -337,156 +303,16 @@ public:
 	it will not create a default configuration.
 	*/
 	virtual void CreateDefaultParams();
-
+    virtual int Create(CIoParam *pParams, CIoParam *pChildParams, CIoParam *pArray);
 
 	virtual int CreateSimulation(char *sFilename=NULL){return 0;}
  	virtual int ReadSimulation(char *sSimFilename);
 	virtual int WriteSimulation(char *sSimFilename=NULL, char *sXSLFilename=NULL);
 
-	//Models, simulators, entity sets, entities etc...
-	//will have flags to determine which properties
-	//are each parameter has write flag which has default 1 meaning
-	//write the parameter may be set using the property manager or the property
 
-	//A format string identifier
-	virtual int ReadConfig(char *sConfigFilename, int format=0);
-	virtual int WriteConfig(char *sConfigFilename, int format=0, char *sXSLFilename=NULL, int iStepNum=-1);
-
-	virtual int ReadStateInfo(char *sStateFilename, int format=0);
-	virtual int WriteStateInfo(char *sStateFilename, int format=0, char *sXSLFilename=NULL, int iStepNum=-1);
-
-	/*!
-		Updates a state file as a simulation is in progress
-	*/
-	virtual int ReadState(char *sStateFilename, int format=0){return 0;}
-	virtual int WriteState(char *sStateFilename, int format=0, char *sXSLFilename=NULL, int iStepNum=-1);
-
-	/*!A simulation consists of a singlemodel 
-	//This will probably be th case for most simulations
-	//virtual int CreateSimModel( CIoParam *pSimulationParams = NULL,
-	//							  CIoParam *pModelParams = NULL,
-	//						      CIoParam *pEntitySetParams = NULL,
-	//						      CIoParam *pEntityTypeSetParams=NULL);
-
-    //This is use case 2 in which a simulation has a
-	//simulator with multiple models
-	//Will probably be of most use for discrete cell models
-	//Create  Simulation  reads an CIoParam of the following format
-	//ALWAYS IS AN ARRAY CONTAINING TWO ENTRIES
-	//the first entry is parameter array for the simulation parameters
-	//the second entry is the parameter array passed on for
-	//creation of simulators
-	//virtual int CreateSimSimulator(CIoParam *pSimulationParams=NULL,
-	//								CIoParam *pSimulatorParams=NULL, 
-	//								CIoParam *pSimulatorChildParams=NULL);
-
-
-	//Method will attempt too create
-    */
-	/*!
-	*****************************************************************
-	Creating a Simulation
-
-	1. Create an instance of a simulation then call create method
-	   passing to this simulation parameters an, model parameters
-	   and simulator params as required
-
-    2. Call create entity sets method pass the number of entity sets required
-	a param array containg class names of simulants
-	pass the entity set and entity type set parameters
-
-	I f an entity set does not possess an entity type set
-	then these parameters are passed as null
-
-	If simulant has only one entity set we pass just the param array
-	otherwise we pass an array of param arrays
-	
-	********************************************************************
-	*/
-
-    /*!
-	NOTE:CREATING PARAM ARRAYS FOR THE OBJECT TYPES
-	This is easy to do sice all objects have a create defualt param methods
-	To create a template array for an object
-    Create the object
-
-	e.g.
-
-	pTempModel=newModel("Modelclassname")
-	pTempModel->CreateDefaultParams();
-
-	CIoParam *MyParam=new CIoParam(pTempModel->m_pProperties)
-	delete Model;
-
-	EntitySet create the model then call create entit set method
-	andget default parameters for this and entity type set params
-	as required
-
-	Now: Modify these parameter arrays and construct 
-	In put parameter arrays as required by the Create functions
-	
-	
-	*/
-
-
-	/*!
-
-		The simulation must set the simulant type and class
-		and most override the appropriate newSimulator
-		or newModel method.
-
-		Creates hierarchy of Simulants, EntitySets and Entity type sets
-		required by CreateConfig
-
-		Assumes m_pSimulant is NULL
-	*/
-	virtual int Create(CIoParam *pParams=NULL, CIoParam *pChildParams=NULL, CIoParam *pArray=NULL);
-
-	/*!
-	  iNUmES=Number of Entity sets in model if simulant is model
-	  if the simulant is a simlator cESMap has number of entity sets
-	  for each child simulant
-
-	  pESClassName is an array containg class name for each entity set type
-	  for a model will be of size iNumES
-		
-	*/
- 	virtual int CreateEntitySets(int iNumES=0, CIoParam *pESClassName=NULL, CIoParam *pESParam=NULL, CIoParam *pETSParam=NULL , char *cESMap=NULL);
-
-	//We don't know how to create a simulator
-	//so we need a realisation of the simulation to tell us how to 
-	//create the simulation hence this is pure virtual
-
-	/*!
-	  Create the actual configuration as soon as actual entiy sets and entity type sets have been
-	  created. Assumes create method has been set.
-	*/
-	virtual int CreateConfig();
-
-
-	//Simulation analysis functions
-
-	//General analytical operation ofr a simulation
-	virtual void AnalyseSim(int iMethod, CIoParam *pAnalysisPar=NULL);
-
-	//General analytical operation for a configuration
-	virtual void AnalyseConfig(int iMethod, CIoParam *pAnalysisPar=NULL);
-
-	//Apply analytical operations to a list of config files
-	virtual void AnalyseConfigList(int iMethod, CIoParam *pAnalysisPar=NULL);
 
 	virtual int ReadSimulationDefault(char *sSimFilename);
 	virtual int WriteSimulationDefault(char *sSimFilename);
-	virtual int ReadConfigDefault(char *sSimFilename);
-	virtual int WriteConfigDefault(char *sSimFilename);
-	virtual int ReadStateDefault(char *sSimFilename){return 0;}
-	virtual int WriteStateDefault(char *sSimFilename);
-
-	/*!
-		Read and write state information in to the simulation list;
-	*/
-	virtual int ReadStateInfoDefault(char *sSimFilename);
-	virtual int WriteStateInfoDefault(char *sSimFilename);
 };
 
 #endif 
