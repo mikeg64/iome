@@ -1,10 +1,48 @@
-      PROGRAM STARTSHOOTING
-!  THIS PROVIDES A SOLUTION FOR A BOUNDARY-VALUE PROBLEM FOR A
-!  FIRST-ORDER ODE WITH ONE UNKNOWN PARAMETER TO BE DETERMINED.
-!  THE ODE IS OF THE FORM     Dy/Dx = f(x,Q)  WHERE Q IS THE 
-!  UNKNOWN PARAMETER.   THE BOUNDARY CONDITIONS ARE y = Ya FOR
-!  x = a AND y = Yb FOR X = b.   
-!  THE FUNCTION f(x,Q) IS PROVIDED AS A FUNCTION STATEMENT.
+from numpy import *
+from os import *
+from math import *
+
+
+import numpy as np
+
+
+#shooting method example using python
+
+#      PROGRAM STARTSHOOTING
+#  THIS PROVIDES A SOLUTION FOR A BOUNDARY-VALUE PROBLEM FOR A
+#  FIRST-ORDER ODE WITH ONE UNKNOWN PARAMETER TO BE DETERMINED.
+#  THE ODE IS OF THE FORM     Dy/Dx = f(x,Q)  WHERE Q IS THE 
+#  UNKNOWN PARAMETER.   THE BOUNDARY CONDITIONS ARE y = Ya FOR
+#  x = a AND y = Yb FOR X = b.   
+#  THE FUNCTION f(x,Q) IS PROVIDED AS A FUNCTION STATEMENT.
+
+y=zeros(1000)
+w=zeros(4)
+dy=zeros(4)
+
+w=[0.0,0.5,0.5,1.0]
+
+print 'INPUT THE FIRST BOUNDARY CONDITION a,Ya'
+print 'WHERE y = Ya WHEN x = a.'
+
+xi=input('a')
+y[0]=input('Ya')
+
+print 'INPUT THE FINAL BOUNDARY CONDITION  b,Yb'
+print 'WHERE y = Yb WHEN x = b.'
+xf=input('b')
+yf=input('Yb')
+
+
+
+
+def f(x,q):
+    f=-15.915494*q/(math.pow(2-x,2))
+    return f
+
+
+
+
       REAL Y(0:1000),W(4),DY(4)
       CHARACTER ANS*1
       DATA W/0.0,0.5,0.5,1.0/
