@@ -33,35 +33,26 @@ print 'WHERE y = Yb WHEN x = b.'
 xf=input('b')
 yf=input('Yb')
 
+print' INPUT THE INTEGRATION STEP LENGTH h IN THE '
+print' FORM OF AN INTEGER N WHERE h = [b - a]/N. '
+print' IF YOU WANT OUTPUT OF Y AT INTERVALS OF [B-A]/M'
+print' THEN MAKE N A MULTIPLE OF M.'
 
 
+n=input('n')
+h=(xf-xi)/n
+
+q=input('INPUT ESTIMATE OF THE UNKNOWN PARAMETER, Q.')
 
 def f(x,q):
     f=-15.915494*q/(math.pow(2-x,2))
     return f
 
+for x in i[1:n]:
+    x=(i-1)*h
+    if x < 0: a.remove(x)
 
-
-
-      REAL Y(0:1000),W(4),DY(4)
-      CHARACTER ANS*1
-      DATA W/0.0,0.5,0.5,1.0/
-      FUN(X,Q)=-15.915494*Q/(2-X)**2
-      WRITE(6,'('' INPUT THE FIRST BOUNDARY CONDITION AS a,Ya'')')
-      WRITE(6,'('' WHERE y = Ya WHEN x = a.'')')
-      READ(5,*)XI,Y(0)
-      WRITE(6,'('' INPUT THE FINAL BOUNDARY CONDITION AS b,Yb'')')
-      WRITE(6,'('' WHERE y = Yb WHEN x = b.'')')
-      READ(5,*)XF,YF
-      WRITE(6,'('' INPUT THE INTEGRATION STEP LENGTH h IN THE '')')
-      WRITE(6,'('' FORM OF AN INTEGER N WHERE h = [b - a]/N. '')')
-      WRITE(6,'('' IF YOU WANT OUTPUT OF Y AT INTERVALS OF [B-A]/M'')')
-      WRITE(6,'('' THEN MAKE N A MULTIPLE OF M.'')')
-      READ(5,*)N
-      H=(XF-XI)/N
-      WRITE(6,'('' INPUT ESTIMATE OF THE UNKNOWN PARAMETER, Q.'')')
-      READ(5,*)Q
-!  THE RUNGE-KUTTA INTEGRATION NOW BEGINS.F
+#  THE RUNGE-KUTTA INTEGRATION NOW BEGINS.F
       DO 1 I=1,N
       X=(I-1)*H
       DO 2 J=1,4
