@@ -48,10 +48,11 @@ def f(x,q):
     f=-15.915494*q/(math.pow(2-x,2))
     return f
 
-for x in i[1:n]:
+#begin runge-kutta integration
+for x in range(1,n):
     x=(i-1)*h
-    if x < 0: a.remove(x)
-
+    for j in range(1,4):
+        xx=x+w[j]*h
 #  THE RUNGE-KUTTA INTEGRATION NOW BEGINS.F
       DO 1 I=1,N
       X=(I-1)*H
