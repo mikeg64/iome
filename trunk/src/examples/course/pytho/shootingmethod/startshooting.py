@@ -15,7 +15,13 @@ import numpy as np
 #  UNKNOWN PARAMETER.   THE BOUNDARY CONDITIONS ARE y = Ya FOR
 #  x = a AND y = Yb FOR X = b.   
 #  THE FUNCTION f(x,Q) IS PROVIDED AS A FUNCTION STATEMENT.
+def f(x,q):
+    f=-15.915494*q/(math.pow(2-x,2))
+    return f
 
+
+
+#main routine starts here
 y=zeros(1000)
 w=zeros(4)
 dy=zeros(4)
@@ -44,15 +50,13 @@ h=(xf-xi)/n
 
 q=input('INPUT ESTIMATE OF THE UNKNOWN PARAMETER, Q.')
 
-def f(x,q):
-    f=-15.915494*q/(math.pow(2-x,2))
-    return f
 
 #begin runge-kutta integration
 for x in range(1,n):
     x=(i-1)*h
     for j in range(1,4):
         xx=x+w[j]*h
+        dy[j]=h*fun(xx,q)
 #  THE RUNGE-KUTTA INTEGRATION NOW BEGINS.F
       DO 1 I=1,N
       X=(I-1)*H
