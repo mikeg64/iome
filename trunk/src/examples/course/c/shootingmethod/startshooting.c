@@ -9,6 +9,17 @@
 #include <stdio.h>
 #include <math.h>
 /*Parkers fluid solar wind model*/
+/*We guess the initial condition and speed of solar wind when it leaves the sun*/
+/*The final boundary condition is known the measured speed of the solar wind 
+  at the earths orbit*/
+
+/*r/rsun=215 corresponds to earths orbit*/
+
+/*r/rsun     1.03    1.5    10    215*/
+/*n(m^-3)    2e14    1.6e13 4e9   7e3*/
+/*T(K)       1.7e6   1e6    4e5   4e4*/
+/*B(Teslas)  1e4     0.5e-4 1e-6  5e-9*/
+/*U(m/s)     0.6e3   3e3    3e5   4e5*/
 double fun(r,u)
 {
         double G=6.67*pow(10,-11);
@@ -47,6 +58,21 @@ void main(int argc, char **argv)
         h=(xf-xi)/n;
 
         scanf("input estimated unknown parameter?\n",&q);
+
+
+        /*THE RUNGE-KUTTA INTEGRATION NOW BEGINS.F*/
+        for(int i=1;i<n;i++)
+        {
+		x=(i-1)*h;
+		for(int j=0;j<4;j++)
+		{
+			xx=x+h*w[j];
+			dy[j]=h*fun(xx,y[i-1]);
+		}
+		y[i]=y[i-1]+(dy[0]+dy[3]+2*(dy[1]+dy[2]))/6.0;
+	}
+      
+
 
 
 }
