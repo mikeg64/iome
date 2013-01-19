@@ -15,10 +15,10 @@ clc;
 g = 9.81;
 u0 = 0;
 v0 = 0;
-b = 2;
+b = 0.1;
 h0 = 5030;
-damp=0.0;
-force=0.1;
+damp=0.0001;
+force=0.0;
 forcefreq=0.1;
 k=2.5;
 
@@ -27,6 +27,7 @@ ni = 1001;
 xmax = 10.0;
 dx = xmax/(ni-1);
 x = 0:dx:xmax;
+dx=0.02;
 
 // Define the y domain
 nj = 51;
@@ -44,25 +45,42 @@ tmax = 100;
 t = 1:dt:tmax;
 nt=max(size(t));
 courant = (wavespeed*dt)/dx;
-nt=100;
+c=0.04;
+fpu=0.0;
+nt=10000;
 // Build empty u, v, b matrices
-u = rand(ni,1);
+u = zeros(ni,3);
 v = zeros(ni,1);
 tv = zeros(ni,1);
 uh = zeros(ni,1);
 vh = zeros(ni,1);
 
-u((ni+1)/2)=b;
+//u((ni+1)/2)=b;
+ns=2+(ni/4);
+nf=ni-(ni/4)-1;
   for i = 2:ni-1
-
-        u(i) = -b*sin(i*dx*%pi);
-      vh(i) = b*cos(i*dx*%pi);    
-       uh(i)=(u(i-1)+u(i+1))/2;
-       vh(i)=(v(i-1)+v(i+1))/2;
- 
-
-  end;
   
+  // for i = ns:nf
+//Y[m][prevT] = Y[m][curT] = 2.5*sech((double)(m - GRIDLENGTH/2)/5.)*
+    //  Math.sin(m*10.*PI/(GRIDLENGTH-1));
+
+
+
+        //u(i,2) = 5.0*2.5*sech((i-(ni/2))/5)*sin(i*10*%pi/(ni-1));
+        u(i,2) = 2.5*sin((i)*2*%pi/((ni)-1));
+       //u(i,2) = 2.5*sin((i-ns)*2*%pi/((nf-ns)-1));
+        u(i,1)=u(i,2);
+  
+
+end;
+
+u(ni,1)=0.0;
+u(ni,2)=0.0;
+u(ni,3)=0.0;
+u(1,1)=0.0;
+u(1,2)=0.0;
+u(1,3)=0.0;
+ 
 curFig             = scf(100001);
 clf(curFig,"reset");
 //demo_viewCode("membrane.sce");
@@ -78,7 +96,7 @@ cmap= curFig.color_map; //preserve old setting
 curFig.color_map = jetcolormap(64);
 
 //plot3d1(x,25,u(:,25),35,45,' ');
-plot2d(x,u(:));
+plot2d(x,u(:,1));
 s=gce(); //the handle on the surface
 //s.color_flag=1 ; //assign facet color according to Z value
 title("evolution of a 3d surface","fontsize",3)
@@ -87,43 +105,28 @@ title("evolution of a 3d surface","fontsize",3)
 
 drawnow();
 // Employ Lax
-for n = 1:nt
-   dt=0.01; 
+//for n = 2:nt-1
+    for n = 2:nt
+   dt=0.1; 
    t=n*dt;
 
-    
-  for i = 2:ni-1
+    ntt=2;
+    //ntt=n;
  
-      vh(i) = ((v(i+1)+v(i))/2)+(dt/2)*(damp*v(i)+dx*k*(u(i)));//+force*dt*sin(forcefreq*t*%pi);
-            uh(i)=uh(i)+(dt/2)*(v(i+1)+v(i))/2;
-
-  end;
-
   
-      //       tv((ni+1)/2,(nj+1)/2) = tv((ni+1)/2,(nj+1)/2)+force*dt*sin(forcefreq*t*%pi);            
-
-  //for i = 2:ni-1
-  //  for j = 2:nj-1  
-  //    u(i,j) = u(i,j)+dt*tv(i,j);
-  //  end;
-  //end;
-  
-  
+  //Fermi, Pasta, Ulam Wave Equation
    for i = 2:ni-1
       
-      v(i) = v(i)-dt*(damp*vh(i)+k*dx*uh(i));//+force*dt*sin(forcefreq*t*%pi);
-      u(i)=u(i)+(dt)*(v(i))/2;
-  
-  end;
-  
-     for i = 2:ni-1
+  t1 = u(i+1,ntt) - u(i,ntt);
+  t2 = u(i,ntt) - u(i-1,ntt);
     
-      v(i) = v(i)-(dt)*dx*k*(4*u(i)-u(i+1)-u(i-1)-u(i)-u(i));//+force*dt*sin(forcefreq*t*%pi);
-      uh(i)=uh(i)+(dt/2)*(vh(i))/2;
-  
+    u(i,ntt+1) = c*c*(dt/dx)*(dt/dx)*(u(i-1,ntt) - 2*u(i,ntt) + ...
+      u(i+1,ntt) + fpu*(t1*t1 - t2*t2)) - u(i,ntt-1) + 2*u(i,ntt) - ...
+      damp*dt*(u(i,ntt) - u(i,ntt-1))+((i>(ni/2)-2) & (i<((ni/2)+2)) )*force*(dt^2)*sin(forcefreq*n*%pi);
   end;
-
-     //v((ni+1)/2,(nj+1)/2) = v((ni+1)/2,(nj+1)/2)+force*dt*sin(forcefreq*t*%pi);               
+          u(:,1)=u(:,2);
+          u(:,2)=u(:,3);
+                  
  
   // Define Boundary Conditions
   //u(1,:,n+1) = 2.5*u(2,:,n+1)-2*u(3,:,n+1)+0.5*u(4,:,n+1);
@@ -138,7 +141,9 @@ for n = 1:nt
   //s.data = u(:,25);
   clf;
   xset('pixmap',1);
-plot2d(x,u(:),rect=[0 -4 1.0 4.0]);
+//plot2d(x,u(:,n),rect=[0 -4 1.0 4.0]);
+plot2d(x,u(:,ntt),rect=[0 -2.5 10.0 2.5]);
+//plot2d(x,u(:,n));
 
 xset('wshow');
 
