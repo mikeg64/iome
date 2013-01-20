@@ -39,12 +39,12 @@ wavespeed = u0+sqrt(k);
 
 // Define time-domain
 dt = 10*(0.68*dx)/wavespeed;
-tmax = 1;
+tmax = 100;
 //t = [0:dt:tdomain];
 t = 1:dt:tmax;
 nt=max(size(t));
 courant = (wavespeed*dt)/dx;
-nt=2;
+//nt=2;
 // Build empty u, v, b matrices
 u = zeros(max(size(x)),max(size(y)));
 v = zeros(max(size(x)),max(size(y)));
@@ -76,7 +76,7 @@ xselect(); //raise the graphic window
 cmap= curFig.color_map; //preserve old setting
 curFig.color_map = jetcolormap(64);
 
-plot3d1(x,y,u(:,:),35,45,' ');
+plot3d1(x,y,u(:,:),35,45,' ',ebox=[0 1 0 1 -2.5 2.5]);
 s=gce(); //the handle on the surface
 s.color_flag=1 ; //assign facet color according to Z value
 title("evolution of a 3d surface","fontsize",3)
