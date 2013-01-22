@@ -9,10 +9,10 @@ b = 3;fb = inf;
 delta = (b-a)/100;
 xx = a:delta:b;
 plot(xx,xx .^3-2*xx-5);
-set(gca(),"auto_clear","off");
+
 
 hax = line([a,b],[0,0]);
-set(hax,"Color","red");
+set(hax,'Color','red');
 while (sqrt((x-a)^2))>0.0001
 
   a=x;
@@ -24,11 +24,11 @@ while (sqrt((x-a)^2))>0.0001
   x=a-(fx/dfx);
   halt;
    
-  plot(x,fx,"o")
+  plot(x,fx,'o')
   
   disp(x-a);
 end;
 
-disp(" The root is :");
+disp(' The root is :');
 disp(x);
-set(gca(),"auto_clear","on");
+set(gca(),'auto_clear','on');
