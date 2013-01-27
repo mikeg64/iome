@@ -12,7 +12,8 @@ xselect(); //raise the graphic window
 cmap= curFig.color_map; //preserve old setting
 curFig.color_map = jetcolormap(64);
 
-plot3d1(x,y,h(:,:,1),35,45,' ',ebox=[0 100000 0 100000 4990 5010]);
+//plot3d1(x,y,h(:,:,1),35,45,' ',ebox=[0 100000 0 100000 4990 5010]);
+plot3d1(x,y,h(:,:,1),35,45,' ');
 s=gce(); //the handle on the surface
 s.color_flag=1 ; //assign facet color according to Z value
 title("evolution of a 3d surface","fontsize",3)

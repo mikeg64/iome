@@ -64,7 +64,11 @@ end;
 
 // Employ Lax
 for n = 1:max(size(t))-1
-  for i = 2:ni-1
+    
+ 
+    
+    
+      for i = 2:ni-1
     for j = 2:nj-1
     
     
@@ -98,5 +102,7 @@ for n = 1:max(size(t))-1
   h(max(size(x)),:,n+1) = 2.5*h(ni-1,:,n+1)-2*h(ni-2,:,n+1)+0.5*h(ni-3,:,n+1);
   h(:,1,n+1) = 2.5*h(:,2,n+1)-2*h(:,3,n+1)+0.5*h(:,4,n+1);
   h(:,max(size(y)),n+1) = 2.5*h(:,nj-1,n+1)-2*h(:,nj-2,n+1)+0.5*h(:,nj-3,n+1);
+  
+  
 
 end;
