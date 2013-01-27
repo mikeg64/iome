@@ -18,10 +18,10 @@ v0 = 0;
 b = 0.1;
 h0 = 5030;
 damp=0.0;
-force=0.0;
+force=5;
 forcefreq=0.05;
 k=2.5;
-
+jloc=10;
 // Define the x domain
 ni = 20;
 xmax = 10.0;
@@ -49,7 +49,7 @@ nt=max(size(t));
 courant = (wavespeed*dt)/dx;
 c=0.04;
 fpu=0.0;
-nt=10000;
+nt=100000;
 // Build empty u, v, b matrices
 u = zeros(ni,nj,3);
 v = zeros(ni,1);
@@ -71,7 +71,7 @@ nf=ni-(ni/4)-1;
 
 
         //u(i,2) = 5.0*2.5*sech((i-(ni/2))/5)*sin(i*10*%pi/(ni-1));
-        u(i,j,2) = 2.5*sin((i)*1*%pi/((ni)-1))*sin((j)*1*%pi/((nj)-1));
+       // u(i,j,2) = 2.5*sin((i)*1*%pi/((ni)-1))*sin((j)*1*%pi/((nj)-1));
        //u(i,2) = 2.5*sin((i-ns)*2*%pi/((nf-ns)-1));
         u(i,j,1)=u(i,j,2);
   
@@ -112,6 +112,7 @@ u(1,1,2)=0;
 u(1,2,2)=0;
 s=gce(); //the handle on the surface
 s.color_flag=1 ; //assign facet color according to Z value
+s.color_mode=-1;
 title("evolution of a 3d surface","fontsize",3)
 
 
@@ -137,19 +138,36 @@ drawnow();
     ntt=2;
     //ntt=n;
  
-  
+ 
   //Fermi, Pasta, Ulam Wave Equation
    for i = 2:ni-1
-   for j = 2:nj-1      
+   for j = 2:nj-1 
+       
+   if  j>(nj/2) then
+     c=0.005;
+ else
+     c=0.01;
+ end   
+            
   t1 = u(i+1,j,ntt) - u(i,j,ntt);
   t2 = u(i,j,ntt) - u(i-1,j,ntt);
   t3 = u(i,j+1,ntt) - u(i,j,ntt);
   t4 = u(i,j,ntt) - u(i,j-1,ntt);
    
-    u(i,j,ntt+1) = c*c*(dt/dx)*(dt/dx)*(u(i-1,j,ntt) - 4*u(i,j,ntt) + u(i,j-1,ntt)  + ...
-      u(i+1,j,ntt) + u(i,j+1,ntt) +fpu*(t1*t1 - t2*t2+t3*t3-t4*t4)) - u(i,j,ntt-1) + 2*u(i,j,ntt) - ...
-      damp*dt*(u(i,j,ntt) - u(i,j,ntt-1))+((i>(ni/2)-2) & (i<((ni/2)+2)) & (j>(nj/2)-2) & (j<((nj/2)+2)) )*force*(dt^2)*sin(forcefreq*n*%pi);
-      
+    //u(i,j,ntt+1) = c*c*(dt/dx)*(dt/dx)*(u(i-1,j,ntt) - 4*u(i,j,ntt) + u(i,j-1,ntt)  + ...
+    //  u(i+1,j,ntt) + u(i,j+1,ntt) +fpu*(t1*t1 - t2*t2+t3*t3-t4*t4)) - u(i,j,ntt-1) + 2*u(i,j,ntt) - ...
+    //  damp*dt*(u(i,j,ntt) - u(i,j,ntt-1))+((i>(ni/2)-2) & (i<((ni/2)+2)) & (j>(nj/2)-2) & (j<((nj/2)+2)) )*force*(dt^2)*sin(forcefreq*n*%pi);
+  
+  u(i,j,ntt+1) = c*c*(dt/dx)*(dt/dx)*(u(i-1,j,ntt) - 2*u(i,j,ntt)   + ...
+      u(i+1,j,ntt)  +fpu*(t1*t1 - t2*t2)) - u(i,j,ntt-1) + 2*u(i,j,ntt) + ...
+      c*c*(dt/dy)*(dt/dy)*(  u(i,j-1,ntt) - 2*u(i,j,ntt) + ...
+       u(i,j+1,ntt) +fpu*(t3*t3-t4*t4))  - ...
+      damp*dt*(u(i,j,ntt) - u(i,j,ntt-1))+((i>(ni/2)-2) & (i<((ni/2)+2)) & (j==jloc) )*force*(dt^2)*sin(forcefreq*n*%pi);
+  
+ // if n>500 then
+ //     force=0.0;
+ //end;
+  
       
       end;
   end;
@@ -169,15 +187,11 @@ drawnow();
 //  s.data.y = u(:,25);
   //s.data = u(:,25);
   
-  
-  s.data.z = u(:,:,ntt);
-  //clf;
-  //xset('pixmap',1);
-//plot2d(x,u(:,n),rect=[0 -4 1.0 4.0]);
-//plot2d(x,u(:,nj/2,ntt),rect=[0 -2.5 10.0 2.5]);
-//plot2d(x,u(:,n));
+       nname=sprintf('out/output%d.out',n);
+     fprintfMat(nname, u(:,:,ntt), "%lg");
 
-//xset('wshow');
+  s.data.z = u(:,:,ntt);
+ 
 
 
 end;
