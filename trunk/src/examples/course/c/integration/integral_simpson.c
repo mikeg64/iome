@@ -7,7 +7,7 @@
 #include <math.h>
 #include <float.h>
 
-#define N 100
+#define N 200
 #define PI 3.1415927
 
 //quadrature to higher order using lagrange interpolation
@@ -24,61 +24,49 @@ double testfunction (double x)
 //f is the series of values
 double lagrange_interp(double xval,double *f, double *x, int i)
 {  
+    double y,t1,t2,t3;
     t1=(xval-x[i])*(xval-x[i+1])/((x[i-1]-x[i])*(x[i-1]-x[i+1]));
     t2=(xval-x[i-1])*(xval-x[i+1])/((x[i]-x[i-1])*(x[i]-x[i+1]));
-    t3=(xval-x[i-1])*(xval-x[i])/((x[i+1]-x[i-1])*(x[i+1]-x(i)));
+    t3=(xval-x[i-1])*(xval-x[i])/((x[i+1]-x[i-1])*(x[i+1]-x[i]));
     y=t1*f[i-1]+t2*f[i]+t3*f[i+1];
+    return y;
 }
 
 
 int main(int argc, char **argv)
 {
-	int i;
-	double h;
-	double y[N];
-        double x[N];
+	int i,n;
+	double a,b,h,sum,result;
+	double y[2*N+1];
+        double x[2*N+1];
 
-	double ydash15p[N];
-        double ydash13p[N];
-        double yddash15p[N];
+	/*use an odd number of elements*/
+	n=(N*2)+1;
 
-     /*Find the derivative of sin (x)*/
-        for(i=0;i<N;i++)
-        {
-		x[i]=2*i*PI/(N-1);
-		y[i]=sin(x[i]);	
-        }
+	/*integration interval*/
+	a=0;
+	b=PI/2;
 
-	h=2*PI/N;
+	h=(b-a)/n;
 
-	ydash15p[1]=0;
-	ydash15p[2]=0;
-	for(i=3;i<=N-2;i++)
-	    ydash15p[i]=diff5p(y,i,h);
+
+	for(i=0;i<n;i++)
+	{
+	    x[i]=a+h*i;
+	    y[i]=testfunction(x[i]);
+	}
+
+	sum=0;
+
+	//since we are using interpolation
+	//the loop performs the summation 
+	//over every other element
+	for(i=1;i<=n-1;i+=2)
+	    sum=sum+y[i-1]+4*y[i]+y[i+1];
 	
-	ydash15p[N-1]=0;
-	ydash15p[N]=0;
 
-	ydash13p[1]=0;
-	for(i=2;i<N-1;i++)
-	    ydash13p[i]=diff3p(y,i,h);
-	
-	ydash13p[N]=0;
+	result=sum*h/3;
 
-
-	yddash15p[1]=0;
-	yddash15p[2]=0;
-	for(i=3;i<=N-2;i++)
-	    yddash15p[i]=diffdd5p(y,i,h);
-	
-	yddash15p[N-1]=0;
-	yddash15p[N]=0;
-
-	for(i=0;i<=N-1;i++)
-	   printf("%d %g %g %g %g %g %g\n",i,x[i],y[i],ydash13p[i],ydash15p[i],cos(x[i])-ydash13p[i],cos(x[i])-ydash15p[i]);
-
-
-
-
+	printf("results is %g\n",result);
 
 }
