@@ -92,6 +92,10 @@ int main(int argc, char **argv)
 	yddash15p[N-1]=0;
 	yddash15p[N]=0;
 
+	for(i=0;i<=N-1;i++)
+	   printf("%d %g %g %g %g %g %g\n",i,x[i],y[i],ydash13p[i],ydash15p[i],cos(x[i])-ydash13p[i],cos(x[i])-ydash15p[i]);
+
+
 
 
 
