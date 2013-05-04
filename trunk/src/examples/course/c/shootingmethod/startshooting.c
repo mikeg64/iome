@@ -8,34 +8,12 @@
   THE FUNCTION f(x,Q) IS PROVIDED AS A FUNCTION STATEMENT.*/
 #include <stdio.h>
 #include <math.h>
-/*Parkers fluid solar wind model*/
-/*We guess the initial condition and speed of solar wind when it leaves the sun*/
-/*The final boundary condition is known the measured speed of the solar wind 
-  at the earths orbit*/
 
-/*r/rsun=215 corresponds to earths orbit*/
 
-/*r/rsun     1.03    1.5    10    215*/
-/*n(m^-3)    2e14    1.6e13 4e9   7e3*/
-/*T(K)       1.7e6   1e6    4e5   4e4*/
-/*B(Teslas)  1e4     0.5e-4 1e-6  5e-9*/
-/*U(m/s)     0.6e3   3e3    3e5   4e5*/
-double fun(r,u)
-{
-        double G=6.67*pow(10,-11);
-        double M=2*pow(10,30);
-        double cs=sqrt(2*1.38*pow(10,-23)*4*pow(10,4)/(1.67*pow(10,-27))); /*sqrt(2kT/m)*/
-        double dudr;
-        
-        dudr=(u/r)*(2-(G*M/(cs*cs*r)))/((u/cs)*(u/cs)-1);
-        
-        return dudr;
-}
-
-/*double fun(x,q)
+double fun(x,q)
 {
 	return (-15.915494*q/pow((2-x),2));
-}*/
+}
 
 void main(int argc, char **argv)
 {
@@ -72,8 +50,8 @@ void main(int argc, char **argv)
 		for(j=0;j<4;j++)
 		{
 			xx=x+h*w[j];
-			dy[j]=h*fun(xx,y[i-1]);
-                        /*dy[j]=h*fun(xx,q);*/
+			
+                        dy[j]=h*fun(xx,q);
 		}
 		y[i]=y[i-1]+(dy[0]+dy[3]+2*(dy[1]+dy[2]))/6.0;
 	}
