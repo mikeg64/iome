@@ -27,8 +27,9 @@ curFig.color_map = jetcolormap(64);
 //----------------------
 x=linspace(-%pi,%pi,50);
 y=x;
-Z=sin(x)'*cos(y);
-
+Z=6*sin(x)'*cos(y);
+myones=ones(50,50);
+[mmx,mmy]=meshgrid(x,y);
 //Creates and set graphical entities which represent the surface
 //--------------------------------------------------------------
 plot3d1(x,y,Z,35,45,' ');
@@ -36,7 +37,7 @@ s=gce(); //the handle on the surface
 s.color_flag=1 ; //assign facet color according to Z value
 title("evolution of a 3d surface","fontsize",3)
 
-I=20:-0.1:1;
+I=4000:-0.1:1;
 realtimeinit(0.1);;//set time step (0.1 seconds)  and date reference
 
 
@@ -45,5 +46,7 @@ drawnow();
 for i=1:max(size(I))
   realtime(i); //wait till date 0.1*i seconds
   //s.data.z = (sin((I(i)/10)*x)'*cos((I(i)/10)*y))';
-  s.data.z = sin(6*%pi*i/max(size(I)))*(sin((2)*x)'*cos((2)*y))';
+  //s.data.z = sin(6*%pi*i/max(size(I)))*(sin((2)*x)'*sin((4)*y))';
+  //s.data.z = sin((100*9*%pi*i*myones/max(size(I))-2*mmx+4*mmy));//+sin((100*8*%pi*i*myones/max(size(I))-4*mmx+2*mmy))+sin((100*20*%pi*i*myones/max(size(I))-2*mmx+20*mmy));
+  s.data.z = 4.0*sin((100*4.5*%pi*i*myones/max(size(I)))).*(sin((mmx)).*sin((mmy)))+2.0*sin((100*9*%pi*i*myones/max(size(I)))).*(sin((-2*mmx)).*sin((+4*mmy)))+sin((100*45*%pi*i*myones/max(size(I)))).*(sin((3*mmx)).*sin((-3*mmy)))+0.5*sin((100*80*%pi*i*myones/max(size(I)))).*(sin((6*mmx)).*sin((-6*mmy)))+0.25*sin((100*160*%pi*i*myones/max(size(I)))).*(sin((12*mmx)).*sin((-12*mmy)));
 end
