@@ -13,6 +13,7 @@ ieee(1);
 
 a = 0;fa = -%inf;
 x = 3;fb = %inf;
+b=x;
 delta = (b-a)/100;
 xx = a:delta:b;
 plot(xx,xx .^3-2*xx-5);
