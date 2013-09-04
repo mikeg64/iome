@@ -46,8 +46,4 @@ main()
 	printf("Snowdon: %d\n", nSnowdon);
 	printf("Other: %d\n", nOther);
 
-
-
-
-
 }
