@@ -1,0 +1,11 @@
+#Make include file
+
+
+
+CC = gcc
+CLINKER = ${CC}
+FLAGS = -DUSE_GSL -Wall -I/usr/local/include
+LIBS = -L/usr/local/lib -lgsl -lgslcblas -lm
+LINKFLAGS = -g -Wall -DUSE_GSL -Wall -I/usr/local/include
+VPATH = src:../src
+INCLUDE = 
