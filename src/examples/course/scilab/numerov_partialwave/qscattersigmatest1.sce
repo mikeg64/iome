@@ -3,7 +3,7 @@ exec('v.sce');
 exec('f.sce');
 exec('u.sce');
 exec('tdl.sce');
-exec('sigma.sce');
+//exec('sigma.sce');
 exec('numerov.sce');
 
 jobname='wjob';
