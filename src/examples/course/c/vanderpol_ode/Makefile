@@ -1,6 +1,6 @@
 ##  Sample makefile
 ##  M.K.Griffiths
-
+include make_include_windows
 ##Simple makefile
 
 ##  5/3/2004
@@ -37,7 +37,7 @@
 
 
 all : vdpodesolvers.o
-	g++ -o vdpode vdpodesolvers.o -L"C:\MinGW\lib" -lfreeglut_static -lglu32 -lopengl32 -lwinmm -lgdi32 -Wl,--subsystem,windows
+	$(CC) -o vdpode vdpodesolvers.o $(LINKFLAGS)
  
 ## Rules for building each object file
 ## Note dependencies such as C/C++ header files
@@ -46,7 +46,7 @@ all : vdpodesolvers.o
 ## Note use of -c flag source is compiled only
 
 vdpodesolvers.o : vdpodesolvers.c
-	g++ -c vdpodesolvers.c -D FREEGLUT_STATIC -I"C:\MinGW\freeglut\include"
+	$(CC) -c vdpodesolvers.c $(FLAGS)
 
 
 
