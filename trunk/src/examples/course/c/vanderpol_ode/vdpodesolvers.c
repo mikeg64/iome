@@ -1,21 +1,52 @@
+/*The vanderpol oscillator
+
+Illustrates
+  1. performance comparison for different ODE solvers,
+  2. difference between euler, predictor corrector methods and fourth oder runge kutta methods for solution of ODE's
+  3. use of OpenGL and Glut.
+
+The vanderpol oscillator is an oscillator with a non linear damping term.
+One of its applications has been the modelling of action potentials for neorons. 
+http://en.wikipedia.org/wiki/Van_der_Pol_oscillator
+
+To compile this program use
+
+  g++ -o vanderpol vdpodesolvers.c
+
+Or use 
+
+  make all
+
+OpenGLUT is the OpenGL utility toolkit for developing grapjics and visualisation based applications.
+
+To enable the GLUT uncomment the correct lines from the file make_include_windows
+http://openglut.sourceforge.net/
+
+*/
+
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
 #include <time.h>
 #include <sys/time.h>
-
-
-#include<GL/gl.h>
-#include<GL/glu.h>
-#include<GL/freeglut.h>
-
 #define NUM_POINTS    50000
-#include <GL/freeglut.h>
 #include <stdlib.h>
 
-#define drawOneLine(x1,y1,x2,y2)  glBegin(GL_LINES);  \
-   glVertex2f ((x1),(y1)); glVertex2f ((x2),(y2)); glEnd();
+#ifdef USE_GLUT
+	#include<GL/gl.h>
+	#include<GL/glu.h>
+	#include<GL/freeglut.h>
+
+
+	#include <GL/freeglut.h>
+
+
+	#define drawOneLine(x1,y1,x2,y2)  glBegin(GL_LINES);  \
+   		glVertex2f ((x1),(y1)); glVertex2f ((x2),(y2)); glEnd();
+#endif
 
 float fh=0.001;
 float fR=2.0;
@@ -265,7 +296,7 @@ void runmodel()
 {
   float time;
   int i;
-
+  FILE *mfptr; /* mfptr = file pointer for results file*/
   switch(st)
    {
    	case 0:
@@ -290,8 +321,27 @@ void runmodel()
    	break;
    }
    printf("run time is %f seconds\n\n",20*time);
-   //for(i=0; i<NUM_POINTS;i++)
-   //				printf("%f %f\n",ps[i][0],ps[i][1]);	
+
+
+  //write results to output file
+        if((mfptr=fopen("models.dat", "w"))==NULL)
+		printf("The file could not be opened!\n");
+	else
+	{
+
+			fprintf(mfptr, "Time \t Amplitude\n");
+
+
+
+                 for(i=0; i<NUM_POINTS;i++)
+   				fprintf(mfptr,"%g %g\n",ps[i][0],ps[i][1]);
+
+		fclose(mfptr);
+	}
+
+
+ //  for(i=0; i<NUM_POINTS;i++)
+ //  				printf("%f %f\n",ps[i][0],ps[i][1]);	
 }
 
 void freemodel()
@@ -310,7 +360,7 @@ void freemodel()
 
 
 
-
+#ifdef USE_GLUT
 
 void init(void) 
 {
@@ -355,8 +405,15 @@ void keyboard(unsigned char key, int x, int y)
    }
 }
 
+#endif
+
+
+
 int main(int argc, char** argv)
 {
+
+
+#ifdef USE_GLUT
    glutInit(&argc, argv);
    glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
    glutInitWindowSize (400, 150); 
@@ -364,12 +421,19 @@ int main(int argc, char** argv)
    
    main_window = glutCreateWindow( "Vanderpol Oscillator" );
    init ();
+#endif
+
+
    initmodel();
    runmodel();
+ 
+#ifdef USE_GLUT
    glutDisplayFunc(display); 
    glutReshapeFunc(reshape);
    glutKeyboardFunc(keyboard);
    glutMainLoop();
+#endif
    freemodel();
+
    return 0;
 }

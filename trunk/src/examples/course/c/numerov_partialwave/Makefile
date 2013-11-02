@@ -19,16 +19,16 @@ numerov_partialwave: $(OBJ)
 	$(CC) $(INCLUDE) $(LINKFLAGS) $(LIBS) -c $<
 
 #another way of writing the compile rule more explicitly
-#game.o : game.c
-#	gcc -c game.c
+#numerov_partialwave.o : numerov_partialwave.c
+#	gcc -c numerov_partialwave.c
 
 #all : game.o
-#	gcc -o game game.o
+#	gcc -o numerov_partialwave numerov_partialwave.o
 
 
 
 
-all:prog
+all:numerov_partialwave
 	
 clean:
 	-rm $(OBJ) prog
