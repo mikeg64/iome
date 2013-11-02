@@ -1,7 +1,7 @@
 exec('wave2d.sce');
 
 wavetype=1; //stationary
-nsteps=5;
+nsteps=50;
 maxamplitude=10;
 wavenumber(1)=1*2*%pi;
 wavenumber(2)=2*2*%pi;
