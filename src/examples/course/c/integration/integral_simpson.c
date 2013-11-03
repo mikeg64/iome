@@ -1,6 +1,6 @@
 /*integral_simpson.c*/
 
-/*Integratopin using Simpsons rule*/
+/*Integration using Simpsons rule*/
 
 
 #include <stdio.h>

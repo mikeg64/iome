@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+/*Matrix transpose example*/
+
+
 #define MAX_ROW      50
 #define MAX_COL      50
 

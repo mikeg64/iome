@@ -10,7 +10,7 @@
 #define N 200
 #define PI 3.1415927
 
-//quadrature to higher order using lagrange interpolation
+
 
 double testfunction (double x)
 {

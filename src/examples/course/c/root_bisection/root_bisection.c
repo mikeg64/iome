@@ -9,6 +9,13 @@
 #include <math.h>
 #include <float.h>
 
+
+/*
+  Note FLT_MIN, FLT_MAX and FLT_EPSILON
+  defined in float.h
+*/
+
+
 float sign(float f){return(fabs(f)/f);}
 
 int main(char **argv, int argc)
@@ -24,6 +31,8 @@ int main(char **argv, int argc)
 	{
 
 	  x = (a+b)/2;
+
+	  /*The function whose root is to be determined*/
 	  fx = pow(x,3)-2*x-5;
 	  if(sign(fx)==sign(fa))
 	  {

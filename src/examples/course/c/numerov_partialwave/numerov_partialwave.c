@@ -43,6 +43,29 @@ double hb; //Plancks constant over 2*pi
  tdl=(kk*besselj(l,k*r1)-besselj(l,k*r2))/(kk*bessely(l,k*r1)-bessely(l,k*r2));
 endfunction*/
 
+
+/*Using series definition of bessel function*/
+double bessel(int l, double x)
+{
+   double bes=0;
+   double fac=1;
+   double sgn=-1;
+
+   int i;
+   int NBES=10;
+
+   for(i=0; i<NBES; i++)
+   {
+	fac*=(i>0?i:1);
+        sgn*=-1;
+
+        bes+=(sgn/(fac*tgamma(i+l+1)))*pow(x/2,2*m+l);
+   }
+   return bes;
+
+}
+
+
 /*Based on taylor expansion about 0 i.e. valid for mod(x)<1 */
 double besselapprox(int l, double x)
 {
@@ -85,7 +108,7 @@ double tdl(double u1,double u2,double r1,double r2,int l,int k)
 #ifdef USE_NAG
  double tdlv=(kk*gsl_sf_bessel_Jn(l,k*r1)-gsl_sf_bessel_Jn(l,k*r2))/(kk*gsl_sf_bessel_Jn(l,k*r1)-gsl_sf_bessel_Jn(l,k*r2));
 #else
- double  tdlv=(kk*besselapprox(l,k*r1)-besselapprox(l,k*r2))/(kk*besselapprox(l,k*r1)-besselapprox(l,k*r2));
+ double  tdlv=(kk*bessel(l,k*r1)-bessel(l,k*r2))/(kk*bessel(l,k*r1)-bessel(l,k*r2));
 #endif
 	return tdlv;
 }
