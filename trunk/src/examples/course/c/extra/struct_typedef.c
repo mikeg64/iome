@@ -22,6 +22,6 @@ int main()
 		printf("Third value: %c\n", (*ptr_one).A);
 
 		free(ptr_one);
-        system("PAUSE");
+        //system("PAUSE");
 		return 0;
 }
