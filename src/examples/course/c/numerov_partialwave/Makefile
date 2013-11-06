@@ -10,7 +10,7 @@ include make_include
 OBJ = numerov_partialwave.o 
 
 #Compile
-numerov_partialwave: $(OBJ)
+pw: $(OBJ)
 	$(CC) -o $(@) $(OBJ) $(INCLUDE) $(LIBS) $(FLAGS) $(LINKFLAGS)
 	
 
@@ -28,9 +28,9 @@ numerov_partialwave: $(OBJ)
 
 
 
-all:numerov_partialwave
+all:pw
 	
 clean:
-	-rm $(OBJ) prog
+	-rm $(OBJ) pw
 
 

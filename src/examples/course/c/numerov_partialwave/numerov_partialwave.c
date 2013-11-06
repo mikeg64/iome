@@ -27,7 +27,9 @@
 	#include <gsl/gsl_sf_bessel.h>
 #endif
 #ifdef USE_NAG
-
+	#include <nag.h>
+	#include <nag_stdlib.h>
+	#include <nags.h>
 #endif
 
 
@@ -43,29 +45,6 @@ double hb; //Plancks constant over 2*pi
  tdl=(kk*besselj(l,k*r1)-besselj(l,k*r2))/(kk*bessely(l,k*r1)-bessely(l,k*r2));
 endfunction*/
 
-
-/*Using series definition of bessel function*/
-double bessel(int l, double x)
-{
-   double bes=0;
-   double fac=1;
-   double sgn=-1;
-
-   int i;
-   int NBES=10;
-
-   for(i=0; i<NBES; i++)
-   {
-	fac*=(i>0?i:1);
-        sgn*=-1;
-
-        bes+=(sgn/(fac*tgamma(i+l+1)))*pow(x/2,2*m+l);
-   }
-   return bes;
-
-}
-
-
 /*Based on taylor expansion about 0 i.e. valid for mod(x)<1 */
 double besselapprox(int l, double x)
 {
@@ -73,10 +52,10 @@ double besselapprox(int l, double x)
 switch(l)
 {
 	case 0:
-		besapprox=1+(pow(x,2.0)/4)+(pow(x,4.0)/64)+(pow(x,6.0)/2304);
+		besapprox=s17aec(x, NAGERR_DEFAULT);
 	break;
 	case 1:
-		besapprox=(x/2)+(pow(x,3.0)/16)+(pow(x,5.0)/384);
+		besapprox=s17afc(x, NAGERR_DEFAULT);
 	break;
 	case 2:
 		besapprox=(pow(x,2.0)/8)+(pow(x,4.0)/96)+(pow(x,6.0)/3072);
@@ -96,6 +75,40 @@ switch(l)
 	return besapprox;
 }
 
+
+/*Based on taylor expansion about 0 i.e. valid for mod(x)<1 */
+double nagbessel(int l, double x)
+{
+	double nagbes;
+switch(l)
+{
+	case 0:
+		nagbes=1+(pow(x,2.0)/4)+(pow(x,4.0)/64)+(pow(x,6.0)/2304);
+	break;
+	case 1:
+		nagbes=(x/2)+(pow(x,3.0)/16)+(pow(x,5.0)/384);
+	break;
+	case 2:
+		nagbes=(pow(x,2.0)/8)+(pow(x,4.0)/96)+(pow(x,6.0)/3072);
+	break;
+	case 3:
+		nagbes=(pow(x,3.0)/48)+(pow(x,5.0)/768);
+	break;
+	case 4:
+		nagbes=(pow(x,4.0)/384)+(pow(x,6.0)/7680);
+	break;
+
+	default:
+		nagbes=(pow(x,5.0)/3840);
+	break;
+}
+
+	return nagbes;
+}
+
+
+
+
 double tdl(double u1,double u2,double r1,double r2,int l,int k)
 {
  //calculate phase shift of partial waves tand deltl
@@ -103,13 +116,15 @@ double tdl(double u1,double u2,double r1,double r2,int l,int k)
 
 #ifdef USE_GSL
  double tdlv=(kk*gsl_sf_bessel_Jn(l,k*r1)-gsl_sf_bessel_Jn(l,k*r2))/(kk*gsl_sf_bessel_Jn(l,k*r1)-gsl_sf_bessel_Jn(l,k*r2));
-
-#endif
-#ifdef USE_NAG
- double tdlv=(kk*gsl_sf_bessel_Jn(l,k*r1)-gsl_sf_bessel_Jn(l,k*r2))/(kk*gsl_sf_bessel_Jn(l,k*r1)-gsl_sf_bessel_Jn(l,k*r2));
 #else
- double  tdlv=(kk*bessel(l,k*r1)-bessel(l,k*r2))/(kk*bessel(l,k*r1)-bessel(l,k*r2));
+	#ifdef USE_NAG
+	 double  tdlv=(kk*nagbessel(l,k*r1)-nagbessel(l,k*r2))/(kk*nagbessel(l,k*r1)-nagbessel(l,k*r2));
+
+	#else
+	 double  tdlv=(kk*besselapprox(l,k*r1)-besselapprox(l,k*r2))/(kk*besselapprox(l,k*r1)-besselapprox(l,k*r2));
+	#endif
 #endif
+
 	return tdlv;
 }
 
@@ -252,23 +267,26 @@ double k,sumdelta,epsilon,sigma,cosecdelta2,res;
   for(i=0; i<ne; i++)
   {
 	  sumouter[i]=0.0;
-	  for(j=0; i<lupper+1; i++)
+	  for(j=0; j<lupper+1; j++)
 	  {
 		u1[i][j]=0.0;
 		u2[i][j]=0.0;
 		u3[i][j]=0.0;
 	  }
   }
+
   for(j=0;j<nr;j++)
   {
     
-    u1=0;
+    //u1=0;
     //inner loop summation over l
     sumdelta=0;
     for(i=0; i<=lupper; i++)
     {   
+
       if(j == 0)
       {
+
         u1[j][i]=.1;
         u2[j][i]=pow(delta,i);
       }
@@ -277,7 +295,6 @@ double k,sumdelta,epsilon,sigma,cosecdelta2,res;
         u2[j][i]=u3[j-1][i];
         u1[j][i]=u2[j-1][i];
       }
-      
       
       u3[j][i]=numerov(u1[j][i],u2[j][i],i,3.1+j*delta,delta,e,sigma,epsilon);
       //res=tdl(u1(j,i+1),u2(j,i+1),j*delta,(j+1)*delta,i,k);
@@ -288,7 +305,6 @@ double k,sumdelta,epsilon,sigma,cosecdelta2,res;
     //sumouter(j)=((4*%pi)/(k^2))*sumdelta;
     //totsum=totsum+sumouter(j);
   }  //for j=1:nr,
-  
   
  
      for( i=0;i<=lupper; i++)
@@ -301,10 +317,9 @@ double k,sumdelta,epsilon,sigma,cosecdelta2,res;
     sumouter[nec]=((4*PI)/(pow(k,2.0)))*sumdelta;
     totsum=totsum+sumouter[nec];
   }//for( int nec=1; nec<=ne; nec++)  
- 
-  
+   
   //write results to output file
-        if((mfptr=fopen("models.dat", "w"))==NULL)
+        if((mfptr=fopen("partialwave.dat", "w"))==NULL)
 		printf("The file could not be opened!\n");
 	else
 	{
