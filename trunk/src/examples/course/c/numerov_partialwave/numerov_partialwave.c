@@ -1,4 +1,4 @@
-//test
+
 //An illustration fo the numerov method for solving partial diffrential equations
 //In this case the Schrodinger equation is solved.
 //The problem here is the use of partial wave analysis to model the scattering of
@@ -39,77 +39,74 @@
 double m;   //mass of particle being scattered
 double hb; //Plancks constant over 2*pi
 
-/*function [tdl]=tdl(u1,u2,r1,r2,l,k)
-   //calculate phase shift of partial waves tand deltl
-   kk=(r1*u1)/(r2*u2);
- tdl=(kk*besselj(l,k*r1)-besselj(l,k*r2))/(kk*bessely(l,k*r1)-bessely(l,k*r2));
-endfunction*/
+
+/*Based on taylor expansion about 0 i.e. valid for mod(x)<1 */
+
+#ifdef USE_NAG
+double nagbessel(int l, double x)
+{
+	double bes;
+switch(l)
+{
+	case 0:
+		bes=s17aec(x, NAGERR_DEFAULT);
+	break;
+	case 1:
+		bes=s17afc(x, NAGERR_DEFAULT);
+	break;
+	case 2:
+		bes=(pow(x,2.0)/8)+(pow(x,4.0)/96)+(pow(x,6.0)/3072);
+	break;
+	case 3:
+		bes=(pow(x,3.0)/48)+(pow(x,5.0)/768);
+	break;
+	case 4:
+		bes=(pow(x,4.0)/384)+(pow(x,6.0)/7680);
+	break;
+
+	default:
+		bes=(pow(x,5.0)/3840);
+	break;
+}
+
+	return bes;
+}
+#endif
 
 /*Based on taylor expansion about 0 i.e. valid for mod(x)<1 */
 double besselapprox(int l, double x)
 {
-	double besapprox;
+	double bes;
 switch(l)
 {
 	case 0:
-		besapprox=s17aec(x, NAGERR_DEFAULT);
+		bes=1+(pow(x,2.0)/4)+(pow(x,4.0)/64)+(pow(x,6.0)/2304);
 	break;
 	case 1:
-		besapprox=s17afc(x, NAGERR_DEFAULT);
+		bes=(x/2)+(pow(x,3.0)/16)+(pow(x,5.0)/384);
 	break;
 	case 2:
-		besapprox=(pow(x,2.0)/8)+(pow(x,4.0)/96)+(pow(x,6.0)/3072);
+		bes=(pow(x,2.0)/8)+(pow(x,4.0)/96)+(pow(x,6.0)/3072);
 	break;
 	case 3:
-		besapprox=(pow(x,3.0)/48)+(pow(x,5.0)/768);
+		bes=(pow(x,3.0)/48)+(pow(x,5.0)/768);
 	break;
 	case 4:
-		besapprox=(pow(x,4.0)/384)+(pow(x,6.0)/7680);
+		bes=(pow(x,4.0)/384)+(pow(x,6.0)/7680);
 	break;
 
 	default:
-		besapprox=(pow(x,5.0)/3840);
+		bes=(pow(x,5.0)/3840);
 	break;
 }
 
-	return besapprox;
-}
-
-
-/*Based on taylor expansion about 0 i.e. valid for mod(x)<1 */
-double nagbessel(int l, double x)
-{
-	double nagbes;
-switch(l)
-{
-	case 0:
-		nagbes=1+(pow(x,2.0)/4)+(pow(x,4.0)/64)+(pow(x,6.0)/2304);
-	break;
-	case 1:
-		nagbes=(x/2)+(pow(x,3.0)/16)+(pow(x,5.0)/384);
-	break;
-	case 2:
-		nagbes=(pow(x,2.0)/8)+(pow(x,4.0)/96)+(pow(x,6.0)/3072);
-	break;
-	case 3:
-		nagbes=(pow(x,3.0)/48)+(pow(x,5.0)/768);
-	break;
-	case 4:
-		nagbes=(pow(x,4.0)/384)+(pow(x,6.0)/7680);
-	break;
-
-	default:
-		nagbes=(pow(x,5.0)/3840);
-	break;
-}
-
-	return nagbes;
+	return bes;
 }
 
 
 
 
-double tdl(double u1,double u2,double r1,double r2,int l,int k)
+double tdl(double u1,double u2,double r1,double r2,int l,double k)
 {
  //calculate phase shift of partial waves tand deltl
   double kk=(r1*u1)/(r2*u2);
@@ -124,19 +121,11 @@ double tdl(double u1,double u2,double r1,double r2,int l,int k)
 	 double  tdlv=(kk*besselapprox(l,k*r1)-besselapprox(l,k*r2))/(kk*besselapprox(l,k*r1)-besselapprox(l,k*r2));
 	#endif
 #endif
-
 	return tdlv;
 }
 
 
 
-/*//u
-function [u]=u(l,r)
-  alpha=6.12;
-  e=3;
-  C=sqrt(e*alpha/25)
-  u=exp( (-1)*C*r^(-5));
-endfunction*/
 
 double u(int l, double r)
 {
@@ -149,11 +138,6 @@ double u(int l, double r)
 
 
 
-/*function [v]=v(r,sigma,epsilon)
-   //epsilon=5.9;//meV H-Kr interaction
-  //sigma=3.57;//Angstrom
-  v=10*epsilon*( (sigma/r)^12-2*(sigma/r)^6);
-endfunction*/
 
 double v(double r, double sigma, double epsilon)
 {
@@ -166,10 +150,6 @@ double v(double r, double sigma, double epsilon)
 
 
 
-/*function [f]=f(l,r,e,sigma,epsilon)
-  //ra=r*(10^(-10));
-  f=v(r,sigma,epsilon)+(hb^2/(2*m*r^2))-e;
-endfunction*/
 
 double f(int l, double r, double e,double sigma,double epsilon)
 {
@@ -181,14 +161,6 @@ double f(int l, double r, double e,double sigma,double epsilon)
 //solve radial wave equation using numerov 
 //predictor method to fourth order 
 //for 2nd order de's
-
-/*function [numerov]=numerov(u1,u2,l,r,delta,e,sigma,epsilon)
-
-  num1=1/(1-(delta^2/12)*f(l,r+delta,e,sigma,epsilon));
-  bracket1=2*u2-u1+(delta^2/12)*(10*f(l,r,e,sigma,epsilon)*u2+f(l,r,e,sigma,epsilon)*u1);
-  numerov=num1*bracket1;
-
-endfunction*/
 
 double numerov(double u1,double u2,double l,double r,double delta,double e,double sigma,double epsilon)
 {
@@ -234,6 +206,11 @@ double k,sumdelta,epsilon,sigma,cosecdelta2,res;
   sumdelta=0;
   nr=100;
   ne=250;
+
+
+//lupper=4;
+//nr=10;
+//ne=15;
   
   double *sumouter=(double *)calloc(ne,sizeof(double));
   double totsum=0;
@@ -241,6 +218,15 @@ double k,sumdelta,epsilon,sigma,cosecdelta2,res;
   double **u1=(double **)calloc(ne,sizeof(double *));
   double **u2=(double **)calloc(ne,sizeof(double *));
   double **u3=(double **)calloc(ne,sizeof(double *));
+
+       if((mfptr=fopen("partialwave.dat", "w"))==NULL)
+       {
+		printf("The file could not be opened!\n");
+                return 1;
+       }
+
+
+			fprintf(mfptr, "Energy \t Cross-Section\n");
 
   for(i=0; i<ne; i++)
   {
@@ -275,7 +261,7 @@ double k,sumdelta,epsilon,sigma,cosecdelta2,res;
 	  }
   }
 
-  for(j=0;j<nr;j++)
+  for(j=0;j<=nr;j++)
   {
     
     //u1=0;
@@ -297,13 +283,8 @@ double k,sumdelta,epsilon,sigma,cosecdelta2,res;
       }
       
       u3[j][i]=numerov(u1[j][i],u2[j][i],i,3.1+j*delta,delta,e,sigma,epsilon);
-      //res=tdl(u1(j,i+1),u2(j,i+1),j*delta,(j+1)*delta,i,k);
-      //cosecdelta2=((1/(res^2))+1);
-      //sumdelta=sumdelta+(2*i+1)*(1/cosecdelta2); 
-    } //for(i=0; i<=lupper; i++)
+     } //for(i=0; i<=lupper; i++)
     
-    //sumouter(j)=((4*%pi)/(k^2))*sumdelta;
-    //totsum=totsum+sumouter(j);
   }  //for j=1:nr,
   
  
@@ -316,25 +297,17 @@ double k,sumdelta,epsilon,sigma,cosecdelta2,res;
     //end
     sumouter[nec]=((4*PI)/(pow(k,2.0)))*sumdelta;
     totsum=totsum+sumouter[nec];
+ 
+    fprintf(mfptr, "%g %g\n", (nec+1)*0.0005, sumouter[nec]);
   }//for( int nec=1; nec<=ne; nec++)  
    
-  //write results to output file
-        if((mfptr=fopen("partialwave.dat", "w"))==NULL)
-		printf("The file could not be opened!\n");
-	else
-	{
+ 
 
-			fprintf(mfptr, "Energy \t Cross-Section\n");
+		
+	
 
-		  for( nec=0; nec<ne; nec++)
-		{
-			fprintf(mfptr, "%g %g\n", (nec+1)*0.0005, sumouter[nec]);
-		}
-
-		fclose(mfptr);
-	}
-
-  //plot(sumouter);
+  fclose(mfptr);
+  
   free(sumouter);
   free(u1);
   free(u2);
