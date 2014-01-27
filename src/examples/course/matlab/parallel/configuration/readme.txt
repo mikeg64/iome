@@ -1,3 +1,5 @@
+an edit to play with git
+
 Example configuration file and generic job submit m files
 
 sge.mat configuration for iceberg load this by selecting parallel->ManageConfigurations
