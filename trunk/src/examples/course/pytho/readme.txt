@@ -31,6 +31,14 @@ exec(open(filename).read())
 >>> import  myScript
 
 
+To run a python script file from the command line type
+
+ python /usr/local/share/myscript.py
 
 
- python /usr/local/share/filename.py
+Or…
+
+Start python from the python prompt
+type
+
+>>> import myscript
