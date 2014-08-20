@@ -22,4 +22,15 @@ os.getcwd()
 os.listdir('.')
 os.chdir('C:\\Users\\mike\\Google Drive\\computationalmethods\\pytho\\shootingmethod')
 
+os.system("script2.py 1")
 
+exec(open(filename).read())
+
+>>> import sys
+>>> sys.path.append(' /home/bernardl/python/')
+>>> import  myScript
+
+
+
+
+ python /usr/local/share/filename.py
