@@ -1,8 +1,18 @@
-n = input( ' Enter a number: ' ) ;
-if  n < 0.5 
-   disp 'Too small !' 
-elseif n > 100
-   disp ' Too big !'
-else
-   disp ' It will do.'
-end
+#simple python script
+
+
+n=int(input('n'))
+
+
+
+import os,sys
+
+
+print n
+if  n < 0.5: 
+   print 'Too small !' 
+elif n > 100:
+   print ' Too big !'
+else :
+   print ' It will do.'
+
