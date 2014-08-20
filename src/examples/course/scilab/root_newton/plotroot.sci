@@ -32,7 +32,7 @@ while (sqrt((x-a)^2))>0.0001
   fx = 0.5*sin(2*(x-(%pi/4)))+0.5*sin(x);
   dfx= cos(2*(x-(%pi/4)))+0.5*cos(x);
   x=a-(fx/dfx);
-  halt;
+  //halt;
    
   plot(x,fx,"o")
   
