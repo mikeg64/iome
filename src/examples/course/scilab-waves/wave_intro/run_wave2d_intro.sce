@@ -25,7 +25,7 @@ clf(curFig,"reset");
 
 drawlater();
 
-xselect(); //raise the graphic window
+//xselect(); //raise the graphic window
 
 
 // set a new colormap
