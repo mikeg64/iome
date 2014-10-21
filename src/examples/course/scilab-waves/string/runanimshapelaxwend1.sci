@@ -39,15 +39,17 @@ wavespeed = u0+sqrt(k);
 wavespeed=0.01;
 
 // Define time-domain
-dt = 10*(0.68*dx)/wavespeed;
-tmax = 10;
+dt = 50*(0.68*dx)/wavespeed;
+tmax = 100;
 //t = [0:dt:tdomain];
 t = 1:dt:tmax;
 dt=0.5
-dt=0.001
+dt=0.001;
+dt=0.3;
 dx=10.0
 courant=0.15
 wavespeed=courant*dx/dt
+wavespeed=10
 //courant = (wavespeed*dt)/dx;
 nt=1000;
 hmax=3;
@@ -87,29 +89,36 @@ vh = zeros(ni,1);
 
   end;
   
-curFig             = scf(100001);
-clf(curFig,"reset");
+//curFig             = scf(100001);
+//clf(curFig,"reset");
 //demo_viewCode("membrane.sce");
 
-drawlater();
+//drawlater();
 
-xselect(); //raise the graphic window
+//xselect(); //raise the graphic window
 
 
 // set a new colormap
 //-------------------
-cmap= curFig.color_map; //preserve old setting
-curFig.color_map = jetcolormap(64);
+//cmap= curFig.color_map; //preserve old setting
+//curFig.color_map = jetcolormap(64);
 
 //plot3d1(x,25,u(:,25),35,45,' ');
+oldu1=u(1);
+u(1)=5;
+oldu2=u(2);
+u(2)=-2
 plot2d(x,u(:));
-s=gce(); //the handle on the surface
+u(1)=oldu1;
+u(2)=oldu2;
+s=gca(); //the handle on the surface
+e=s.children();
 //s.color_flag=1 ; //assign facet color according to Z value
-title("evolution of a 3d surface","fontsize",3)
+//title("evolution of a 3d surface","fontsize",3)
 
-
-vw=0.1;
 drawnow();
+vw=0.1;
+//drawnow();
 // Employ Lax
 for n = 1:nt
    //dt=0.001; 
@@ -129,11 +138,18 @@ for n = 1:nt
          u(i)=v(i);
          end;
  // end;
-  clf;
-  xset('pixmap',1);
+  //clf;
+  //xset('pixmap',1);
 //plot2d(x,u(:),rect=[0 -4 1.0 4.0]);
-plot2d(x,u(:));
-xset('wshow');
-
+//plot2d(x,u(:));
+//s.polyline(1).data=u;
+//xset('wshow');
+//clf;
+//plot2d(x,u(:));
+//s=gca(); //the handle on the surface
+//s.children();
+mytdat(:,1)=(0:0.01:10)';
+mytdat(:,2)=u;
+e.children.data=mytdat;
 
 end;

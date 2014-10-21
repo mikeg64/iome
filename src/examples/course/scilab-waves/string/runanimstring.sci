@@ -44,7 +44,7 @@ tmax = 1;
 t = 1:dt:tmax;
 nt=max(size(t));
 courant = (wavespeed*dt)/dx;
-nt=2;
+nt=200;
 // Build empty u, v, b matrices
 u = zeros(max(size(x)),max(size(y)));
 v = zeros(max(size(x)),max(size(y)));
@@ -68,7 +68,7 @@ clf(curFig,"reset");
 
 drawlater();
 
-xselect(); //raise the graphic window
+//xselect(); //raise the graphic window
 
 
 // set a new colormap
