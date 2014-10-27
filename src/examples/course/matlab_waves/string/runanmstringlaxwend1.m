@@ -1,19 +1,28 @@
 
-
+%Solving the Burgers equation
+% http://en.wikipedia.org/wiki/Burgers'_equation
+%
+% Example of solving hydrodynamics equation to advect fluid
+% Illustrates the problem of numerical instability
+%
+% Higher order terms for the finite element derivatives are n0t sufficient
+% to remove discontinuities
+%
+%
+% Use two step Lax-Wendroff method to stabilise solution
+% http://en.wikipedia.org/wiki/Lax-Wendroff_method
 
 clear;
 %clf;
 clc;
 
 % Constants
-g = 9.81;
+
 u0 = 0;
 v0 = 0;
 b = 2;
 h0 = 5030;
-damp=0.0;
-force=0.1;
-forcefreq=0.1;
+
 k=2.5;
 
 % Define the x domain
@@ -29,7 +38,6 @@ dy = ymax/(nj-1);
 y = 0:dy:ymax;
 
 % Define the wavespeed
-wavespeed = u0+sqrt(k);
 wavespeed=0.01;
 
 % Define time-domain
@@ -47,9 +55,13 @@ wavespeed=10
 %courant = (wavespeed*dt)/dx;
 nt=10000;
 hmax=3;
+
+%parameters to define width of propagating shape
 n1=75;
 n2=100;
 n3=125;
+n3=400;
+n1=30;
 
 % Build empty u, v, b matrices
 u = rand(ni,1);
@@ -76,28 +88,20 @@ vh = zeros(ni,1);
                 u(i)=hmax;             
              end
         end
-      %vh(i) =0.1;    
-      % uh(i)=(u(i-1)+u(i+1))/2;
-      % vh(i)=(v(i-1)+v(i+1))/2;
+        
+        ymax=1.2*hmax;
+        ymin=-0.2*hmax;
+      %remove comments below to set up a sine wave  
+      %  if (i>n1) && (i<n3)
+      %    u(i)=hmax*sin(2*pi*(i-n1)/((n3-n1)));
+      %     ymin=-1.2*hmax;
+      %  end
+      
  
 
   end;
   
-%curFig             = scf(100001);
-%clf(curFig,"reset");
-%demo_viewCode("membrane.sce");
 
-%drawlater();
-
-%xselect(); %raise the graphic window
-
-
-% set a new colormap
-%-------------------
-%cmap= curFig.color_map; %preserve old setting
-%curFig.color_map = jetcolormap(64);
-
-%plot3d1(x,25,u(:,25),35,45,' ');
 oldu1=u(1);
 u(1)=5;
 oldu2=u(2);
@@ -107,47 +111,64 @@ h=plot(x,u(:));
 hold on;
 u(1)=oldu1;
 u(2)=oldu2;
-%s=gca(); %the handle on the surface
-%e=s.children();
-%s.color_flag=1 ; %assign facet color according to Z value
-%title("evolution of a 3d surface","fontsize",3)
 
-%drawnow();
 vw=0.1;
-%drawnow();
-% Employ Lax
-%nt=2;
+
+uold=u;
+
+
 for n = 1:nt
    %dt=0.001; 
    t=n*dt;
    c=-wavespeed*dt/dx;
-    pause(0.01);
- set(h,'YData',u);
- %for ns=1:100;
- 
-     for i = 2:ni-1
+    pause(0.001);
     
-      v(i) = u(i)+c*(u(i+1)-u(i-1))/2+c^2*(u(i+1)-2*u(i)+u(i-1))/2;%+force*dt*sin(forcefreq*t*%pi);
+    
+    set(h,'YData',u);
+    set(gca,'YLim',[ymin ymax]);
+
+     %first order 
+     starti=2;
+     finishi=ni-1;
+     
+      %second order %uncomment these to test second order differencing
+     %starti=3;
+     %finishi=ni-2;
+     
+    for i = starti:finishi
+        
+    %comment the above     
+    %for i = 3:ni-2
+      %Lax-Wendroff   
+      v(i) = u(i)+c*(u(i+1)-u(i-1))/2+c^2*(u(i+1)-2*u(i)+u(i-1))/2;
       
-  
-      end;
-     for i = 2:ni-1
+      %first order central differencing
+      %v(i) = u(i)+c*(u(i+1)-u(i-1))/2;%+c*(uold(i+1)-uold(i-1))/2;
+ 
+       %second order central differencing %includes Lax-Wedroff correction
+       %term
+       %v(i) = u(i)+c*(u(i-2)+8*u(i+1)-8*u(i-1)-u(i+2))/12;%+c^2*(u(i+1)-2*u(i)+u(i-1))/2;
+     
+      
+    end;
+     uold=u;
+     
+     for i = starti:finishi
          u(i)=v(i);
       end;
- % end;
-  %clf;
-  %xset('pixmap',1);
-%plot2d(x,u(:),rect=[0 -4 1.0 4.0]);
-%plot2d(x,u(:));
-%s.polyline(1).data=u;
-%xset('wshow');
-%clf;
-%plot2d(x,u(:));
-%s=gca(); %the handle on the surface
-%s.children();
-%mytdat(:,1)=(0:0.01:10)';
-%mytdat(:,2)=u;
-%show(h);
-%e.children.data=mytdat;
+      
+  %1st order periodic boundary condition
+  u(ni)=u(2);
+  u(1)=u(ni-1);
+  
+  %2nd order periodic boundary condition
+  %u(ni-1)=u(3);
+  %u(2)=u(ni-2);
+  %u(ni)=u(4);
+  %u(1)=u(ni-3);
+  
+  
+      
+ 
 drawnow;
 end;
