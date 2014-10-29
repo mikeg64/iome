@@ -1,5 +1,7 @@
 
-
+%Solving the Burgers equation
+% http://en.wikipedia.org/wiki/Burgers'_equation
+%
 % Example of solving hydrodynamics equation to advect fluid
 % Illustrates the problem of numerical instability
 %
@@ -11,17 +13,21 @@
 % http://en.wikipedia.org/wiki/Lax-Wendroff_method
 
 
-%    The  time-dependent advection equation is:
+%    The non-viscous time-dependent Burgers equation is:
 %
-%      du/dt +  du/dx = 0
+%      du/dt + u du/dx = 0
 %
-
+%    which can be written in conservative form as
+%
+%      du/dt + 1/2 d/dx ( u^2 ) = 0 
+%
+%    or
 %
 %      du/dt + dF/dx = 0
 %
-%    For the advection equation,  define 
+%    For the Burgers equation,  define 
 %
-%      F(x,t) =  u,
+%      F(x,t) = 1/2 u^2,
 %      A(x,t) = dF/dx = u
 %
 %    and then the Lax-Wendroff method approximates the solution 
@@ -178,8 +184,15 @@ for n = 1:nt
      v(i) = u(i)+c*(u(i+1)-u(i-1))/2+c^2*(u(i+1)-2*u(i)+u(i-1))/2;
       
       
-      %Crank-Nicholson (average of forward and backward difference)
-      v(i) = u(i)+c*(u(i+1)-u(i-1));
+      %v(i) = u(i) ...
+      %-       ( dt    / dx  ) * ( u(i+1).^2 - u(i-1).^2 ) ...
+      %+ 0.5 * ( dt^2 / dx^2 ) * (  0.5 * ( u(i)   + u(i-1) ) ...
+      %                             .* ( u(i).^2   - u(i-1).^2 ) ...
+      %                           - 0.5 * ( u(i-1) + u(i-2) ) ...
+      %                             .* ( u(i-1).^2 - u(i-2).^2 ) );
+      
+      
+      
       %first order central differencing
       %v(i) = u(i)+c*(u(i+1)-u(i-1))/2;%+c*(uold(i+1)-uold(i-1))/2;
  

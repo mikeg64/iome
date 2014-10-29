@@ -104,6 +104,7 @@ v = zeros(ni,1);
 tv = zeros(ni,1);
 uh = zeros(ni,1);
 vh = zeros(ni,1);
+visc = zeros(ni,1);
 
 %u((ni+1)/2)=b;
   for i = 1:ni
