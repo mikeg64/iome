@@ -105,6 +105,8 @@ tv = zeros(ni,1);
 uh = zeros(ni,1);
 vh = zeros(ni,1);
 
+
+
 %u((ni+1)/2)=b;
   for i = 1:ni
 
@@ -170,20 +172,29 @@ for n = 1:nt
      %starti=3;
      %finishi=ni-2;
      
+     %calculate hyper viscosity
+     for i = starti:finishi
+         
+         
+     end
+     
+     
     for i = starti:finishi
         
     %comment the above     
     %for i = 3:ni-2
       %Lax-Wendroff   
      v(i) = u(i)+c*(u(i+1)-u(i-1))/2+c^2*(u(i+1)-2*u(i)+u(i-1))/2;
+     
+     
+    
       
       
-      %Crank-Nicholson (average of forward and backward difference)
-      v(i) = u(i)+c*(u(i+1)-u(i-1));
+     
       %first order central differencing
       %v(i) = u(i)+c*(u(i+1)-u(i-1))/2;%+c*(uold(i+1)-uold(i-1))/2;
- 
-       %second order central differencing %includes Lax-Wedroff correction
+  
+        %second order central differencing %includes Lax-Wedroff correction
        %term
        %v(i) = u(i)+c*(u(i-2)+8*u(i+1)-8*u(i-1)-u(i+2))/12;%+c^2*(u(i+1)-2*u(i)+u(i-1))/2;
      
