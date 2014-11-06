@@ -129,10 +129,10 @@ vh = zeros(ni,1);
         ymax=1.2*hmax;
         ymin=-0.2*hmax;
       %remove comments below to set up a sine wave  
-      %  if (i>n1) && (i<n3)
-      %    u(i)=hmax*sin(2*pi*(i-n1)/((n3-n1)));
-      %     ymin=-1.2*hmax;
-      %  end
+        if (i>n1) && (i<n3)
+          u(i)=hmax*sin(2*pi*(i-n1)/((n3-n1)));
+           ymin=-1.2*hmax;
+        end
       
  
 
