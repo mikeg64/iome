@@ -86,12 +86,12 @@ dt=0.3;
 dx=10
 courant=0.15
 wavespeed=courant*dx/dt
-wavespeed=10
+%wavespeed=10
 %courant = (wavespeed*dt)/dx;
 nt=10000;
 hmax=3;
-chyp=.15;
-cshk=0.0;
+chyp=.05;
+cshk=0.5;
 
 %parameters to define width of propagating shape
 n1=75;
@@ -313,13 +313,15 @@ for n = 1:nt
        
       for i = starti:finishi
          
-             nushk(i)=abs(cshk*dudx(i)*(dx.^2));             
+             nushk(i)=abs(4*cshk*dudx(i)*(dx.^2));             
                
       end;        
        
-        nushk(ni)=nushk(2);
-       nushk(1)=nushk(ni-1);
-      
+        nushk(ni+4)=nushk(3);
+       nushk(2)=nushk(ni+2);
+         nushk(ni+3)=nushk(4);
+       nushk(1)=nushk(ni+1);
+     
        
  
 drawnow;
