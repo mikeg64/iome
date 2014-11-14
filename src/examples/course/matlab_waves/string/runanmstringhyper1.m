@@ -62,7 +62,7 @@ k=2.5;
 
 % Define the x domain
 ni = 1001;
-xmax = 10.0;
+xmax = 10;
 dx = xmax/(ni-1);
 x = 0:dx:xmax;
 
@@ -74,23 +74,25 @@ y = 0:dy:ymax;
 
 % Define the wavespeed
 wavespeed=0.01;
-
+courant=0.15;
 % Define time-domain
-dt = 50*(0.68*dx)/wavespeed;
+dt = (courant*dx)/wavespeed;
 tmax = 100;
 %t = [0:dt:tdomain];
 t = 1:dt:tmax;
-dt=0.5
-dt=0.001;
-dt=0.3;
-dx=10
+% dt=0.5
+% dt=0.001;
+% dt=0.3;
+%dx=10
 courant=0.15
+dt = 0.01*(courant*dx)/wavespeed;
+dtset=dt;
 wavespeed=courant*dx/dt
 %wavespeed=10
 %courant = (wavespeed*dt)/dx;
-nt=10000;
+nt=1000000;
 hmax=3;
-chyp=.05;
+chyp=0.02;
 cshk=0.5;
 
 %parameters to define width of propagating shape
@@ -111,7 +113,7 @@ visc = zeros(ni,1);
 %hyperviscosity
 nur = zeros(ni+4,1);
 nul = zeros(ni+4,1);
-nushk = zeros(ni,1);
+nushk = zeros(ni+4,1);
 
 d3l = zeros(ni+4,1);
 d3r = zeros(ni+4,1);
@@ -173,15 +175,15 @@ u(2)=oldu2;
 vw=0.1;
 
 uold=u;
-
+dtmin=0.00001;
 
 
 
 for n = 1:nt
-   %dt=0.001; 
+   %dt=0.0001; 
    t=n*dt;
    c=-wavespeed*dt/dx;
-    pause(0.001);
+    pause(0.00001);
     
     
     set(h,'YData',u);
@@ -206,11 +208,11 @@ for n = 1:nt
      
       %first order central differencing
       dudx(i)=(u(i+1)-u(i-1))/(2*dx);
-      v(i) = u(i)+c*(u(i+1)-u(i-1))/2;%+c*(uold(i+1)-uold(i-1))/2;
- 
-      hdx(i)=(wavespeed.^2)*(  (nur(i+2)+nushk(i))*(u(i+1)-u(i))     -nul(i+2)*(u(i)-u(i-1))  )/(2);
+      %v(i) = u(i)+c*(u(i+1)-u(i-1))/2;%+c*(uold(i+1)-uold(i-1))/2;
+      v(i) = u(i)-(dt/dx)*(u(i+1)-u(i-1))/2;
+      hdx(i)=(wavespeed.^2)*(  (nur(i+2)+nushk(i+2))*(u(i+1)-u(i))     -nul(i+2)*(u(i)-u(i-1))  )/(2);
            %correction with hyperdiffusion term
-      v(i)=v(i)+dt*(  (nur(i+2)+nushk(i))*(u(i+1)-u(i))     -nul(i+2)*(u(i)-u(i-1))  )/(2*dx*dx);
+      v(i)=v(i)+dt*(  (nur(i+2)+nushk(i+2))*(u(i+1)-u(i))     -(nul(i+2)+nushk(i+2))*(u(i)-u(i-1))  )/(2*dx*dx);
 
       
        %second order central differencing %includes Lax-Wedroff correction
@@ -312,15 +314,38 @@ for n = 1:nt
        
        
       for i = starti:finishi
-         
-             nushk(i)=abs(4*cshk*dudx(i)*(dx.^2));             
-               
+         %if dudx(i)<0
+         %   display(dudx(i)) 
+         %end    
+             %nushk(i)=abs(4*cshk*dudx(i)*(dx.^2));             
+              nushk(i)=abs(cshk*dudx(i)*(dx.^2));  
       end;        
        
         nushk(ni+4)=nushk(3);
        nushk(2)=nushk(ni+2);
          nushk(ni+3)=nushk(4);
        nushk(1)=nushk(ni+1);
+       
+       maxviscoefl=max(nul);
+       maxviscoefr=max(nur);
+       
+       if maxviscoefr>maxviscoefl
+           maxviscoef=maxviscoefr;
+       else
+           maxviscoef=maxviscoefl;
+       end
+       
+       tmpdt=nushk+maxviscoef;
+       dtvisc=0.25/(max(tmpdt/dx));
+       dt=dtset;
+       if dtvisc<dt
+           dt=dtvisc/20;
+       end
+       
+       if dt<dtmin
+           dt=dtmin;
+       end
+           
      
        
  
