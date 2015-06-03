@@ -11,7 +11,7 @@ while abs(b-a)>(eps*b)
 
   x = (a+b)/2;
   fx = x^3-2*x-5;
-  if sign(fx)==sign(fa) then
+  if sign(fx)==sign(fa)
     a = x;
     fa = fx;
   else
@@ -21,5 +21,5 @@ while abs(b-a)>(eps*b)
 
 end;
 
-disp(" The root is :");
+disp(' The root is :');
 disp(x);

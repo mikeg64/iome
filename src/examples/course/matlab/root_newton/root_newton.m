@@ -8,8 +8,9 @@ a = 0;fa = -inf;
 b = 3;fb = inf;
 delta = (b-a)/100;
 xx = a:delta:b;
-plot(xx,xx .^3-2*xx-5);
-
+%plot(xx,xx .^3-2*xx-5);
+plot(xx,0.5.*sin(2.*(xx-(pi/4)))+0.5.*sin(xx));
+hold on
 
 hax = line([a,b],[0,0]);
 set(hax,'Color','red');
@@ -22,7 +23,7 @@ while (sqrt((x-a)^2))>0.0001
   fx = 0.5*sin(2*(x-(pi/4)))+0.5*sin(x);
   dfx= cos(2*(x-(pi/4)))+0.5*cos(x);
   x=a-(fx/dfx);
-  halt;
+  
    
   plot(x,fx,'o')
   
@@ -31,4 +32,4 @@ end;
 
 disp(' The root is :');
 disp(x);
-set(gca(),'auto_clear','on');
+
