@@ -80,6 +80,46 @@ float *ta;
  */
 int main_window;
 
+char *readLine(FILE *file) {
+
+    if (file == NULL) {
+        printf("Error: file pointer is null.");
+        exit(1);
+    }
+
+    int maximumLineLength = 128;
+    char *lineBuffer = (char *)malloc(sizeof(char) * maximumLineLength);
+
+    if (lineBuffer == NULL) {
+        printf("Error allocating memory for line buffer.");
+        exit(1);
+    }
+
+    char ch = getc(file);
+    int count = 0;
+
+    while ((ch != '\n') && (ch != EOF)) {
+        if (count == maximumLineLength) {
+            maximumLineLength += 128;
+            lineBuffer = (char *)realloc(lineBuffer, maximumLineLength);
+            if (lineBuffer == NULL) {
+                printf("Error reallocating space for line buffer.");
+                exit(1);
+            }
+        }
+        lineBuffer[count] = ch;
+        count++;
+
+        ch = getc(file);
+    }
+
+    lineBuffer[count] = '\0';
+    char line[count + 1];
+    strncpy(line, lineBuffer, (count + 1));
+    free(lineBuffer);
+    char *constLine = line;
+    return constLine;
+}
 
 /*----------------------*/ 
 const char* getfield(char* line, int num)
@@ -310,17 +350,17 @@ void initmodel()
        if (fp == NULL)
            exit(EXIT_FAILURE);
 
-       while ((read = getline(&line, &len, fp)) != -1) {
+       while ((line = readLine(fp)) != '\0') {
            printf("Retrieved line of length %zu :\n", read);
            printf("%s", line);
        }
 
        fclose(fp);
        if (line)
-           free(line);
+           free((void *)line);
 
 	/*read data from csv file*/
-    char line[1024];
+    //char line[1024];
     while (fgets(line, 1024, stream))
     {
         char* tmp = strdup(line);
