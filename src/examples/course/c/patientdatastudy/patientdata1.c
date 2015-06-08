@@ -80,7 +80,7 @@ float *ta;
  */
 int main_window;
 
-char *readLine(FILE *file) {
+char *readLine(FILE *file, char *line) {
 
     if (file == NULL) {
         printf("Error: file pointer is null.");
@@ -114,7 +114,8 @@ char *readLine(FILE *file) {
     }
 
     lineBuffer[count] = '\0';
-    char line[count + 1];
+    /*char line[count + 1];*/
+    line=(char *)calloc(count+1,sizeof(char));
     strncpy(line, lineBuffer, (count + 1));
     free(lineBuffer);
     char *constLine = line;
@@ -350,7 +351,7 @@ void initmodel()
        if (fp == NULL)
            exit(EXIT_FAILURE);
 
-       while ((line = readLine(fp)) != '\0') {
+       while ((line = readLine(fp, line)) != '\0') {
            printf("Retrieved line of length %zu :\n", read);
            printf("%s", line);
        }
