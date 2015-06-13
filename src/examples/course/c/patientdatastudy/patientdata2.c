@@ -68,7 +68,7 @@ main()
 	FILE *mfptr; /* mfptr = models.dat file pointer*/
  	       FILE * fp;
        char * line = NULL;
-    char patientfilename[] ="data/inflammation-01.csv";
+   
 	printf("Simulation log reader.\n");
 	
 	
@@ -77,7 +77,7 @@ main()
            exit(EXIT_FAILURE);
 
        while ((line = readLine(fp, line)) != '\0') {
-           printf("Retrieved line of length %s :\n", line);
+           printf("Retrieved line of length %zu :\n", read);
            printf("%s", line);
        }
 
