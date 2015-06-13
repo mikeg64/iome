@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
+#define NROW 60
+#define NCOL 40
 
 struct siminfo
 {
@@ -66,26 +67,49 @@ main()
 	SIMINFO sim;
 
 	FILE *mfptr; /* mfptr = models.dat file pointer*/
- 	       FILE * fp;
-       char * line = NULL;
+ 	FILE * fp;
+    char * line = NULL;
+	char *tokenptr;
+    char *tokenseparators = ",";
+   
     char patientfilename[] ="data/inflammation-01.csv";
 	printf("Simulation log reader.\n");
 	
+	/*Each file has 60 rows and 40 columns*/
+	float patientdata[NROW][NCOL]
 	
-	       fp = fopen("/etc/motd", "r");
+	
+	/*initialize the patient data*/
+	for(int row=0; row<NROW; row++)
+		for(int col=0; col<NCOL; col++)
+			 patientdata[row][col]=0.0;
+	
+	       fp = fopen(patientfilename, "r");
        if (fp == NULL)
            exit(EXIT_FAILURE);
 
+	   
+	   /*first count number of numbers in the line*/
        while ((line = readLine(fp, line)) != '\0') {
            printf("Retrieved line of length %s :\n", line);
            printf("%s", line);
        }
 
+	   
+	         /*use tokenizer to readline*/
+		tokenptr = strtok(line, tokenseparators);
+	while(tokenptr != NULL)
+	{
+		printf("%s\n", tokenptr);
+                tokenptr = strtok(NULL, tokenseparators);
+	}  
+	   
+	   
        fclose(fp);
        if (line)
            free((void *)line);
 	
-
+	
        
         if((mfptr=fopen("models.dat", "r"))==NULL)
 		printf("The file could not be opened!\n");
