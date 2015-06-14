@@ -8,14 +8,7 @@
 #define NROW 60
 #define NCOL 40
 
-struct siminfo
-{
-	int id;
-	char name[30];
-	int node;
-};
 
-typedef struct siminfo SIMINFO;
 
 char *readLine(FILE *file, char *line) {
 
@@ -24,7 +17,7 @@ char *readLine(FILE *file, char *line) {
         exit(1);
     }
 
-    int maximumLineLength = 128;
+    int maximumLineLength = 1280;
     char *lineBuffer = (char *)malloc(sizeof(char) * maximumLineLength);
 
     if (lineBuffer == NULL) {
@@ -45,15 +38,16 @@ char *readLine(FILE *file, char *line) {
             }
         }
         lineBuffer[count] = ch;
+		
         count++;
 
         ch = getc(file);
     }
-
+    
     lineBuffer[count] = '\0';
-    /*char line[count + 1];*/
     line=(char *)calloc(count+1,sizeof(char));
     strncpy(line, lineBuffer, (count + 1));
+	
     free(lineBuffer);
     char *constLine = line;
     return constLine;
@@ -64,11 +58,10 @@ char *readLine(FILE *file, char *line) {
 main()
 {
 
-	SIMINFO sim;
-
-	FILE *mfptr; /* mfptr = models.dat file pointer*/
+	
  	FILE * fp;
     char * line = NULL;
+	int rcount,ccount,col,row;
 	char *tokenptr;
     char *tokenseparators = ",";
    
@@ -76,34 +69,53 @@ main()
 	printf("Simulation log reader.\n");
 	
 	/*Each file has 60 rows and 40 columns*/
-	float patientdata[NROW][NCOL]
+	float patientdata[NROW][NCOL];
 	
 	
 	/*initialize the patient data*/
-	for(int row=0; row<NROW; row++)
-		for(int col=0; col<NCOL; col++)
+	for(row=0; row<NROW; row++)
+		for(col=0; col<NCOL; col++)
 			 patientdata[row][col]=0.0;
 	
 	       fp = fopen(patientfilename, "r");
        if (fp == NULL)
            exit(EXIT_FAILURE);
 
-	   
+	   rcount=0;
 	   /*first count number of numbers in the line*/
-       while ((line = readLine(fp, line)) != '\0') {
-           printf("Retrieved line of length %s :\n", line);
-           printf("%s", line);
-       }
+       while (rcount<NROW) {
+		   
+		   line = readLine(fp, line);
+		   
+           /*printf("Retrieved line of length %s :\n", line);
+           printf("%s\n", line);*/
+       
 
 	   
-	         /*use tokenizer to readline*/
-		tokenptr = strtok(line, tokenseparators);
-	while(tokenptr != NULL)
-	{
-		printf("%s\n", tokenptr);
-                tokenptr = strtok(NULL, tokenseparators);
-	}  
+	         /*use tokenizer to readline*/			tokenptr = strtok(line, tokenseparators);
+		    ccount=0;
+			while(tokenptr != NULL)
+			{
+						
+						if(ccount<NCOL  && rcount<NROW)
+						    /*printf("%f\n",atof(tokenptr));*//*This line for checking during debug*/
+							patientdata[rcount][ccount]=atof(tokenptr);					     
+					    else
+							printf("Overflow %d %d\n",rcount,ccount); /*Warning in case of file overflow error*/
+						tokenptr = strtok(NULL, tokenseparators);
+						ccount++;
+			}  
+			rcount++;
 	   
+	   }
+	   
+	   	for(row=0; row<NROW; row++)
+		{
+			for(col=0; col<NCOL; col++)
+				printf("%f ",patientdata[row][col]);
+			printf("\n\n");
+		}
+
 	   
        fclose(fp);
        if (line)
@@ -111,20 +123,7 @@ main()
 	
 	
        
-        if((mfptr=fopen("models.dat", "r"))==NULL)
-		printf("The file could not be opened!\n");
-	else
-	{
-		printf("%6s %20s %6s\n", "Runid", "Name", "Node");
-		fscanf(mfptr, "%d%s%d", &sim.id, sim.name, &sim.node);
-		while(!feof(mfptr))
-		{
-			printf("%6d %20s %6d\n", sim.id, sim.name, sim.node);
-			fscanf(mfptr, "%d%s%d", &sim.id, sim.name, &sim.node);
-		}
-
-		fclose(mfptr);
-	}
+    
 
 	return 0;
 }
