@@ -69,7 +69,7 @@ int main(int argc, char **argv)
                         dy[j]=h*fun(xx,q);
 		}
 		y[i]=y[i-1]+(dy[0]+dy[3]+2*(dy[1]+dy[2]))/6.0;
-	}
+	    }
 
         m=5; //output interval
         k=n/m;
