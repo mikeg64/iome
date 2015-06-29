@@ -18,12 +18,13 @@ v0 = 0;
 b = 2;
 h0 = 5030;
 damp=0.0;
+damp=1.0;
 force=0.1;
 forcefreq=0.1;
 k=2.5;
 
 // Define the x domain
-ni = 51;
+ni = 151;
 xmax = 1.0;
 dx = xmax/(ni-1);
 x = 0:dx:xmax;
@@ -58,7 +59,7 @@ u((ni+1)/2,(nj+1)/2)=b;
       //u(i,j) = -b*sin(i*dx*%pi)*sin(j*dx*%pi);
       //v(i,j,1) = b*cos(i*dx*%pi)*cos(j*dx*%pi);    
  
-    u(i,j) = -b*sin(i*dx*%pi)*sin(j*dx*%pi);
+    u(i,j) = -b*sin(2*i*dx*%pi);//*sin(j*dy*%pi);
     end;
   end;
   
@@ -76,9 +77,13 @@ drawlater();
 cmap= curFig.color_map; //preserve old setting
 curFig.color_map = jetcolormap(64);
 
-plot3d1(x,y,u(:,:),35,45,' ');
+plot3d1(x,y,u(:,:),35,45,' ',[-2,2,3]);
+//plot3d1(1:10,1:20,10*rand(10,20),35,45,"X@Y@Z",[2,2,3]) 
+a=gca();
 s=gce(); //the handle on the surface
 s.color_flag=1 ; //assign facet color according to Z value
+//a.data_bounds=[0,0,-0.2506665;1,1,0];
+a.data_bounds=[0,0,-3;1,1,3];
 title("evolution of a 3d surface","fontsize",3)
 
 
@@ -92,7 +97,7 @@ for n = 1:nt
     
   for i = 2:ni-1
     for j = 2:nj-1  
-      tv(i,j) = (1.0-damp)*v(i,j)-(dt/2)*dx*k*(4*u(i,j)-u(i+1,j)-u(i-1,j)-u(i,j+1)-u(i,j-1));//+force*dt*sin(forcefreq*t*%pi);
+      tv(i,j) = (1.0-damp)*v(i,j)-(dt/2)*dx*k*(4*u(i,j)-u(i+1,j)-u(i-1,j)-u(i,j+1)-u(i,j-1))+force*dt*sin(forcefreq*t*%pi);
     end;
   end;
 
@@ -108,7 +113,7 @@ for n = 1:nt
   
    for i = 2:ni-1
     for j = 2:nj-1  
-      v(i,j) = v(i,j)-(dt)*dx*k*(4*u(i,j)-u(i+1,j)-u(i-1,j)-u(i,j+1)-u(i,j-1));//+force*dt*sin(forcefreq*t*%pi);
+      v(i,j) = v(i,j)-(dt)*dx*k*(4*u(i,j)-u(i+1,j)-u(i-1,j)-u(i,j+1)-u(i,j-1))+force*dt*sin(forcefreq*t*%pi);
     end;
   end;
   
@@ -126,5 +131,6 @@ for n = 1:nt
  //realtime(i); //wait till date 0.1*i seconds
   //s.data.z = (sin((I(i)/10)*x)'*cos((I(i)/10)*y))';
   s.data.z = u(:,:);
+  sleep(125);
 
 end;

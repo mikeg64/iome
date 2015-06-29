@@ -87,13 +87,14 @@ t = 1:dt:tmax;
 courant=0.15
 dt = 0.01*(courant*dx)/wavespeed;
 dtset=dt;
+dtset=0.001;
 wavespeed=courant*dx/dt
 %wavespeed=10
 %courant = (wavespeed*dt)/dx;
 nt=1000000;
 hmax=3;
 chyp=0.02;
-cshk=0.5;
+cshk=2;
 
 %parameters to define width of propagating shape
 n1=75;
@@ -339,11 +340,11 @@ for n = 1:nt
        dtvisc=0.25/(max(tmpdt/dx));
        dt=dtset;
        if dtvisc<dt
-           dt=dtvisc/20;
+       %    dt=dtvisc/20;
        end
        
        if dt<dtmin
-           dt=dtmin;
+       %    dt=dtmin;
        end
            
      

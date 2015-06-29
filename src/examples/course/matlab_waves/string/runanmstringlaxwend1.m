@@ -62,7 +62,7 @@ k=2.5;
 
 % Define the x domain
 ni = 1001;
-xmax = 10.0;
+xmax = 1.0;
 dx = xmax/(ni-1);
 x = 0:dx:xmax;
 

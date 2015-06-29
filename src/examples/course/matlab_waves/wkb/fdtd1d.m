@@ -18,7 +18,7 @@ dt = ds/300e6; %"magic time step"
 eps0 = 8.854e-12; %permittivity of free space
 mu0 = pi*4e-7; %permeability of free space
 x = linspace(0,L,N); %x coordinate of spatial samples
-showWKB=0; %if =1 then show WKB appromination at end
+showWKB=1; %if =1 then show WKB appromination at end
 
 %scale factors for E and H
 ae = ones(N,1)*dt/(ds*eps0);
@@ -35,7 +35,7 @@ sigma = zeros(N,1);
 %You can define epsr(i), mur(i) (relative permittivity and permeability)
 %and sigma(i) (conductivity) to be anything you want.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-profile = 1;
+profile = 3;
 for i=1:N
    epsr(i) = 1;
    mur(i) = 1;
