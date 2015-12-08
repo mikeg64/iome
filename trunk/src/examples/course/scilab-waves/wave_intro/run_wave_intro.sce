@@ -16,9 +16,9 @@ for i=1:nsteps
   x=1:1:nmax;
   clf;
   realtime(i);
-  plot2d(x, wave1d(i, wavetype, maxamplitude, wavenumber, wavefreq, delta,nmax));
+  //plot2d(x, wave1d(i, wavetype, maxamplitude, wavenumber, wavefreq, delta,nmax));
   
-  //plot2d(x, wavepacket1d(i, wavetype, maxamplitude, wavenumber, wavefreq,pwavnum, pwavfreq, npackets, delta,nmax));
+  plot2d(x, wavepacket1d(i, wavetype, maxamplitude, wavenumber, wavefreq,pwavnum, pwavfreq, npackets, delta,nmax));
   xpause(1000000);
   
 
