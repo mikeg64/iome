@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 0.8.0 ] */
+/* [ Created with wxMaxima version 13.04.2 ] */
 
 /* [wxMaxima: title   start ]
 10 minute (wx)Maxima tutorial
@@ -19,6 +19,10 @@ Let's start with some simple calculation examples! Below is
 an input cell with a simple addition. Place the cursor in it
 and press SHIFT-ENTER to evaluate it.
    [wxMaxima: comment end   ] */
+
+/* [wxMaxima: section start ]
+
+   [wxMaxima: section end   ] */
 
 /* [wxMaxima: input   start ] */
 1 + 1;
