@@ -1,4 +1,4 @@
- function f = mynewfun(xx,yy)
+ function f = mynewfun1(xx,yy)
 %function f = mynewfun1(x)
 % here is the objective function in terms of variables x1 and x2
 %             x1     2     2 
