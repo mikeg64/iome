@@ -39,6 +39,7 @@ for i=tstep:tstep+nsteps
     %Write data to output
     %the following line was used to write header an descriptive lines for dx
     %fprintf(fd, '%d %d %d\n',i, nmax(1), nmax(2));
+    
     for j1=1:nmax(1)
       for j2=1:nmax(2)
           fprintf(fd, '%f ',z(j1,j2));
