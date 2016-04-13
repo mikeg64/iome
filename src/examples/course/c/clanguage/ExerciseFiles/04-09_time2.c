@@ -8,7 +8,7 @@ int main()
 
 	time(&now);
 	right_now = localtime(&now);
-	printf("Today is %d/%d at %d:%d\n",
+	printf("Today is %d/%d at %02d:%02d\n",
 			right_now->tm_mon,
 			right_now->tm_mday,
 			right_now->tm_hour,
